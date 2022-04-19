@@ -1,21 +1,24 @@
-[{
+[
+  {
     "mail": "m.cuturic@gmail.com",
     "password": "miloscuturic",
     "firstName": "Milos",
     "lastName": "Cuturic",
-    "birthDate": "19-10-2001"
-},{
+    "birthDate": "2001-10-19"
+  },
+  {
     "mail": "i.jakovljevic@gmail.com",
     "password": "ivanajakovljevic",
     "firstName": "Ivana",
     "lastName": "Jakovljevic",
-    "birthDate": "12-02-2000"
-},{
+    "birthDate": "2000-02-12"
+  },
+  {
     "mail": "m.djukic@gmail.com",
     "password": "miljanadjukic",
     "firstName": "Miljana",
     "lastName": "Djukic",
-    "birthDate": "11-09-1997"
-}
+    "birthDate": "1997-09-17"
+  }
 
 ]
