@@ -48,3 +48,5 @@ C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-projec
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.csproj.CoreCompileInputs.cache
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.csproj.CopyComplete
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.genruntimeconfig.cache
+D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.g.cs
+D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.baml
