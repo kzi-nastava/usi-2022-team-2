@@ -59,5 +59,10 @@ namespace HealthCare_System.entities
             set { password = value; }
         }
 
+        public override string ToString()
+        {
+            return "Person[" + "firstName: " + this.FirstName + ", lastName: " + this.LastName +
+                ", birthDate: " + this.BirthDate.ToString("dd/MM/yyyy") + ", mail: " + this.Mail + ", password: " + this.Password;
+        }
     }
 }
