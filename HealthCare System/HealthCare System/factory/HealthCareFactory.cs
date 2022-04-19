@@ -54,7 +54,7 @@ namespace HealthCare_System.factory
 
             return null;
         }
-
+        
         void LinkDoctorsAppointments()
         {
             StreamReader doctorAppointment = new StreamReader("data/links/DoctorAppointment.csv");
@@ -62,11 +62,11 @@ namespace HealthCare_System.factory
             while (!doctorAppointment.EndOfStream)
             {
                 string line = doctorAppointment.ReadLine();
-                string mail = line.Split(";")[0];
+                string jmbg = line.Split(";")[0];
                 int id = Convert.ToInt32(line.Split(";")[1].Trim());
 
                 Appointment appointment = this.appointmentController.FindById(id);
-                Doctor doctor = this.doctorController.FindByMail(mail);
+                Doctor doctor = this.doctorController.FindByJmbg(jmbg);
 
                 doctor.Appointments.Add(appointment);
                 appointment.Doctor = doctor;
@@ -83,11 +83,11 @@ namespace HealthCare_System.factory
             while (!patientAppointment.EndOfStream)
             {
                 string line = patientAppointment.ReadLine();
-                string mail = line.Split(";")[0];
+                string jmbg = line.Split(";")[0];
                 int id = Convert.ToInt32(line.Split(";")[1].Trim());
 
                 Appointment appointment = this.appointmentController.FindById(id);
-                Patient patient = this.patientController.FindByMail(mail);
+                Patient patient = this.patientController.FindByJmbg(jmbg);
 
                 patient.Appointments.Add(appointment);
                 appointment.Patient = patient;

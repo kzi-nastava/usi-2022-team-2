@@ -1,5 +1,4 @@
 ﻿using HealthCare_System.entities;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,13 +26,20 @@ namespace HealthCare_System.controllers
 
         void LoadPatients()
         {
-            this.patients = JsonConvert.DeserializeObject<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
+            this.patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
         }
 
         public Patient FindByMail(string mail)
         {
             foreach (Patient patient in this.patients)
                 if (patient.Mail == mail)
+                    return patient;
+            return null;
+        }
+        public Patient FindByJmbg(string jmbg)
+        {
+            foreach (Patient patient in this.patients)
+                if (patient.Jmbg == jmbg)
                     return patient;
             return null;
         }

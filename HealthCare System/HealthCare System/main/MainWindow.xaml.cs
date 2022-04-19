@@ -33,6 +33,7 @@ namespace HealthCare_System
             {
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
             }
+            factory.AppointmentController.BookAppointment(new DateTime(2022, 4, 24, 13, 57, 0), new DateTime(2022, 4, 24, 14, 12, 0), AppointmentType.EXAMINATION, factory.DoctorController.Doctors[0], factory.PatientController.Patients[0]);
         }
 
     }
