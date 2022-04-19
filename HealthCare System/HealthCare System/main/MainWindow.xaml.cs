@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
+using HealthCare_System.entities;
+using System;
 
 namespace HealthCare_System
 {
@@ -14,9 +13,11 @@ namespace HealthCare_System
         {
             string mail = mailTb.Text;
             string password = passTb.Password;
-            
-            
 
+            Doctor doctor = new Doctor("firstName", "lastName", new DateTime(2022, 12, 31), "mail", "password");
+            mailTb.Text = doctor.ToString();
         }
+
     }
+
 }

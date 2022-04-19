@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.entities
 {
-    class Patient:Person
+    class Patient : Person
     {
         List<Appointment> appointments;
 
