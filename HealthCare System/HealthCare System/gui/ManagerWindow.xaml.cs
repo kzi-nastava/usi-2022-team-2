@@ -24,6 +24,64 @@ namespace HealthCare_System.gui
             InitializeComponent();
         }
 
-        
+        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RoomEquipementBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewIngredientBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateIngredientBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteIngredientBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
