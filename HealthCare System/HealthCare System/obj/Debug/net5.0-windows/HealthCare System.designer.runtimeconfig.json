@@ -6,6 +6,7 @@
       "version": "5.0.0"
     },
     "additionalProbingPaths": [
+      "C:\\Users\\vukas\\.dotnet\\store\\|arch|\\|tfm|"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

@@ -205,6 +205,7 @@ namespace HealthCare_System.gui {
                 return;
             }
             _contentLoaded = true;
+            System.Uri resourceLocater = new System.Uri("/HealthCare System;V1.0.0.0;component/gui/managerwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\gui\ManagerWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
