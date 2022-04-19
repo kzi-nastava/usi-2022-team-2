@@ -1,0 +1,66 @@
+﻿<Window x:Class="HealthCare_System.gui.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare_System.gui"
+        mc:Ignorable="d"
+        Title="ManagerWindow" Height="482" Width="886">
+    <Grid>
+
+        <TabControl>
+            <TabItem Header="Drugs" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5" Height="428" Width="876">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="41*"/>
+                        <ColumnDefinition Width="851*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="UpdateDrugBtn" Content="Update" HorizontalAlignment="Left" Margin="304,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="UpdateDrugBtn_Click"/>
+                    <Button x:Name="DeleteDrugBtn" Content="Delete" HorizontalAlignment="Left" Margin="612,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="DeleteDrugBtn_Click"/>
+                    <ListBox x:Name="DrugView" Margin="266,24,63,0" Height="300" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Button x:Name="RejectedDrugsBtn" Content="View Rejected" Grid.Column="1" HorizontalAlignment="Left" Margin="28,112,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="RejectedDrugsBtn_Click"/>
+                    <Button x:Name="NewDrugBtn" Content="Create New" Grid.Column="1" HorizontalAlignment="Left" Margin="28,24,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="NewDrugBtn_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Rooms" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*"/>
+                        <ColumnDefinition Width="28*"/>
+                        <ColumnDefinition Width="818*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="RoomView" Margin="17,74,52,86" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Button x:Name="NewRoomBtn" Content="Create New" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="1" Click="NewRoomBtn_Click" Grid.ColumnSpan="2"/>
+                    <Button x:Name="UpdateRoomBtn" Content="Update" HorizontalAlignment="Left" Margin="605,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="2" Click="UpdateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
+                    <Button x:Name="DeleteRoomBtn" Content="Delete" HorizontalAlignment="Left" Margin="0,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="2" Click="DeleteRoomBtn_Click"/>
+                    <Button x:Name="RoomEquipementBtn" Content="View Equipement" HorizontalAlignment="Left" Margin="561,11,0,0" VerticalAlignment="Top" Height="44" Width="204" Grid.Column="2" Click="RoomEquipementBtn_Click"/>
+                    <Button x:Name="RenovateRoomBtn" Content="Renovate" HorizontalAlignment="Left" Margin="297,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="2" Click="RenovateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Equipement" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="141" FontSize="20" FontWeight="Bold" Margin="0,-1,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="RoomTypeFilter" HorizontalAlignment="Left" Margin="250,98,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.458,-1.839"/>
+                    <ComboBox x:Name="AmountFilter" HorizontalAlignment="Left" Margin="250,181,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.558,1.075"/>
+                    <ComboBox x:Name="EquipementTypeFilter" HorizontalAlignment="Left" Margin="250,258,0,0" VerticalAlignment="Top" Width="154"/>
+                    <Label Content="Room Type:" HorizontalAlignment="Left" Margin="38,98,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Amount:" HorizontalAlignment="Left" Margin="38,177,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Equipement Type:" HorizontalAlignment="Left" Margin="38,254,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="EquipementView" Margin="465,33,22,28"/>
+                    <TextBox HorizontalAlignment="Left" Margin="89,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277"/>
+                    <Label Content="Search:" HorizontalAlignment="Left" Margin="182,327,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.02,0.63" FontSize="25"/>
+                    <Label Content="Filter" HorizontalAlignment="Left" Margin="186,33,0,0" VerticalAlignment="Top" FontSize="25"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ingredients" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="129" FontSize="20" Margin="0,-1,0,0" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="NewIngredientBtn" Content="Create New" HorizontalAlignment="Left" Margin="61,40,0,0" VerticalAlignment="Top" Height="45" Width="160" Click="NewIngredientBtn_Click"/>
+                    <Button x:Name="UpdateIngredientBtn" Content="Update" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top" Height="45" Width="160" Click="UpdateIngredientBtn_Click"/>
+                    <Button x:Name="DeleteIngredientBtn" Content="Delete" HorizontalAlignment="Left" Margin="664,360,0,0" VerticalAlignment="Top" Height="44" Width="160" Click="DeleteIngredientBtn_Click"/>
+                    <ListBox x:Name="IngredientsView" Margin="324,40,27,88"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
