@@ -1,7 +1,9 @@
-[{
+[
+  {
     "mail": "l.djordjevic@gmail.com",
     "password": "lukadjordjevic",
     "firstName": "Luka",
     "lastName": "Djordjevic",
-    "birthDate": "21-07-2001"
-}]
+    "birthDate": "2001-07-21"
+  }
+]

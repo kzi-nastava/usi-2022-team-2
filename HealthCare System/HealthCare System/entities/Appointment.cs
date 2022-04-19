@@ -54,6 +54,7 @@ namespace HealthCare_System.entities
         public int Id
         {
             get { return id; }
+            set { id = value; }
         }
 
         public DateTime Start
@@ -86,5 +87,19 @@ namespace HealthCare_System.entities
             set { type = value; }
         }
 
+        public override string ToString()
+        {
+            string doctorInfo;
+            if (this.doctor is null) doctorInfo = "null";
+            else doctorInfo = this.Doctor.Mail;
+
+            string patientInfo;
+            if (this.patient is null) patientInfo = "null";
+            else patientInfo = this.Patient.Mail;
+
+            return "Appointment[" + "start: " + this.start.ToString("dd/MM/yyyy HH:mm") +
+                ", end: " + this.end.ToString("dd/MM/yyyy HH:mm") + ", doctor: " + doctorInfo +
+                ", patient: " + patientInfo + ", type: " + this.type.ToString() +"]";
+        }
     }
 }

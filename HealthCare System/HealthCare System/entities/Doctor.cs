@@ -12,6 +12,7 @@ namespace HealthCare_System.entities
 
         public Doctor()
         {
+            this.appointments = new List<Appointment>();
         }
 
         public Doctor(string firstName, string lastName, DateTime birthDate, string mail, string password, 
@@ -23,7 +24,7 @@ namespace HealthCare_System.entities
         public Doctor(string firstName, string lastName, DateTime birthDate, string mail, string password) :
             base(firstName, lastName, birthDate, mail, password)
         {
-            this.appointments = null;
+            this.appointments = new List<Appointment>();
         }
 
         public Doctor(Doctor doctor) : base(doctor.FirstName, doctor.LastName, doctor.BirthDate, doctor.Mail, doctor.Password)
