@@ -8,14 +8,35 @@ namespace HealthCare_System.entities
 {
     abstract class Person
     {
-        string name;
+        string firstName;
         string lastName;
         DateTime birthDate;
         string mail;
         string password;
-        public string Name {
-            get { return name; } 
-            set { name = value; } 
+        public Person()
+        {
+
+        }
+        public Person(string name, string lastName, DateTime birthDate, string mail, string password)
+        {
+            this.firstName = name;
+            this.lastName = lastName;
+            this.birthDate = birthDate;
+            this.mail = mail;
+            this.password = password;
+        }
+        public Person(Person person)
+        {
+            this.firstName = person.firstName;
+            this.lastName = person.lastName;
+            this.birthDate = person.birthDate;
+            this.mail = person.mail;
+            this.password = person.password;
+        }
+
+        public string FirstName {
+            get { return firstName; } 
+            set { firstName = value; } 
         }
         public string LastName
         {
