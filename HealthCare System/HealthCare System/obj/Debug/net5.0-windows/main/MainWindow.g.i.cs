@@ -77,7 +77,7 @@ namespace HealthCare_System {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/HealthCare System;V1.0.0.0;component/main/mainwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/HealthCare System;component/main/mainwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\main\MainWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

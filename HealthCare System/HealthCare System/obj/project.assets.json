@@ -48,28 +48,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lukac\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\vukas\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+      "projectUniqueName": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
       "projectName": "HealthCare System",
-      "projectPath": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
-      "packagesPath": "C:\\Users\\lukac\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\obj\\",
+      "projectPath": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+      "packagesPath": "C:\\Users\\vukas\\.nuget\\packages\\",
+      "outputPath": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lukac\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\vukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0-windows7.0"
