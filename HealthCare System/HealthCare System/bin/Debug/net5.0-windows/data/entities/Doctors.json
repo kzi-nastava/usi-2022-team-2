@@ -1,5 +1,6 @@
 [
   {
+    "jmbg":"1001",
     "mail": "m.cuturic@gmail.com",
     "password": "miloscuturic",
     "firstName": "Milos",
@@ -7,6 +8,7 @@
     "birthDate": "2001-10-19"
   },
   {
+    "jmbg":"1002",
     "mail": "i.jakovljevic@gmail.com",
     "password": "ivanajakovljevic",
     "firstName": "Ivana",
@@ -14,6 +16,7 @@
     "birthDate": "2000-02-12"
   },
   {
+    "jmbg":"1003",
     "mail": "m.djukic@gmail.com",
     "password": "miljanadjukic",
     "firstName": "Miljana",

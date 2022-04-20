@@ -1,5 +1,6 @@
 [
   {
+    "jmbg":"1005",
     "mail": "p.peric@gmail.com",
     "password": "peraperic",
     "firstName": "Pera",
@@ -7,6 +8,7 @@
     "birthDate": "1999-01-01"
   },
   {
+    "jmbg":"1006",
     "mail": "l.jankovic@gmail.com",
     "password": "lukajankovic",
     "firstName": "Luka",
@@ -14,6 +16,7 @@
     "birthDate": "2001-07-19"
   },
   {
+    "jmbg":"1007",
     "mail": "m.vasic@gmail.com",
     "password": "milanvasic",
     "firstName": "Milan",
@@ -21,6 +24,7 @@
     "birthDate": "2000-05-09"
   },
   {
+    "jmbg":"1008",
     "mail": "s.jovanovic@gmail.com",
     "password": "stefanjovanovic",
     "firstName": "Stefan",
@@ -28,6 +32,7 @@
     "birthDate": "2001-03-12"
   },
   {
+    "jmbg":"1009",
     "mail": "v.bogdanovic@gmail.com",
     "password": "vukasinbogdanovic",
     "firstName": "Vukasin",

@@ -46,3 +46,5 @@ C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\
 C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\ref\HealthCare System.dll
 C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.pdb
 C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.genruntimeconfig.cache
+D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.g.cs
+D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.baml
