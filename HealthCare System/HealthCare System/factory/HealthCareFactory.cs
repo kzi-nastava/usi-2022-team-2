@@ -13,7 +13,7 @@ namespace HealthCare_System.factory
     {
         DoctorController doctorController;
         PatientController patientController;
-
+        ManagerController managerController;
         AppointmentController appointmentController;
 
         public HealthCareFactory()
@@ -21,6 +21,7 @@ namespace HealthCare_System.factory
             this.doctorController = new();
             this.patientController = new();
             this.appointmentController = new();
+            this.managerController = new();
 
             this.LinkDoctorsAppointments();
             this.LinkPatientsAppointments();
@@ -41,6 +42,11 @@ namespace HealthCare_System.factory
             get { return this.appointmentController; }
         }
 
+        public ManagerController ManagerController
+        {
+            get { return this.managerController; }
+        }
+
         //TODO add the rest of user types
         public Person Login(string mail, string password)
         {
@@ -51,6 +57,10 @@ namespace HealthCare_System.factory
             foreach (Patient patient in this.patientController.Patients)
                 if (patient.Mail == mail && patient.Password == password)
                     return patient;
+
+            foreach (Manager manager in this.managerController.Managers)
+                if (manager.Mail == mail && manager.Password == password)
+                    return manager;
 
             return null;
         }

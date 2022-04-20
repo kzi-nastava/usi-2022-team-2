@@ -26,7 +26,7 @@ namespace HealthCare_System.controllers
 
         void LoadManagers()
         {
-            this.managers = JsonConvert.DeserializeObject<List<Manager>>(File.ReadAllText("data/entities/Appointments.json"));
+            this.managers = JsonConvert.DeserializeObject<List<Manager>>(File.ReadAllText("data/entities/Managers.json"));
         }
 
         public Manager FindByMail(string mail)
