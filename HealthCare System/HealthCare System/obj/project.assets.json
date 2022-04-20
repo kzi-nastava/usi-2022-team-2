@@ -48,18 +48,13 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
     "C:\\Users\\lukac\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
-=======
-    "C:\\Users\\Cuki\\.nuget\\packages\\": {}
->>>>>>> fa82702131fa75722d0306df17b0039f7bc118ef
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
       "projectName": "HealthCare System",
       "projectPath": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
@@ -75,17 +70,6 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
-=======
-      "projectUniqueName": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
-      "projectName": "HealthCare System",
-      "projectPath": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
-      "packagesPath": "C:\\Users\\Cuki\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\Cuki\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> fa82702131fa75722d0306df17b0039f7bc118ef
       ],
       "originalTargetFrameworks": [
         "net5.0-windows7.0"
@@ -125,6 +109,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[5.0.16, 5.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -136,5 +126,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
