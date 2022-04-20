@@ -10,6 +10,7 @@ namespace HealthCare_System.entities
     class Patient : Person
     {
         List<Appointment> appointments;
+        bool blocked;
 
         public Patient()
         {
@@ -17,20 +18,24 @@ namespace HealthCare_System.entities
         }
 
         public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password, List<Appointment> appointments) : base(jmbg, firstName, lastName, birthDate, mail, password)
+            string password, List<Appointment> appointments, bool blocked) : base(jmbg, firstName, lastName, birthDate, mail, password)
         {
             this.appointments = appointments;
+            this.blocked = blocked;
         }
 
         public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password) : base(jmbg, firstName, lastName, birthDate, mail, password)
+            string password,bool blocked) : base(jmbg, firstName, lastName, birthDate, mail, password)
         {
             this.appointments = new List<Appointment>();
+            this.blocked = blocked;
+
         }
 
         public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName, patient.BirthDate, patient.Mail, patient.Password)
         {
             this.appointments = patient.appointments;
+            this.blocked = patient.blocked;
         }
 
         [JsonIgnore]
@@ -38,6 +43,13 @@ namespace HealthCare_System.entities
         {
             get { return appointments; }
             set { appointments = value; }
+        }
+
+        [JsonPropertyName("blocked")]
+        public bool Blocked
+        {
+            get { return blocked; }
+            set { blocked = value; }
         }
 
         public List<Appointment> UpcomingAppointment(int nextDays)

@@ -8,5 +8,7 @@ namespace HealthCare_System.entities
 {
     class SupplyRequest
     {
+        int id;
+        DateTime requestCreated;
     }
 }
