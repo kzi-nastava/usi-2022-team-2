@@ -53,7 +53,28 @@ namespace HealthCare_System.controllers
             Appointment newAppointment = new Appointment(this.GenerateId(), start, end, doctor, patient, type);
             this.appointments.Add(newAppointment);
             this.Serialize();
+            this.SyncLinkerFiles(newAppointment);
             return newAppointment;
+        }
+
+        public void SyncLinkerFiles(Appointment appointment)
+        {
+            using (FileStream fs = new FileStream("data/links/DoctorAppointment.csv", FileMode.Append, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.WriteLine(appointment.Doctor.Jmbg + ";" + appointment.Id);
+                    Console.WriteLine("AAAAAAAAA");
+                }
+            }
+
+            using (FileStream fs = new FileStream("data/links/PatientAppointment.csv", FileMode.Append, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.WriteLine(appointment.Patient.Jmbg + ";" + appointment.Id);
+                }
+            }
         }
 
         public void Serialize()
