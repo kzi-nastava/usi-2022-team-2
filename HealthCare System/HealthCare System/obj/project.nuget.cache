@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Bcd5dtCsy+woW8QC3dQmjyOY4EJbXctcGZcyiLud1c8NOELnfFdwVLEQdC5rDLXavxcFJ8PYgJnM1igKNb/gLw==",
+  "dgSpecHash": "+HRQPYu7mkBHbiI5juKMGIWlfDHLUrknz0WcZjtWZHcP4IBFHIiVoGQjEJRWF9dAx+zv/XKMoxvLv0U8U1/0Rw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+  "projectFilePath": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Cuki\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+    "C:\\Users\\lukac\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\lukac\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.16\\microsoft.netcore.app.host.win-x64.5.0.16.nupkg.sha512"
   ],
   "logs": []
 }
