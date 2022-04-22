@@ -1,0 +1,149 @@
+1.Prostorija
+	int id
+	string naziv
+	Enum tipProstorije
+	Map<oprema,int> kolicina  //Linker: idOpreme;idProstorije;kolicina
+
+2.Oprema
+	int id
+	string naziv
+	enum tipOpreme
+	bool dynamic
+
+3.Renoviranje
+	int id
+	DateTime datumPocetka
+	DateTime datumKraja
+	Renoviraj()
+
+4.ObicnoRenoviranje : Renoviranje
+	Prostorija prostorija
+
+5.SpajajuceRenoviranje : Renoviranje
+	Prostorija[]
+
+6.RazdvajajuceRenoviranje : Renoviranje
+	Prostorija prostorija
+
+7.Lek
+	int id
+	string naziv
+	List<Sastojak> sastojci
+	Enum status
+
+8.Sastojak
+	int id
+	string naziv
+
+9.AnketaBolnica 
+	int kvalitet usluge
+	int cistoca
+	int zadovoljan
+	int predlogPrijateljima
+	string komentar
+
+10.AnketaDoktor
+	Doktor doktor
+	int kvalitetUslugeDoktora
+	int preporukaDoktora
+	string komentar
+
+11.Pregled
+	int id
+	DateTime pocetak
+	DateTime kraj
+	Doktor doktor
+	Pacijent pacijent
+	Prostorija prostorija
+	enum tipPregleda
+	enum statusPregleda
+	Anamneza anamneza
+	bool ocenjen
+	bool hitan
+	
+12.Zdravstveni karton
+	ind id
+	int visina
+	int tezina
+	string prethodneBolesti
+	list<Pregled> pregledi
+	list<Sastojak> alergeni
+	Pacijent pacijent
+
+13.Anamneza
+	int id
+	string opis
+
+14.Doktor
+	Osoba
+	List<Termin> termini
+	Enum Specijalnost
+	List<DateTime> slobodniDani
+
+15.Uput
+	int id
+	Enum Specijalnost
+	Doktor doktor
+	Pacijent pacijent
+	bool iskoriscen
+
+16.Recept
+	List<Dict{Lek,VremeUzimanja,PutaDnevno,int}> lekovi;?????????????????
+	Pacijent pacijent;
+
+17.ZahtevZaSlobodneDane
+	int id
+	DateTime pocetak
+	DateTime kraj
+	String razlog
+	Stanje State
+	bool hitan
+	Doktor doktor
+
+18.Pacijent 
+	Osoba
+	bool blokiran
+
+19.ZahtevTermina
+	int id
+	Pacijent pacijent
+	Termin termin
+	enum StatusTermina
+	
+20.Notifikacija
+	Poruka
+
+21.NotifikacijaLeka:Notifikacija
+	Pacijent
+	Lek
+
+22.NotifikacijaSlobodnogDana:Notifikacija
+	Doktor
+
+23.NotifikacijaPromene:Notifikacija
+	Pacijent
+	Doktor
+	Termin
+
+24.ZahtevZaNabavku
+	Map<Oprema,kolicina>
+	Datetime datumZahteva;
+
+
+
+
+
+
+
+
+
+
+Napomena: Postojanje linker fajla Lek:Opis koji ce se cuvati u kontroleru u promeljivoj odbijenih lekova;
+
+
+
+
+	
+
+	
+

@@ -1,0 +1,26 @@
+Anamnesis
+Appointment
+AppointmnetRequest
+DaysOffNotification
+DaysOffRequest
+DelayedAppointmentNotification
+Doctor
+DOctorSurvey
+Drug
+DrugNotification
+Equipment		DONEDONEDONE NO LINKER
+HospitalSurvey
+Ingredient
+Manager
+MedicalRecord
+MergingRenovation
+Notification	ABSTRACT NO DATA NO LINKER
+Patient
+Person		ABSTRACT NO DATA NO LINKER
+Prescription
+Rederral
+Renovation
+Room
+SimpleRenovation
+SplittingRenovation
+SupplyRequest	DONEDONEDONE LINKER DONEDONEDONE
