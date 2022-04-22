@@ -4,16 +4,16 @@
 exe
 C#
 .cs
-D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\
 HealthCare_System
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\App.xaml
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\App.xaml
 2-167748958
 
 37-1586856905
-1942034097760
+193-1891726104
 gui\ManagerWindow.xaml;main\MainWindow.xaml;
 
 False
