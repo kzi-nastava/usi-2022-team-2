@@ -8,21 +8,28 @@ namespace HealthCare_System.controllers
     class SplittingRenovationController
     {
         List<SplittingRenovation> splittingRenovations;
+        string path;
 
         public SplittingRenovationController()
         {
+            path = "data/entities/SplittingRenovations.json";
             Load();
         }
 
-        public List<SplittingRenovation> SplittingRenovations
+        public SplittingRenovationController(string path)
         {
-            get { return splittingRenovations; }
-            set { splittingRenovations = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<SplittingRenovation> SplittingRenovations { get => splittingRenovations; 
+            set => splittingRenovations = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            splittingRenovations = JsonSerializer.Deserialize<List<SplittingRenovation>>(File.ReadAllText("data/entities/SplittingRenovations.json"));
+            splittingRenovations = JsonSerializer.Deserialize<List<SplittingRenovation>>(File.ReadAllText(path));
         }
 
         public SplittingRenovation FindById(int id)
@@ -31,6 +38,13 @@ namespace HealthCare_System.controllers
                 if (splittingRenovation.Id == id)
                     return splittingRenovation;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string splittingRenovationsJson = JsonSerializer.Serialize(splittingRenovations, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, splittingRenovationsJson);
         }
     }
 }

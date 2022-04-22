@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class DrugController
     {
         List<Drug> drugs;
+        string path;
 
         public DrugController()
         {
+            path = "data/entities/Drugs.json";
             Load();
         }
 
-        public List<Drug> Drugs
+        public DrugController(string path)
         {
-            get { return drugs; }
-            set { drugs = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Drug> Drugs { get => drugs; set => drugs = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            drugs = JsonSerializer.Deserialize<List<Drug>>(File.ReadAllText("data/entities/Drugs.json"));
+            drugs = JsonSerializer.Deserialize<List<Drug>>(File.ReadAllText(path));
         }
 
         public Drug FindById(int id)
@@ -31,6 +37,12 @@ namespace HealthCare_System.controllers
                 if (drug.Id == id)
                     return drug;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string drugsJson = JsonSerializer.Serialize(drugs, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, drugsJson);
         }
     }
 }

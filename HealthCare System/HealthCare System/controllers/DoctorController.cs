@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class DoctorController
     {
         List<Doctor> doctors;
+        string path;
 
         public DoctorController()
         {
+            path = "data/entities/Doctors.json";
             Load();
         }
 
-        public List<Doctor> Doctors
+        public DoctorController(string path)
         {
-            get { return doctors; }
-            set { doctors = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Doctor> Doctors { get => doctors; set => doctors = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            doctors = JsonSerializer.Deserialize<List<Doctor>>(File.ReadAllText("data/entities/Doctors.json"));
+            doctors = JsonSerializer.Deserialize<List<Doctor>>(File.ReadAllText(path));
         }
 
         public Doctor FindByMail(string mail)
@@ -38,6 +44,12 @@ namespace HealthCare_System.controllers
                 if (doctor.Jmbg == jmbg)
                     return doctor;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string doctorsJson = JsonSerializer.Serialize(doctors, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, doctorsJson);
         }
     }
 }

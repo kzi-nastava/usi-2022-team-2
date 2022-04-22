@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class IngredientController
     {
         List<Ingredient> ingredients;
+        string path;
 
         public IngredientController()
         {
+            path = "data/entities/Ingredients.json";
             Load();
         }
 
-        public List<Ingredient> Ingredients
+        public IngredientController(string path)
         {
-            get { return ingredients; }
-            set { ingredients = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            ingredients = JsonSerializer.Deserialize<List<Ingredient>>(File.ReadAllText("data/entities/Ingredients.json"));
+            ingredients = JsonSerializer.Deserialize<List<Ingredient>>(File.ReadAllText(path));
         }
 
         public Ingredient FindById(int id)
@@ -31,6 +37,12 @@ namespace HealthCare_System.controllers
                 if (ingredient.Id == id)
                     return ingredient;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string ingredientsJson = JsonSerializer.Serialize(ingredients, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, ingredientsJson);
         }
     }
 }

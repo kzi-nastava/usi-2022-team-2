@@ -9,22 +9,28 @@ namespace HealthCare_System.controllers
     class AppointmentController
     {
         List<Appointment> appointments;
+        string path;
 
         public AppointmentController()
         {
+            path = "data/entities/Appointments.json";
             Load();
         }
 
-        public List<Appointment> Appointments
+        public AppointmentController(string path)
         {
-            get { return appointments; }
-            set { appointments = value; }
+            this.path = path;
+            Load();
         }
 
         void Load()
         {
-            appointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText("data/entities/Appointments.json"));
+            appointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText(path));
         }
+
+        internal List<Appointment> Appointments { get => appointments; set => appointments = value; }
+
+        public string Path { get => path; set => path = value; }
 
         public Appointment FindById(int id)
         {
@@ -39,45 +45,11 @@ namespace HealthCare_System.controllers
             return appointments[^1].Id + 1;
         }
 
-        public Appointment BookAppointment(DateTime start, DateTime end, AppointmentType type, Doctor doctor, Patient patient)
-        {
-            foreach (Appointment appointment in appointments)
-            {
-                if (doctor.Jmbg == appointment.Doctor.Jmbg || patient.Jmbg == appointment.Patient.Jmbg)
-                    if ((start > appointment.Start && start < appointment.End) || (end > appointment.Start && end < appointment.End))
-                        return null;
-            }
-            Appointment newAppointment = new();
-            appointments.Add(newAppointment);
-            Serialize();
-            SyncLinkerFiles(newAppointment);
-            return newAppointment;
-        }
-
-        public void SyncLinkerFiles(Appointment appointment)
-        {
-            using (FileStream fs = new("data/links/DoctorAppointment.csv", FileMode.Append, FileAccess.Write))
-            {
-                using (StreamWriter sw = new(fs))
-                {
-                    sw.WriteLine(appointment.Doctor.Jmbg + ";" + appointment.Id);
-                    Console.WriteLine("AAAAAAAAA");
-                }
-            }
-
-            using (FileStream fs = new("data/links/PatientAppointment.csv", FileMode.Append, FileAccess.Write))
-            {
-                using (StreamWriter sw = new(fs))
-                {
-                    sw.WriteLine(appointment.Patient.Jmbg + ";" + appointment.Id);
-                }
-            }
-        }
-
         public void Serialize()
         {
-            string jsonString = JsonSerializer.Serialize(appointments, new JsonSerializerOptions {WriteIndented = true});
-            File.WriteAllText("data/entities/Appointments.json", jsonString);
+            string appointmentsJson = JsonSerializer.Serialize(appointments, 
+                new JsonSerializerOptions {WriteIndented = true});
+            File.WriteAllText(path, appointmentsJson);
         }
     }
 }

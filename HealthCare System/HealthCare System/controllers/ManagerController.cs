@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class ManagerController
     {
         List<Manager> managers;
+        string path;
 
         public ManagerController()
         {
+            path = "data/entities/Managers.json";
             Load();
         }
 
-        public List<Manager> Managers
+        public ManagerController(string path)
         {
-            get { return managers; }
-            set { managers = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Manager> Managers { get => managers; set => managers = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            managers = JsonSerializer.Deserialize<List<Manager>>(File.ReadAllText("data/entities/Managers.json"));
+            managers = JsonSerializer.Deserialize<List<Manager>>(File.ReadAllText(path));
         }
 
         public Manager FindByMail(string mail)
@@ -31,6 +37,12 @@ namespace HealthCare_System.controllers
                 if (manager.Mail == mail)
                     return manager;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string managersJson = JsonSerializer.Serialize(managers, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, managersJson);
         }
     }
 }

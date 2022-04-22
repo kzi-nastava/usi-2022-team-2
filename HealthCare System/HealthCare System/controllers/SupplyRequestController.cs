@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class SupplyRequestController
     {
         List<SupplyRequest> supplyRequests;
+        string path;
 
         public SupplyRequestController()
         {
+            path = "data/entities/SupplyRequests.json";
             Load();
         }
 
-        public List<SupplyRequest> SupplyRequests
+        public SupplyRequestController(string path)
         {
-            get { return supplyRequests; }
-            set { supplyRequests = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<SupplyRequest> SupplyRequests { get => supplyRequests; set => supplyRequests = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            supplyRequests = JsonSerializer.Deserialize<List<SupplyRequest>>(File.ReadAllText("data/entities/SupplyRequests.json"));
+            supplyRequests = JsonSerializer.Deserialize<List<SupplyRequest>>(File.ReadAllText(path));
         }
 
         public SupplyRequest FindById(int id)
@@ -31,6 +37,13 @@ namespace HealthCare_System.controllers
                 if (supplyRequest.Id == id)
                     return supplyRequest;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string supplyRequestsJson = JsonSerializer.Serialize(supplyRequests, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, supplyRequestsJson);
         }
     }
 }

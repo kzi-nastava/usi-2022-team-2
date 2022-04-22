@@ -8,21 +8,28 @@ namespace HealthCare_System.controllers
     class DaysOffNotificationController
     {
         List<DaysOffNotification> daysOffNotifications;
+        string path;
 
         public DaysOffNotificationController()
         {
+            path = "data/entities/DaysOffNotificationss.json";
             Load();
         }
 
-        public List<DaysOffNotification> Drugs
+        public DaysOffNotificationController(string path)
         {
-            get { return daysOffNotifications; }
-            set { daysOffNotifications = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<DaysOffNotification> DaysOffNotifications { get => daysOffNotifications; set => daysOffNotifications = value; }
+
+        public string Path { get => path; set => path = value; }
+
 
         void Load()
         {
-            daysOffNotifications = JsonSerializer.Deserialize<List<DaysOffNotification>>(File.ReadAllText("data/entities/DaysOffNotificationss.json"));
+            daysOffNotifications = JsonSerializer.Deserialize<List<DaysOffNotification>>(File.ReadAllText(path));
         }
 
         public DaysOffNotification FindById(int id)
@@ -31,6 +38,13 @@ namespace HealthCare_System.controllers
                 if (daysOffNotification.Id == id)
                     return daysOffNotification;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string daysOffNotificationsJson = JsonSerializer.Serialize(daysOffNotifications, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, daysOffNotificationsJson);
         }
     }
 }

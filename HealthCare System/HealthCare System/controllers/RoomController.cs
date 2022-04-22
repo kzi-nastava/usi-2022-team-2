@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class RoomController
     {
         List<Room> rooms;
+        string path;
 
         public RoomController() 
         {
+            path = "data/entities/Rooms.json";
             Load();
         }
 
-        public List<Room> Rooms
+        public RoomController(string path)
         {
-            get { return rooms; }
-            set { rooms = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Room> Rooms { get => rooms; set => rooms = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         { 
-            rooms = JsonSerializer.Deserialize<List<Room>>(File.ReadAllText("data/entities/Rooms.json"));
+            rooms = JsonSerializer.Deserialize<List<Room>>(File.ReadAllText(path));
         }
 
         public Room FindById(int id)
@@ -33,6 +39,11 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public void Serialize()
+        {
+            string roomsJson = JsonSerializer.Serialize(rooms, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, roomsJson);
+        }
 
     }
 }

@@ -8,17 +8,27 @@ namespace HealthCare_System.controllers
     class DoctorSurveyController
     {
         List<DoctorSurvey> doctorSurveys;
+        string path;
 
         public DoctorSurveyController()
         {
+            path = "data/entities/DoctorSurveys.json";
+            Load();
+        }
+
+        public DoctorSurveyController(string path)
+        {
+            this.path = path;
             Load();
         }
 
         internal List<DoctorSurvey> DoctorSurveys { get => doctorSurveys; set => doctorSurveys = value; }
 
+        public string Path { get => path; set => path = value; }
+
         void Load()
         {
-            doctorSurveys = JsonSerializer.Deserialize<List<DoctorSurvey>>(File.ReadAllText("data/entities/DoctorSurveys.json"));
+            doctorSurveys = JsonSerializer.Deserialize<List<DoctorSurvey>>(File.ReadAllText(path));
         }
 
         public DoctorSurvey FindById(int id)
@@ -27,6 +37,13 @@ namespace HealthCare_System.controllers
                 if (doctorSurvey.Id == id)
                     return doctorSurvey;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string doctorSurveysJson = JsonSerializer.Serialize(doctorSurveys, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, doctorSurveysJson);
         }
     }
 }

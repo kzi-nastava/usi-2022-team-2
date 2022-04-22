@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class AppointmentRequestController
     {
         List<AppointmentRequest> appointmentRequests;
+        string path;
 
         public AppointmentRequestController()
         {
+            path = "data/entities/AppointmentRequests.json";
             Load();
         }
 
-        public List<AppointmentRequest> AppointmentRequests
+        public AppointmentRequestController(string path)
         {
-            get { return appointmentRequests; }
-            set { appointmentRequests = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<AppointmentRequest> AppointmentRequests { get => appointmentRequests; set => appointmentRequests = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            appointmentRequests = JsonSerializer.Deserialize<List<AppointmentRequest>>(File.ReadAllText("data/entities/AppointmentRequests.json"));
+            appointmentRequests = JsonSerializer.Deserialize<List<AppointmentRequest>>(File.ReadAllText(path));
         }
 
         public AppointmentRequest FindById(int id)
@@ -31,6 +37,13 @@ namespace HealthCare_System.controllers
                 if (appointmentRequest.Id == id)
                     return appointmentRequest;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string appointmentRequestsJson = JsonSerializer.Serialize(appointmentRequests, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, appointmentRequestsJson);
         }
     }
 }

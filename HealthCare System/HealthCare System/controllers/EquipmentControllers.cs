@@ -7,30 +7,42 @@ namespace HealthCare_System.controllers
 {
     class EquipmentControllers
     {
-        List<Equipment> equipments;
+        List<Equipment> equipment;
+        string path;
 
         public EquipmentControllers()
         {
+            path = "data/entities/Equipment.json";
             Load();
         }
 
-        public List<Equipment> Equipment
+        public EquipmentControllers(string path)
         {
-            get { return equipments; }
-            set { equipments = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Equipment> Equipment { get => equipment; set => equipment = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            equipments = JsonSerializer.Deserialize<List<Equipment>>(File.ReadAllText("data/entities/Equipment.json"));
+            equipment = JsonSerializer.Deserialize<List<Equipment>>(File.ReadAllText(path));
         }
 
         public Equipment FindById(int id)
         {
-            foreach (Equipment equipment in equipments)
+            foreach (Equipment equipment in equipment)
                 if (equipment.Id == id)
                     return equipment;
             return null;
+        }
+
+        public void Serialize()
+        {
+            string equipmentJson = JsonSerializer.Serialize(equipment, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, equipmentJson);
         }
     }
 }

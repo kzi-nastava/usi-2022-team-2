@@ -8,21 +8,27 @@ namespace HealthCare_System.controllers
     class PatientController
     {
         List<Patient> patients;
+        string path;
 
         public PatientController()
         {
+            path = "data/entities/Patients.json";
             Load();
         }
 
-        public List<Patient> Patients
+        public PatientController(string path)
         {
-            get { return patients; }
-            set { patients = value; }
+            this.path = path;
+            Load();
         }
+
+        internal List<Patient> Patients { get => patients; set => patients = value; }
+
+        public string Path { get => path; set => path = value; }
 
         void Load()
         {
-            patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
+            patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText(path));
         }
 
         public Patient FindByMail(string mail)
@@ -32,6 +38,7 @@ namespace HealthCare_System.controllers
                     return patient;
             return null;
         }
+
         public Patient FindByJmbg(string jmbg)
         {
             foreach (Patient patient in patients)
@@ -40,5 +47,10 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public void Serialize()
+        {
+            string patientsJson = JsonSerializer.Serialize(patients, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, patientsJson);
+        }
     }
 }
