@@ -50,7 +50,7 @@ namespace HealthCare_System.controllers
                     if ((start > appointment.Start && start < appointment.End) || (end > appointment.Start && end < appointment.End))
                         return null;
             }
-            Appointment newAppointment = new Appointment(this.GenerateId(), start, end, doctor, patient, type);
+            Appointment newAppointment = new Appointment();
             this.appointments.Add(newAppointment);
             this.Serialize();
             this.SyncLinkerFiles(newAppointment);
