@@ -1,5 +1,5 @@
 ﻿using HealthCare_System.entities;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System.IO;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace HealthCare_System.controllers
 
         void LoadManagers()
         {
-            this.managers = JsonConvert.DeserializeObject<List<Manager>>(File.ReadAllText("data/entities/Managers.json"));
+            this.managers = JsonSerializer.Deserialize<List<Manager>>(File.ReadAllText("data/entities/Managers.json"));
         }
 
         public Manager FindByMail(string mail)
