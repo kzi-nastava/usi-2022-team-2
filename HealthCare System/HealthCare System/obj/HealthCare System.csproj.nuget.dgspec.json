@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj": {}
+    "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj": {
+    "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+        "projectUniqueName": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
         "projectName": "HealthCare System",
-        "projectPath": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
-        "packagesPath": "C:\\Users\\Cuki\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Cuki\\Desktop\\Faks\\2. godina\\2. semestar\\Uvod u softversko inzinjerstvo\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\obj\\",
+        "projectPath": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+        "packagesPath": "C:\\Users\\vukas\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Cuki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,6 +59,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[5.0.16, 5.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"

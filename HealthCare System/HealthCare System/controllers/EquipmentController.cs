@@ -5,18 +5,18 @@ using System.Text.Json;
 
 namespace HealthCare_System.controllers
 {
-    class EquipmentControllers
+    class EquipmentController
     {
         List<Equipment> equipment;
         string path;
 
-        public EquipmentControllers()
+        public EquipmentController()
         {
             path = "data/entities/Equipment.json";
             Load();
         }
 
-        public EquipmentControllers(string path)
+        public EquipmentController(string path)
         {
             this.path = path;
             Load();

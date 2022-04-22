@@ -11,41 +11,61 @@ namespace HealthCare_System.factory
 {
     class HealthCareFactory
     {
-        DoctorController doctorController;
-        PatientController patientController;
-        ManagerController managerController;
+        AnamnesisController anamnesisController;
         AppointmentController appointmentController;
+        AppointmentRequestController appointmentRequestController;
+        DaysOffNotificationController daysOffNotificationController;
+        DaysOffRequestController daysOffRequestController;
+        DelayedAppointmentNotificationController delayedAppointmentNotificationController;
+        DoctorController doctorController;
+        DoctorSurveyController doctorSurveyController;
+        DrugController drugController;
+        DrugNotificationController drugNotificationController;
+        EquipmentController equipmentController;
+        HospitalSurveyController hospitalSurveyController;
+        IngredientController ingredientController;
+        ManagerController managerController;
+        MedicalRecordController medicalRecordController;
+        MergingRenovationController mergingRenovationController;
+        PatientController patientController;
+        ReferralController referralController;
+        RoomController roomController;
+        SimpleRenovationController simpleRenovationController;
+        SplittingRenovationController splittingRenovationController;
+        SupplyRequestController supplyRequestController;
 
         public HealthCareFactory()
         {
-            this.doctorController = new();
-            this.patientController = new();
+            this.anamnesisController = new();
             this.appointmentController = new();
+            this.appointmentRequestController = new();
+            this.daysOffNotificationController = new();
+            this.daysOffRequestController = new();
+            this.delayedAppointmentNotificationController = new();
+            this.doctorController = new();
+            this.doctorSurveyController = new();
+            this.drugController = new();
+            this.drugNotificationController = new();
+            this.equipmentController = new();
+            this.hospitalSurveyController = new();
+            this.ingredientController = new();
             this.managerController = new();
+            this.medicalRecordController = new();
+            this.mergingRenovationController = new();
+            this.patientController = new();
+            this.referralController = new();
+            this.roomController = new();
+            this.simpleRenovationController = new();
+            this.splittingRenovationController = new();
+            this.supplyRequestController = new();
 
-            this.LinkDoctorsAppointments();
-            this.LinkPatientsAppointments();
+            this.LinkDrugIngredient();
+            this.LinkDrugNotification();
+            this.LinkAppointmentRequest();
+            this.LinkDaysOffNotification();
+            this.LinkDaysOffRequest();
         }
 
-        public DoctorController DoctorController 
-        { 
-            get { return this.doctorController; }
-        }
-
-        public PatientController PatientController
-        {
-            get { return this.patientController; }
-        }
-
-        public AppointmentController AppointmentController
-        {
-            get { return this.appointmentController; }
-        }
-
-        public ManagerController ManagerController
-        {
-            get { return this.managerController; }
-        }
 
         //TODO add the rest of user types
         public Person Login(string mail, string password)
@@ -65,46 +85,125 @@ namespace HealthCare_System.factory
             return null;
         }
         
-        void LinkDoctorsAppointments()
+        void LinkDrugNotification(string path = "data/links/Notification_Patient_Drug.csv")
         {
-            StreamReader doctorAppointment = new StreamReader("data/links/DoctorAppointment.csv");
+            StreamReader file = new StreamReader(path);
 
-            while (!doctorAppointment.EndOfStream)
+            while (!file.EndOfStream)
             {
-                string line = doctorAppointment.ReadLine();
-                string jmbg = line.Split(";")[0];
-                int id = Convert.ToInt32(line.Split(";")[1].Trim());
+                string line = file.ReadLine();
+                int notificationId = Convert.ToInt32(line.Split(";")[0]);
+                string patientId = line.Split(";")[1];
+                int drugId = Convert.ToInt32(line.Split(";")[2].Trim());
 
-                Appointment appointment = this.appointmentController.FindById(id);
-                Doctor doctor = this.doctorController.FindByJmbg(jmbg);
+                DrugNotification notification = this.drugNotificationController.FindById(notificationId);
+                Patient patient = this.patientController.FindByJmbg(patientId);
+                Drug drug = this.drugController.FindById(drugId);
 
-                doctor.Appointments.Add(appointment);
-                appointment.Doctor = doctor;
+                notification.Drug=drug;
+                notification.Patient = patient;
             }
 
-            doctorAppointment.Close();
-
+            file.Close();
         }
 
-        void LinkPatientsAppointments()
+        void LinkDrugIngredient(string path = "data/links/Drug_Ingredient.csv")
         {
-            StreamReader patientAppointment = new StreamReader("data/links/PatientAppointment.csv");
+            StreamReader file = new StreamReader(path);
 
-            while (!patientAppointment.EndOfStream)
+            while (!file.EndOfStream) 
             {
-                string line = patientAppointment.ReadLine();
-                string jmbg = line.Split(";")[0];
-                int id = Convert.ToInt32(line.Split(";")[1].Trim());
+                string line = file.ReadLine();
+                int drugId = Convert.ToInt32(line.Split(";")[0]);
+                int ingredientId = Convert.ToInt32(line.Split(";")[1].Trim());
 
-                Appointment appointment = this.appointmentController.FindById(id);
-                Patient patient = this.patientController.FindByJmbg(jmbg);
+                Drug drug = this.drugController.FindById(drugId);
+                Ingredient ingredient = this.ingredientController.FindById(ingredientId);
 
-                patient.Appointments.Add(appointment);
-                appointment.Patient = patient;
+                drug.Ingredients.Add(ingredient);
             }
 
-            patientAppointment.Close();
-
+            file.Close();
         }
+
+        void LinkAppointmentRequest(string path = "data/links/AppointmentRequestLinker.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int requestId = Convert.ToInt32(line.Split(";")[0]);
+                string patientId = line.Split(";")[1];
+                int appointmentId = Convert.ToInt32(line.Split(";")[2].Trim());
+
+                AppointmentRequest request = this.appointmentRequestController.FindById(requestId);
+                Patient patient = this.patientController.FindByJmbg(patientId);
+                Appointment appointment = this.appointmentController.FindById(appointmentId);
+
+                request.Patient = patient;
+                request.Appointment = appointment;
+            }
+
+            file.Close();
+        }
+
+        void LinkDaysOffNotification(string path = "data/links/Notification_Doctor.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int notificationId = Convert.ToInt32(line.Split(";")[0]);
+                string doctorId = line.Split(";")[1].Trim();
+
+                DaysOffNotification notification = this.daysOffNotificationController.FindById(notificationId);
+                Doctor doctor = this.doctorController.FindByJmbg(doctorId);
+
+                notification.Doctor = doctor;
+            }
+
+            file.Close();
+        }
+
+        void LinkDaysOffRequest(string path = "data/links/DaysOffRequest_Doctor.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int requestId= Convert.ToInt32(line.Split(";")[0]);
+                string doctorId = line.Split(";")[1].Trim();
+
+                DaysOffRequest request= this.daysOffRequestController.FindById(requestId);
+                Doctor doctor = this.doctorController.FindByJmbg(doctorId);
+
+                request.Doctor = doctor;
+            }
+
+            file.Close();
+        }
+
+        void LinkDelayedAppointmentNotification(string path = "data/links/DelayedAppointmentNotificationLinker.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int notificationtId = Convert.ToInt32(line.Split(";")[0]);
+                int appointmentId = Convert.ToInt32(line.Split(";")[1].Trim());
+
+                DelayedAppointmentNotification notification= this.delayedAppointmentNotificationController.FindById(notificationtId);
+                Appointment appointment = this.appointmentController.FindById(appointmentId);
+
+                notification.Appointment= appointment;
+            }
+
+            file.Close();
+        }
+
     }
 }
