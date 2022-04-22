@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.entities
 {
-    enum Specialization { GENERAL, ANAESTHETISTS, SURGEON,  GYNECOLOGIST }
+    enum Specialization { GENERAL, SURGEON,  GYNECOLOGIST }
 
     class Doctor : Person
     {

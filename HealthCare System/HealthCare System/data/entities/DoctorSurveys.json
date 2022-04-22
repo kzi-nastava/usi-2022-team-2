@@ -1,0 +1,32 @@
+﻿[
+  {
+    "id": 1001,
+    "serviceQuality": 5,
+    "recommendation": 3,
+    "comment": "He's to arrogant!"
+  },
+  {
+    "id": 1002,
+    "serviceQuality": 4,
+    "recommendation": 4,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1003,
+    "serviceQuality": 5,
+    "recommendation": 5,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1004,
+    "serviceQuality": 3,
+    "recommendation": 3,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1005,
+    "serviceQuality": 4,
+    "recommendation": 2,
+    "comment": "Nice!"
+  }
+]
