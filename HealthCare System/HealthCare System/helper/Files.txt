@@ -1,28 +1,28 @@
 1.Anamnesis						? DATA NO LINKER
 2.Appointment					? DATA ? LINKER appointmentID;doctorID;patientID;roomID;anamnesisID
+12.HospitalSurvey					? DATA NO LINKER			
+14.Manager						? DATA NO LINKER
+15.MedicalRecord					? DATA ? LINKER 1.medRecID;patientID 2. medRecID;appointmentID 3. medRecID;ingredientID
+21.Referral						? DATA ? LINKER referralID;doctorID;patientID
+7.Doctor						? DATA ? LINKER doctorID;appointmentID;
+8.DOctorSurvey					? DATA ? LINKER surveyID;doctorID;
+
+9.Drug						DONE DATA DONE LINKER drugID;ingredientID; DONE CONTROLLER
+10.DrugNotification				DONE DATA DONE LINKER notID;patientID;drugID; DONE CONTROLLER
+11.Equipment					DONE DATA NO LINKER DONE CONTROLLER
+13.Ingredient					DONE DATA NO LINKER DONE CONTROLLER
 3.AppointmnetRequest				DONE DATA DONE LINKER idRequest;patientID;AppointmentID
 4.DaysOffNotification				DONE DATA DONE LINKER notificationID;doctorID
 5.DaysOffRequest					DONE DATA DONE LINKER dayOffID;doctorID
 6.DelayedAppointmentNotification		DONE DATA DONE LINKER delayedNotID; appointmentID
-7.Doctor						? DATA ? LINKER doctorID;appointmentID;
-8.DOctorSurvey					? DATA ? LINKER surveyID;doctorID;
-
-9.Drug						DONE DATA DONE LINKER drugID;ingredientID;
-10.DrugNotification				DONE DATA DONE LINKER notID;patientID;drugID;
-11.Equipment					DONE DATA NO LINKER
-12.HospitalSurvey					? DATA NO LINKER
-13.Ingredient					DONE DATA NO LINKER			
-14.Manager						? DATA NO LINKER
-15.MedicalRecord					? DATA ? LINKER 1.medRecID;patientID 2. medRecID;appointmentID 3. medRecID;ingredientID
-16.MergingRenovation				? DATA ? LINKER renovationID;room1ID;room2ID;
 	
 17.Notification					ABSTRACT
 18.Patient						? DATA ALREADY HAS LINKER
 19.Person						ABSTRACT
 20.Prescription					????
-21.Referral						? DATA ? LINKER referralID;doctorID;patientID
 22.Renovation					ABSTRACT
 23.Room						? DATA ? LINKER roomID;equipmentID;amount
 24.SimpleRenovation				? DATA ? LINKER renovationID;roomID;
 25.SplittingRenovation				? DATA ? LINKER renovationID;roomID;
 26.SupplyRequest					DONE DATA DONE LINKER
+16.MergingRenovation				? DATA ? LINKER renovationID;room1ID;room2ID;
