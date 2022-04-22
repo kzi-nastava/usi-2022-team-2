@@ -8,27 +8,34 @@ using System.Threading.Tasks;
 namespace HealthCare_System.entities
 {
     public enum AppointmentState { WAITING, ACCEPTED, DENIED}
+    public enum RequestType { CREATE, UPDATE, DELETE}
     class AppointmentRequest
     {
         int id;
         AppointmentState state;
         Patient patient;
         Appointment appointment;
+        RequestType type;
+        DateTime requestCreated;
 
         public AppointmentRequest() { }
 
-        public AppointmentRequest(int id, AppointmentState state)
+        public AppointmentRequest(int id, AppointmentState state, RequestType type, DateTime requestCreated)
         {
             this.id = id;
             this.state = state;
+            this.type = type;
+            this.requestCreated = requestCreated;
         }
 
-        public AppointmentRequest(int id, AppointmentState state, Patient pacijent, Appointment appointment)
+        public AppointmentRequest(int id, AppointmentState state, Patient pacijent, Appointment appointment, RequestType type, DateTime requestCreated)
         {
             this.id = id;
             this.state = state;
             this.patient = pacijent;
             this.appointment = appointment;
+            this.type = type;
+            this.requestCreated = requestCreated;
         }
 
         public AppointmentRequest(AppointmentRequest request)
@@ -37,6 +44,8 @@ namespace HealthCare_System.entities
             this.state = request.state;
             this.patient = request.patient;
             this.appointment = request.appointment;
+            this.type = request.type;
+            this.requestCreated = request.requestCreated;
         }
 
         [JsonPropertyName("id")]
@@ -50,6 +59,12 @@ namespace HealthCare_System.entities
 
         [JsonIgnore]
         internal Appointment Appointment { get => appointment; set => appointment = value; }
+
+        [JsonPropertyName("type")]
+        public RequestType Type { get => type; set => type = value; }
+
+        [JsonPropertyName("requestCreated")]
+        public DateTime RequestCreated { get => requestCreated; set => requestCreated = value; }
 
         public override string ToString()
         {

@@ -8,5 +8,7 @@ namespace HealthCare_System.entities
 {
     class DelayedAppointmentNotification
     {
+        Appointment appointment;
+
     }
 }
