@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public PatientController()
         {
-            this.LoadPatients();
+            Load();
         }
 
         public List<Patient> Patients
@@ -24,21 +20,21 @@ namespace HealthCare_System.controllers
             set { patients = value; }
         }
 
-        void LoadPatients()
+        void Load()
         {
-            this.patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
+            patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
         }
 
         public Patient FindByMail(string mail)
         {
-            foreach (Patient patient in this.patients)
+            foreach (Patient patient in patients)
                 if (patient.Mail == mail)
                     return patient;
             return null;
         }
         public Patient FindByJmbg(string jmbg)
         {
-            foreach (Patient patient in this.patients)
+            foreach (Patient patient in patients)
                 if (patient.Jmbg == jmbg)
                     return patient;
             return null;

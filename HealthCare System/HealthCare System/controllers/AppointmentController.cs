@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public AppointmentController()
         {
-            this.LoadAppointments();
+            Load();
         }
 
         public List<Appointment> Appointments
@@ -24,14 +21,14 @@ namespace HealthCare_System.controllers
             set { appointments = value; }
         }
 
-        void LoadAppointments()
+        void Load()
         {
-            this.appointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText("data/entities/Appointments.json"));
+            appointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText("data/entities/Appointments.json"));
         }
 
         public Appointment FindById(int id)
         {
-            foreach (Appointment appointment in this.appointments)
+            foreach (Appointment appointment in appointments)
                 if (appointment.Id == id)
                     return appointment;
             return null;
@@ -39,38 +36,38 @@ namespace HealthCare_System.controllers
         
         public int GenerateId()
         {
-            return this.appointments[this.appointments.Count - 1].Id + 1;
+            return appointments[^1].Id + 1;
         }
 
         public Appointment BookAppointment(DateTime start, DateTime end, AppointmentType type, Doctor doctor, Patient patient)
         {
-            foreach (Appointment appointment in this.appointments)
+            foreach (Appointment appointment in appointments)
             {
                 if (doctor.Jmbg == appointment.Doctor.Jmbg || patient.Jmbg == appointment.Patient.Jmbg)
                     if ((start > appointment.Start && start < appointment.End) || (end > appointment.Start && end < appointment.End))
                         return null;
             }
-            Appointment newAppointment = new Appointment();
-            this.appointments.Add(newAppointment);
-            this.Serialize();
-            this.SyncLinkerFiles(newAppointment);
+            Appointment newAppointment = new();
+            appointments.Add(newAppointment);
+            Serialize();
+            SyncLinkerFiles(newAppointment);
             return newAppointment;
         }
 
         public void SyncLinkerFiles(Appointment appointment)
         {
-            using (FileStream fs = new FileStream("data/links/DoctorAppointment.csv", FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new("data/links/DoctorAppointment.csv", FileMode.Append, FileAccess.Write))
             {
-                using (StreamWriter sw = new StreamWriter(fs))
+                using (StreamWriter sw = new(fs))
                 {
                     sw.WriteLine(appointment.Doctor.Jmbg + ";" + appointment.Id);
                     Console.WriteLine("AAAAAAAAA");
                 }
             }
 
-            using (FileStream fs = new FileStream("data/links/PatientAppointment.csv", FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new("data/links/PatientAppointment.csv", FileMode.Append, FileAccess.Write))
             {
-                using (StreamWriter sw = new StreamWriter(fs))
+                using (StreamWriter sw = new(fs))
                 {
                     sw.WriteLine(appointment.Patient.Jmbg + ";" + appointment.Id);
                 }
@@ -79,7 +76,7 @@ namespace HealthCare_System.controllers
 
         public void Serialize()
         {
-            string jsonString = JsonSerializer.Serialize(this.appointments, new JsonSerializerOptions {WriteIndented = true});
+            string jsonString = JsonSerializer.Serialize(appointments, new JsonSerializerOptions {WriteIndented = true});
             File.WriteAllText("data/entities/Appointments.json", jsonString);
         }
     }

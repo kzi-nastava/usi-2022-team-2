@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public DaysOffNotificationController()
         {
-            this.LoadDaysOffNotifications();
+            Load();
         }
 
         public List<DaysOffNotification> Drugs
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { daysOffNotifications = value; }
         }
 
-        void LoadDaysOffNotifications()
+        void Load()
         {
-            this.daysOffNotifications = JsonSerializer.Deserialize<List<DaysOffNotification>>(File.ReadAllText("data/entities/DaysOffNotificationss.json"));
+            daysOffNotifications = JsonSerializer.Deserialize<List<DaysOffNotification>>(File.ReadAllText("data/entities/DaysOffNotificationss.json"));
         }
 
         public DaysOffNotification FindById(int id)
         {
-            foreach (DaysOffNotification daysOffNotification in this.daysOffNotifications)
+            foreach (DaysOffNotification daysOffNotification in daysOffNotifications)
                 if (daysOffNotification.Id == id)
                     return daysOffNotification;
             return null;

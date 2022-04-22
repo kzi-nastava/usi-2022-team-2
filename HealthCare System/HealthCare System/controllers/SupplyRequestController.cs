@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public SupplyRequestController()
         {
-            this.LoadSupplyRequests();
+            Load();
         }
 
         public List<SupplyRequest> SupplyRequests
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { supplyRequests = value; }
         }
 
-        void LoadSupplyRequests()
+        void Load()
         {
-            this.supplyRequests = JsonSerializer.Deserialize<List<SupplyRequest>>(File.ReadAllText("data/entities/SupplyRequests.json"));
+            supplyRequests = JsonSerializer.Deserialize<List<SupplyRequest>>(File.ReadAllText("data/entities/SupplyRequests.json"));
         }
 
         public SupplyRequest FindById(int id)
         {
-            foreach (SupplyRequest supplyRequest in this.supplyRequests)
+            foreach (SupplyRequest supplyRequest in supplyRequests)
                 if (supplyRequest.Id == id)
                     return supplyRequest;
             return null;

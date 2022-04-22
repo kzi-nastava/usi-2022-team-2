@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public RoomController() 
         {
-            this.LoadRooms();
+            Load();
         }
 
         public List<Room> Rooms
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { rooms = value; }
         }
 
-        void LoadRooms()
+        void Load()
         { 
-            this.rooms = JsonSerializer.Deserialize<List<Room>>(File.ReadAllText("data/entities/Rooms.json"));
+            rooms = JsonSerializer.Deserialize<List<Room>>(File.ReadAllText("data/entities/Rooms.json"));
         }
 
         public Room FindById(int id)
         {
-            foreach (Room room in this.rooms)
+            foreach (Room room in rooms)
                 if (room.Id == id)
                     return room;
             return null;

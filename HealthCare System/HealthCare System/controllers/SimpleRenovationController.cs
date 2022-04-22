@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public SimpleRenovationController()
         {
-            this.LoadSimpleRenovations();
+            Load();
         }
 
         public List<SimpleRenovation> SimpleRenovations
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { simpleRenovations = value; }
         }
 
-        void LoadSimpleRenovations() 
+        void Load() 
         {
-            this.simpleRenovations = JsonSerializer.Deserialize<List<SimpleRenovation>>(File.ReadAllText("data/entities/SimpleRenovations.json"));
+            simpleRenovations = JsonSerializer.Deserialize<List<SimpleRenovation>>(File.ReadAllText("data/entities/SimpleRenovations.json"));
         }
 
         public SimpleRenovation FindById(int id)
         {
-            foreach (SimpleRenovation simpleRenovation in this.simpleRenovations)
+            foreach (SimpleRenovation simpleRenovation in simpleRenovations)
                 if (simpleRenovation.Id == id)
                     return simpleRenovation;
             return null;

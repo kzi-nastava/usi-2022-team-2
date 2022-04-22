@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public AppointmentRequestController()
         {
-            this.LoadAppointmentRequests();
+            Load();
         }
 
         public List<AppointmentRequest> AppointmentRequests
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { appointmentRequests = value; }
         }
 
-        void LoadAppointmentRequests()
+        void Load()
         {
-            this.appointmentRequests = JsonSerializer.Deserialize<List<AppointmentRequest>>(File.ReadAllText("data/entities/AppointmentRequests.json"));
+            appointmentRequests = JsonSerializer.Deserialize<List<AppointmentRequest>>(File.ReadAllText("data/entities/AppointmentRequests.json"));
         }
 
         public AppointmentRequest FindById(int id)
         {
-            foreach (AppointmentRequest appointmentRequest in this.appointmentRequests)
+            foreach (AppointmentRequest appointmentRequest in appointmentRequests)
                 if (appointmentRequest.Id == id)
                     return appointmentRequest;
             return null;

@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public EquipmentControllers()
         {
-            this.LoadEquipment();
+            Load();
         }
 
         public List<Equipment> Equipment
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { equipments = value; }
         }
 
-        void LoadEquipment()
+        void Load()
         {
-            this.equipments = JsonSerializer.Deserialize<List<Equipment>>(File.ReadAllText("data/entities/Equipment.json"));
+            equipments = JsonSerializer.Deserialize<List<Equipment>>(File.ReadAllText("data/entities/Equipment.json"));
         }
 
         public Equipment FindById(int id)
         {
-            foreach (Equipment equipment in this.equipments)
+            foreach (Equipment equipment in equipments)
                 if (equipment.Id == id)
                     return equipment;
             return null;

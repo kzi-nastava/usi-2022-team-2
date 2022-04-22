@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public SplittingRenovationController()
         {
-            this.LoadSplittingRenovations();
+            Load();
         }
 
         public List<SplittingRenovation> SplittingRenovations
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { splittingRenovations = value; }
         }
 
-        void LoadSplittingRenovations()
+        void Load()
         {
-            this.splittingRenovations = JsonSerializer.Deserialize<List<SplittingRenovation>>(File.ReadAllText("data/entities/SplittingRenovations.json"));
+            splittingRenovations = JsonSerializer.Deserialize<List<SplittingRenovation>>(File.ReadAllText("data/entities/SplittingRenovations.json"));
         }
 
         public SplittingRenovation FindById(int id)
         {
-            foreach (SplittingRenovation splittingRenovation in this.splittingRenovations)
+            foreach (SplittingRenovation splittingRenovation in splittingRenovations)
                 if (splittingRenovation.Id == id)
                     return splittingRenovation;
             return null;

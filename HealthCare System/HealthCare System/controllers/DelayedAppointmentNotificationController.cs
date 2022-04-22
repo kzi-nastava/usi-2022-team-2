@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -15,7 +11,7 @@ namespace HealthCare_System.controllers
 
         public DelayedAppointmentNotificationController()
         {
-            this.LoadDelayedAppointmentNotifications();
+            Load();
         }
 
         public List<DelayedAppointmentNotification> DelayedAppointmentNotifications
@@ -24,14 +20,14 @@ namespace HealthCare_System.controllers
             set { delayedAppointmentNotifications = value; }
         }
 
-        void LoadDelayedAppointmentNotifications()
+        void Load()
         {
-            this.delayedAppointmentNotifications = JsonSerializer.Deserialize<List<DelayedAppointmentNotification>>(File.ReadAllText("data/entities/Drugs.json"));
+            delayedAppointmentNotifications = JsonSerializer.Deserialize<List<DelayedAppointmentNotification>>(File.ReadAllText("data/entities/Drugs.json"));
         }
 
         public DelayedAppointmentNotification FindById(int id)
         {
-            foreach (DelayedAppointmentNotification delayedAppointmentNotification in this.delayedAppointmentNotifications)
+            foreach (DelayedAppointmentNotification delayedAppointmentNotification in delayedAppointmentNotifications)
                 if (delayedAppointmentNotification.Id == id)
                     return delayedAppointmentNotification;
             return null;
