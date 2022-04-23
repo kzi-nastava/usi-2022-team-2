@@ -320,5 +320,105 @@ namespace HealthCare_System.factory
 
             file.Close();
         }
+        void LinkRoomEquipment(string path = "data/links/Room_Equipment.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int roomId = Convert.ToInt32(line.Split(";")[0]);
+                int equipmentId = Convert.ToInt32(line.Split(";")[1].Trim());
+                int amount = Convert.ToInt32(line.Split(";")[2].Trim());
+
+                Room room = this.roomController.FindById(roomId);
+                Equipment equipment = this.equipmentController.FindById(equipmentId);
+
+                room.EquipmentAmount[equipmentId] = amount;
+            }
+
+            file.Close();
+        }
+
+        void LinkSimpleRenovationRoom(string path = "data/links/SimpleRenovation_Room.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int simpleRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
+                int roomId = Convert.ToInt32(line.Split(";")[1]);
+
+                SimpleRenovation simpleRenovation = this.simpleRenovationController.FindById(simpleRenovationId);
+                Room room = this.roomController.FindById(roomId);
+
+                simpleRenovation.Room = room;
+            }
+
+            file.Close();
+        }
+
+        void LinkSplittingRenovationRoom(string path = "data/links/SplittingRenovation_Room.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int splittingRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
+                int roomId = Convert.ToInt32(line.Split(";")[1]);
+
+                SplittingRenovation splittingRenovation = this.splittingRenovationController.FindById(splittingRenovationId);
+                Room room = this.roomController.FindById(roomId);
+
+                splittingRenovation.Room = room;
+            }
+
+            file.Close();
+        }
+
+        void LinkMergingRenovationRoom(string path = "data/links/MergingRenovation_Room.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int mergingRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
+                int firstRoomId = Convert.ToInt32(line.Split(";")[1]);
+                int secondRoomId = Convert.ToInt32(line.Split(";")[2]);
+
+                MergingRenovation mergingRenovation = this.mergingRenovationController.FindById(mergingRenovationId);
+                Room firstRoom = this.roomController.FindById(firstRoomId);
+                Room secondRoom = this.roomController.FindById(secondRoomId);
+
+                mergingRenovation.Rooms.Add(firstRoom);
+                mergingRenovation.Rooms.Add(secondRoom);
+            }
+
+            file.Close();
+        }
+
+        void LinkSupplyRequestEquipment(string path = "data/links/SupplyRequest_Equipment.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int supplyRequestId = Convert.ToInt32(line.Split(";")[0]);
+                int equipmentId = Convert.ToInt32(line.Split(";")[1].Trim());
+                int amount = Convert.ToInt32(line.Split(";")[2].Trim());
+
+                SupplyRequest supplyRequest = this.supplyRequestController.FindById(supplyRequestId);
+                Equipment equipment = this.equipmentController.FindById(equipmentId);
+
+                supplyRequest.OrderDetails[equipment] = amount;
+            }
+
+            file.Close();
+        }
     }
+}
 }
