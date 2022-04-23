@@ -5,11 +5,11 @@ namespace HealthCare_System.entities
 {
     enum TypeOfRoom 
     {
-        OperationHall,
-        ExaminationHall,
-        Storage,
-        RelaxRoom,
-        Other
+        OPERATION_HALL,
+        EXAMINATION_HALL,
+        STORAGE,
+        RELAX_ROOM,
+        OTHER
     }
     class Room
     {
@@ -26,7 +26,7 @@ namespace HealthCare_System.entities
             this.id = id;
             this.name = name;
             this.type = type;
-            this.equipmentAmount = null;
+            equipmentAmount = new Dictionary<int, int>();
         }
 
         public Room(int id, string name, TypeOfRoom type, Dictionary<int, int> equipmentAmount)

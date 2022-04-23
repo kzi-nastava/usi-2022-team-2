@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.controllers;
 using HealthCare_System.entities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.factory
 {
@@ -36,49 +32,57 @@ namespace HealthCare_System.factory
 
         public HealthCareFactory()
         {
-            this.anamnesisController = new();
-            this.appointmentController = new();
-            this.appointmentRequestController = new();
-            this.daysOffNotificationController = new();
-            this.daysOffRequestController = new();
-            this.delayedAppointmentNotificationController = new();
-            this.doctorController = new();
-            this.doctorSurveyController = new();
-            this.drugController = new();
-            this.drugNotificationController = new();
-            this.equipmentController = new();
-            this.hospitalSurveyController = new();
-            this.ingredientController = new();
-            this.managerController = new();
-            this.medicalRecordController = new();
-            this.mergingRenovationController = new();
-            this.patientController = new();
-            this.referralController = new();
-            this.roomController = new();
-            this.simpleRenovationController = new();
-            this.splittingRenovationController = new();
-            this.supplyRequestController = new();
+            anamnesisController = new();
+            appointmentController = new();
+            appointmentRequestController = new();
+            daysOffNotificationController = new();
+            daysOffRequestController = new();
+            delayedAppointmentNotificationController = new();
+            doctorController = new();
+            doctorSurveyController = new();
+            drugController = new();
+            drugNotificationController = new();
+            equipmentController = new();
+            hospitalSurveyController = new();
+            ingredientController = new();
+            managerController = new();
+            medicalRecordController = new();
+            mergingRenovationController = new();
+            patientController = new();
+            referralController = new();
+            roomController = new();
+            simpleRenovationController = new();
+            splittingRenovationController = new();
+            supplyRequestController = new();
 
-            this.LinkDrugIngredient();
-            this.LinkDrugNotification();
-            this.LinkAppointmentRequest();
-            this.LinkDaysOffNotification();
-            this.LinkDaysOffRequest();
+            LinkDrugIngredient();
+            LinkDrugNotification();
+            LinkAppointmentRequest();
+            LinkDaysOffNotification();
+            LinkDaysOffRequest();
+            LinkDelayedAppointmentNotification();
+            LinkAppointment();
+
+            LinkMedicalRecordIngrediant();
+            LinkMedicalRecordPatient();
+            LinkAppointment();
+            LinkDoctorSurvey();
+            LinkReferral();
         }
 
 
         //TODO add the rest of user types
         public Person Login(string mail, string password)
         {
-            foreach (Doctor doctor in this.doctorController.Doctors)
+            foreach (Doctor doctor in doctorController.Doctors)
                 if (doctor.Mail == mail && doctor.Password == password)
                     return doctor;
 
-            foreach (Patient patient in this.patientController.Patients)
+            foreach (Patient patient in patientController.Patients)
                 if (patient.Mail == mail && patient.Password == password)
                     return patient;
 
-            foreach (Manager manager in this.managerController.Managers)
+            foreach (Manager manager in managerController.Managers)
                 if (manager.Mail == mail && manager.Password == password)
                     return manager;
 
@@ -87,7 +91,7 @@ namespace HealthCare_System.factory
         
         void LinkDrugNotification(string path = "data/links/Notification_Patient_Drug.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream)
             {
@@ -109,7 +113,7 @@ namespace HealthCare_System.factory
 
         void LinkDrugIngredient(string path = "data/links/Drug_Ingredient.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream) 
             {
@@ -128,7 +132,7 @@ namespace HealthCare_System.factory
 
         void LinkAppointmentRequest(string path = "data/links/AppointmentRequestLinker.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream)
             {
@@ -150,7 +154,7 @@ namespace HealthCare_System.factory
 
         void LinkDaysOffNotification(string path = "data/links/Notification_Doctor.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream)
             {
@@ -169,7 +173,7 @@ namespace HealthCare_System.factory
 
         void LinkDaysOffRequest(string path = "data/links/DaysOffRequest_Doctor.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream)
             {
@@ -188,7 +192,7 @@ namespace HealthCare_System.factory
 
         void LinkDelayedAppointmentNotification(string path = "data/links/DelayedAppointmentNotificationLinker.csv")
         {
-            StreamReader file = new StreamReader(path);
+            StreamReader file = new(path);
 
             while (!file.EndOfStream)
             {
@@ -199,11 +203,122 @@ namespace HealthCare_System.factory
                 DelayedAppointmentNotification notification= this.delayedAppointmentNotificationController.FindById(notificationtId);
                 Appointment appointment = this.appointmentController.FindById(appointmentId);
 
-                notification.Appointment= appointment;
+                notification.Appointment = appointment;
             }
 
             file.Close();
         }
 
+        void LinkAppointment(string path = "data/links/AppointmentLinker.csv")
+        {
+            StreamReader file = new(path);
+
+            while(!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int appointmentId = Convert.ToInt32(line.Split(";")[0]);
+                string doctorJmbg = line.Split(";")[1];
+                string patientJmbg = line.Split(";")[2];
+                int roomId = Convert.ToInt32(line.Split(";")[3]);
+                int anamnesisId = Convert.ToInt32(line.Split(";")[4].Trim());
+
+                Appointment appointment = appointmentController.FindById(appointmentId);
+                Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
+                Patient patient = patientController.FindByJmbg(patientJmbg);
+                Room room = roomController.FindById(roomId);
+                Anamnesis anamnesis = anamnesisController.FindById(anamnesisId);
+
+                appointment.Doctor = doctor;
+                appointment.Patient = patient;
+                appointment.Room = room;
+                appointment.Anamnesis = anamnesis;
+
+                doctor.Appointments.Add(appointment);
+
+                patient.MedicalRecord.Appointments.Add(appointment);
+            }
+
+            file.Close();
+        }
+
+        void LinkMedicalRecordIngrediant(string path = "data/links/MedicalRecord_Ingrediant.csv")
+        {
+            StreamReader file = new(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[0]);
+                int ingrediantId = Convert.ToInt32(line.Split(";")[1].Trim());
+
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
+                Ingredient ingredient = ingredientController.FindById(ingrediantId);
+
+                medicalRecord.Allergens.Add(ingredient);
+            }
+
+            file.Close();
+        }
+
+        void LinkMedicalRecordPatient(string path = "data/links/MedicalRecord_Patient.csv")
+        {
+            StreamReader file = new(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[0]);
+                string patientJmbg = line.Split(";")[1].Trim();
+
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
+                Patient patient = patientController.FindByJmbg(patientJmbg);
+
+                medicalRecord.Patient = patient;
+                patient.MedicalRecord = medicalRecord;
+            }
+
+            file.Close();
+        }
+
+        void LinkDoctorSurvey(string path = "data/links/Doctor_DoctorSurvey.csv")
+        {
+            StreamReader file = new(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                string doctorJmbg = line.Split(";")[0];
+                int surveyId = Convert.ToInt32(line.Split(";")[0].Trim());
+
+                Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
+                DoctorSurvey doctorSurvey = doctorSurveyController.FindById(surveyId);
+
+                doctorSurvey.Doctor = doctor;
+            }
+
+            file.Close();
+        }
+
+        void LinkReferral(string path = "data/links/RefferalLinker.csv")
+        {
+            StreamReader file = new(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int referralId = Convert.ToInt32(line.Split(";")[0]);
+                string doctorJmbg = line.Split(";")[1];
+                string patientJmbg = line.Split(";")[2].Trim();
+
+                Referral referral = referralController.FindById(referralId);
+                Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
+                Patient patient = patientController.FindByJmbg(patientJmbg);
+
+                referral.Doctor = doctor;
+                referral.Patient = patient;
+            }
+
+            file.Close();
+        }
     }
 }
