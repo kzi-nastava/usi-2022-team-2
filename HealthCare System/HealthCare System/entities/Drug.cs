@@ -17,7 +17,10 @@ namespace HealthCare_System.entities
         List<Ingredient> ingredients;
         IngredientStatus status;
 
-        public Drug() { }
+        public Drug()
+        {
+            this.ingredients = new List<Ingredient>();
+        }
 
         public Drug(int id, string name, List<Ingredient> ingredients, IngredientStatus status)
         {
@@ -33,6 +36,7 @@ namespace HealthCare_System.entities
             this.name = name;
             this.ingredients = null;
             this.status = status;
+            this.ingredients = new List<Ingredient>();
         }
 
         public Drug(Drug drug) 

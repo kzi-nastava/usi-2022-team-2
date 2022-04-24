@@ -61,10 +61,10 @@ namespace HealthCare_System.factory
             LinkDaysOffNotification();
             LinkDaysOffRequest();
             LinkDelayedAppointmentNotification();
+            LinkMedicalRecordPatient();
             LinkAppointment();
 
             LinkMedicalRecordIngrediant();
-            LinkMedicalRecordPatient();
             LinkAppointment();
             LinkDoctorSurvey();
             LinkReferral();
@@ -209,10 +209,31 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
+        void LinkMedicalRecordPatient(string path = "data/links/MedicalRecord_Patient.csv")
+        {
+            StreamReader file = new(path);
+            file.ReadLine();
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[0]);
+                string patientJmbg = line.Split(";")[1].Trim();
+
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
+                Patient patient = patientController.FindByJmbg(patientJmbg);
+
+                medicalRecord.Patient = patient;
+                patient.MedicalRecord = medicalRecord;
+            }
+
+            file.Close();
+        }
+
         void LinkAppointment(string path = "data/links/AppointmentLinker.csv")
         {
             StreamReader file = new(path);
-
+            file.ReadLine();
             while(!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -241,10 +262,10 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkMedicalRecordIngrediant(string path = "data/links/MedicalRecord_Ingrediant.csv")
+        void LinkMedicalRecordIngrediant(string path = "data/links/MedicalRecord_Ingredient.csv")
         {
             StreamReader file = new(path);
-
+            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -260,30 +281,12 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkMedicalRecordPatient(string path = "data/links/MedicalRecord_Patient.csv")
-        {
-            StreamReader file = new(path);
-
-            while (!file.EndOfStream)
-            {
-                string line = file.ReadLine();
-                int medicalRecordId = Convert.ToInt32(line.Split(";")[0]);
-                string patientJmbg = line.Split(";")[1].Trim();
-
-                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
-                Patient patient = patientController.FindByJmbg(patientJmbg);
-
-                medicalRecord.Patient = patient;
-                patient.MedicalRecord = medicalRecord;
-            }
-
-            file.Close();
-        }
+        
 
         void LinkDoctorSurvey(string path = "data/links/Doctor_DoctorSurvey.csv")
         {
             StreamReader file = new(path);
-
+            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -299,10 +302,10 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkReferral(string path = "data/links/RefferalLinker.csv")
+        void LinkReferral(string path = "data/links/Refferal_Linker.csv")
         {
             StreamReader file = new(path);
-
+            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -420,5 +423,4 @@ namespace HealthCare_System.factory
             file.Close();
         }
     }
-}
 }
