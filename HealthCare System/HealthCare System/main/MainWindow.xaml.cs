@@ -12,10 +12,12 @@ namespace HealthCare_System
     public partial class MainWindow : Window
     {
         HealthCareFactory factory = new();
+        
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             string mail = mailTb.Text;
             string password = passwordTb.Password;
+            factory.PrintContnent();
 
             Person person = factory.Login(mail, password);
 

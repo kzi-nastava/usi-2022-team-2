@@ -18,8 +18,10 @@ namespace HealthCare_System.entities
         TypeOfRoom type;
         Dictionary<int, int> equipmentAmount;
 
-        
-        public Room(){}
+        public Room()
+        {
+            equipmentAmount = new Dictionary<int, int>();
+        }
 
         public Room(int id, string name, TypeOfRoom type)
         {
@@ -59,7 +61,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Drug[" + "name: " + this.name + " type: " + this.type + "]";
+            return "Room[id: " + this.id + ", name: " + this.name + " type: " + this.type + "]";
         }
     }
 }

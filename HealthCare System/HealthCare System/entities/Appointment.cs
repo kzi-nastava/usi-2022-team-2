@@ -118,7 +118,7 @@ namespace HealthCare_System.entities
             if (room is null) roomInfo = "-1";
             // else roomInfo = Room.Id.ToString();
 
-            return "Appointment[" + "start: " + this.start.ToString("dd/MM/yyyy HH:mm") +
+            return "Appointment[id: " + id + ", start: " + start.ToString("dd/MM/yyyy HH:mm") +
                 ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", doctor: " + doctorInfo +
                 ", patient: " + patientInfo + ", type: " + type.ToString() + ", anamnesis: " + anamnesisInfo + 
                 ", room: " + roomInfo + ", emergancy: " + emergency + ", status: " + status.ToString() + ", graded: " + graded + "]";

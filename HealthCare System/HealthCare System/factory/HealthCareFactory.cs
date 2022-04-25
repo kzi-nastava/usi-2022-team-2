@@ -61,13 +61,18 @@ namespace HealthCare_System.factory
             LinkDaysOffNotification();
             LinkDaysOffRequest();
             LinkDelayedAppointmentNotification();
+            
             LinkMedicalRecordPatient();
-            LinkAppointment();
-
             LinkMedicalRecordIngrediant();
             LinkAppointment();
             LinkDoctorSurvey();
             LinkReferral();
+
+            LinkRoomEquipment();
+            LinkSimpleRenovationRoom();
+            LinkSplittingRenovationRoom();
+            LinkMergingRenovationRoom();
+            LinkSupplyRequestEquipment();
         }
 
 
@@ -281,8 +286,6 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        
-
         void LinkDoctorSurvey(string path = "data/links/Doctor_DoctorSurvey.csv")
         {
             StreamReader file = new(path);
@@ -291,7 +294,7 @@ namespace HealthCare_System.factory
             {
                 string line = file.ReadLine();
                 string doctorJmbg = line.Split(";")[0];
-                int surveyId = Convert.ToInt32(line.Split(";")[0].Trim());
+                int surveyId = Convert.ToInt32(line.Split(";")[1].Trim());
 
                 Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
                 DoctorSurvey doctorSurvey = doctorSurveyController.FindById(surveyId);
@@ -302,7 +305,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkReferral(string path = "data/links/Refferal_Linker.csv")
+        void LinkReferral(string path = "data/links/Referral_Linker.csv")
         {
             StreamReader file = new(path);
             file.ReadLine();
@@ -323,6 +326,7 @@ namespace HealthCare_System.factory
 
             file.Close();
         }
+
         void LinkRoomEquipment(string path = "data/links/Room_Equipment.csv")
         {
             StreamReader file = new StreamReader(path);
@@ -388,9 +392,9 @@ namespace HealthCare_System.factory
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
-                int mergingRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
+                int mergingRenovationId = Convert.ToInt32(line.Split(";")[0]);
                 int firstRoomId = Convert.ToInt32(line.Split(";")[1]);
-                int secondRoomId = Convert.ToInt32(line.Split(";")[2]);
+                int secondRoomId = Convert.ToInt32(line.Split(";")[2].Trim());
 
                 MergingRenovation mergingRenovation = this.mergingRenovationController.FindById(mergingRenovationId);
                 Room firstRoom = this.roomController.FindById(firstRoomId);
@@ -421,6 +425,120 @@ namespace HealthCare_System.factory
             }
 
             file.Close();
+        }
+
+        public void PrintContnent()
+        {
+            Console.WriteLine("Anamneses:");
+            foreach (Anamnesis anamnesis in anamnesisController.Anamneses)
+                Console.WriteLine(anamnesis.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Appointments:");
+            foreach (Appointment appointment in appointmentController.Appointments)
+                Console.WriteLine(appointment.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("AppointmentRequests:");
+            foreach (AppointmentRequest appointmentRequest in appointmentRequestController.AppointmentRequests)
+                Console.WriteLine(appointmentRequest.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("DaysOffNotifications:");
+            foreach (DaysOffNotification daysOffNotification in daysOffNotificationController.DaysOffNotifications)
+                Console.WriteLine(daysOffNotification.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("DaysOffRequests:");
+            foreach (DaysOffRequest daysOffRequest in daysOffRequestController.DaysOffRequests)
+                Console.WriteLine(daysOffRequest.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("DelayedAppointmentNotification:");
+            foreach (DelayedAppointmentNotification delayedAppointmentNotification in 
+                delayedAppointmentNotificationController.DelayedAppointmentNotifications)
+                Console.WriteLine(delayedAppointmentNotification.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Doctors:");
+            foreach (Doctor doctor in doctorController.Doctors)
+                Console.WriteLine(doctor.ToString() + " appointments:" + doctor.Appointments.Count);
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("DoctorSurvey:");
+            foreach (DoctorSurvey doctorSurvey in doctorSurveyController.DoctorSurveys)
+                Console.WriteLine(doctorSurvey.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Drug:");
+            foreach (Drug drug in drugController.Drugs)
+                Console.WriteLine(drug.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("DrugNotification:");
+            foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
+                Console.WriteLine(drugNotification.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Equipment:");
+            foreach (Equipment equipment in equipmentController.Equipment)
+                Console.WriteLine(equipment.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("HospitalSurvey:");
+            foreach (HospitalSurvey hospitalSurvey in hospitalSurveyController.HospitalSurveys)
+                Console.WriteLine(hospitalSurvey.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Ingredient:");
+            foreach (Ingredient ingredient in ingredientController.Ingredients)
+                Console.WriteLine(ingredient.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Manager:");
+            foreach (Manager manager in managerController.Managers)
+                Console.WriteLine(manager.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("MedicalRecord:");
+            foreach (MedicalRecord medicalRecord in medicalRecordController.MedicalRecords)
+                Console.WriteLine(medicalRecord.ToString() + " appointments: " + medicalRecord.Appointments.Count);
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("MergintRenovations:");
+            foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+                Console.WriteLine(mergingRenovation.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Patient:");
+            foreach (Patient patient in patientController.Patients)
+                Console.WriteLine(patient.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Refferal:");
+            foreach (Referral referral in referralController.Referrals)
+                Console.WriteLine(referral.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Room:");
+            foreach (Room room in roomController.Rooms)
+                Console.WriteLine(room.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("SimpleRenovation:");
+            foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+                Console.WriteLine(simpleRenovation.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("SplittingRenovation:");
+            foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
+                Console.WriteLine(splittingRenovation.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("SupplyRequest:");
+            foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
+                Console.WriteLine(supplyRequest.ToString());
+            Console.WriteLine("-------------------------------------------");
         }
     }
 }
