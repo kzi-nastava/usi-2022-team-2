@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -44,6 +45,34 @@ namespace HealthCare_System.controllers
             string appointmentRequestsJson = JsonSerializer.Serialize(appointmentRequests, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, appointmentRequestsJson);
+        }
+
+        public void RunAntiTrollCheck(Patient patient)
+        {
+            DateTime now = DateTime.Now;
+            int createdRequests = 0;
+            int editedRequests = 0;
+            foreach (AppointmentRequest request in appointmentRequests)
+            {
+                if (request.Patient == patient)
+                {
+                    if ((now - request.RequestCreated).TotalDays < 30)
+                    {
+                        if (request.Type == RequestType.CREATE)
+                        {
+                            createdRequests++;
+                        }
+                        else
+                        {
+                            editedRequests++;
+                        }
+                    }
+                }
+            }
+            if (createdRequests>=8 || editedRequests >= 5)
+            {
+                patient.Blocked = true;
+            }
         }
     }
 }
