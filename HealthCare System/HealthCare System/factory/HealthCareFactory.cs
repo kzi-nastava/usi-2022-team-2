@@ -2,6 +2,7 @@
 using HealthCare_System.entities;
 using System;
 using System.IO;
+using System.Windows;
 
 namespace HealthCare_System.factory
 {
@@ -85,8 +86,19 @@ namespace HealthCare_System.factory
 
             foreach (Patient patient in patientController.Patients)
                 if (patient.Mail == mail && patient.Password == password)
-                    return patient;
-
+                {
+                    appointmentRequestController.RunAntiTrollCheck(patient);
+                    if (patient.Blocked)
+                    {
+                        MessageBox.Show("Account blocked. Contact secretary for more informations!");
+                        return null;
+                    }
+                    else
+                    {
+                        return patient;
+                    }
+                        
+                }
             foreach (Manager manager in managerController.Managers)
                 if (manager.Mail == mail && manager.Password == password)
                     return manager;
