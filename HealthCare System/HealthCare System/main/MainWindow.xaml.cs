@@ -3,6 +3,7 @@ using HealthCare_System.entities;
 using System;
 using HealthCare_System.controllers;
 using HealthCare_System.factory;
+using HealthCare_System.gui;
 
 namespace HealthCare_System
 {
@@ -36,7 +37,8 @@ namespace HealthCare_System
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
             }
             else if (person.GetType() == typeof(Manager)) {
-                MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+                Window managerWindow = new ManagerWindow();
+                managerWindow.Show();
             }
         }
 

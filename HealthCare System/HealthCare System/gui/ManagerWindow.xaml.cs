@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using HealthCare_System.factory;
+using HealthCare_System.entities;
 namespace HealthCare_System.gui
 {
     /// <summary>
@@ -19,10 +20,18 @@ namespace HealthCare_System.gui
     /// </summary>
     public partial class ManagerWindow : Window
     {
+        HealthCareFactory factory;
         public ManagerWindow()
         {
             InitializeComponent();
+            factory = new();
+            foreach (Room room in factory.RoomController.Rooms)
+            {
+                RoomView.Items.Add(room);
+            }
         }
+
+        
 
         private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
         {
