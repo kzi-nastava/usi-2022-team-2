@@ -8,16 +8,19 @@ namespace HealthCare_System.entities
     {
         List<Room> rooms;
 
-        public MergingRenovation() { }
+        public MergingRenovation()
+        {
+            rooms = new List<Room>();
+        }
 
         public MergingRenovation(Renovation renovation) : base(renovation)
         {
-            this.rooms = null;
+            rooms = new List<Room>();
         }
 
         public MergingRenovation(int id, DateTime beginningDate, DateTime endingDate) : base(id, beginningDate, endingDate)
         {
-            this.rooms = null;
+            rooms = new List<Room>();
         }
 
         public MergingRenovation(int id, DateTime beginningDate, DateTime endingDate, List<Room> rooms) : base(id, beginningDate, endingDate)

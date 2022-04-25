@@ -10,12 +10,16 @@ namespace HealthCare_System.entities
         DateTime requestCreated;
         Dictionary<Equipment, int> orderDetails;
 
-        public SupplyRequest() { }
+        public SupplyRequest() 
+        {
+            orderDetails = new Dictionary<Equipment, int>();
+        }
 
         public SupplyRequest(int id, DateTime requestCreated)
         {
             this.id = id;
             this.requestCreated = requestCreated;
+            orderDetails = new Dictionary<Equipment, int>();
         }
 
         public SupplyRequest(int id, DateTime requestCreated, Dictionary<Equipment, int> orderDetails)
@@ -50,7 +54,7 @@ namespace HealthCare_System.entities
                 orders += equipment.Key + ":" + equipment.Value;
             }
             orders += "}";
-            return "DrugNotification[" + "id: " + this.Id.ToString() +
+            return "SupplyRequest[" + "id: " + this.Id.ToString() +
                 ", requestCreated: " + this.requestCreated.ToString("dd/MM/yyyy HH:mm") + ", orderDetails: " + orders + "]";
         }
     }

@@ -6,7 +6,7 @@
     "firstName": "Pera",
     "lastName": "Peric",
     "birthDate": "1999-01-01",
-    "blocked":  "true"
+    "blocked":  true
   },
   {
     "jmbg": "1006",
@@ -15,7 +15,7 @@
     "firstName": "Luka",
     "lastName": "Jankovic",
     "birthDate": "2001-07-19",
-    "blocked": "false"
+    "blocked": false
   },
   {
     "jmbg": "1007",
@@ -24,7 +24,7 @@
     "firstName": "Milan",
     "lastName": "Vasic",
     "birthDate": "2000-05-09",
-    "blocked": "false"
+    "blocked": false
   },
   {
     "jmbg": "1008",
@@ -33,7 +33,7 @@
     "firstName": "Stefan",
     "lastName": "Jovanovic",
     "birthDate": "2001-03-12",
-    "blocked": "false"
+    "blocked": false
   },
   {
     "jmbg": "1009",
@@ -42,7 +42,7 @@
     "firstName": "Vukasin",
     "lastName": "Bogdanovic",
     "birthDate": "2001-04-11",
-    "blocked": "false"
+    "blocked": false
   }
 
 ]
