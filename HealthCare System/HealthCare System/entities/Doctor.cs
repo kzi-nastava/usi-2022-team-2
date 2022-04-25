@@ -1,45 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.entities
 {
+    enum Specialization { GENERAL, SURGEON,  GYNECOLOGIST }
+
     class Doctor : Person
     {
-        
         List<Appointment> appointments;
+        Specialization specialization;
+        List<DateTime> freeDates;
 
         public Doctor()
         {
-            this.appointments = new List<Appointment>();
+            appointments = new List<Appointment>();
+            freeDates = new List<DateTime>();
         }
 
-        public Doctor(string jmbg, string firstName, string lastName, DateTime birthDate, string mail, string password, 
-            List<Appointment> appointments) : base(jmbg, firstName, lastName, birthDate, mail, password)
+        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail, string password, 
+            List<Appointment> appointments, Specialization specialization, List<DateTime> freeDates) : 
+            base(jmbg, name, lastName, birthDate, mail, password)
         {
             this.appointments = appointments;
+            this.specialization = specialization;
+            this.freeDates = freeDates;
         }
 
-        public Doctor(string jmbg, string firstName, string lastName, DateTime birthDate, string mail, string password) :
-            base(jmbg, firstName, lastName, birthDate, mail, password)
+        public Doctor(Doctor doctor) :
+            base(doctor.Jmbg, doctor.FirstName, doctor.LastName, doctor.BirthDate, doctor.Mail, doctor.Password)
         {
-            this.appointments = new List<Appointment>();
+            appointments = doctor.appointments;
+            specialization = doctor.specialization;
+            freeDates = doctor.freeDates;
         }
 
-        public Doctor(Doctor doctor) : base(doctor.Jmbg, doctor.FirstName, doctor.LastName, doctor.BirthDate, doctor.Mail, doctor.Password)
+        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail, string password,
+            Specialization specialization, List<DateTime> freeDates) :
+            base(jmbg, name, lastName, birthDate, mail, password)
         {
-            this.appointments = doctor.appointments;
+            appointments = new List<Appointment>();
+            this.specialization = specialization;
+            this.freeDates = freeDates;
         }
+
+        [JsonPropertyName("freeDates")]
+        public List<DateTime> FreeDates { get => freeDates; set => freeDates = value; }
 
         [JsonIgnore]
-        public List<Appointment> Appointments
-        {
-            get { return appointments; }
-            set { appointments = value; }
-        }
-    
+        internal List<Appointment> Appointments { get => appointments; set => appointments = value; }
+
+        [JsonPropertyName("specialization")]
+        internal Specialization Specialization { get => specialization; set => specialization = value; }
     }
 }

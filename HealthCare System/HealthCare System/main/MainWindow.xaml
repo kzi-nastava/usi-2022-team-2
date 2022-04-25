@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Login" Height="180" Width="380">
     <Grid>
-        <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Center" Margin="0,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.518,0.204" Height="32" Width="116" Click="loginBtn_Click"/>
+        <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Center" Margin="0,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.518,0.204" Height="32" Width="116" Click="LoginBtn_Click"/>
         <TextBox x:Name="mailTb"  HorizontalAlignment="Center" Margin="0,29,0,0" Text="example@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="312" Height="24"/>
         <PasswordBox Name="passwordTb" HorizontalAlignment="Center" Margin="0,66,0,0" VerticalAlignment="Top" Width="312" Height="24"/>
 

@@ -1,43 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.entities
 {
     class Patient : Person
     {
-        List<Appointment> appointments;
+        MedicalRecord medicalRecord;
+        bool blocked;
 
-        public Patient()
+        public Patient() { }
+
+        public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
+            string password, MedicalRecord medicalRecord, bool blocked) : 
+                base(jmbg, firstName, lastName, birthDate, mail, password)
         {
-            this.appointments = new List<Appointment>();
+            this.blocked = blocked;
         }
 
         public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password, List<Appointment> appointments) : base(jmbg, firstName, lastName, birthDate, mail, password)
+            string password, bool blocked) : base(jmbg, firstName, lastName, birthDate, mail, password)
         {
-            this.appointments = appointments;
+            this.blocked = blocked;
         }
 
-        public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password) : base(jmbg, firstName, lastName, birthDate, mail, password)
+        public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName, patient.BirthDate, 
+            patient.Mail, patient.Password)
         {
-            this.appointments = new List<Appointment>();
-        }
-
-        public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName, patient.BirthDate, patient.Mail, patient.Password)
-        {
-            this.appointments = patient.appointments;
+            medicalRecord = patient.medicalRecord;
+            blocked = patient.blocked;
         }
 
         [JsonIgnore]
-        public List<Appointment> Appointments
+        public MedicalRecord MedicalRecord
         {
-            get { return appointments; }
-            set { appointments = value; }
+            get { return medicalRecord; }
+            set { medicalRecord = value; }
+        }
+
+        [JsonPropertyName("blocked")]
+        public bool Blocked
+        {
+            get { return blocked; }
+            set { blocked = value; }
         }
 
         public List<Appointment> UpcomingAppointment(int nextDays)

@@ -1,0 +1,74 @@
+[
+  {
+    "id":1001,
+    "name":"Chair",
+    "type":3,
+    "dynamic":0
+  },
+  {
+    "id": 1002,
+    "name": "Bed",
+    "type": 3,
+    "dynamic": 0
+  },
+  {
+    "id": 1003,
+    "name": "Lamp",
+    "type": 3,
+    "dynamic": 0
+  },
+  {
+    "id": 1004,
+    "name": "PC",
+    "type": 1,
+    "dynamic": 0
+  },
+  {
+    "id": 1005,
+    "name": "Spoon",
+    "type": 1,
+    "dynamic": 1
+  },
+  {
+    "id": 1006,
+    "name": "EmergencyEquipment",
+    "type": 1,
+    "dynamic": 1
+  },
+  {
+    "id": 1007,
+    "name": "Mask",
+    "type": 2,
+    "dynamic": 1
+  },
+  {
+    "id": 1008,
+    "name": "Knife",
+    "type": 2,
+    "dynamic": 1
+  },
+  {
+    "id": 1009,
+    "name": "Operation Bed",
+    "type": 2,
+    "dynamic": 0
+  },
+  {
+    "id": 1010,
+    "name": "Towels",
+    "type": 2,
+    "dynamic": 1
+  },
+  {
+    "id": 1011,
+    "name": "Tables",
+    "type": 4,
+    "dynamic": 0
+  },
+  {
+    "id": 1012,
+    "name": "Pencils",
+    "type": 4,
+    "dynamic": 1
+  }
+]

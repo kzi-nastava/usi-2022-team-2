@@ -1,48 +1,56 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
     class PatientController
     {
         List<Patient> patients;
+        string path;
 
         public PatientController()
         {
-            this.LoadPatients();
+            path = "data/entities/Patients.json";
+            Load();
         }
 
-        public List<Patient> Patients
+        public PatientController(string path)
         {
-            get { return patients; }
-            set { patients = value; }
+            this.path = path;
+            Load();
         }
 
-        void LoadPatients()
+        internal List<Patient> Patients { get => patients; set => patients = value; }
+
+        public string Path { get => path; set => path = value; }
+
+        void Load()
         {
-            this.patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText("data/entities/Patients.json"));
+            patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText(path));
         }
 
         public Patient FindByMail(string mail)
         {
-            foreach (Patient patient in this.patients)
+            foreach (Patient patient in patients)
                 if (patient.Mail == mail)
                     return patient;
             return null;
         }
+
         public Patient FindByJmbg(string jmbg)
         {
-            foreach (Patient patient in this.patients)
+            foreach (Patient patient in patients)
                 if (patient.Jmbg == jmbg)
                     return patient;
             return null;
         }
 
+        public void Serialize()
+        {
+            string patientsJson = JsonSerializer.Serialize(patients, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, patientsJson);
+        }
     }
 }

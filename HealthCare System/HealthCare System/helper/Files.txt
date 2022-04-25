@@ -1,0 +1,28 @@
+1.Anamnesis						? DATA NO LINKER
+2.Appointment					? DATA ? LINKER appointmentID;doctorID;patientID;roomID;anamnesisID
+7.Doctor						? DATA ? LINKER doctorID;appointmentID;
+8.DOctorSurvey					? DATA ? LINKER surveyID;doctorID;
+12.HospitalSurvey					? DATA NO LINKER		
+14.Manager						? DATA NO LINKER
+15.MedicalRecord					? DATA ? LINKER 1.medRecID;patientID 2. medRecID;appointmentID 3. medRecID;ingredientID
+16.MergingRenovation				? DATA ? LINKER renovationID;room1ID;room2ID;
+
+9.Drug						? DATA ? LINKER drugID;ingredientID;
+10.DrugNotification				? DATA ? LINKER notID;patientID;drugID;
+11.Equipment					DONE DATA NO LINKER
+13.Ingredient					? DATA NO LINKER	
+3.AppointmnetRequest				? DATA ? LINKER idRequest;patientID;AppointmentID
+4.DaysOffNotification				? DATA ? LINKER notificationID;doctorID
+5.DaysOffRequest					? DATA ? LINKER dayOffID;doctorID
+6.DelayedAppointmentNotification		? DATA ? LINKER delayedNotID; appointmentID
+	
+17.Notification					ABSTRACT
+18.Patient						? DATA ALREADY HAS LINKER
+19.Person						ABSTRACT
+20.Prescription					????
+21.Referral						? DATA ? LINKER referralID;doctorID;patientID
+22.Renovation					ABSTRACT
+23.Room						? DATA ? LINKER roomID;equipmentID;amount
+24.SimpleRenovation				? DATA ? LINKER renovationID;roomID;
+25.SplittingRenovation				? DATA ? LINKER renovationID;roomID;
+26.SupplyRequest					DONE DATA DONE LINKER

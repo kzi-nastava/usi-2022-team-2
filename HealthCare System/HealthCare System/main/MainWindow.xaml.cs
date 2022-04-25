@@ -12,7 +12,7 @@ namespace HealthCare_System
     public partial class MainWindow : Window
     {
         HealthCareFactory factory = new();
-        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             string mail = mailTb.Text;
             string password = passwordTb.Password;
@@ -33,7 +33,9 @@ namespace HealthCare_System
             {
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
             }
-            factory.AppointmentController.BookAppointment(new DateTime(2022, 4, 24, 19, 57, 0), new DateTime(2022, 4, 24, 20, 12, 0), AppointmentType.EXAMINATION, factory.DoctorController.Doctors[0], factory.PatientController.Patients[0]);
+            else if (person.GetType() == typeof(Manager)) {
+                MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+            }
         }
 
     }
