@@ -1,6 +1,7 @@
 ﻿using HealthCare_System.controllers;
 using HealthCare_System.entities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -30,6 +31,29 @@ namespace HealthCare_System.factory
         SimpleRenovationController simpleRenovationController;
         SplittingRenovationController splittingRenovationController;
         SupplyRequestController supplyRequestController;
+
+        internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
+        internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
+        internal AppointmentRequestController AppointmentRequestController { get => appointmentRequestController; set => appointmentRequestController = value; }
+        internal DaysOffNotificationController DaysOffNotificationController { get => daysOffNotificationController; set => daysOffNotificationController = value; }
+        internal DaysOffRequestController DaysOffRequestController { get => daysOffRequestController; set => daysOffRequestController = value; }
+        internal DelayedAppointmentNotificationController DelayedAppointmentNotificationController { get => delayedAppointmentNotificationController; set => delayedAppointmentNotificationController = value; }
+        internal DoctorController DoctorController { get => doctorController; set => doctorController = value; }
+        internal DoctorSurveyController DoctorSurveyController { get => doctorSurveyController; set => doctorSurveyController = value; }
+        internal DrugController DrugController { get => drugController; set => drugController = value; }
+        internal DrugNotificationController DrugNotificationController { get => drugNotificationController; set => drugNotificationController = value; }
+        internal EquipmentController EquipmentController { get => equipmentController; set => equipmentController = value; }
+        internal HospitalSurveyController HospitalSurveyController { get => hospitalSurveyController; set => hospitalSurveyController = value; }
+        internal IngredientController IngredientController { get => ingredientController; set => ingredientController = value; }
+        internal ManagerController ManagerController { get => managerController; set => managerController = value; }
+        internal MedicalRecordController MedicalRecordController { get => medicalRecordController; set => medicalRecordController = value; }
+        internal MergingRenovationController MergingRenovationController { get => mergingRenovationController; set => mergingRenovationController = value; }
+        internal PatientController PatientController { get => patientController; set => patientController = value; }
+        internal ReferralController ReferralController { get => referralController; set => referralController = value; }
+        internal RoomController RoomController { get => roomController; set => roomController = value; }
+        internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
+        internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
+        internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
 
         public HealthCareFactory()
         {
@@ -229,7 +253,6 @@ namespace HealthCare_System.factory
         void LinkMedicalRecordPatient(string path = "data/links/MedicalRecord_Patient.csv")
         {
             StreamReader file = new(path);
-            file.ReadLine();
 
             while (!file.EndOfStream)
             {
@@ -250,7 +273,6 @@ namespace HealthCare_System.factory
         void LinkAppointment(string path = "data/links/AppointmentLinker.csv")
         {
             StreamReader file = new(path);
-            file.ReadLine();
             while(!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -282,7 +304,6 @@ namespace HealthCare_System.factory
         void LinkMedicalRecordIngrediant(string path = "data/links/MedicalRecord_Ingredient.csv")
         {
             StreamReader file = new(path);
-            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -301,7 +322,6 @@ namespace HealthCare_System.factory
         void LinkDoctorSurvey(string path = "data/links/Doctor_DoctorSurvey.csv")
         {
             StreamReader file = new(path);
-            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -320,7 +340,6 @@ namespace HealthCare_System.factory
         void LinkReferral(string path = "data/links/Referral_Linker.csv")
         {
             StreamReader file = new(path);
-            file.ReadLine();
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
@@ -551,6 +570,94 @@ namespace HealthCare_System.factory
             foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
                 Console.WriteLine(supplyRequest.ToString());
             Console.WriteLine("-------------------------------------------");
+        }
+
+        public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
+        {
+
+            List<Room> rooms = roomController.GetRoomsByType(type);
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (rooms.Contains(appointment.Room) && (appointment.Start < start && appointment.End > start) ||
+                    (appointment.Start < end && appointment.End > end))
+                {
+                    rooms.Remove(appointment.Room);
+                }
+            }
+            if (rooms.Count == 0)
+            {
+                return null;
+            }
+            return rooms[0];
+        }
+
+        public void AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
+        {
+            Room room = AvailableRoom(type, start, end);
+            if (!doctor.IsAvailable(start, end))
+            {
+                throw new Exception("Doctor is not available!");
+            }
+            if (!patient.IsAvailable(start, end))
+            {
+                throw new Exception("Patient is not available!");
+            }
+            if (room is null)
+            {
+                throw new Exception("Room is not found!");
+            }
+            int appointmentId = appointmentController.GenerateId();
+            int anamnesisId = anamnesisController.GenerateId();
+            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
+            Appointment appointment = new Appointment(appointmentId, start, end, doctor, patient, room, type, status, anamnesis, false, emergency);
+            appointmentController.Appointments.Add(appointment);
+            doctor.Appointments.Add(appointment);
+            patient.MedicalRecord.Appointments.Add(appointment);
+            anamnesisController.Anamneses.Add(anamnesis);
+            appointmentController.Serialize();
+            anamnesisController.Serialize();
+
+        }
+
+        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient)
+        {
+            Appointment appointment = appointmentController.FindById(id);
+            if (appointment is null)
+            {
+                throw new Exception("Appointment is not found!");
+            }
+            if (doctor.Specialization != appointment.Doctor.Specialization)
+            {
+                throw new Exception("Cannot choose doctor with different specialization!");
+            }
+            if (!doctor.IsAvailable(start, end))
+            {
+                throw new Exception("Doctor is not available!");
+            }
+            if (!patient.IsAvailable(start, end))
+            {
+                throw new Exception("Patient is not available!");
+            }
+            appointment.Start = start;
+            appointment.End = end;
+            appointment.Doctor = doctor;
+            appointment.Patient = patient;
+            appointmentController.Serialize();
+
+        }
+        public void DeleteAppointment(int id)
+        {
+            Appointment appointment = appointmentController.FindById(id);
+            if (appointment is null)
+            {
+                throw new Exception("Appointment is not found!");
+            }
+            appointmentController.Appointments.Remove(appointment);
+            appointment.Doctor.Appointments.Remove(appointment);
+            appointment.Patient.MedicalRecord.Appointments.Remove(appointment);
+            anamnesisController.Anamneses.Remove(appointment.Anamnesis);
+            appointmentController.Serialize();
+            anamnesisController.Serialize();
         }
     }
 }

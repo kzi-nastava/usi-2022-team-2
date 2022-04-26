@@ -68,7 +68,7 @@ namespace HealthCare_System.entities
         public bool Urgent { get => urgent; set => urgent = value; }
 
         [JsonIgnore]
-        internal Doctor Doctor { get => doctor; set => doctor = value; }
+        public Doctor Doctor { get => doctor; set => doctor = value; }
 
         public override string ToString()
         {

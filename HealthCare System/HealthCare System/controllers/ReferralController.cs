@@ -39,10 +39,16 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        /*public void Serialize(string linkPath= "data/links/Referral_Linker.csv")
         {
             string referralsJson = JsonSerializer.Serialize(referrals, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, referralsJson);
-        }
+            string csv = "";
+            foreach (Referral referral in referrals)
+            {
+                csv += 
+            }
+            File.WriteAllText(linkPath, csv);
+        }*/
     }
 }

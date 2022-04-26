@@ -44,13 +44,13 @@ namespace HealthCare_System.entities
         public bool Used { get => used; set => used = value; }
 
         [JsonPropertyName("specialization")]
-        internal Specialization Specialization { get => specialization; set => specialization = value; }
+        public Specialization Specialization { get => specialization; set => specialization = value; }
 
         [JsonIgnore]
-        internal Doctor Doctor { get => doctor; set => doctor = value; }
+        public Doctor Doctor { get => doctor; set => doctor = value; }
 
         [JsonIgnore]
-        internal Patient Patient { get => patient; set => patient = value; }
+        public Patient Patient { get => patient; set => patient = value; }
 
         public override string ToString()
         {

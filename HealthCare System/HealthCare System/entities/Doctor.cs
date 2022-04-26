@@ -48,9 +48,29 @@ namespace HealthCare_System.entities
         public List<DateTime> FreeDates { get => freeDates; set => freeDates = value; }
 
         [JsonIgnore]
-        internal List<Appointment> Appointments { get => appointments; set => appointments = value; }
+        public List<Appointment> Appointments { get => appointments; set => appointments = value; }
 
         [JsonPropertyName("specialization")]
-        internal Specialization Specialization { get => specialization; set => specialization = value; }
+        public Specialization Specialization { get => specialization; set => specialization = value; }
+
+        public bool IsAvailable(DateTime start, DateTime end)
+        {
+            foreach (DateTime date in freeDates)
+            {
+                if (start.Date == date.Date)
+                {
+                    return false;
+                }
+            }
+            foreach (Appointment appointment in appointments)
+            {
+                if ((appointment.Start<start && appointment.End>start) || 
+                    (appointment.Start < end && appointment.End > end))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

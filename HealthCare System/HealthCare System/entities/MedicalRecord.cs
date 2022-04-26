@@ -65,13 +65,13 @@ namespace HealthCare_System.entities
         public string DiseaseHistory { get => diseaseHistory; set => diseaseHistory = value; }
 
         [JsonIgnore]
-        internal Patient Patient { get => patient; set => patient = value; }
+        public Patient Patient { get => patient; set => patient = value; }
 
         [JsonIgnore]
-        internal List<Appointment> Appointments { get => appointments; set => appointments = value; }
+        public List<Appointment> Appointments { get => appointments; set => appointments = value; }
 
         [JsonIgnore]
-        internal List<Ingredient> Allergens { get => allergens; set => allergens = value; }
+        public List<Ingredient> Allergens { get => allergens; set => allergens = value; }
 
         public override string ToString()
         {

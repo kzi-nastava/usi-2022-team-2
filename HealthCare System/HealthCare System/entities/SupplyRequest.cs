@@ -41,7 +41,7 @@ namespace HealthCare_System.entities
         [JsonPropertyName("requestCreated")]
         public DateTime RequestCreated { get => requestCreated; set => requestCreated = value; }
         [JsonIgnore]
-        internal Dictionary<Equipment, int> OrderDetails { get => orderDetails; set => orderDetails = value; }
+        public Dictionary<Equipment, int> OrderDetails { get => orderDetails; set => orderDetails = value; }
 
         public override string ToString()
         {

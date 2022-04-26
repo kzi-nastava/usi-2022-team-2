@@ -5,7 +5,7 @@ namespace HealthCare_System.entities
 {
     enum AppointmentType { EXAMINATION, OPERATION }
 
-    enum AppointmentStatus { BOOKED, FINISHED }
+    enum AppointmentStatus {BOOKED, FINISHED, ON_HOLD }
 
     class Appointment
     {
@@ -82,19 +82,19 @@ namespace HealthCare_System.entities
         public bool Emergency { get => emergency; set => emergency = value; }
 
         [JsonIgnore]
-        internal Doctor Doctor { get => doctor; set => doctor = value; }
+        public Doctor Doctor { get => doctor; set => doctor = value; }
 
         [JsonIgnore]
-        internal Patient Patient { get => patient; set => patient = value; }
+        public Patient Patient { get => patient; set => patient = value; }
 
         [JsonIgnore]
-        internal Room Room { get => room; set => room = value; }
+        public Room Room { get => room; set => room = value; }
 
         [JsonPropertyName("type")]
-        internal AppointmentType Type { get => type; set => type = value; }
+        public AppointmentType Type { get => type; set => type = value; }
 
         [JsonPropertyName("status")]
-        internal AppointmentStatus Status { get => status; set => status = value; }
+        public AppointmentStatus Status { get => status; set => status = value; }
 
         [JsonIgnore]
         internal Anamnesis Anamnesis { get => anamnesis; set => anamnesis = value; }
@@ -116,7 +116,7 @@ namespace HealthCare_System.entities
 
             string roomInfo = "";
             if (room is null) roomInfo = "-1";
-            // else roomInfo = Room.Id.ToString();
+            else roomInfo = Room.Id.ToString();
 
             return "Appointment[id: " + id + ", start: " + start.ToString("dd/MM/yyyy HH:mm") +
                 ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", doctor: " + doctorInfo +

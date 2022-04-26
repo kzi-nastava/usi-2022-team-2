@@ -54,10 +54,10 @@ namespace HealthCare_System.entities
         public string Name { get => name; set => name = value; }
 
         [JsonIgnore]
-        internal List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
+        public List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
 
         [JsonPropertyName("status")]
-        internal IngredientStatus Status { get => status; set => status = value; }
+        public IngredientStatus Status { get => status; set => status = value; }
 
         public override string ToString()
         {

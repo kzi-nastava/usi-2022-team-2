@@ -45,5 +45,23 @@ namespace HealthCare_System.controllers
             File.WriteAllText(path, roomsJson);
         }
 
+        public List<Room> GetRoomsByType(AppointmentType type)
+        {
+            List<Room> filteredRooms = new List<Room>();
+            TypeOfRoom typeOfRoom = TypeOfRoom.EXAMINATION_HALL;
+            if (type == AppointmentType.OPERATION)
+            {
+                typeOfRoom = TypeOfRoom.OPERATION_HALL;
+            }
+            foreach (Room room in rooms)
+            {
+                if (room.Type == typeOfRoom)
+                {
+                    filteredRooms.Add(room);
+                }
+            }
+            return rooms;
+        }
+
     }
 }

@@ -39,17 +39,23 @@ namespace HealthCare_System.controllers
                     return appointment;
             return null;
         }
-        
+
         public int GenerateId()
         {
             return appointments[^1].Id + 1;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath= "data/links/AppointmentLinker.csv")
         {
-            string appointmentsJson = JsonSerializer.Serialize(appointments, 
-                new JsonSerializerOptions {WriteIndented = true});
+            string appointmentsJson = JsonSerializer.Serialize(appointments,
+                new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, appointmentsJson);
+            string csv = "";
+            foreach (Appointment appointment in appointments)
+            {
+                csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + appointment.Room.Id.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
+            }
+            File.WriteAllText(linkPath, csv);
         }
     }
 }

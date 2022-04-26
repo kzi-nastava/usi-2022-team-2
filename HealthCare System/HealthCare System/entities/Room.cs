@@ -54,7 +54,7 @@ namespace HealthCare_System.entities
         public string Name { get => name; set => name = value; }
 
         [JsonPropertyName("type")]
-        internal TypeOfRoom Type { get => type; set => type = value; }
+        public TypeOfRoom Type { get => type; set => type = value; }
 
         [JsonIgnore]
         public Dictionary<int, int> EquipmentAmount { get => equipmentAmount; set => equipmentAmount = value; }
