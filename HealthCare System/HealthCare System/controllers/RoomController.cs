@@ -65,5 +65,19 @@ namespace HealthCare_System.controllers
             return equipmentAmountAllRooms;
         }
 
+        public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (Room room in rooms)
+            { 
+                if (roomType != room.Type.ToString())
+                {
+                    foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount) 
+                    {
+                        equipmentAmount[equipmentAmountEntry.Key] -= room.EquipmentAmount[equipmentAmountEntry.Key];
+                    }
+                }
+            }
+        }
+
     }
 }

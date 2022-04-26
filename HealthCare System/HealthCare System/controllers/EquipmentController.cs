@@ -44,5 +44,33 @@ namespace HealthCare_System.controllers
             string equipmentJson = JsonSerializer.Serialize(equipment, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, equipmentJson);
         }
+
+        public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
+        {
+            if (amount == "0-10")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount) 
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] >= 10 || equipmentAmount[equipmentAmountEntry.Key] <= 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else if (amount == "10+")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] < 10)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] != 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+        }
     }
 }

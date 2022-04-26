@@ -25,15 +25,17 @@ namespace HealthCare_System.gui
         {
             InitializeComponent();
             factory = new();
+            InitializeComboBoxes();
             DisplayRooms(factory.RoomController.Rooms);
             DisplayDrugs(factory.DrugController.Drugs);
             DisplayIngredients(factory.IngredientController.Ingredients);
             DisplayEquipment(factory.RoomController.GetEquipmentFromAllRooms());
-            InitializeComboBoxes();
+            
         }
 
         private void DisplayRooms(List<Room> rooms)
         {
+            RoomView.Items.Clear();
             foreach (Room room in rooms)
             {
                 RoomView.Items.Add(room);
@@ -42,6 +44,7 @@ namespace HealthCare_System.gui
 
         private void DisplayDrugs(List<Drug> drugs)
         {
+            DrugView.Items.Clear();
             foreach (Drug drug in drugs)
             {
                 DrugView.Items.Add(drug);
@@ -50,6 +53,7 @@ namespace HealthCare_System.gui
 
         private void DisplayIngredients(List<Ingredient> ingredients)
         {
+            IngredientsView.Items.Clear();
             foreach (Ingredient ingredient in ingredients)
             {
                 IngredientsView.Items.Add(ingredient);
@@ -58,6 +62,7 @@ namespace HealthCare_System.gui
 
         private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
         {
+            EquipementView.Items.Clear();
             foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
             {
                 EquipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
@@ -73,6 +78,12 @@ namespace HealthCare_System.gui
                 RoomTypeFilter.Items.Add(roomType);
             }
 
+            AmountFilter.Items.Add("All");
+            AmountFilter.SelectedIndex = 0;
+            AmountFilter.Items.Add("Nema na stanju");
+            AmountFilter.Items.Add("0-10");
+            AmountFilter.Items.Add("10+");
+
             EquipementTypeFilter.Items.Add("All");
             EquipementTypeFilter.SelectedIndex = 0;
             foreach (TypeOfEquipment equipmentType in Enum.GetValues(typeof(TypeOfEquipment)))
@@ -80,13 +91,18 @@ namespace HealthCare_System.gui
                 EquipementTypeFilter.Items.Add(equipmentType);
             }
 
-            AmountFilter.Items.Add("All");
-            AmountFilter.SelectedIndex = 0;
-            AmountFilter.Items.Add("Nema na stanju");
-            AmountFilter.Items.Add("0-10");
-            AmountFilter.Items.Add("10+");   
+             
             
-            
+        }
+
+        private void ApplyEveryFilter()
+        {
+            if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
+            {
+                Dictionary<Equipment, int> equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
+                factory.ApplyFilters(RoomTypeFilter.SelectedItem.ToString(), AmountFilter.SelectedItem.ToString(), "All", equipmentAmount);
+                DisplayEquipment(equipmentAmount);
+            }      
         }
         
 
@@ -149,5 +165,17 @@ namespace HealthCare_System.gui
         {
 
         }
+
+        private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyEveryFilter();
+        }
+
+        private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyEveryFilter();
+        }
+
+        
     }
 }

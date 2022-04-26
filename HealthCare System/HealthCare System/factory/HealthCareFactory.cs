@@ -2,6 +2,7 @@
 using HealthCare_System.entities;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace HealthCare_System.factory
 {
@@ -562,6 +563,24 @@ namespace HealthCare_System.factory
             foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
                 Console.WriteLine(supplyRequest.ToString());
             Console.WriteLine("-------------------------------------------");
+        }
+
+        public void ApplyFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        {
+            if (roomType != "All")
+            {
+                roomController.RoomTypeFilter(roomType, equipmentAmount);
+            }
+            
+            if (amount != "All")
+            {
+                equipmentController.AmountFilter(amount, equipmentAmount);
+            }
+
+            if (equipmentType != "All")
+            {
+                //applyEquipmentTypeFilter
+            }
         }
 
         
