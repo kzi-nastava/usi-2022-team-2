@@ -9,6 +9,9 @@ namespace HealthCare_System.entities
         Furniture,
         Hallway
     }
+
+    
+
     class Equipment
     {
         int id;
@@ -48,7 +51,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Drug[" + "name: " + this.name + " type: " + this.type + " dynamic: " + this.dynamic + "]";
+            return "Name: " + this.name;
         }
     }
 }

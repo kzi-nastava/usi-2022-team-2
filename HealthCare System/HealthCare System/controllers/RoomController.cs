@@ -45,5 +45,25 @@ namespace HealthCare_System.controllers
             File.WriteAllText(path, roomsJson);
         }
 
+        public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
+        {
+            Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
+            foreach (Room room in rooms)
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountRoom in room.EquipmentAmount)
+                {
+                    if (equipmentAmountAllRooms.ContainsKey(equipmentAmountRoom.Key))
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] += equipmentAmountRoom.Value;
+                    }
+                    else
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] = equipmentAmountRoom.Value;
+                    }
+                }
+            }
+            return equipmentAmountAllRooms;
+        }
+
     }
 }

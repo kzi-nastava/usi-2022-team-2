@@ -364,7 +364,7 @@ namespace HealthCare_System.factory
                 Room room = this.roomController.FindById(roomId);
                 Equipment equipment = this.equipmentController.FindById(equipmentId);
 
-                room.EquipmentAmount[equipmentId] = amount;
+                room.EquipmentAmount[equipment] = amount;
             }
 
             file.Close();
@@ -563,5 +563,7 @@ namespace HealthCare_System.factory
                 Console.WriteLine(supplyRequest.ToString());
             Console.WriteLine("-------------------------------------------");
         }
+
+        
     }
 }

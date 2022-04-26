@@ -25,12 +25,69 @@ namespace HealthCare_System.gui
         {
             InitializeComponent();
             factory = new();
-            foreach (Room room in factory.RoomController.Rooms)
+            DisplayRooms(factory.RoomController.Rooms);
+            DisplayDrugs(factory.DrugController.Drugs);
+            DisplayIngredients(factory.IngredientController.Ingredients);
+            DisplayEquipment(factory.RoomController.GetEquipmentFromAllRooms());
+            InitializeComboBoxes();
+        }
+
+        private void DisplayRooms(List<Room> rooms)
+        {
+            foreach (Room room in rooms)
             {
                 RoomView.Items.Add(room);
             }
         }
 
+        private void DisplayDrugs(List<Drug> drugs)
+        {
+            foreach (Drug drug in drugs)
+            {
+                DrugView.Items.Add(drug);
+            }
+        }
+
+        private void DisplayIngredients(List<Ingredient> ingredients)
+        {
+            foreach (Ingredient ingredient in ingredients)
+            {
+                IngredientsView.Items.Add(ingredient);
+            }
+        }
+
+        private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
+            {
+                EquipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
+            }
+        }
+
+        private void InitializeComboBoxes()
+        {
+            RoomTypeFilter.Items.Add("All");
+            RoomTypeFilter.SelectedIndex = 0;
+            foreach (TypeOfRoom roomType in Enum.GetValues(typeof(TypeOfRoom)))
+            {
+                RoomTypeFilter.Items.Add(roomType);
+            }
+
+            EquipementTypeFilter.Items.Add("All");
+            EquipementTypeFilter.SelectedIndex = 0;
+            foreach (TypeOfEquipment equipmentType in Enum.GetValues(typeof(TypeOfEquipment)))
+            {
+                EquipementTypeFilter.Items.Add(equipmentType);
+            }
+
+            AmountFilter.Items.Add("All");
+            AmountFilter.SelectedIndex = 0;
+            AmountFilter.Items.Add("Nema na stanju");
+            AmountFilter.Items.Add("0-10");
+            AmountFilter.Items.Add("10+");   
+            
+            
+        }
         
 
         private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
@@ -40,7 +97,7 @@ namespace HealthCare_System.gui
 
         private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)

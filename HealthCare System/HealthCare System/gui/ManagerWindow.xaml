@@ -12,12 +12,13 @@
             <TabItem Header="Drugs" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5" Height="428" Width="876">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="41*"/>
-                        <ColumnDefinition Width="851*"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="207*"/>
+                        <ColumnDefinition Width="629*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="UpdateDrugBtn" Content="Update" HorizontalAlignment="Left" Margin="304,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="UpdateDrugBtn_Click"/>
-                    <Button x:Name="DeleteDrugBtn" Content="Delete" HorizontalAlignment="Left" Margin="612,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="DeleteDrugBtn_Click"/>
-                    <ListBox x:Name="DrugView" Margin="266,24,63,0" Height="300" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Button x:Name="UpdateDrugBtn" Content="Update" HorizontalAlignment="Left" Margin="97,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="2" Click="UpdateDrugBtn_Click"/>
+                    <Button x:Name="DeleteDrugBtn" Content="Delete" HorizontalAlignment="Left" Margin="405,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="2" Click="DeleteDrugBtn_Click"/>
+                    <ListBox x:Name="DrugView" Margin="59,24,63,0" Height="300" VerticalAlignment="Top" Grid.Column="2"/>
                     <Button x:Name="RejectedDrugsBtn" Content="View Rejected" Grid.Column="1" HorizontalAlignment="Left" Margin="28,112,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="RejectedDrugsBtn_Click"/>
                     <Button x:Name="NewDrugBtn" Content="Create New" Grid.Column="1" HorizontalAlignment="Left" Margin="28,24,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="NewDrugBtn_Click"/>
                 </Grid>
@@ -41,9 +42,9 @@
             </TabItem>
             <TabItem Header="Equipement" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="141" FontSize="20" FontWeight="Bold" Margin="0,-1,0,0">
                 <Grid Background="#FFE5E5E5">
-                    <ComboBox x:Name="RoomTypeFilter" HorizontalAlignment="Left" Margin="250,98,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.458,-1.839"/>
-                    <ComboBox x:Name="AmountFilter" HorizontalAlignment="Left" Margin="250,181,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.558,1.075"/>
-                    <ComboBox x:Name="EquipementTypeFilter" HorizontalAlignment="Left" Margin="250,258,0,0" VerticalAlignment="Top" Width="154"/>
+                    <ComboBox x:Name="RoomTypeFilter" HorizontalAlignment="Left" Margin="250,112,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="0.458,-1.839" FontSize="12" Height="23"/>
+                    <ComboBox x:Name="AmountFilter" HorizontalAlignment="Left" Margin="250,186,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="0.558,1.075" FontSize="12" Height="23"/>
+                    <ComboBox x:Name="EquipementTypeFilter" HorizontalAlignment="Left" Margin="250,260,0,0" VerticalAlignment="Top" Width="176" FontSize="12" Height="24"/>
                     <Label Content="Room Type:" HorizontalAlignment="Left" Margin="38,98,0,0" VerticalAlignment="Top"/>
                     <Label Content="Amount:" HorizontalAlignment="Left" Margin="38,177,0,0" VerticalAlignment="Top"/>
                     <Label Content="Equipement Type:" HorizontalAlignment="Left" Margin="38,254,0,0" VerticalAlignment="Top"/>
