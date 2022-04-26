@@ -17,7 +17,6 @@ namespace HealthCare_System
         {
             string mail = mailTb.Text;
             string password = passwordTb.Password;
-            factory.PrintContnent();
 
             Person person = factory.Login(mail, password);
 

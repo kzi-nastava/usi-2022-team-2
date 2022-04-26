@@ -5,7 +5,7 @@ namespace HealthCare_System.entities
 {
     enum AppointmentType { EXAMINATION, OPERATION }
 
-    enum AppointmentStatus { BOOKED, FINISHED }
+    enum AppointmentStatus {BOOKED, FINISHED, ON_HOLD }
 
     class Appointment
     {
@@ -116,7 +116,7 @@ namespace HealthCare_System.entities
 
             string roomInfo = "";
             if (room is null) roomInfo = "-1";
-            // else roomInfo = Room.Id.ToString();
+            else roomInfo = Room.Id.ToString();
 
             return "Appointment[id: " + id + ", start: " + start.ToString("dd/MM/yyyy HH:mm") +
                 ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", doctor: " + doctorInfo +

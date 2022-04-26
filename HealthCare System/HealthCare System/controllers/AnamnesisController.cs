@@ -44,5 +44,10 @@ namespace HealthCare_System.controllers
             string anamnesesJson = JsonSerializer.Serialize(anamneses, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, anamnesesJson);
         }
+
+        public int GenerateId()
+        {
+            return anamneses[^1].Id + 1;
+        }
     }
 }

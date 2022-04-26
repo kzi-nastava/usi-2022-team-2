@@ -49,5 +49,18 @@ namespace HealthCare_System.entities
         {
             return null;
         }
+
+        public bool IsAvailable(DateTime start, DateTime end)
+        {
+            foreach (Appointment appointment in medicalRecord.Appointments)
+            {
+                if ((appointment.Start < start && appointment.End > start) ||
+                    (appointment.Start < end && appointment.End > end))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
