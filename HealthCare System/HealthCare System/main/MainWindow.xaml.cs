@@ -38,6 +38,10 @@ namespace HealthCare_System
             else if (person.GetType() == typeof(Manager)) {
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
             }
+            else if (person.GetType() == typeof(Secretary))
+            {
+                MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+            }
         }
 
     }

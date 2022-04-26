@@ -76,3 +76,29 @@ C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-projec
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.pdb
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.genruntimeconfig.cache
 C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.baml
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.exe
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.deps.json
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.runtimeconfig.json
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.runtimeconfig.dev.json
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.dll
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\ref\HealthCare System.dll
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\HealthCare System.pdb
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.csproj.AssemblyReference.cache
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.g.cs
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\main\MainWindow.g.cs
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System_MarkupCompile.cache
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System_MarkupCompile.lref
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\ManagerWindow.baml
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\main\MainWindow.baml
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.g.resources
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.AssemblyInfoInputs.cache
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.AssemblyInfo.cs
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.csproj.CopyComplete
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.dll
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\ref\HealthCare System.dll
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.pdb
+C:\Users\HP\Desktop\SIIT 4. Semestar\Uvod u softversko inzenjerstvo\HealthCare\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\HealthCare System.genruntimeconfig.cache

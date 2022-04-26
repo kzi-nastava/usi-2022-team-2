@@ -24,12 +24,18 @@ namespace HealthCare_System.controllers
 
         public string Path { get => path; set => path = value; }
 
-        internal List<Secretary> Secretary { get => secretaries; set => secretaries = value; }
+        internal List<Secretary> Secretaries { get => secretaries; set => secretaries = value; }
 
 
         void Load()
         {
             secretaries = JsonSerializer.Deserialize<List<Secretary>>(File.ReadAllText(this.path));
+        }
+
+        public void Serialize()
+        {
+            string secretaryJson = JsonSerializer.Serialize(secretaries, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, secretaryJson);
         }
     }
 }
