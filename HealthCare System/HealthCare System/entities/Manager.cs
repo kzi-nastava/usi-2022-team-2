@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class Manager : Person
+    public class Manager : Person
     {
         public Manager()
         {

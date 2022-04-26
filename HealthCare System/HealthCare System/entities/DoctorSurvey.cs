@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class DoctorSurvey
+    public class DoctorSurvey
     {
         int id;
         Doctor doctor;

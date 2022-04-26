@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    enum Specialization { GENERAL, SURGEON,  GYNECOLOGIST }
+    public enum Specialization { GENERAL, SURGEON,  GYNECOLOGIST }
 
-    class Doctor : Person
+    public class Doctor : Person
     {
         List<Appointment> appointments;
         Specialization specialization;

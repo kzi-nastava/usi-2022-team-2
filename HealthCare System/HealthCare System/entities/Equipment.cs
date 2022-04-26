@@ -2,14 +2,11 @@
 
 namespace HealthCare_System.entities
 {
-    enum TypeOfEquipment
-    { 
-        Examination,
-        Operation,
-        Furniture,
-        Hallway
+    public enum TypeOfEquipment
+    {
+        Examination, Operation, Furniture 
     }
-    class Equipment
+    public class Equipment
     {
         int id;
         string name;

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    abstract class Renovation
+    public abstract class Renovation
     {
         int id;
         DateTime beginningDate;

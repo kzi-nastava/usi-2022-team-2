@@ -3,14 +3,14 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    enum IngredientStatus
+    public enum IngredientStatus
     { 
         OnHold,
         Accepted,
         Rejected
     }
 
-    class Drug
+    public class Drug
     {
         int id;
         string name;

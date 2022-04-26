@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    class SupplyRequest
+    public class SupplyRequest
     {
         int id;
         DateTime requestCreated;

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    class SplittingRenovation : Renovation
+    public class SplittingRenovation : Renovation
     {
         Room room;
 

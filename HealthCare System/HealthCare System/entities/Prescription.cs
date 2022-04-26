@@ -1,6 +1,6 @@
 ﻿namespace HealthCare_System.entities
 {
-    class Prescription
+    public class Prescription
     {
         int id;
         Patient patient;

@@ -46,6 +46,17 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public List<Doctor> FindBySpecialization(Specialization specialization)
+        {
+            List<Doctor> filteredDoctors = new List<Doctor>();
+            foreach (Doctor doctor in doctors)
+            {
+                if (doctor.Specialization == specialization)
+                    filteredDoctors.Add(doctor);
+            }
+            return filteredDoctors;
+        }
+
         public void Serialize()
         {
             string doctorsJson = JsonSerializer.Serialize(doctors, new JsonSerializerOptions { WriteIndented = true });

@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class Anamnesis
+    public class Anamnesis
     {
         int id;
         string description;

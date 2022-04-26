@@ -40,11 +40,17 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath= "data/links/AppointmentRequestLinker.csv")
         {
             string appointmentRequestsJson = JsonSerializer.Serialize(appointmentRequests, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, appointmentRequestsJson);
+            string csv = "";
+            foreach (AppointmentRequest request in appointmentRequests)
+            {
+                csv += request.Id.ToString() + ";"  + request.Patient.Jmbg + ";"  + request.Appointment.Id.ToString() + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
         }
 
         public void RunAntiTrollCheck(Patient patient)
@@ -73,6 +79,16 @@ namespace HealthCare_System.controllers
             {
                 patient.Blocked = true;
             }
+        }
+
+        public int GenerateId()
+        {
+            return appointmentRequests[^1].Id + 1;
+        }
+        public void Add(AppointmentRequest request)
+        {
+            appointmentRequests.Add(request);
+            Serialize();
         }
     }
 }

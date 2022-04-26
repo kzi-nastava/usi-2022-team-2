@@ -5,7 +5,7 @@ namespace HealthCare_System.entities
 {
     public enum AppointmentState { WAITING, ACCEPTED, DENIED}
     public enum RequestType { CREATE, UPDATE, DELETE}
-    class AppointmentRequest
+    public class AppointmentRequest
     {
         int id;
         AppointmentState state;

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace HealthCare_System.entities
 {
     public enum DaysOffRequestState { WAITING, ACCEPTED, DENIED}
-    class DaysOffRequest
+    public class DaysOffRequest
     {
         int id;
         DateTime start;

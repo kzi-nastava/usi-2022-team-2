@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class Ingredient
+    public class Ingredient
     {
         int id;
         string name;

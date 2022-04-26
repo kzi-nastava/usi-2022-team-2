@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    abstract class Notification
+    public abstract class Notification
     {
         int id;
         string message;

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    class MergingRenovation : Renovation
+    public class MergingRenovation : Renovation
     {
         List<Room> rooms;
 

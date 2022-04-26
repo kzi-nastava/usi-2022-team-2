@@ -1,5 +1,6 @@
 ﻿using HealthCare_System.controllers;
 using HealthCare_System.entities;
+using HealthCare_System.gui;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace HealthCare_System.factory
 {
-    class HealthCareFactory
+    public class HealthCareFactory
     {
         AnamnesisController anamnesisController;
         AppointmentController appointmentController;
@@ -31,7 +32,7 @@ namespace HealthCare_System.factory
         SimpleRenovationController simpleRenovationController;
         SplittingRenovationController splittingRenovationController;
         SupplyRequestController supplyRequestController;
-
+        Person user;
         internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
         internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
         internal AppointmentRequestController AppointmentRequestController { get => appointmentRequestController; set => appointmentRequestController = value; }
@@ -54,6 +55,7 @@ namespace HealthCare_System.factory
         internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
         internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
+        public Person User { get => user; set => user = value; }
 
         public HealthCareFactory()
         {
@@ -119,6 +121,7 @@ namespace HealthCare_System.factory
                     }
                     else
                     {
+                        
                         return patient;
                     }
                         
@@ -591,7 +594,7 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        public void AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
+        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
         {
             Room room = AvailableRoom(type, start, end);
             if (!doctor.IsAvailable(start, end))
@@ -616,10 +619,11 @@ namespace HealthCare_System.factory
             anamnesisController.Anamneses.Add(anamnesis);
             appointmentController.Serialize();
             anamnesisController.Serialize();
+            return appointment;
 
         }
 
-        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient)
+        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient,AppointmentStatus status)
         {
             Appointment appointment = appointmentController.FindById(id);
             if (appointment is null)
@@ -642,6 +646,7 @@ namespace HealthCare_System.factory
             appointment.End = end;
             appointment.Doctor = doctor;
             appointment.Patient = patient;
+            appointment.Status = status;
             appointmentController.Serialize();
 
         }
