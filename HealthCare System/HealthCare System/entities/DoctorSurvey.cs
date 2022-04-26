@@ -51,7 +51,7 @@ namespace HealthCare_System.entities
         public string Comment { get => comment; set => comment = value; }
 
         [JsonIgnore]
-        internal Doctor Doctor { get => doctor; set => doctor = value; }
+        public Doctor Doctor { get => doctor; set => doctor = value; }
 
         public override string ToString()
         {

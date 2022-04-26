@@ -21,7 +21,7 @@ namespace HealthCare_System.entities
         }
 
         [JsonIgnore]
-        internal Doctor Doctor { get => doctor; set => doctor = value; }
+        public Doctor Doctor { get => doctor; set => doctor = value; }
 
         public override string ToString()
         {

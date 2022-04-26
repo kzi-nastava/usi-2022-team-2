@@ -51,10 +51,10 @@ namespace HealthCare_System.entities
         public AppointmentState State { get => state; set => state = value; }
 
         [JsonIgnore]
-        internal Patient Patient { get => patient; set => patient = value; }
+        public Patient Patient { get => patient; set => patient = value; }
 
         [JsonIgnore]
-        internal Appointment Appointment { get => appointment; set => appointment = value; }
+        public Appointment Appointment { get => appointment; set => appointment = value; }
 
         [JsonPropertyName("type")]
         public RequestType Type { get => type; set => type = value; }
