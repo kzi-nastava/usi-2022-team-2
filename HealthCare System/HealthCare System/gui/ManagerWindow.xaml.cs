@@ -21,6 +21,7 @@ namespace HealthCare_System.gui
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
+        Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
         public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
@@ -34,18 +35,26 @@ namespace HealthCare_System.gui
         }
 
         #region EquipmentFiltering
-
         private void ApplyEveryEquipmentFilter()
         {
             if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
             {
-                Dictionary<Equipment, int> equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
+                equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
                 string roomType = RoomTypeFilter.SelectedItem.ToString();
                 string amount = AmountFilter.SelectedItem.ToString();
                 string equipmentType = EquipementTypeFilter.SelectedItem.ToString();
                 factory.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
                 DisplayEquipment(equipmentAmount);
             }
+        }
+
+        private void ExecuteEquipmentQuery(string value)
+        {
+            if (value.Length != 0)
+            {
+                factory.EquipmentController.EquipmentQuery(value, equipmentAmount);
+                DisplayEquipment(equipmentAmount);
+            }    
         }
 
         private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
@@ -67,18 +76,26 @@ namespace HealthCare_System.gui
         private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
         private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
         private void EquipementTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
+        private void SearchTb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
+        }
         #endregion
 
         private void DisplayRooms(List<Room> rooms)

@@ -62,13 +62,13 @@
   {
     "id": 1011,
     "name": "Tables",
-    "type": 4,
+    "type": 0,
     "dynamic": true
   },
   {
     "id": 1012,
     "name": "Pencils",
-    "type": 4,
+    "type": 0,
     "dynamic": false
   }
 ]
