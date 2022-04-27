@@ -105,6 +105,7 @@ namespace HealthCare_System.gui
             {
                 RoomView.Items.Add(room);
             }
+            RoomView.SelectedIndex = 0;
         }
 
         private void DisplayDrugs(List<Drug> drugs)
@@ -173,7 +174,8 @@ namespace HealthCare_System.gui
 
         private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window newRoomWindow = new RoomWindow(true);
+            newRoomWindow.Show();
         }
 
         private void RoomEquipementBtn_Click(object sender, RoutedEventArgs e)
@@ -193,7 +195,8 @@ namespace HealthCare_System.gui
 
         private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window updateRoomWindow = new RoomWindow(false, (Room)RoomView.SelectedItem);
+            updateRoomWindow.Show();
         }
 
         private void NewIngredientBtn_Click(object sender, RoutedEventArgs e)
