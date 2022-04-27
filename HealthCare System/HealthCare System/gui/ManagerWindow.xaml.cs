@@ -22,6 +22,8 @@ namespace HealthCare_System.gui
     {
         HealthCareFactory factory;
         Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+        Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
+        Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
@@ -101,9 +103,12 @@ namespace HealthCare_System.gui
         private void DisplayRooms(List<Room> rooms)
         {
             RoomView.Items.Clear();
+            int index = 0;
             foreach (Room room in rooms)
             {
-                RoomView.Items.Add(room);
+                RoomView.Items.Add(room.Name);
+                listedRooms[index] = room;
+                index++;
             }
             RoomView.SelectedIndex = 0;
         }
@@ -111,9 +116,12 @@ namespace HealthCare_System.gui
         private void DisplayDrugs(List<Drug> drugs)
         {
             DrugView.Items.Clear();
+            int index = 0;
             foreach (Drug drug in drugs)
             {
-                DrugView.Items.Add(drug);
+                DrugView.Items.Add(drug.Name);
+                listedDrugs[index] = drug;
+                index++;
             }
         }
 
@@ -192,7 +200,7 @@ namespace HealthCare_System.gui
 
         private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window updateRoomWindow = new RoomWindow(false, factory, (Room)RoomView.SelectedItem);
+            Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
             updateRoomWindow.Show();
         }
 

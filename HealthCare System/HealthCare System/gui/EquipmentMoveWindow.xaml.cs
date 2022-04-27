@@ -22,21 +22,25 @@ namespace HealthCare_System.gui
     public partial class EquipmentMoveWindow : Window
     {
         HealthCareFactory factory;
+        Dictionary<int, Room> roomsFrom = new Dictionary<int, Room>();
+        Dictionary<int, Room> roomsTo = new Dictionary<int, Room>();
 
         public EquipmentMoveWindow(HealthCareFactory factory)
         {
             InitializeComponent();
             this.factory = factory;
-            DisplayRoomsFrom();
             InitializeComboBox();
         }
 
         void DisplayRoomsFrom()
         {
             MoveFromView.Items.Clear();
+            int index = 0;
             foreach (Room room in factory.RoomController.Rooms)
             {
-                MoveFromView.Items.Add(room);
+                MoveFromView.Items.Add("Name: " + room.Name + ", Type: " + room.Type + ", Amount: " + room.EquipmentAmount[(Equipment)EquipmentCb.SelectedItem].ToString());
+                roomsFrom[index] = room;
+                index++;
             }
             MoveFromView.SelectedIndex = 0;
         }
@@ -44,10 +48,15 @@ namespace HealthCare_System.gui
         void DisplayRoomsTo()
         {
             MoveToView.Items.Clear();
+            int index = 0;
             foreach (Room room in factory.RoomController.Rooms)
             {
-                if (room != (Room)MoveFromView.SelectedItem)
-                    MoveToView.Items.Add(room);
+                if (room != roomsFrom[MoveFromView.SelectedIndex]) 
+                {
+                    MoveToView.Items.Add("Name: " + room.Name + ", Type: " + room.Type + ", Amount: " + room.EquipmentAmount[(Equipment)EquipmentCb.SelectedItem].ToString());
+                    roomsFrom[index] = room;
+                    index++;
+                }   
             }
             MoveToView.SelectedIndex = 0;
         }
@@ -61,7 +70,13 @@ namespace HealthCare_System.gui
 
         private void MoveFromView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DisplayRoomsTo();
+            if (MoveFromView.SelectedIndex != -1)
+                DisplayRoomsTo();
+        }
+
+        private void EquipmentCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DisplayRoomsFrom();
         }
     }
 }
