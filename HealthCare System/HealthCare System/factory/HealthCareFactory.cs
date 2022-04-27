@@ -565,7 +565,8 @@ namespace HealthCare_System.factory
             Console.WriteLine("-------------------------------------------");
         }
 
-        public void ApplyFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        //Did this in filtering
+        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
         {
             if (roomType != "All")
             {
@@ -579,7 +580,7 @@ namespace HealthCare_System.factory
 
             if (equipmentType != "All")
             {
-                //applyEquipmentTypeFilter
+                equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
             }
         }
 

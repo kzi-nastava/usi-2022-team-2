@@ -45,6 +45,7 @@ namespace HealthCare_System.controllers
             File.WriteAllText(path, equipmentJson);
         }
 
+        //Did this in filter
         public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
         {
             if (amount == "0-10")
@@ -70,6 +71,16 @@ namespace HealthCare_System.controllers
                     if (equipmentAmount[equipmentAmountEntry.Key] != 0)
                         equipmentAmount.Remove(equipmentAmountEntry.Key);
                 }
+            }
+        }
+
+        //Did this in filtering
+        public void EquipmentTypeFilter(string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                if (equipmentAmountEntry.Key.Type.ToString() != equipmentType)
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
             }
         }
     }

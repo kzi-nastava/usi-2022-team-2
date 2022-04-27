@@ -33,6 +33,54 @@ namespace HealthCare_System.gui
             
         }
 
+        #region EquipmentFiltering
+
+        private void ApplyEveryEquipmentFilter()
+        {
+            if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
+            {
+                Dictionary<Equipment, int> equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
+                string roomType = RoomTypeFilter.SelectedItem.ToString();
+                string amount = AmountFilter.SelectedItem.ToString();
+                string equipmentType = EquipementTypeFilter.SelectedItem.ToString();
+                factory.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
+                DisplayEquipment(equipmentAmount);
+            }
+        }
+
+        private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
+        {
+            EquipementView.Items.Clear();
+            if (equipmentAmount.Count == 0)
+            {
+                EquipementView.Items.Add("No data");
+            }
+            else
+            {
+                foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
+                {
+                    EquipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
+                }
+            }            
+        }
+
+        private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyEveryEquipmentFilter();
+        }
+
+        private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyEveryEquipmentFilter();
+        }
+
+        private void EquipementTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyEveryEquipmentFilter();
+        }
+
+        #endregion
+
         private void DisplayRooms(List<Room> rooms)
         {
             RoomView.Items.Clear();
@@ -60,15 +108,6 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
-        {
-            EquipementView.Items.Clear();
-            foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
-            {
-                EquipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
-            }
-        }
-
         private void InitializeComboBoxes()
         {
             RoomTypeFilter.Items.Add("All");
@@ -93,18 +132,7 @@ namespace HealthCare_System.gui
 
              
             
-        }
-
-        private void ApplyEveryFilter()
-        {
-            if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
-            {
-                Dictionary<Equipment, int> equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
-                factory.ApplyFilters(RoomTypeFilter.SelectedItem.ToString(), AmountFilter.SelectedItem.ToString(), "All", equipmentAmount);
-                DisplayEquipment(equipmentAmount);
-            }      
-        }
-        
+        }   
 
         private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -164,16 +192,6 @@ namespace HealthCare_System.gui
         private void DeleteIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ApplyEveryFilter();
-        }
-
-        private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ApplyEveryFilter();
         }
 
         

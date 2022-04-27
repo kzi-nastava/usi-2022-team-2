@@ -44,7 +44,7 @@
                 <Grid Background="#FFE5E5E5">
                     <ComboBox x:Name="RoomTypeFilter" HorizontalAlignment="Left" Margin="250,112,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="0.458,-1.839" FontSize="12" Height="23" SelectionChanged="RoomTypeFilter_SelectionChanged"/>
                     <ComboBox x:Name="AmountFilter" HorizontalAlignment="Left" Margin="250,186,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="0.558,1.075" FontSize="12" Height="23" SelectionChanged="AmountFilter_SelectionChanged"/>
-                    <ComboBox x:Name="EquipementTypeFilter" HorizontalAlignment="Left" Margin="250,260,0,0" VerticalAlignment="Top" Width="176" FontSize="12" Height="24"/>
+                    <ComboBox x:Name="EquipementTypeFilter" HorizontalAlignment="Left" Margin="250,260,0,0" VerticalAlignment="Top" Width="176" FontSize="12" Height="24" SelectionChanged="EquipementTypeFilter_SelectionChanged"/>
                     <Label Content="Room Type:" HorizontalAlignment="Left" Margin="38,98,0,0" VerticalAlignment="Top"/>
                     <Label Content="Amount:" HorizontalAlignment="Left" Margin="38,177,0,0" VerticalAlignment="Top"/>
                     <Label Content="Equipement Type:" HorizontalAlignment="Left" Margin="38,254,0,0" VerticalAlignment="Top"/>

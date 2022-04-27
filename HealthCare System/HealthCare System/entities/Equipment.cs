@@ -47,7 +47,7 @@ namespace HealthCare_System.entities
         public bool Dynamic { get => dynamic; set => dynamic = value; }
 
         [JsonPropertyName("type")]
-        internal TypeOfEquipment Type { get => type; set => type = value; }
+        public TypeOfEquipment Type { get => type; set => type = value; }
 
         public override string ToString()
         {

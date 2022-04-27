@@ -45,6 +45,7 @@ namespace HealthCare_System.controllers
             File.WriteAllText(path, roomsJson);
         }
 
+        //Did this in filtering
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
         {
             Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
@@ -65,6 +66,7 @@ namespace HealthCare_System.controllers
             return equipmentAmountAllRooms;
         }
 
+        //Did this in filtering
         public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
         {
             foreach (Room room in rooms)
