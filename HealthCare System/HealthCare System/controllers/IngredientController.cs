@@ -39,6 +39,18 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public Ingredient add(string name)
+        {
+            Ingredient ingredient = new Ingredient(this.GenerateId(), name);
+            this.ingredients.Add(ingredient);
+            return ingredient;
+        }
+
+        public int GenerateId()
+        {
+            return ingredients[^1].Id + 1;
+        }
+
         public void Serialize()
         {
             string ingredientsJson = JsonSerializer.Serialize(ingredients, new JsonSerializerOptions { WriteIndented = true });

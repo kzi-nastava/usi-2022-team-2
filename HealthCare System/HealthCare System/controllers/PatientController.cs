@@ -47,6 +47,11 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public void add(Patient patient)
+        {
+            this.patients.Add(patient);
+        }
+
         public void Serialize()
         {
             string patientsJson = JsonSerializer.Serialize(patients, new JsonSerializerOptions { WriteIndented = true });

@@ -25,6 +25,7 @@ namespace HealthCare_System.gui
         HealthCareFactory factory;
         List<Patient> blockedPatients = new List<Patient>();
         bool showingBlocked;
+        AddPatientWindow addPatientWin;
 
         public SecretaryWindow(HealthCareFactory factory)
         {
@@ -49,12 +50,22 @@ namespace HealthCare_System.gui
 
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Patient patient = (Patient)ListBoxPatients.SelectedItem;
+            if (patient is null)
+            {
+                MessageBox.Show("Select patient You want to update!");
+                return;
+            }else
+            {
+                addPatientWin = new AddPatientWindow(factory, true, patient);
+                addPatientWin.Show();
+            }
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            addPatientWin = new AddPatientWindow(factory, false, null);
+            addPatientWin.Show();
         }
 
         private void ShowBlockedBtn_Click(object sender, RoutedEventArgs e)
@@ -98,5 +109,11 @@ namespace HealthCare_System.gui
             patient.Blocked = !patient.Blocked;
             ShowBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
+
+        private void RefreshBtn_Click(object sender, RoutedEventArgs e)
+        {
+            fillListBox();
+        }
+
     }
 }
