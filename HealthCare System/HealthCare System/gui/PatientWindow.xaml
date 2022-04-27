@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare_System.gui"
         mc:Ignorable="d"
+        Closing="DataWindow_Closing"
         Title="PatientWindow" Height="450" Width="800">
     <Grid>
         <TabControl SelectionChanged="TabControl_SelectionChanged">
@@ -26,7 +27,7 @@
                     <Label Content="Time:" HorizontalAlignment="Left" Margin="60,156,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="editTab" Header="Edit Appointments" FontSize="20" FontWeight="Bold">
+            <TabItem x:Name="editTab" Header="My Appointments" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5">
                     <ListBox x:Name="myAppointmentsLb" Margin="355,60,10,32" SelectionChanged="myAppointmentsLb_SelectionChanged"/>
                     <Button x:Name="updateBtn" Content="Update" HorizontalAlignment="Left" Margin="51,322,0,0" VerticalAlignment="Top" Height="41" Width="108" Click="updateBtn_Click"/>
