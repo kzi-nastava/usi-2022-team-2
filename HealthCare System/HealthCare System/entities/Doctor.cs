@@ -72,5 +72,22 @@ namespace HealthCare_System.entities
             }
             return true;
         }
+
+        public List<Appointment> FilterAppointments()
+        {
+            List<Appointment> upcoming = new List<Appointment>();
+
+            foreach (Appointment appointment in appointments)
+            {
+                if (appointment.Status == AppointmentStatus.FINISHED) continue;
+                if (appointment.Start < DateTime.Now) continue;
+                if (appointment.Start.Subtract(DateTime.Now).Days > 3) continue;
+
+                upcoming.Add(appointment);
+            }
+
+            return upcoming;
+        }
+
     }
 }

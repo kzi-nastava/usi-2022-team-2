@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare_System.gui"
         mc:Ignorable="d"
-        Title="DoctorWindow" Height="493" Width="880" FontWeight="Bold" FontSize="20">
+        Title="DoctorWindow" Height="520" Width="916" FontWeight="Bold" FontSize="20">
     <Grid>
         <TabControl>
             <TabItem Header="Schedule" Margin="-2,-2,-39,0">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="AppointmentView" Margin="10,15,0,0" HorizontalAlignment="Left" Width="256" FontWeight="Normal" FontSize="15" Height="343" VerticalAlignment="Top" VerticalContentAlignment="Top"/>
+                    <ListBox x:Name="appointmentView" Margin="10,15,0,0" HorizontalAlignment="Left" Width="256" FontWeight="Bold" FontSize="15" Height="343" VerticalAlignment="Top" VerticalContentAlignment="Top" SelectionChanged="AppointmentView_SelectionChanged"/>
 
                     <Label x:Name="roomLbl" Content="Room" HorizontalAlignment="Left" Margin="289,13,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="patientTb_Copy" HorizontalAlignment="Left" Margin="378,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+                    <TextBox x:Name="roomTb" HorizontalAlignment="Left" Margin="378,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
 
                     <Label x:Name="patientLbl" Content="Patient" HorizontalAlignment="Left" Margin="289,48,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="patientTb" HorizontalAlignment="Left" Margin="378,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
@@ -28,39 +28,41 @@
                     <TextBox x:Name="diseaseHistoryTb" HorizontalAlignment="Left" Margin="594,50,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="98" VerticalAlignment="Top"/>
 
                     <Label x:Name="allergensLbl" Content="Allergens" HorizontalAlignment="Left" Margin="289,156,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <ListBox HorizontalAlignment="Left" Width="270" Margin="289,186,0,0" Height="137" VerticalAlignment="Top"/>
+                    <ListBox x:Name="allergensView" HorizontalAlignment="Left" Width="270" Margin="289,186,0,0" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
 
                     <Label x:Name="prescriptionsLbl" Content="Prescriptions" HorizontalAlignment="Left" Margin="594,156,0,0" VerticalAlignment="Top" Width="110" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <ListBox Margin="594,186,0,0" HorizontalAlignment="Left" Width="270" Height="137" VerticalAlignment="Top"/>
+                    <ListBox x:Name="prescriptionView" Margin="594,186,0,0" HorizontalAlignment="Left" Width="270" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
 
                     <Button x:Name="StartBtn" Content="Start" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25"/>
                     <Button x:Name="EndBtn" Content="End" HorizontalAlignment="Left" Margin="143,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25"/>
                     <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="668,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" RenderTransformOrigin="0.496,-0.862"/>
                     <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="667,400,0,0" VerticalAlignment="Top" Width="124" FontSize="15" Height="25"/>
                     <Button x:Name="ChangeBtn" Content="Change" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25"/>
-                    <Button x:Name="RefreshBtb" Content="Refresh" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25"/>
+                    <Button x:Name="RefreshBtb" Content="Refresh" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtb_Click"/>
 
                     <Label x:Name="anamnesisLbl" Content="Anamnesis" HorizontalAlignment="Left" Margin="289,328,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="diseaseHistoryTb_Copy" HorizontalAlignment="Left" Margin="289,363,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="62" VerticalAlignment="Top"/>
+                    <TextBox x:Name="anamnesisTb" HorizontalAlignment="Left" Margin="289,363,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="62" VerticalAlignment="Top"/>
 
                 </Grid>
             </TabItem>
             <TabItem Header="Booking" Margin="40,-2,-81,0">
                 <Grid Background="#FFE5E5E5">
-                    <Label x:Name="patientJmbgLbl" Content="Patient Jmbg" HorizontalAlignment="Left" Margin="268,74,0,0" VerticalAlignment="Top" Width="105" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.516,-0.319"/>
-                    <TextBox x:Name="patientJmbgTb" HorizontalAlignment="Left" Margin="402,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="patientJmbgLbl" Content="Patient Jmbg" HorizontalAlignment="Left" Margin="268,43,0,0" VerticalAlignment="Top" Width="105" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" RenderTransformOrigin="0.516,-0.319"/>
+                    <TextBox x:Name="patientJmbgTb" HorizontalAlignment="Left" Margin="402,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
 
-                    <Label x:Name="dateLbl" Content="Date" HorizontalAlignment="Left" Margin="268,144,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <DatePicker HorizontalAlignment="Left" Margin="402,144,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
+                    <Label x:Name="dateLbl" Content="Date" HorizontalAlignment="Left" Margin="268,113,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                    <DatePicker HorizontalAlignment="Left" Margin="402,113,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
 
-                    <Label x:Name="timeLbl" Content="Time" HorizontalAlignment="Left" Margin="268,0,0,0" VerticalAlignment="Center" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.516,-0.319"/>
-                    <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="402,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="timeLbl" Content="Time" HorizontalAlignment="Left" Margin="268,171,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" RenderTransformOrigin="0.516,-0.319"/>
+                    <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="402,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
 
-                    <Label x:Name="typeLbl" Content="Type" HorizontalAlignment="Left" Margin="268,268,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.516,-0.319"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="402,270,0,0" VerticalAlignment="Top" Width="181" Height="26"/>
+                    <Label x:Name="typeLbl" Content="Type" HorizontalAlignment="Left" Margin="268,237,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" RenderTransformOrigin="0.516,-0.319"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="402,239,0,0" VerticalAlignment="Top" Width="181" Height="26"/>
 
-                    <Label x:Name="durationLbl" Content="Duration" HorizontalAlignment="Left" Margin="268,330,0,0" VerticalAlignment="Top" Width="83" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.516,-0.319"/>
-                    <TextBox x:Name="durationtb" HorizontalAlignment="Left" Margin="402,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="durationLbl" Content="Duration" HorizontalAlignment="Left" Margin="268,299,0,0" VerticalAlignment="Top" Width="83" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" RenderTransformOrigin="0.516,-0.319"/>
+                    <TextBox x:Name="durationtb" HorizontalAlignment="Left" Margin="402,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+
+                    <Button x:Name="BookBtn" Content="Book" HorizontalAlignment="Left" Margin="268,375,0,0" VerticalAlignment="Top" Width="105" FontSize="15" Height="25"/>
 
 
                 </Grid>

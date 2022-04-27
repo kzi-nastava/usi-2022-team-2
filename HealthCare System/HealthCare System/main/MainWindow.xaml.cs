@@ -16,14 +16,10 @@ namespace HealthCare_System
         
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new DoctorWindow();
-            window.Show();
             string mail = mailTb.Text;
             string password = passwordTb.Password;
-            factory.PrintContnent();
             Person person = factory.Login(mail, password);
 
-            //TODO add the rest of user types
             if (person is null)
             {
                 MessageBox.Show("Invalid mail or password!");
@@ -31,7 +27,9 @@ namespace HealthCare_System
             }
             else if (person.GetType() == typeof(Doctor))
             {
-                MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+                factory.User = person;
+                Window doctorWindow = new DoctorWindow(factory);
+                doctorWindow.Show();
             }
             else if (person.GetType() == typeof(Patient))
             {
@@ -39,7 +37,9 @@ namespace HealthCare_System
                 PatientWindow patientWindow = new PatientWindow(factory);
                 patientWindow.Show();
             }
-            else if (person.GetType() == typeof(Manager)) {
+            else if (person.GetType() == typeof(Manager)) 
+            {
+                factory.User = person;
                 Window managerWindow = new ManagerWindow(factory);
                 managerWindow.Show();
             }
