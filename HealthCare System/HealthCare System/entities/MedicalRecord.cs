@@ -12,15 +12,17 @@ namespace HealthCare_System.entities
         string diseaseHistory;
         List<Appointment> appointments;
         List<Ingredient> allergens;
+        List<Prescription> prescriptions;
 
         public MedicalRecord() 
         {
             appointments = new List<Appointment>();
             allergens = new List<Ingredient>();
+            prescriptions = new List<Prescription>();
         }
 
         public MedicalRecord(int id, Patient patient, double height, double weight, string diseaseHistory, 
-            List<Appointment> appointments, List<Ingredient> allergens)
+            List<Appointment> appointments, List<Ingredient> allergens, List<Prescription> prescriptions)
         {
             this.id = id;
             this.patient = patient;
@@ -29,6 +31,7 @@ namespace HealthCare_System.entities
             this.diseaseHistory = diseaseHistory;
             this.appointments = appointments;
             this.allergens = allergens;
+            this.prescriptions = prescriptions;
         }
 
         public MedicalRecord(MedicalRecord medicalRecord)
@@ -40,6 +43,7 @@ namespace HealthCare_System.entities
             diseaseHistory = medicalRecord.diseaseHistory;
             appointments = medicalRecord.appointments;
             allergens = medicalRecord.allergens;
+            prescriptions = medicalRecord.prescriptions;
         }
 
         public MedicalRecord(int id, double height, double weight, string diseaseHistory)
@@ -50,6 +54,7 @@ namespace HealthCare_System.entities
             this.diseaseHistory = diseaseHistory;
             appointments = new List<Appointment>();
             allergens = new List<Ingredient>();
+            prescriptions = new List<Prescription>();
         }
 
         [JsonPropertyName("id")]
@@ -72,6 +77,9 @@ namespace HealthCare_System.entities
 
         [JsonIgnore]
         public List<Ingredient> Allergens { get => allergens; set => allergens = value; }
+
+        [JsonIgnore]
+        public List<Prescription> Prescriptions { get => prescriptions; set => prescriptions = value; }
 
         public override string ToString()
         {
