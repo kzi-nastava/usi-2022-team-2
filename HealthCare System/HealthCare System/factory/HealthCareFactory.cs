@@ -35,6 +35,8 @@ namespace HealthCare_System.factory
         SplittingRenovationController splittingRenovationController;
         SupplyRequestController supplyRequestController;
         Person user;
+        SecretaryController secretaryController;
+
         internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
         internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
         internal AppointmentRequestController AppointmentRequestController { get => appointmentRequestController; set => appointmentRequestController = value; }
@@ -59,7 +61,7 @@ namespace HealthCare_System.factory
         internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
         public Person User { get => user; set => user = value; }
-        SecretaryController secretaryController;
+        internal SecretaryController SecretaryController{ get => secretaryController; set => secretaryController = value; }
 
         
 

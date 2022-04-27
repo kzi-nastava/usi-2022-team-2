@@ -13,6 +13,7 @@ namespace HealthCare_System
     public partial class MainWindow : Window
     {
         HealthCareFactory factory = new();
+        SecretaryWindow sc;
         
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -44,6 +45,8 @@ namespace HealthCare_System
             else if (person.GetType() == typeof(Secretary))
             {
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+                sc = new SecretaryWindow(factory);
+                sc.Show();
             }
         }
 
