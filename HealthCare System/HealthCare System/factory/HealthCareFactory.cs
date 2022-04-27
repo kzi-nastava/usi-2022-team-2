@@ -27,6 +27,7 @@ namespace HealthCare_System.factory
         MedicalRecordController medicalRecordController;
         MergingRenovationController mergingRenovationController;
         PatientController patientController;
+        PrescriptionController prescriptionController;
         ReferralController referralController;
         RoomController roomController;
         SimpleRenovationController simpleRenovationController;
@@ -50,6 +51,7 @@ namespace HealthCare_System.factory
         internal MedicalRecordController MedicalRecordController { get => medicalRecordController; set => medicalRecordController = value; }
         internal MergingRenovationController MergingRenovationController { get => mergingRenovationController; set => mergingRenovationController = value; }
         internal PatientController PatientController { get => patientController; set => patientController = value; }
+        internal PrescriptionController PrescriptionController { get => prescriptionController; set => prescriptionController = value; }
         internal ReferralController ReferralController { get => referralController; set => referralController = value; }
         internal RoomController RoomController { get => roomController; set => roomController = value; }
         internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
@@ -77,6 +79,7 @@ namespace HealthCare_System.factory
             medicalRecordController = new();
             mergingRenovationController = new();
             patientController = new();
+            prescriptionController = new();
             referralController = new();
             roomController = new();
             simpleRenovationController = new();
@@ -95,6 +98,7 @@ namespace HealthCare_System.factory
             LinkMedicalRecordIngrediant();
             LinkAppointment();
             LinkDoctorSurvey();
+            LinkPrescription();
             LinkReferral();
 
             LinkRoomEquipment();
@@ -346,7 +350,30 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkReferral(string path = "data/links/Referral_Linker.csv")
+        void LinkPrescription(string path = "data/links/PrescriptionLinker.csv")
+        {
+            StreamReader file = new(path);
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int prescriptionId = Convert.ToInt32(line.Split(";")[0]);
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[1]);
+                int drugId = Convert.ToInt32(line.Split(";")[2].Trim());
+
+                Prescription prescription = prescriptionController.FindById(prescriptionId);
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
+                Drug drug = drugController.FindById(drugId);
+
+                prescription.MedicalRecord = medicalRecord;
+                prescription.Drug = drug;
+                medicalRecord.Prescriptions.Add(prescription);
+
+            }
+
+            file.Close();
+        }
+
+        void LinkReferral(string path = "data/links/ReferralLinker.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -553,6 +580,11 @@ namespace HealthCare_System.factory
             Console.WriteLine("Patient:");
             foreach (Patient patient in patientController.Patients)
                 Console.WriteLine(patient.ToString());
+            Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Prescription:");
+            foreach (Prescription prescription in prescriptionController.Prescriptions)
+                Console.WriteLine(prescription.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Refferal:");
