@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\App.xaml
-4889623198
+5-175568262
 
-581307176124
+59-520148741
 195-489827418
-gui\ManagerWindow.xaml;gui\PatientWindow.xaml;gui\RoomWindow.xaml;main\MainWindow.xaml;
+gui\EquipmentMoveWindow.xaml;gui\ManagerWindow.xaml;gui\PatientWindow.xaml;gui\RoomWindow.xaml;main\MainWindow.xaml;
 
 False
 

@@ -22,6 +22,9 @@ namespace HealthCare_System.gui
     {
         HealthCareFactory factory;
         Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+        Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
+        Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
+        Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
         public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
@@ -98,31 +101,96 @@ namespace HealthCare_System.gui
         }
         #endregion
 
+
+        #region Rooms
         private void DisplayRooms(List<Room> rooms)
         {
             RoomView.Items.Clear();
+            int index = 0;
             foreach (Room room in rooms)
             {
-                RoomView.Items.Add(room);
+                RoomView.Items.Add(room.Name);
+                listedRooms[index] = room;
+                index++;
             }
             RoomView.SelectedIndex = 0;
         }
 
+        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window newRoomWindow = new RoomWindow(true, factory);
+            newRoomWindow.Show();
+        }
+
+        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
+            updateRoomWindow.Show();
+        }
+
+        private void MoveEquipementBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
+            moveEquipmentWindow.Show();
+        }
+        #endregion
+
+
+        #region Drugs
         private void DisplayDrugs(List<Drug> drugs)
         {
             DrugView.Items.Clear();
+            int index = 0;
             foreach (Drug drug in drugs)
             {
-                DrugView.Items.Add(drug);
+                DrugView.Items.Add(drug.Name);
+                listedDrugs[index] = drug;
+                index++;
             }
         }
 
+        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+
+        #region Ingredients
         private void DisplayIngredients(List<Ingredient> ingredients)
         {
             IngredientsView.Items.Clear();
+            int index = 0;
             foreach (Ingredient ingredient in ingredients)
             {
-                IngredientsView.Items.Add(ingredient);
+                IngredientsView.Items.Add(ingredient.Name);
+                listedIngredients[index] = ingredient;
+                index++;
             }
         }
 
@@ -151,54 +219,7 @@ namespace HealthCare_System.gui
              
             
         }   
-
-        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Window newRoomWindow = new RoomWindow(true);
-            newRoomWindow.Show();
-        }
-
-        private void RoomEquipementBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Window updateRoomWindow = new RoomWindow(false, (Room)RoomView.SelectedItem);
-            updateRoomWindow.Show();
-        }
-
+                            
         private void NewIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -213,7 +234,7 @@ namespace HealthCare_System.gui
         {
 
         }
-
-        
+        #endregion
+      
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.entities;
+using HealthCare_System.factory;
 
 namespace HealthCare_System.gui
 {
@@ -22,11 +23,13 @@ namespace HealthCare_System.gui
     {
         bool createNewRoom;
         Room room;
-        public RoomWindow(bool createNewRoom, Room room = null)
+        HealthCareFactory factory;
+        public RoomWindow(bool createNewRoom, HealthCareFactory factory, Room room = null)
         {
             InitializeComponent();
             this.createNewRoom = createNewRoom;
             this.room = room;
+            this.factory = factory;
             InitializeTitle();
             if (!this.createNewRoom)
                 InitializeFields();

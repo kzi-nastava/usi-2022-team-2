@@ -35,7 +35,7 @@
                     <Button x:Name="NewRoomBtn" Content="Create New" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="1" Click="NewRoomBtn_Click" Grid.ColumnSpan="3"/>
                     <Button x:Name="UpdateRoomBtn" Content="Update" HorizontalAlignment="Left" Margin="460,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="3" Click="UpdateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
                     <Button x:Name="DeleteRoomBtn" Content="Delete" HorizontalAlignment="Left" Margin="0,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="2" Click="DeleteRoomBtn_Click" Grid.ColumnSpan="2"/>
-                    <Button x:Name="RoomEquipementBtn" Content="View Equipement" HorizontalAlignment="Left" Margin="132,365,0,0" VerticalAlignment="Top" Height="44" Width="204" Grid.Column="3" Click="RoomEquipementBtn_Click"/>
+                    <Button x:Name="MoveEquipementBtn" Content="Move Equipement" HorizontalAlignment="Left" Margin="132,365,0,0" VerticalAlignment="Top" Height="44" Width="204" Grid.Column="3" Click="MoveEquipementBtn_Click"/>
                     <Button x:Name="RenovateRoomBtn" Content="Renovate" HorizontalAlignment="Left" Margin="460,10,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="3" Click="RenovateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
 
                 </Grid>
