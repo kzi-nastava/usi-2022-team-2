@@ -2,6 +2,7 @@
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
+using System;
 
 namespace HealthCare_System.controllers
 {
@@ -98,6 +99,22 @@ namespace HealthCare_System.controllers
                 }
             }
         }
+
+        public void MoveToRoom(Room room, Equipment equipmnet, int amount)
+        {
+            room.EquipmentAmount[equipmnet] += amount;
+            //TODO: serialization to file
+        }
+
+        public void MoveFromRoom(Room room, Equipment equipmnet, int amount)
+        {
+            if (room.EquipmentAmount[equipmnet] < amount)
+                throw new Exception("Amount to be moved is larger then current amount in a room");
+            room.EquipmentAmount[equipmnet] -= amount;
+            //TODO: serialization to file
+        }
+
+
 
     }
 }
