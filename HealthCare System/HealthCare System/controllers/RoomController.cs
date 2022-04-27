@@ -61,6 +61,40 @@ namespace HealthCare_System.controllers
                 }
             }
             return rooms;
+        //Did this in filtering
+        public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
+        {
+            Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
+            foreach (Room room in rooms)
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountRoom in room.EquipmentAmount)
+                {
+                    if (equipmentAmountAllRooms.ContainsKey(equipmentAmountRoom.Key))
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] += equipmentAmountRoom.Value;
+                    }
+                    else
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] = equipmentAmountRoom.Value;
+                    }
+                }
+            }
+            return equipmentAmountAllRooms;
+        }
+
+        //Did this in filtering
+        public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (Room room in rooms)
+            { 
+                if (roomType != room.Type.ToString())
+                {
+                    foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount) 
+                    {
+                        equipmentAmount[equipmentAmountEntry.Key] -= room.EquipmentAmount[equipmentAmountEntry.Key];
+                    }
+                }
+            }
         }
 
     }

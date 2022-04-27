@@ -16,11 +16,11 @@ namespace HealthCare_System.entities
         int id;
         string name;
         TypeOfRoom type;
-        Dictionary<int, int> equipmentAmount;
+        Dictionary<Equipment, int> equipmentAmount;
 
         public Room()
         {
-            equipmentAmount = new Dictionary<int, int>();
+            equipmentAmount = new Dictionary<Equipment, int>();
         }
 
         public Room(int id, string name, TypeOfRoom type)
@@ -28,10 +28,10 @@ namespace HealthCare_System.entities
             this.id = id;
             this.name = name;
             this.type = type;
-            equipmentAmount = new Dictionary<int, int>();
+            equipmentAmount = new Dictionary<Equipment, int>();
         }
 
-        public Room(int id, string name, TypeOfRoom type, Dictionary<int, int> equipmentAmount)
+        public Room(int id, string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
         {
             this.id = id;
             this.name = name;
@@ -57,7 +57,7 @@ namespace HealthCare_System.entities
         public TypeOfRoom Type { get => type; set => type = value; }
 
         [JsonIgnore]
-        public Dictionary<int, int> EquipmentAmount { get => equipmentAmount; set => equipmentAmount = value; }
+        public Dictionary<Equipment, int> EquipmentAmount { get => equipmentAmount; set => equipmentAmount = value; }
 
         public override string ToString()
         {

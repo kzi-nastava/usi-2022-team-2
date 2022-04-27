@@ -38,7 +38,8 @@ namespace HealthCare_System
                 patientWindow.Show();
             }
             else if (person.GetType() == typeof(Manager)) {
-                MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
+                Window managerWindow = new ManagerWindow();
+                managerWindow.Show();
             }
             else if (person.GetType() == typeof(Secretary))
             {

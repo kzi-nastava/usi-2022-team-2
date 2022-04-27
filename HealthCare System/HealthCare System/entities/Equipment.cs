@@ -45,7 +45,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Drug[" + "name: " + this.name + " type: " + this.type + " dynamic: " + this.dynamic + "]";
+            return "Name: " + this.name;
         }
     }
 }

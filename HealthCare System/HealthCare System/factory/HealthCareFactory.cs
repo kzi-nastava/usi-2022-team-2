@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace HealthCare_System.factory
 {
@@ -59,6 +60,29 @@ namespace HealthCare_System.factory
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
         public Person User { get => user; set => user = value; }
         SecretaryController secretaryController;
+
+        internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
+        internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
+        internal AppointmentRequestController AppointmentRequestController { get => appointmentRequestController; set => appointmentRequestController = value; }
+        internal DaysOffNotificationController DaysOffNotificationController { get => daysOffNotificationController; set => daysOffNotificationController = value; }
+        internal DaysOffRequestController DaysOffRequestController { get => daysOffRequestController; set => daysOffRequestController = value; }
+        internal DelayedAppointmentNotificationController DelayedAppointmentNotificationController { get => delayedAppointmentNotificationController; set => delayedAppointmentNotificationController = value; }
+        internal DoctorController DoctorController { get => doctorController; set => doctorController = value; }
+        internal DoctorSurveyController DoctorSurveyController { get => doctorSurveyController; set => doctorSurveyController = value; }
+        internal DrugController DrugController { get => drugController; set => drugController = value; }
+        internal DrugNotificationController DrugNotificationController { get => drugNotificationController; set => drugNotificationController = value; }
+        internal EquipmentController EquipmentController { get => equipmentController; set => equipmentController = value; }
+        internal HospitalSurveyController HospitalSurveyController { get => hospitalSurveyController; set => hospitalSurveyController = value; }
+        internal IngredientController IngredientController { get => ingredientController; set => ingredientController = value; }
+        internal ManagerController ManagerController { get => managerController; set => managerController = value; }
+        internal MedicalRecordController MedicalRecordController { get => medicalRecordController; set => medicalRecordController = value; }
+        internal MergingRenovationController MergingRenovationController { get => mergingRenovationController; set => mergingRenovationController = value; }
+        internal PatientController PatientController { get => patientController; set => patientController = value; }
+        internal ReferralController ReferralController { get => referralController; set => referralController = value; }
+        internal RoomController RoomController { get => roomController; set => roomController = value; }
+        internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
+        internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
+        internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
 
         public HealthCareFactory()
         {
@@ -408,7 +432,7 @@ namespace HealthCare_System.factory
                 Room room = this.roomController.FindById(roomId);
                 Equipment equipment = this.equipmentController.FindById(equipmentId);
 
-                room.EquipmentAmount[equipmentId] = amount;
+                room.EquipmentAmount[equipment] = amount;
             }
 
             file.Close();
@@ -702,5 +726,25 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+        //Did this in filtering
+        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        {
+            if (roomType != "All")
+            {
+                roomController.RoomTypeFilter(roomType, equipmentAmount);
+            }
+            
+            if (amount != "All")
+            {
+                equipmentController.AmountFilter(amount, equipmentAmount);
+            }
+
+            if (equipmentType != "All")
+            {
+                equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
+            }
+        }
+
+        
     }
 }
