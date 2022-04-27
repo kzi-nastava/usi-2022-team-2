@@ -92,3 +92,5 @@ C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-projec
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.baml
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\RoomWindow.g.cs
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\RoomWindow.baml
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\EquipmentMoveWindow.g.cs
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\EquipmentMoveWindow.baml

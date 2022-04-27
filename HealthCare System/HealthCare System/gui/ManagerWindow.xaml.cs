@@ -174,14 +174,11 @@ namespace HealthCare_System.gui
 
         private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window newRoomWindow = new RoomWindow(true);
+            Window newRoomWindow = new RoomWindow(true, factory);
             newRoomWindow.Show();
         }
 
-        private void RoomEquipementBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -195,7 +192,7 @@ namespace HealthCare_System.gui
 
         private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window updateRoomWindow = new RoomWindow(false, (Room)RoomView.SelectedItem);
+            Window updateRoomWindow = new RoomWindow(false, factory, (Room)RoomView.SelectedItem);
             updateRoomWindow.Show();
         }
 
@@ -214,6 +211,10 @@ namespace HealthCare_System.gui
 
         }
 
-        
+        private void MoveEquipementBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
+            moveEquipmentWindow.Show();
+        }
     }
 }
