@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="gui\DoctorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="gui\ManagerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -10,6 +13,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="gui\DoctorWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="gui\ManagerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

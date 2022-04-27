@@ -90,3 +90,12 @@ C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-projec
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
 C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.baml
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\Microsoft.Win32.SystemEvents.dll
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\System.Drawing.Common.dll
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.g.cs
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.baml
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\DoctorWindow.g.cs
+C:\Users\Cuki\Desktop\Faks\2. godina\2. semestar\Uvod u softversko inzinjerstvo\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\DoctorWindow.baml

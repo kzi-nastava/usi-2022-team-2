@@ -16,6 +16,8 @@ namespace HealthCare_System
         
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
+            Window window = new DoctorWindow();
+            window.Show();
             string mail = mailTb.Text;
             string password = passwordTb.Password;
             factory.PrintContnent();
