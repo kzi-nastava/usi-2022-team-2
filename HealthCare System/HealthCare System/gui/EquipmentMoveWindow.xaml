@@ -12,9 +12,9 @@
         <Label Content="Move from" HorizontalAlignment="Left" Margin="126,8,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="Move to" HorizontalAlignment="Left" Margin="841,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <ComboBox x:Name="EquipmentCb" HorizontalAlignment="Left" Margin="457,75,0,0" VerticalAlignment="Top" Width="174" Height="30
-                  " SelectionChanged="EquipmentCb_SelectionChanged"/>
-        <TextBox HorizontalAlignment="Left" Margin="457,168,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="30"/>
-        <DatePicker HorizontalAlignment="Left" Margin="457,267,0,0" VerticalAlignment="Top" Width="174" Height="30"/>
+                  " SelectionChanged="EquipmentCb_SelectionChanged" FontWeight="Bold" FontSize="13"/>
+        <TextBox HorizontalAlignment="Left" Margin="457,168,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold" FontSize="15"/>
+        <DatePicker HorizontalAlignment="Left" Margin="457,267,0,0" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold"/>
         <Label Content="Equipment" HorizontalAlignment="Left" Margin="488,38,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="Amount" HorizontalAlignment="Left" Margin="501,126,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="Date" HorizontalAlignment="Left" Margin="514,225,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>

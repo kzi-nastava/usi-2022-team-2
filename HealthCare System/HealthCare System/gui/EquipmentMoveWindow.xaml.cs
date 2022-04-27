@@ -54,7 +54,7 @@ namespace HealthCare_System.gui
                 if (room != roomsFrom[MoveFromView.SelectedIndex]) 
                 {
                     MoveToView.Items.Add("Name: " + room.Name + ", Type: " + room.Type + ", Amount: " + room.EquipmentAmount[(Equipment)EquipmentCb.SelectedItem].ToString());
-                    roomsFrom[index] = room;
+                    roomsTo[index] = room;
                     index++;
                 }   
             }
