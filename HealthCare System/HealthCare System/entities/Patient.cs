@@ -54,8 +54,9 @@ namespace HealthCare_System.entities
         {
             foreach (Appointment appointment in medicalRecord.Appointments)
             {
-                if ((appointment.Start < start && appointment.End > start) ||
-                    (appointment.Start < end && appointment.End > end))
+                if ((appointment.Start <= start && appointment.End >= start) ||
+                    (appointment.Start <= end && appointment.End >= end) ||
+                    (start <= appointment.Start && end >= appointment.End))
                 {
                     return false;
                 }

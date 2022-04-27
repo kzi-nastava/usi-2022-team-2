@@ -622,8 +622,9 @@ namespace HealthCare_System.factory
             List<Room> rooms = roomController.GetRoomsByType(type);
             foreach (Appointment appointment in appointmentController.Appointments)
             {
-                if (rooms.Contains(appointment.Room) && (appointment.Start < start && appointment.End > start) ||
-                    (appointment.Start < end && appointment.End > end))
+                if (rooms.Contains(appointment.Room) && ((appointment.Start <= start && appointment.End >= start) ||
+                    (appointment.Start <= end && appointment.End >= end) ||
+                    (start <= appointment.Start && end >= appointment.End)))
                 {
                     rooms.Remove(appointment.Room);
                 }
@@ -657,6 +658,35 @@ namespace HealthCare_System.factory
             appointmentController.Appointments.Add(appointment);
             doctor.Appointments.Add(appointment);
             patient.MedicalRecord.Appointments.Add(appointment);
+            anamnesisController.Anamneses.Add(anamnesis);
+            appointmentController.Serialize();
+            anamnesisController.Serialize();
+            return appointment;
+
+        }
+
+        public Appointment AddAppointment(Appointment appointment)
+        {
+            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
+            if (!appointment.Doctor.IsAvailable(appointment.Start, appointment.End))
+            {
+                throw new Exception("Doctor is not available!");
+            }
+            if (!appointment.Patient.IsAvailable(appointment.Start, appointment.End))
+            {
+                throw new Exception("Patient is not available!");
+            }
+            if (room is null)
+            {
+                throw new Exception("Room is not found!");
+            }
+            int anamnesisId = anamnesisController.GenerateId();
+            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
+            appointment.Room = room;
+            appointment.Anamnesis = anamnesis;
+            appointmentController.Appointments.Add(appointment);
+            appointment.Doctor.Appointments.Add(appointment);
+            appointment.Patient.MedicalRecord.Appointments.Add(appointment);
             anamnesisController.Anamneses.Add(anamnesis);
             appointmentController.Serialize();
             anamnesisController.Serialize();

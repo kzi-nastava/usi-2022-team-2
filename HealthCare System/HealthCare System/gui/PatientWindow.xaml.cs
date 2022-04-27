@@ -2,6 +2,7 @@
 using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace HealthCare_System.gui
         bool isEditTabSelected;
         public PatientWindow(HealthCareFactory factory)
         {
+            this.Title = factory.User.FirstName + " " + factory.User.LastName;
             this.factory = factory;
             InitializeComponent();
             InitializeDoctors();
@@ -106,26 +108,30 @@ namespace HealthCare_System.gui
             }
 
         }
-
+        private void UpdateLb()
+        {
+            indexedAppointments.Clear();
+            myAppointmentsLb.Items.Clear();
+            Patient patient = (Patient)factory.User;
+            int index = 0;
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                if (DateTime.Now < appointment.Start)
+                {
+                    indexedAppointments.Add(index, appointment);
+                    myAppointmentsLb.Items.Add(appointment.Start.ToString("dd/MM/yyyy HH:mm") +
+                  ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
+                ", type: " + appointment.Type.ToString() +
+                ", room: " + appointment.Room.Name);
+                    index++;
+                }
+            }
+        }
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (editTab.IsSelected && !isEditTabSelected)
             {
-                indexedAppointments.Clear();
-                Patient patient = (Patient)factory.User;
-                int index = 0;
-                foreach (Appointment appointment in patient.MedicalRecord.Appointments)
-                {
-                    if (DateTime.Now < appointment.Start)
-                    {
-                        indexedAppointments.Add(index, appointment);
-                        myAppointmentsLb.Items.Add(appointment.Start.ToString("dd/MM/yyyy HH:mm") +
-                      ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                    ", type: " + appointment.Type.ToString() +
-                    ", room: " + appointment.Room.Name);
-                        index++;
-                    }
-                }
+                UpdateLb();
                 isEditTabSelected = true;
             }
             else if (!editTab.IsSelected)
@@ -155,8 +161,8 @@ namespace HealthCare_System.gui
             }
             try
             {
-                int hour = Convert.ToInt32(timeTb.Text.Split(':')[0]);
-                int minute = Convert.ToInt32(timeTb.Text.Split(':')[1]);
+                int hour = Convert.ToInt32(timeEditTb.Text.Split(':')[0]);
+                int minute = Convert.ToInt32(timeEditTb.Text.Split(':')[1]);
                 start = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
             }
             catch
@@ -169,7 +175,13 @@ namespace HealthCare_System.gui
             {
                 needConfirmation = true;
             }
-            Doctor doctor = indexedDoctors[doctorCb.SelectedIndex];
+            if (doctorEditCb.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please choose doctor.");
+                return;
+            }
+            
+            Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
             DateTime end = start.AddMinutes((appointment.End-appointment.Start).TotalMinutes);
             Patient patient = (Patient)factory.User;
             try
@@ -184,6 +196,7 @@ namespace HealthCare_System.gui
                 factory.UpdateAppointment(appointment.Id,start, end, doctor, patient,status);
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.UPDATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
+                UpdateLb();
             }
             catch (Exception exception)
             {
@@ -198,7 +211,14 @@ namespace HealthCare_System.gui
             datePickerEdit.SelectedDate=appointment.Start;
             timeEditTb.Text = appointment.Start.Hour.ToString() + ":" + appointment.Start.Minute.ToString();
             UpdateDoctors(appointment.Doctor.Specialization);
-            doctorEditCb.SelectedItem = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
+            foreach (KeyValuePair<int, Doctor> entry in indexedDoctorsEditTab)
+            {
+                if (entry.Value == appointment.Doctor)
+                {
+                    doctorEditCb.SelectedIndex = entry.Key;
+                    break;
+                }
+            }
 
         }
 
@@ -230,11 +250,19 @@ namespace HealthCare_System.gui
                 Patient patient = (Patient)factory.User;
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.DELETE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
+                UpdateLb();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
             }
         }
-    }
+
+        void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            factory.User = null;
+            MainWindow main = new MainWindow(factory);
+            main.Show();
+        }
+        }
 }
