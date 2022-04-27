@@ -21,15 +21,15 @@ namespace HealthCare_System.gui
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
-        public ManagerWindow()
+        public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
-            factory = new();
+            this.factory = factory;
             InitializeComboBoxes();
-            DisplayRooms(factory.RoomController.Rooms);
-            DisplayDrugs(factory.DrugController.Drugs);
-            DisplayIngredients(factory.IngredientController.Ingredients);
-            DisplayEquipment(factory.RoomController.GetEquipmentFromAllRooms());
+            DisplayRooms(this.factory.RoomController.Rooms);
+            DisplayDrugs(this.factory.DrugController.Drugs);
+            DisplayIngredients(this.factory.IngredientController.Ingredients);
+            DisplayEquipment(this.factory.RoomController.GetEquipmentFromAllRooms());
             
         }
 

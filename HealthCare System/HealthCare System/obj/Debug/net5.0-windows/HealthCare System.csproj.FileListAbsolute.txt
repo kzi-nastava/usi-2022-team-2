@@ -83,3 +83,10 @@ D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare Sy
 D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
 D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.g.cs
 D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.baml
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.g.cs
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\Microsoft.Win32.SystemEvents.dll
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\System.Drawing.Common.dll
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\lukac\Desktop\Faks\Godina 2 semestar 2\Uvod u SI\Projekat\course-project-2\HealthCare System\HealthCare System\obj\Debug\net5.0-windows\gui\PatientWindow.baml

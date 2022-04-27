@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "O6c5TBMX5yc4/3yOzCW85yThmcJPQfE+JyykWWEO6YNa3xeFABShSt2IWxHJTpgehaXCs5G819/tBwImxZIeyg==",
+  "dgSpecHash": "Ptfa/Gq6cSOLaXCOAhirbk1FT0XfTWgl17jObfJn9YKfuUiGZHqaG1ZfhVKHHpobU/5mic++xCo1RZD36UbPiw==",
   "success": true,
-  "projectFilePath": "D:\\Users\\vukas\\Documents\\GitHub\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
+  "projectFilePath": "C:\\Users\\lukac\\Desktop\\Faks\\Godina 2 semestar 2\\Uvod u SI\\Projekat\\course-project-2\\HealthCare System\\HealthCare System\\HealthCare System.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\vukas\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\vukas\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\vukas\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
-    "C:\\Users\\vukas\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.16\\microsoft.netcore.app.host.win-x64.5.0.16.nupkg.sha512"
+    "C:\\Users\\lukac\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\lukac\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\lukac\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\lukac\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.16\\microsoft.netcore.app.host.win-x64.5.0.16.nupkg.sha512"
   ],
   "logs": []
 }

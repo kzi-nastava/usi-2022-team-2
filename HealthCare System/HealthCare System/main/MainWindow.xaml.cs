@@ -38,7 +38,7 @@ namespace HealthCare_System
                 patientWindow.Show();
             }
             else if (person.GetType() == typeof(Manager)) {
-                Window managerWindow = new ManagerWindow();
+                Window managerWindow = new ManagerWindow(factory);
                 managerWindow.Show();
             }
             else if (person.GetType() == typeof(Secretary))

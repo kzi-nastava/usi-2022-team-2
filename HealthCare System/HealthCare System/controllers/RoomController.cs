@@ -5,7 +5,7 @@ using System.IO;
 
 namespace HealthCare_System.controllers
 {
-    class RoomController
+     class RoomController
     {
         List<Room> rooms;
         string path;
@@ -61,6 +61,8 @@ namespace HealthCare_System.controllers
                 }
             }
             return rooms;
+        }
+
         //Did this in filtering
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
         {
