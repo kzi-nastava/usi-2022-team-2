@@ -56,6 +56,7 @@ namespace HealthCare_System.factory
         internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
         public Person User { get => user; set => user = value; }
+        SecretaryController secretaryController;
 
         public HealthCareFactory()
         {
@@ -81,6 +82,7 @@ namespace HealthCare_System.factory
             simpleRenovationController = new();
             splittingRenovationController = new();
             supplyRequestController = new();
+            secretaryController = new();
 
             LinkDrugIngredient();
             LinkDrugNotification();
@@ -129,6 +131,10 @@ namespace HealthCare_System.factory
             foreach (Manager manager in managerController.Managers)
                 if (manager.Mail == mail && manager.Password == password)
                     return manager;
+
+            foreach (Secretary secretary in secretaryController.Secretaries)
+                if (secretary.Mail == mail && secretary.Password == password)
+                    return secretary;
 
             return null;
         }
