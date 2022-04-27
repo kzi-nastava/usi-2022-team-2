@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    class Patient : Person
+    public class Patient : Person
     {
         MedicalRecord medicalRecord;
         bool blocked;

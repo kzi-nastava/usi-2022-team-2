@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class DaysOffNotification : Notification
+    public class DaysOffNotification : Notification
     {
         Doctor doctor;
 

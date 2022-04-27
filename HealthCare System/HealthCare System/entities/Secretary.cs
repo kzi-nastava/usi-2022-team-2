@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.entities
 {
-    class Secretary : Person
+    public class Secretary : Person
     {
 
         public Secretary(string jmbg, string firstName, string lastName, DateTime birthDate, 

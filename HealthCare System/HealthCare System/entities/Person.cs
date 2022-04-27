@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    abstract class Person
+    public abstract class Person
     {
         string jmbg;
         string firstName;

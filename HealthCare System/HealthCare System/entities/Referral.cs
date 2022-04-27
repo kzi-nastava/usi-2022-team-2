@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class Referral
+    public class Referral
     {
         int id;
         Specialization specialization;

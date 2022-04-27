@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    class MedicalRecord
+    public class MedicalRecord
     {
         int id;
         Patient patient;

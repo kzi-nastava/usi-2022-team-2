@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    enum AppointmentType { EXAMINATION, OPERATION }
+    public enum AppointmentType { EXAMINATION, OPERATION }
 
-    enum AppointmentStatus {BOOKED, FINISHED, ON_HOLD }
+    public enum AppointmentStatus {BOOKED, FINISHED, ON_HOLD }
 
-    class Appointment
+    public class Appointment
     {
         int id;
         DateTime start;

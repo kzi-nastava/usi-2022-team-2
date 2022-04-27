@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 D:\Users\vukas\Documents\GitHub\course-project-2\HealthCare System\HealthCare System\App.xaml
-2-167748958
+3-156599427
 
-53-1044330487
-1942034097760
-gui\ManagerWindow.xaml;main\MainWindow.xaml;
+561953814845
+1951858708090
+gui\ManagerWindow.xaml;gui\PatientWindow.xaml;main\MainWindow.xaml;
 
 False
 

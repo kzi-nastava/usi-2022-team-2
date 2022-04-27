@@ -12,14 +12,15 @@
             <TabItem Header="Drugs" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5" Height="428" Width="876">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="41*"/>
-                        <ColumnDefinition Width="851*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="194*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="UpdateDrugBtn" Content="Update" HorizontalAlignment="Left" Margin="304,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="UpdateDrugBtn_Click"/>
-                    <Button x:Name="DeleteDrugBtn" Content="Delete" HorizontalAlignment="Left" Margin="612,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="1" Click="DeleteDrugBtn_Click"/>
-                    <ListBox x:Name="DrugView" Margin="266,24,63,0" Height="300" VerticalAlignment="Top" Grid.Column="1"/>
-                    <Button x:Name="RejectedDrugsBtn" Content="View Rejected" Grid.Column="1" HorizontalAlignment="Left" Margin="28,112,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="RejectedDrugsBtn_Click"/>
-                    <Button x:Name="NewDrugBtn" Content="Create New" Grid.Column="1" HorizontalAlignment="Left" Margin="28,24,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="NewDrugBtn_Click"/>
+                    <Button x:Name="UpdateDrugBtn" Content="Update" HorizontalAlignment="Left" Margin="244,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="2" Click="UpdateDrugBtn_Click"/>
+                    <Button x:Name="DeleteDrugBtn" Content="Delete" HorizontalAlignment="Left" Margin="552,353,0,0" VerticalAlignment="Top" Height="40" Width="142" Grid.Column="2" Click="DeleteDrugBtn_Click"/>
+                    <ListBox x:Name="DrugView" Margin="206,24,63,0" Height="300" VerticalAlignment="Top" Grid.Column="2"/>
+                    <Button x:Name="RejectedDrugsBtn" Content="View Rejected" Grid.Column="1" HorizontalAlignment="Left" Margin="28,112,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="RejectedDrugsBtn_Click" Grid.ColumnSpan="2"/>
+                    <Button x:Name="NewDrugBtn" Content="Create New" Grid.Column="1" HorizontalAlignment="Left" Margin="28,24,0,0" VerticalAlignment="Top" Height="46" Width="160" Click="NewDrugBtn_Click" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Rooms" FontSize="20" FontWeight="Bold">

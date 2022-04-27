@@ -2,7 +2,7 @@
 
 namespace HealthCare_System.entities
 {
-    class DrugNotification:Notification
+    public class DrugNotification:Notification
     {
         Patient patient;
         Drug drug;

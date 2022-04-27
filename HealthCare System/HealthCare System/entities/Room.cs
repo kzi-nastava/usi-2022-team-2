@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    enum TypeOfRoom 
+    public enum TypeOfRoom 
     {
         OPERATION_HALL,
         EXAMINATION_HALL,
@@ -11,7 +11,7 @@ namespace HealthCare_System.entities
         RELAX_ROOM,
         OTHER
     }
-    class Room
+    public class Room
     {
         int id;
         string name;
