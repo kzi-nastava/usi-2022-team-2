@@ -62,5 +62,10 @@ namespace HealthCare_System.entities
             }
             return true;
         }
+
+        public override string ToString()
+        {
+            return FirstName + " | " + LastName + " | " + Mail + " | Blocked: " + blocked; 
+        }
     }
 }
