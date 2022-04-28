@@ -4,6 +4,9 @@ using System;
 using HealthCare_System.controllers;
 using HealthCare_System.factory;
 using HealthCare_System.gui;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace HealthCare_System
 {
@@ -14,16 +17,19 @@ namespace HealthCare_System
     {
         HealthCareFactory factory = new();
         SecretaryWindow sc;
-        
+
+
         public MainWindow(HealthCareFactory factory)
         {
             this.factory = factory;
             InitializeComponent();
+            StartTransfers();
         }
         public MainWindow()
         {
             factory = new();
             InitializeComponent();
+            StartTransfers();
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -60,6 +66,32 @@ namespace HealthCare_System
                 sc = new SecretaryWindow(factory);
                 sc.Show();
             }
+        }
+
+        private async void StartTransfers()
+        {
+            await Task.Run(() => DoTransfers());
+        }
+
+        private void DoTransfers()
+        {
+            Thread.Sleep(300000);
+            if (factory.TransferController.Transfers.Count > 0)
+            {
+                List<Transfer> copyTransfers = new List<Transfer>();
+                foreach (Transfer copyTransfer in factory.TransferController.Transfers)
+                {
+                    copyTransfers.Add(copyTransfer);
+                }
+
+                foreach (Transfer transfer in copyTransfers)
+                {
+                    if (transfer.MomentOfTransfer < DateTime.Now)
+                        factory.ExecuteTransfer(transfer);
+                }
+            }
+            
+
         }
 
     }

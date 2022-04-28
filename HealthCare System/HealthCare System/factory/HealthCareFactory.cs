@@ -36,6 +36,7 @@ namespace HealthCare_System.factory
         SupplyRequestController supplyRequestController;
         Person user;
         SecretaryController secretaryController;
+        TransferController transferController;
 
         internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
         internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
@@ -62,8 +63,7 @@ namespace HealthCare_System.factory
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
         public Person User { get => user; set => user = value; }
         internal SecretaryController SecretaryController{ get => secretaryController; set => secretaryController = value; }
-
-        
+        internal TransferController TransferController { get => transferController; set => transferController = value; }
 
         public HealthCareFactory()
         {
@@ -91,6 +91,8 @@ namespace HealthCare_System.factory
             splittingRenovationController = new();
             supplyRequestController = new();
             secretaryController = new();
+            transferController = new();
+            
 
             LinkDrugIngredient();
             LinkDrugNotification();
@@ -111,6 +113,7 @@ namespace HealthCare_System.factory
             LinkSplittingRenovationRoom();
             LinkMergingRenovationRoom();
             LinkSupplyRequestEquipment();
+            LinkTransfers();
         }
 
 
@@ -499,6 +502,31 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
+        void LinkTransfers(string path = "data/links/TransferLinker.csv")
+        {
+            StreamReader file = new StreamReader(path);
+
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int transferId = Convert.ToInt32(line.Split(";")[0]);
+                int fromRoomId = Convert.ToInt32(line.Split(";")[1].Trim());
+                int toRoomId = Convert.ToInt32(line.Split(";")[2].Trim());
+                int equipmentId = Convert.ToInt32(line.Split(";")[3].Trim());
+
+                Transfer transfer = transferController.FindById(transferId);    
+                Room fromRoom = roomController.FindById(fromRoomId);
+                Room toRoom = roomController.FindById(toRoomId);
+                Equipment equipment = equipmentController.FindById(equipmentId);
+
+                transfer.FromRoom = fromRoom;
+                transfer.ToRoom = toRoom;
+                transfer.Equipment = equipment;
+            }
+
+            file.Close();
+        }
+
         public void PrintContnent()
         {
             Console.WriteLine("Anamneses:");
@@ -616,6 +644,18 @@ namespace HealthCare_System.factory
             foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
                 Console.WriteLine(supplyRequest.ToString());
             Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine("Transfer:");
+            if (transferController.Transfers.Count == 0)
+            {
+                Console.WriteLine("No transfers");
+            }
+            else
+            {
+                foreach (Transfer transfer in transferController.Transfers)
+                    Console.WriteLine(transfer.ToString());
+                Console.WriteLine("-------------------------------------------");
+            }    
         }
 
         public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
@@ -737,6 +777,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
         //Did this in filtering
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
         {
@@ -756,6 +797,13 @@ namespace HealthCare_System.factory
             }
         }
 
-        
+        public void ExecuteTransfer(Transfer transfer)
+        {
+            roomController.MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
+            roomController.MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
+            roomController.Serialize();
+            transferController.Transfers.Remove(transfer);
+            transferController.Serialize();
+        }
     }
 }

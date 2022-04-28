@@ -40,10 +40,21 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath = "data/links/Room_equipment.csv")
         {
             string roomsJson = JsonSerializer.Serialize(rooms, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, roomsJson);
+            string csv = "";
+            foreach (Room room in rooms)
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
+                {
+                    csv += room.Id.ToString() + ";" + equipmentAmountEntry.Key.Id.ToString() + ";" + 
+                        equipmentAmountEntry.Value.ToString() + "\n";
+                }
+                
+            }
+            File.WriteAllText(linkPath, csv);
         }
 
         public List<Room> GetRoomsByType(AppointmentType type)
@@ -64,7 +75,6 @@ namespace HealthCare_System.controllers
             return rooms;
         }
 
-        //Did this in filtering
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
         {
             Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
@@ -85,7 +95,6 @@ namespace HealthCare_System.controllers
             return equipmentAmountAllRooms;
         }
 
-        //Did this in filtering
         public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
         {
             foreach (Room room in rooms)
@@ -103,7 +112,6 @@ namespace HealthCare_System.controllers
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
             room.EquipmentAmount[equipmnet] += amount;
-            //TODO: serialization to file
         }
 
         public void MoveFromRoom(Room room, Equipment equipmnet, int amount)
@@ -111,9 +119,7 @@ namespace HealthCare_System.controllers
             if (room.EquipmentAmount[equipmnet] < amount)
                 throw new Exception("Amount to be moved is larger then current amount in a room");
             room.EquipmentAmount[equipmnet] -= amount;
-            //TODO: serialization to file
         }
-
 
 
     }
