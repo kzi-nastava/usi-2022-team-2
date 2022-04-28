@@ -114,6 +114,5 @@ namespace HealthCare_System.gui
         {
             fillListBox();
         }
-
     }
 }

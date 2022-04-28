@@ -673,7 +673,7 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
-        public void createMedRecIngredientLink(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
+        private void CreateMedRecIngredientLink(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
         {
             string csv = "";
             foreach (MedicalRecord medRecrod in medicalRecordController.MedicalRecords)
@@ -687,7 +687,7 @@ namespace HealthCare_System.factory
 
         }
 
-        public void createMedRecPatientLink(string linkPath = "data/links/MedicalRecord_Patient.csv")
+        private void CreateMedRecPatientLink(string linkPath = "data/links/MedicalRecord_Patient.csv")
         {
             string csv = "";
             foreach (MedicalRecord medRecord in medicalRecordController.MedicalRecords)
@@ -698,7 +698,7 @@ namespace HealthCare_System.factory
 
         }
 
-        public void createNotificationPatientDrugLink(string linkPath = "data/links/Notification_Patient_Drug.csv")
+        private void CreateNotificationPatientDrugLink(string linkPath = "data/links/Notification_Patient_Drug.csv")
         {
             string csv = "";
             foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
@@ -727,7 +727,7 @@ namespace HealthCare_System.factory
 
             medicalRecordController.MedicalRecords.Remove(medicalRecord);
             medicalRecordController.Serialize();
-            createMedRecIngredientLink();
+            CreateMedRecIngredientLink();
 
             for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
             {
@@ -741,9 +741,31 @@ namespace HealthCare_System.factory
             patientController.Patients.Remove(patient);
             patientController.Serialize();
 
-            createMedRecPatientLink();
-            createNotificationPatientDrugLink();
-
+            CreateMedRecPatientLink();
+            CreateNotificationPatientDrugLink();
         }
+
+        public void AddPatient(Patient patient, MedicalRecord medRecord)
+        {
+            patientController.Patients.Add(patient);
+
+            patient.MedicalRecord = medRecord;
+            medRecord.Patient = patient;
+
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+            ingredientController.Serialize();
+
+            CreateMedRecIngredientLink();
+            CreateMedRecPatientLink();
+        }
+
+        public void UpdatePatient()
+        {
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+            CreateMedRecPatientLink();
+        }
+
     }
 }

@@ -136,6 +136,8 @@ namespace HealthCare_System.gui
                 patient.MedicalRecord.Weight = weight;
                 patient.MedicalRecord.DiseaseHistory = history;
 
+                factory.UpdatePatient();
+
                 this.Close();
                 MessageBox.Show("You succesefully updated patient.");
             }
@@ -155,10 +157,7 @@ namespace HealthCare_System.gui
                 patient.BirthDate = birthDate;
                 patient.Password = password;
 
-                medRecord.Patient = patient;
-                patient.MedicalRecord = medRecord;
-
-                factory.PatientController.add(patient);
+                factory.AddPatient(patient, medRecord);
 
                 this.Close();
                 MessageBox.Show("You succesefully registred new patient.");
