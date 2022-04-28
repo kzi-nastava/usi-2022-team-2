@@ -32,10 +32,23 @@ namespace HealthCare_System.gui
             InitializeComponent();
             this.factory = factory;
             this.showingBlocked = false;
-            fillListBox();
+            fillListBoxPatients();
+            fillListBoxRequests();
+        }
+
+        private void fillListBoxRequests()
+        {
+            ListBoxRequests.Items.Clear();
+            foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
+            {
+                if (appRequest.State == AppointmentState.WAITING)
+                {
+                    ListBoxRequests.Items.Add(appRequest);
+                }
+            }
         }
         
-        private void fillListBox()
+        private void fillListBoxPatients()
         {
             ListBoxPatients.Items.Clear();
             foreach (Patient patient in factory.PatientController.Patients)
@@ -71,7 +84,7 @@ namespace HealthCare_System.gui
         private void ShowBlockedBtn_Click(object sender, RoutedEventArgs e)
         {
             showingBlocked = !showingBlocked;
-            fillListBox();
+            fillListBoxPatients();
             if (showingBlocked)
             {
                 ShowBlockedBtn.Content = "View Regular";
@@ -101,7 +114,7 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Can't delete selected patient, because of it's future appointments.");
                 return;
             }
-            fillListBox();
+            fillListBoxPatients();
 
         }
 
@@ -120,7 +133,22 @@ namespace HealthCare_System.gui
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
-            fillListBox();
+            fillListBoxPatients();
+        }
+
+        private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RejectRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RequestDetailsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
