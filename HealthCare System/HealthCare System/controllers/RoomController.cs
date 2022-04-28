@@ -66,7 +66,7 @@ namespace HealthCare_System.controllers
                     filteredRooms.Add(room);
                 }
             }
-            return rooms;
+            return filteredRooms;
         }
 
         //Did this in filtering
