@@ -2,6 +2,7 @@
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
+using System;
 
 namespace HealthCare_System.controllers
 {
@@ -43,6 +44,11 @@ namespace HealthCare_System.controllers
         {
             string roomsJson = JsonSerializer.Serialize(rooms, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, roomsJson);
+        }
+
+        int GenerateId()
+        {
+            return rooms[rooms.Count - 1].Id + 1;
         }
 
         public List<Room> GetRoomsByType(AppointmentType type)
@@ -99,5 +105,15 @@ namespace HealthCare_System.controllers
             }
         }
 
+        public Room CreateNewRoom(string name, TypeOfRoom type)
+        {
+            if (name.Length == 0)
+                throw new Exception("Name cannot be empty");
+            else if (name.Length > 30 || name.Length < 5)
+                throw new Exception("Name must be between 5 and 30 characters");
+
+            Room newRoom = new Room(GenerateId(), name, type);
+            return newRoom;
+        }
     }
 }
