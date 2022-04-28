@@ -92,7 +92,7 @@ namespace HealthCare_System.gui
                 return;
             }
 
-            factory.PatientController.Patients.Remove(patient);
+            factory.DeletePatient(patient);
             fillListBox();
 
         }

@@ -672,5 +672,78 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
+        public void createMedRecIngredientLink(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
+        {
+            string csv = "";
+            foreach (MedicalRecord medRecrod in medicalRecordController.MedicalRecords)
+            {
+                foreach (Ingredient ingredient in medRecrod.Allergens)
+                {
+                    csv += medRecrod.Id + ";" + ingredient.Id + "\n";
+                }
+            }
+            File.WriteAllText(linkPath, csv);
+
+        }
+
+        public void createMedRecPatientLink(string linkPath = "data/links/MedicalRecord_Patient.csv")
+        {
+            string csv = "";
+            foreach (MedicalRecord medRecord in medicalRecordController.MedicalRecords)
+            {
+                csv += medRecord.Id + ";" + medRecord.Patient.Jmbg + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
+
+        }
+
+        public void createNotificationPatientDrugLink(string linkPath = "data/links/Notification_Patient_Drug.csv")
+        {
+            string csv = "";
+            foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
+            {
+                csv += drugNotification.Id + ";" + drugNotification.Patient.Jmbg + ";" + drugNotification.Drug.Id + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
+
+        }
+
+        public void DeletePatient(Patient patient)
+        {
+            MedicalRecord medicalRecord = patient.MedicalRecord;
+
+            foreach (Appointment appointment in medicalRecord.Appointments)
+            {
+                appointmentController.Appointments.Remove(appointment);
+            }
+            appointmentController.Serialize();
+
+            foreach (Ingredient ingredient in medicalRecord.Allergens)
+            {
+                ingredientController.Ingredients.Remove(ingredient);
+            }
+            ingredientController.Serialize();
+
+            medicalRecordController.MedicalRecords.Remove(medicalRecord);
+            medicalRecordController.Serialize();
+            createMedRecIngredientLink();
+
+            for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
+            {
+                if (drugNotificationController.DrugNotifications[i].Patient == patient)
+                {
+                    drugNotificationController.DrugNotifications.RemoveAt(i);
+                }
+            }
+            drugNotificationController.Serialize();
+            
+            patientController.Patients.Remove(patient);
+            patientController.Serialize();
+
+            createMedRecPatientLink();
+            createNotificationPatientDrugLink();
+
+        }
     }
 }
