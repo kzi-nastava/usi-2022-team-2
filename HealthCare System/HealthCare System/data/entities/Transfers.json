@@ -1,0 +1,12 @@
+﻿[
+  {
+    "id": 1001,
+    "momentOfTransfer": "2022-04-27T22:43:00",
+    "amount": 1
+  },
+  {
+    "id": 1002,
+    "momentOfTransfer": "2022-04-28T22:43:00",
+    "amount": 1
+  }
+]

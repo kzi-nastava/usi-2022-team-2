@@ -24,6 +24,7 @@ namespace HealthCare_System.gui
         HealthCareFactory factory;
         Dictionary<int, Room> roomsFrom = new Dictionary<int, Room>();
         Dictionary<int, Room> roomsTo = new Dictionary<int, Room>();
+        Dictionary<int, Equipment> equipment = new Dictionary<int, Equipment>();
 
         public EquipmentMoveWindow(HealthCareFactory factory)
         {
@@ -34,49 +35,120 @@ namespace HealthCare_System.gui
 
         void DisplayRoomsFrom()
         {
-            MoveFromView.Items.Clear();
+            moveFromView.Items.Clear();
             int index = 0;
             foreach (Room room in factory.RoomController.Rooms)
             {
-                MoveFromView.Items.Add("Name: " + room.Name + ", Type: " + room.Type + ", Amount: " + room.EquipmentAmount[(Equipment)EquipmentCb.SelectedItem].ToString());
+                moveFromView.Items.Add("Id: " + room.Id + ", Name: " + room.Name + ", Amount: " + room.EquipmentAmount[equipment[equipmentCb.SelectedIndex]].ToString());
                 roomsFrom[index] = room;
                 index++;
             }
-            MoveFromView.SelectedIndex = 0;
+            moveFromView.SelectedIndex = 0;
         }
 
         void DisplayRoomsTo()
         {
-            MoveToView.Items.Clear();
+            moveToView.Items.Clear();
             int index = 0;
             foreach (Room room in factory.RoomController.Rooms)
             {
-                if (room != roomsFrom[MoveFromView.SelectedIndex]) 
+                if (room != roomsFrom[moveFromView.SelectedIndex]) 
                 {
-                    MoveToView.Items.Add("Name: " + room.Name + ", Type: " + room.Type + ", Amount: " + room.EquipmentAmount[(Equipment)EquipmentCb.SelectedItem].ToString());
+                    moveToView.Items.Add("Id: " + room.Id + ", Name: " + room.Name + ", Amount: " + room.EquipmentAmount[equipment[equipmentCb.SelectedIndex]].ToString());
                     roomsTo[index] = room;
                     index++;
                 }   
             }
-            MoveToView.SelectedIndex = 0;
+            moveToView.SelectedIndex = 0;
         }
 
         void InitializeComboBox()
         {
-            foreach (Equipment equipment in factory.EquipmentController.Equipment)
-                EquipmentCb.Items.Add(equipment);
-            EquipmentCb.SelectedIndex = 0;
+            int index = 0;
+            foreach (Equipment equipment in factory.EquipmentController.Equipment) 
+            {
+                equipmentCb.Items.Add(equipment.Name);
+                this.equipment[index] = equipment;
+                index++;
+            }
+                
+            equipmentCb.SelectedIndex = 0;
         }
 
-        private void MoveFromView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void moveFromView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MoveFromView.SelectedIndex != -1)
+            if (moveFromView.SelectedIndex != -1)
                 DisplayRoomsTo();
         }
 
-        private void EquipmentCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void equipmentCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DisplayRoomsFrom();
         }
+
+        private void submitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime momentOfTransfer;
+            DateTime date = datePick.SelectedDate.Value;
+
+            try
+            {
+                int hour = Convert.ToInt32(timeTb.Text.Split(':')[0]);
+                int minute = Convert.ToInt32(timeTb.Text.Split(':')[1]);
+                momentOfTransfer = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
+                if (momentOfTransfer < DateTime.Now)
+                {
+                    MessageBox.Show("You cannot enter date from the past.");
+                    return;
+                }
+
+            }
+            catch
+            {
+                MessageBox.Show("Invalid Time Format.");
+                return;
+            }
+
+            int amount;
+            try
+            {
+                amount = Convert.ToInt32(amountTb.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid Amount Format.");
+                return;
+            }
+
+            if (amount < 0)
+            {
+                MessageBox.Show("Entered amount must be larger than 0.");
+                return;
+            }
+
+            if (amount > roomsFrom[moveFromView.SelectedIndex].EquipmentAmount[equipment[equipmentCb.SelectedIndex]])
+            {
+                MessageBox.Show("Entered amount to be moved is larger than current amount available in the room.");
+                return;
+            }
+
+            try
+            {
+                factory.TransferController.AddTransfer(momentOfTransfer, roomsFrom[moveFromView.SelectedIndex],
+                roomsTo[moveToView.SelectedIndex], equipment[equipmentCb.SelectedIndex], amount);
+                MessageBox.Show("Transfer succsessfully added.");
+            }
+            catch
+            {
+                MessageBox.Show("Entered amount to be moved is larger than amount availabel " +
+                    "in the room after all the transfers are finished.");
+            }
+        }
+
+        private void refreshBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayRoomsFrom();
+        }
+
     }
 }
