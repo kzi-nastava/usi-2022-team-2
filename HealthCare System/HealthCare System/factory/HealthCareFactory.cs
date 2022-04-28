@@ -637,7 +637,8 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
+        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, 
+            AppointmentStatus status, bool emergency)
         {
             Room room = AvailableRoom(type, start, end);
             if (!doctor.IsAvailable(start, end))
