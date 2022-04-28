@@ -57,6 +57,16 @@ namespace HealthCare_System.entities
             prescriptions = new List<Prescription>();
         }
 
+        public MedicalRecord(int id, double height, double weight, string diseaseHistory, List<Ingredient> allergens)
+        {
+            this.id = id;
+            this.height = height;
+            this.weight = weight;
+            this.diseaseHistory = diseaseHistory;
+            this.allergens = allergens;
+            appointments = new List<Appointment>();
+        }
+
         [JsonPropertyName("id")]
         public int Id { get => id; set => id = value; }
 
