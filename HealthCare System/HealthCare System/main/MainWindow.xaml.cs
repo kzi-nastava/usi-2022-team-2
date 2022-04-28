@@ -42,6 +42,7 @@ namespace HealthCare_System
                 factory.User = person;
                 Window doctorWindow = new DoctorWindow(factory);
                 doctorWindow.Show();
+                Close();
             }
             else if (person.GetType() == typeof(Patient))
             {

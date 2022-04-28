@@ -57,5 +57,14 @@ namespace HealthCare_System.controllers
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, medicalRecordsJson);
         }
+
+        public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)
+        {
+            MedicalRecord medicalRecord = FindById(id);
+            medicalRecord.Height = height;
+            medicalRecord.Weight = weight;
+            medicalRecord.DiseaseHistory = diseaseHistory;
+            Serialize();
+        }
     }
 }

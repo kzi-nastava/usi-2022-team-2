@@ -17,6 +17,7 @@ namespace HealthCare_System.gui
         {
             this.factory = factory;
             doctor = (Doctor)factory.User;
+            Title = doctor.FirstName + " " + doctor.LastName;
 
             InitializeComponent();
 
@@ -121,7 +122,21 @@ namespace HealthCare_System.gui
 
         private void StartBtn_Click(object sender, RoutedEventArgs e)
         {
+            appointmentView.IsEnabled = false;
 
+            StartBtn.IsEnabled = false;
+            ChangeBtn.IsEnabled = false;
+            DeleteBtn.IsEnabled = false;
+            RefreshBtb.IsEnabled = false;
+
+            EndBtn.IsEnabled = true;
+            PrescribeBtn.IsEnabled = true;
+            ReferralBtn.IsEnabled = true;
+
+            heightTb.IsEnabled = true;
+            weightTb.IsEnabled = true;
+            diseaseHistoryTb.IsEnabled = true;
+            anamnesisTb.IsEnabled = true;
         }
 
         private void TypeCb_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -216,6 +231,60 @@ namespace HealthCare_System.gui
         {
             Window window = new ChangeAppointmentWindow(appontmentsDisplay[appointmentView.SelectedItem.ToString()], factory);
             window.Show();
+        }
+
+        private void EndBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
+                int height = Convert.ToInt32(heightTb.Text);
+                int weight = Convert.ToInt32(weightTb.Text);
+                string diseaseHisory = diseaseHistoryTb.Text;
+
+                string anamnesis = anamnesisTb.Text;
+                if (anamnesis == "")
+                    if (MessageBox.Show("Are you sure you want to end without anamnesis?", "Confirm", MessageBoxButton.YesNo) ==
+                        MessageBoxResult.No) return;
+
+                factory.MedicalRecordController.UpdateMedicalRecord(appointment.Patient.MedicalRecord.Id,
+                    height, weight, diseaseHisory);
+                factory.AnamnesisController.UpdateAnamnesis(appointment.Anamnesis.Id, anamnesis);
+                MessageBox.Show("Appointment finished!");
+
+                appointment.Status = AppointmentStatus.FINISHED;
+                factory.AppointmentController.Serialize();
+
+                InitializeAppointments();
+
+                appointmentView.IsEnabled = true;
+
+                EndBtn.IsEnabled = false;
+                PrescribeBtn.IsEnabled = false;
+                ReferralBtn.IsEnabled = false;
+
+                RefreshBtb.IsEnabled = true;
+
+                heightTb.IsEnabled = false;
+                weightTb.IsEnabled = false;
+                diseaseHistoryTb.IsEnabled = false;
+                anamnesisTb.IsEnabled = false;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Height and weight must be numbers!");
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            factory.User = null;
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) ==
+                MessageBoxResult.Yes)
+            {
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
         }
     }
 }

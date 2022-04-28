@@ -723,6 +723,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
 
         }
+
         public void DeleteAppointment(int id)
         {
             Appointment appointment = appointmentController.FindById(id);
@@ -737,6 +738,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
         //Did this in filtering
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
         {
@@ -755,7 +757,5 @@ namespace HealthCare_System.factory
                 equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
             }
         }
-
-        
     }
 }
