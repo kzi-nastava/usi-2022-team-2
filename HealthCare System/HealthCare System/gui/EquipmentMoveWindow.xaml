@@ -5,20 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare_System.gui"
         mc:Ignorable="d"
-        Title="EquipmentMoveWindow" Height="550" Width="1069">
+        Title="EquipmentMoveWindow" Height="568" Width="1155">
     <Grid>
-        <ListBox x:Name="MoveFromView" Margin="25,45,727,20" SelectionChanged="MoveFromView_SelectionChanged" FontSize="18" FontWeight="Bold"/>
-        <ListBox x:Name="MoveToView" Margin="727,45,25,20" FontSize="18" FontWeight="Bold"/>
-        <Label Content="Move from" HorizontalAlignment="Left" Margin="126,8,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Label Content="Move to" HorizontalAlignment="Left" Margin="841,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <ComboBox x:Name="EquipmentCb" HorizontalAlignment="Left" Margin="457,75,0,0" VerticalAlignment="Top" Width="174" Height="30
-                  " SelectionChanged="EquipmentCb_SelectionChanged" FontWeight="Bold" FontSize="13"/>
-        <TextBox HorizontalAlignment="Left" Margin="457,168,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold" FontSize="15"/>
-        <DatePicker HorizontalAlignment="Left" Margin="457,267,0,0" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold"/>
-        <Label Content="Equipment" HorizontalAlignment="Left" Margin="488,38,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Label Content="Amount" HorizontalAlignment="Left" Margin="501,126,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Label Content="Date" HorizontalAlignment="Left" Margin="514,225,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="487,383,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Width="113" Height="40"/>
+        <ListBox x:Name="moveFromView" Margin="25,45,727,20" SelectionChanged="moveFromView_SelectionChanged" FontSize="13" FontWeight="Bold"/>
+        <ListBox x:Name="moveToView" Margin="727,45,25,20" FontSize="13" FontWeight="Bold"/>
+        <Label Content="Move from" HorizontalAlignment="Left" Margin="169,3,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label Content="Move to" HorizontalAlignment="Left" Margin="884,3,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <ComboBox x:Name="equipmentCb" HorizontalAlignment="Left" Margin="492,74,0,0" VerticalAlignment="Top" Width="174" Height="30
+                  " SelectionChanged="equipmentCb_SelectionChanged" FontWeight="Bold" FontSize="13"/>
+        <TextBox x:Name="amountTb" HorizontalAlignment="Left" Margin="492,167,0,0" Text="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold" FontSize="15"/>
+        <DatePicker x:Name="datePick" HorizontalAlignment="Left" Margin="492,266,0,0" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold"/>
+        <Label Content="Equipment" HorizontalAlignment="Left" Margin="523,37,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label Content="Amount" HorizontalAlignment="Left" Margin="536,125,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label Content="Date" HorizontalAlignment="Left" Margin="549,224,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Button x:Name="submitBtn" Content="Submit" HorizontalAlignment="Left" Margin="523,422,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Width="112" Height="40" Click="submitBtn_Click"/>
+        <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="492,363,0,0" Text="00:00" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="30" FontWeight="Bold" FontSize="15"/>
+        <Label Content="Time" HorizontalAlignment="Center" Margin="0,321,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Margin="523,492,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Width="112" Height="40" Click="refreshBtn_Click"/>
 
     </Grid>
 
