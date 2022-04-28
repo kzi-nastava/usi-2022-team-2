@@ -1,6 +1,7 @@
 ﻿using HealthCare_System.entities;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 namespace HealthCare_System.controllers
@@ -80,6 +81,33 @@ namespace HealthCare_System.controllers
             foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
             {
                 if (equipmentAmountEntry.Key.Type.ToString() != equipmentType)
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
+        }
+
+        public void EquipmentQuery(string value, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                bool containsValue = false;
+                foreach (PropertyInfo prop in equipmentAmountEntry.Key.GetType().GetProperties()) 
+                {
+                    try
+                    {
+                        string checkProp = prop.GetValue(equipmentAmountEntry.Key).ToString().ToLower();
+                        if (checkProp.Contains(value.ToLower())) 
+                        {
+                            containsValue = true;
+                            break;
+                        }     
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                }
+                if (!containsValue)   
                     equipmentAmount.Remove(equipmentAmountEntry.Key);
             }
         }

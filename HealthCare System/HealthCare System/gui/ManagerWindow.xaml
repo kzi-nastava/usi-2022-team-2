@@ -35,7 +35,7 @@
                     <Button x:Name="NewRoomBtn" Content="Create New" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="1" Click="NewRoomBtn_Click" Grid.ColumnSpan="3"/>
                     <Button x:Name="UpdateRoomBtn" Content="Update" HorizontalAlignment="Left" Margin="460,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="3" Click="UpdateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
                     <Button x:Name="DeleteRoomBtn" Content="Delete" HorizontalAlignment="Left" Margin="0,364,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="2" Click="DeleteRoomBtn_Click" Grid.ColumnSpan="2"/>
-                    <Button x:Name="RoomEquipementBtn" Content="View Equipement" HorizontalAlignment="Left" Margin="132,365,0,0" VerticalAlignment="Top" Height="44" Width="204" Grid.Column="3" Click="RoomEquipementBtn_Click"/>
+                    <Button x:Name="MoveEquipementBtn" Content="Move Equipement" HorizontalAlignment="Left" Margin="132,365,0,0" VerticalAlignment="Top" Height="44" Width="204" Grid.Column="3" Click="MoveEquipementBtn_Click"/>
                     <Button x:Name="RenovateRoomBtn" Content="Renovate" HorizontalAlignment="Left" Margin="460,10,0,0" VerticalAlignment="Top" Height="45" Width="160" Grid.Column="3" Click="RenovateRoomBtn_Click" RenderTransformOrigin="0.857,-0.101"/>
 
                 </Grid>
@@ -49,7 +49,7 @@
                     <Label Content="Amount:" HorizontalAlignment="Left" Margin="38,177,0,0" VerticalAlignment="Top"/>
                     <Label Content="Equipement Type:" HorizontalAlignment="Left" Margin="38,254,0,0" VerticalAlignment="Top"/>
                     <ListBox x:Name="EquipementView" Margin="465,33,22,28"/>
-                    <TextBox HorizontalAlignment="Left" Margin="89,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277"/>
+                    <TextBox x:Name="SearchTb"  HorizontalAlignment="Left" Margin="89,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" TextChanged="SearchTb_TextChanged"/>
                     <Label Content="Search:" HorizontalAlignment="Left" Margin="182,327,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.02,0.63" FontSize="25"/>
                     <Label Content="Filter" HorizontalAlignment="Left" Margin="186,33,0,0" VerticalAlignment="Top" FontSize="25"/>
                 </Grid>

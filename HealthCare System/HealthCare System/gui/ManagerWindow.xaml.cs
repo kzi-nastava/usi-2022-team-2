@@ -21,6 +21,10 @@ namespace HealthCare_System.gui
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
+        Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+        Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
+        Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
+        Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
         public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
@@ -34,18 +38,26 @@ namespace HealthCare_System.gui
         }
 
         #region EquipmentFiltering
-
         private void ApplyEveryEquipmentFilter()
         {
             if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
             {
-                Dictionary<Equipment, int> equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
+                equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
                 string roomType = RoomTypeFilter.SelectedItem.ToString();
                 string amount = AmountFilter.SelectedItem.ToString();
                 string equipmentType = EquipementTypeFilter.SelectedItem.ToString();
                 factory.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
                 DisplayEquipment(equipmentAmount);
             }
+        }
+
+        private void ExecuteEquipmentQuery(string value)
+        {
+            if (value.Length != 0)
+            {
+                factory.EquipmentController.EquipmentQuery(value, equipmentAmount);
+                DisplayEquipment(equipmentAmount);
+            }    
         }
 
         private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
@@ -67,44 +79,118 @@ namespace HealthCare_System.gui
         private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
         private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
         private void EquipementTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
         }
 
+        private void SearchTb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyEveryEquipmentFilter();
+            ExecuteEquipmentQuery(SearchTb.Text);
+        }
         #endregion
 
+
+        #region Rooms
         private void DisplayRooms(List<Room> rooms)
         {
             RoomView.Items.Clear();
+            int index = 0;
             foreach (Room room in rooms)
             {
-                RoomView.Items.Add(room);
+                RoomView.Items.Add(room.Name);
+                listedRooms[index] = room;
+                index++;
             }
+            RoomView.SelectedIndex = 0;
         }
 
+        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window newRoomWindow = new RoomWindow(true, factory);
+            newRoomWindow.Show();
+        }
+
+        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
+            updateRoomWindow.Show();
+        }
+
+        private void MoveEquipementBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
+            moveEquipmentWindow.Show();
+        }
+        #endregion
+
+
+        #region Drugs
         private void DisplayDrugs(List<Drug> drugs)
         {
             DrugView.Items.Clear();
+            int index = 0;
             foreach (Drug drug in drugs)
             {
-                DrugView.Items.Add(drug);
+                DrugView.Items.Add(drug.Name);
+                listedDrugs[index] = drug;
+                index++;
             }
         }
 
+        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+
+        #region Ingredients
         private void DisplayIngredients(List<Ingredient> ingredients)
         {
             IngredientsView.Items.Clear();
+            int index = 0;
             foreach (Ingredient ingredient in ingredients)
             {
-                IngredientsView.Items.Add(ingredient);
+                IngredientsView.Items.Add(ingredient.Name);
+                listedIngredients[index] = ingredient;
+                index++;
             }
         }
 
@@ -133,52 +219,7 @@ namespace HealthCare_System.gui
              
             
         }   
-
-        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RoomEquipementBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+                            
         private void NewIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -193,7 +234,7 @@ namespace HealthCare_System.gui
         {
 
         }
-
-        
+        #endregion
+      
     }
 }
