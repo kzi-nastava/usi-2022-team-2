@@ -1,6 +1,7 @@
 ﻿using HealthCare_System.entities;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 namespace HealthCare_System.controllers
@@ -43,6 +44,72 @@ namespace HealthCare_System.controllers
         {
             string equipmentJson = JsonSerializer.Serialize(equipment, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, equipmentJson);
+        }
+
+        //Did this in filter
+        public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
+        {
+            if (amount == "0-10")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount) 
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] >= 10 || equipmentAmount[equipmentAmountEntry.Key] <= 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else if (amount == "10+")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] < 10)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] != 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+        }
+
+        //Did this in filtering
+        public void EquipmentTypeFilter(string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                if (equipmentAmountEntry.Key.Type.ToString() != equipmentType)
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
+        }
+
+        public void EquipmentQuery(string value, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                bool containsValue = false;
+                foreach (PropertyInfo prop in equipmentAmountEntry.Key.GetType().GetProperties()) 
+                {
+                    try
+                    {
+                        string checkProp = prop.GetValue(equipmentAmountEntry.Key).ToString().ToLower();
+                        if (checkProp.Contains(value.ToLower())) 
+                        {
+                            containsValue = true;
+                            break;
+                        }     
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                }
+                if (!containsValue)   
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
         }
     }
 }

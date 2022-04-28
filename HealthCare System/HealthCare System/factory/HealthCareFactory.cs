@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace HealthCare_System.factory
 {
@@ -27,6 +28,7 @@ namespace HealthCare_System.factory
         MedicalRecordController medicalRecordController;
         MergingRenovationController mergingRenovationController;
         PatientController patientController;
+        PrescriptionController prescriptionController;
         ReferralController referralController;
         RoomController roomController;
         SimpleRenovationController simpleRenovationController;
@@ -52,6 +54,7 @@ namespace HealthCare_System.factory
         internal MedicalRecordController MedicalRecordController { get => medicalRecordController; set => medicalRecordController = value; }
         internal MergingRenovationController MergingRenovationController { get => mergingRenovationController; set => mergingRenovationController = value; }
         internal PatientController PatientController { get => patientController; set => patientController = value; }
+        internal PrescriptionController PrescriptionController { get => prescriptionController; set => prescriptionController = value; }
         internal ReferralController ReferralController { get => referralController; set => referralController = value; }
         internal RoomController RoomController { get => roomController; set => roomController = value; }
         internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
@@ -59,6 +62,8 @@ namespace HealthCare_System.factory
         internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
         public Person User { get => user; set => user = value; }
         internal SecretaryController SecretaryController{ get => secretaryController; set => secretaryController = value; }
+
+        
 
         public HealthCareFactory()
         {
@@ -79,6 +84,7 @@ namespace HealthCare_System.factory
             medicalRecordController = new();
             mergingRenovationController = new();
             patientController = new();
+            prescriptionController = new();
             referralController = new();
             roomController = new();
             simpleRenovationController = new();
@@ -97,6 +103,7 @@ namespace HealthCare_System.factory
             LinkMedicalRecordIngrediant();
             LinkAppointment();
             LinkDoctorSurvey();
+            LinkPrescription();
             LinkReferral();
 
             LinkRoomEquipment();
@@ -348,7 +355,30 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkReferral(string path = "data/links/Referral_Linker.csv")
+        void LinkPrescription(string path = "data/links/PrescriptionLinker.csv")
+        {
+            StreamReader file = new(path);
+            while (!file.EndOfStream)
+            {
+                string line = file.ReadLine();
+                int prescriptionId = Convert.ToInt32(line.Split(";")[0]);
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[1]);
+                int drugId = Convert.ToInt32(line.Split(";")[2].Trim());
+
+                Prescription prescription = prescriptionController.FindById(prescriptionId);
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
+                Drug drug = drugController.FindById(drugId);
+
+                prescription.MedicalRecord = medicalRecord;
+                prescription.Drug = drug;
+                medicalRecord.Prescriptions.Add(prescription);
+
+            }
+
+            file.Close();
+        }
+
+        void LinkReferral(string path = "data/links/ReferralLinker.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -383,7 +413,7 @@ namespace HealthCare_System.factory
                 Room room = this.roomController.FindById(roomId);
                 Equipment equipment = this.equipmentController.FindById(equipmentId);
 
-                room.EquipmentAmount[equipmentId] = amount;
+                room.EquipmentAmount[equipment] = amount;
             }
 
             file.Close();
@@ -557,6 +587,11 @@ namespace HealthCare_System.factory
                 Console.WriteLine(patient.ToString());
             Console.WriteLine("-------------------------------------------");
 
+            Console.WriteLine("Prescription:");
+            foreach (Prescription prescription in prescriptionController.Prescriptions)
+                Console.WriteLine(prescription.ToString());
+            Console.WriteLine("-------------------------------------------");
+
             Console.WriteLine("Refferal:");
             foreach (Referral referral in referralController.Referrals)
                 Console.WriteLine(referral.ToString());
@@ -589,8 +624,9 @@ namespace HealthCare_System.factory
             List<Room> rooms = roomController.GetRoomsByType(type);
             foreach (Appointment appointment in appointmentController.Appointments)
             {
-                if (rooms.Contains(appointment.Room) && (appointment.Start < start && appointment.End > start) ||
-                    (appointment.Start < end && appointment.End > end))
+                if (rooms.Contains(appointment.Room) && ((appointment.Start <= start && appointment.End >= start) ||
+                    (appointment.Start <= end && appointment.End >= end) ||
+                    (start <= appointment.Start && end >= appointment.End)))
                 {
                     rooms.Remove(appointment.Room);
                 }
@@ -624,6 +660,35 @@ namespace HealthCare_System.factory
             appointmentController.Appointments.Add(appointment);
             doctor.Appointments.Add(appointment);
             patient.MedicalRecord.Appointments.Add(appointment);
+            anamnesisController.Anamneses.Add(anamnesis);
+            appointmentController.Serialize();
+            anamnesisController.Serialize();
+            return appointment;
+
+        }
+
+        public Appointment AddAppointment(Appointment appointment)
+        {
+            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
+            if (!appointment.Doctor.IsAvailable(appointment.Start, appointment.End))
+            {
+                throw new Exception("Doctor is not available!");
+            }
+            if (!appointment.Patient.IsAvailable(appointment.Start, appointment.End))
+            {
+                throw new Exception("Patient is not available!");
+            }
+            if (room is null)
+            {
+                throw new Exception("Room is not found!");
+            }
+            int anamnesisId = anamnesisController.GenerateId();
+            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
+            appointment.Room = room;
+            appointment.Anamnesis = anamnesis;
+            appointmentController.Appointments.Add(appointment);
+            appointment.Doctor.Appointments.Add(appointment);
+            appointment.Patient.MedicalRecord.Appointments.Add(appointment);
             anamnesisController.Anamneses.Add(anamnesis);
             appointmentController.Serialize();
             anamnesisController.Serialize();
@@ -767,5 +832,25 @@ namespace HealthCare_System.factory
             CreateMedRecPatientLink();
         }
 
+        //Did this in filtering
+        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        {
+            if (roomType != "All")
+            {
+                roomController.RoomTypeFilter(roomType, equipmentAmount);
+            }
+            
+            if (amount != "All")
+            {
+                equipmentController.AmountFilter(amount, equipmentAmount);
+            }
+
+            if (equipmentType != "All")
+            {
+                equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
+            }
+        }
+
+        
     }
 }
