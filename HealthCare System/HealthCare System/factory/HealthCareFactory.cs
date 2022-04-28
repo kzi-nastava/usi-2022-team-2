@@ -738,61 +738,31 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
-        private void CreateMedRecIngredientLink(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
-        {
-            string csv = "";
-            foreach (MedicalRecord medRecrod in medicalRecordController.MedicalRecords)
-            {
-                foreach (Ingredient ingredient in medRecrod.Allergens)
-                {
-                    csv += medRecrod.Id + ";" + ingredient.Id + "\n";
-                }
-            }
-            File.WriteAllText(linkPath, csv);
-
-        }
-
-        private void CreateMedRecPatientLink(string linkPath = "data/links/MedicalRecord_Patient.csv")
-        {
-            string csv = "";
-            foreach (MedicalRecord medRecord in medicalRecordController.MedicalRecords)
-            {
-                csv += medRecord.Id + ";" + medRecord.Patient.Jmbg + "\n";
-            }
-            File.WriteAllText(linkPath, csv);
-
-        }
-
-        private void CreateNotificationPatientDrugLink(string linkPath = "data/links/Notification_Patient_Drug.csv")
-        {
-            string csv = "";
-            foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
-            {
-                csv += drugNotification.Id + ";" + drugNotification.Patient.Jmbg + ";" + drugNotification.Drug.Id + "\n";
-            }
-            File.WriteAllText(linkPath, csv);
-
-        }
-
         public void DeletePatient(Patient patient)
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;
 
             foreach (Appointment appointment in medicalRecord.Appointments)
             {
+                if(appointment.Start > DateTime.Now)
+                {
+                    throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                }
                 appointmentController.Appointments.Remove(appointment);
             }
             appointmentController.Serialize();
 
-            foreach (Ingredient ingredient in medicalRecord.Allergens)
+            for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
             {
-                ingredientController.Ingredients.Remove(ingredient);
+                if (prescriptionController.Prescriptions[i].MedicalRecord == medicalRecord)
+                {
+                    prescriptionController.Prescriptions.RemoveAt(i);
+                }
             }
-            ingredientController.Serialize();
-
+            prescriptionController.Serialize();
             medicalRecordController.MedicalRecords.Remove(medicalRecord);
             medicalRecordController.Serialize();
-            CreateMedRecIngredientLink();
+            
 
             for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
             {
@@ -806,8 +776,6 @@ namespace HealthCare_System.factory
             patientController.Patients.Remove(patient);
             patientController.Serialize();
 
-            CreateMedRecPatientLink();
-            CreateNotificationPatientDrugLink();
         }
 
         public void AddPatient(Patient patient, MedicalRecord medRecord)
@@ -820,16 +788,12 @@ namespace HealthCare_System.factory
             patientController.Serialize();
             medicalRecordController.Serialize();
             ingredientController.Serialize();
-
-            CreateMedRecIngredientLink();
-            CreateMedRecPatientLink();
         }
 
         public void UpdatePatient()
         {
             patientController.Serialize();
             medicalRecordController.Serialize();
-            CreateMedRecPatientLink();
         }
 
         //Did this in filtering

@@ -92,7 +92,15 @@ namespace HealthCare_System.gui
                 return;
             }
 
-            factory.DeletePatient(patient);
+            try
+            {
+                factory.DeletePatient(patient);
+            }
+            catch
+            {
+                MessageBox.Show("Can't delete selected patient, because of it's future appointments.");
+                return;
+            }
             fillListBox();
 
         }

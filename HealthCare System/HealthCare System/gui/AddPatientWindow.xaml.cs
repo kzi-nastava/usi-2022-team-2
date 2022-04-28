@@ -58,6 +58,7 @@ namespace HealthCare_System.gui
             else
             {
                 this.patient = new Patient();
+                textBoxAlergies.Text = "example1, example2";
             }
         }
 
@@ -118,12 +119,14 @@ namespace HealthCare_System.gui
             {
                 if (textBoxAlergies.Text != "")
                 {
-                    ingredientNames = new string[] {textBoxAlergies.Text};
-                }else
+                    ingredientNames = new string[] { textBoxAlergies.Text };
+                }
+                else
                 {
                     ingredientNames = new string[0];
                 }
             }
+
 
             if (isUpdate)
             {
@@ -146,7 +149,14 @@ namespace HealthCare_System.gui
                 List<Ingredient> ingredients = new List<Ingredient>();
                 foreach (string name in ingredientNames)
                 {
-                    ingredients.Add(factory.IngredientController.add(name));
+                    foreach (Ingredient ingredient in factory.IngredientController.Ingredients)
+                    {
+                        if (ingredient.Name.ToLower() == name)
+                        {
+                            ingredients.Add(ingredient);
+                            continue;
+                        }
+                    }
                 }
                 MedicalRecord medRecord = factory.MedicalRecordController.add(height, weight, history, ingredients);
 

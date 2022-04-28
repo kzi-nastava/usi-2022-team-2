@@ -51,11 +51,38 @@ namespace HealthCare_System.controllers
             return medicalRecords[^1].Id + 1;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
         {
             string medicalRecordsJson = JsonSerializer.Serialize(medicalRecords, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, medicalRecordsJson);
+            string csv = "";
+            foreach (MedicalRecord medRecrod in medicalRecords)
+            {
+                foreach (Ingredient ingredient in medRecrod.Allergens)
+                {
+                    csv += medRecrod.Id + ";" + ingredient.Id + "\n";
+                }
+            }
+            File.WriteAllText(linkPath, csv);
+
+            csv = "";
+            linkPath = "data/links/MedicalRecord_Patient.csv";
+            foreach (MedicalRecord medRecord in medicalRecords)
+            {
+                csv += medRecord.Id + ";" + medRecord.Patient.Jmbg + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
+
+            csv = "";
+            linkPath = "data/links/PrescriptionLinker.csv";
+            foreach (MedicalRecord medRecord in medicalRecords)
+            {
+                foreach (Prescription prescription in medRecord.Prescriptions) {
+                    csv += prescription.Id + ";" + medRecord.Id + ";" + prescription.Drug.Id +  "\n";
+                }
+            }
+            File.WriteAllText(linkPath, csv);
         }
     }
 }

@@ -65,6 +65,7 @@ namespace HealthCare_System.entities
             this.diseaseHistory = diseaseHistory;
             this.allergens = allergens;
             appointments = new List<Appointment>();
+            prescriptions = new List<Prescription>();
         }
 
         [JsonPropertyName("id")]
