@@ -39,11 +39,17 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath = "data/links/Notification_Patient_Drug.csv")
         {
             string drugNotificationsJson = JsonSerializer.Serialize(drugNotifications, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, drugNotificationsJson);
+            string csv = "";
+            foreach (DrugNotification drugNotification in drugNotifications)
+            {
+                csv += drugNotification.Id + ";" + drugNotification.Patient.Jmbg + ";" + drugNotification.Drug.Id + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
         }
     }
 }

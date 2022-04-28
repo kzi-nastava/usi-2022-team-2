@@ -778,6 +778,66 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
+
+        public void DeletePatient(Patient patient)
+        {
+            MedicalRecord medicalRecord = patient.MedicalRecord;
+
+            foreach (Appointment appointment in medicalRecord.Appointments)
+            {
+                if(appointment.Start > DateTime.Now)
+                {
+                    throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                }
+                appointmentController.Appointments.Remove(appointment);
+            }
+            appointmentController.Serialize();
+
+            for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
+            {
+                if (prescriptionController.Prescriptions[i].MedicalRecord == medicalRecord)
+                {
+                    prescriptionController.Prescriptions.RemoveAt(i);
+                }
+            }
+            prescriptionController.Serialize();
+            medicalRecordController.MedicalRecords.Remove(medicalRecord);
+            medicalRecordController.Serialize();
+            
+
+            for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
+            {
+                if (drugNotificationController.DrugNotifications[i].Patient == patient)
+                {
+                    drugNotificationController.DrugNotifications.RemoveAt(i);
+                }
+            }
+            drugNotificationController.Serialize();
+            
+            patientController.Patients.Remove(patient);
+            patientController.Serialize();
+
+        }
+
+        public void AddPatient(Patient patient, MedicalRecord medRecord)
+        {
+            patientController.Patients.Add(patient);
+
+            patient.MedicalRecord = medRecord;
+            medRecord.Patient = patient;
+
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+            ingredientController.Serialize();
+        }
+
+        public void UpdatePatient()
+        {
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+        }
+
+
         //Did this in filtering
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
         {

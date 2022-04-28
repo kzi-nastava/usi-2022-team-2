@@ -16,8 +16,6 @@ namespace HealthCare_System
     public partial class MainWindow : Window
     {
         HealthCareFactory factory = new();
-        SecretaryWindow sc;
-
 
         public MainWindow(HealthCareFactory factory)
         {
@@ -63,8 +61,8 @@ namespace HealthCare_System
             else if (person.GetType() == typeof(Secretary))
             {
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
-                sc = new SecretaryWindow(factory);
-                sc.Show();
+                SecretaryWindow secretaryWindow = new SecretaryWindow(factory);
+                secretaryWindow.Show();
             }
         }
 
