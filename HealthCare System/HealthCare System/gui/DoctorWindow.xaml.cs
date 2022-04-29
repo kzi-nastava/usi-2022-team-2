@@ -11,6 +11,7 @@ namespace HealthCare_System.gui
     {
         HealthCareFactory factory;
         Doctor doctor;
+        DateTime startPoint;
         Dictionary<string, Appointment> appontmentsDisplay;
         Dictionary<string, Ingredient> ingrediantsDisplay;
 
@@ -22,7 +23,6 @@ namespace HealthCare_System.gui
 
             InitializeComponent();
 
-            InitializeAppointments();
             InitializeAppointmentType();
 
             appointmentDate.DisplayDateStart = DateTime.Now;
@@ -35,6 +35,7 @@ namespace HealthCare_System.gui
             ReferralBtn.IsEnabled = false;
             RefreshAllergensBtn.IsEnabled = false;
             RefreshPrescriptionsBtn.IsEnabled = false;
+            RefreshBtn.IsEnabled = false;
             AddAllergensBtn.IsEnabled = false;
 
             roomTb.IsEnabled = false;
@@ -50,7 +51,7 @@ namespace HealthCare_System.gui
         {
             appointmentView.Items.Clear();
             appontmentsDisplay = new Dictionary<string, Appointment>();
-            List<Appointment> appointments = doctor.FilterAppointments();
+            List<Appointment> appointments = doctor.FilterAppointments(startPoint);
             List<Appointment> sortedAppoinments = appointments.OrderBy(x => x.Start).ToList();
 
             foreach (Appointment appointment in sortedAppoinments)
@@ -142,7 +143,7 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void RefreshBtb_Click(object sender, RoutedEventArgs e)
+        private void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
             InitializeAppointments();
 
@@ -171,7 +172,7 @@ namespace HealthCare_System.gui
             StartBtn.IsEnabled = false;
             ChangeBtn.IsEnabled = false;
             DeleteBtn.IsEnabled = false;
-            RefreshBtb.IsEnabled = false;
+            RefreshBtn.IsEnabled = false;
 
             EndBtn.IsEnabled = true;
             PrescribeBtn.IsEnabled = true;
@@ -309,7 +310,7 @@ namespace HealthCare_System.gui
                 ReferralBtn.IsEnabled = false;
                 AddAllergensBtn.IsEnabled = false;
 
-                RefreshBtb.IsEnabled = true;
+                RefreshBtn.IsEnabled = true;
 
                 heightTb.IsEnabled = false;
                 weightTb.IsEnabled = false;
@@ -347,6 +348,20 @@ namespace HealthCare_System.gui
             InitializeAllergens(patient);
             InitializeIngrediants(patient);
             
+        }
+
+        private void DisplayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                startPoint = displayDate.SelectedDate.Value;
+                InitializeAppointments();
+                RefreshBtn.IsEnabled = true;
+            }
+            catch
+            {
+                MessageBox.Show("Display date not selected!");
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

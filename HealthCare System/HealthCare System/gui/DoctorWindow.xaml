@@ -10,7 +10,8 @@
         <TabControl>
             <TabItem Header="Schedule" Margin="-2,-2,-39,0">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="appointmentView" Margin="10,15,0,0" HorizontalAlignment="Left" Width="256" FontWeight="Bold" FontSize="15" Height="343" VerticalAlignment="Top" VerticalContentAlignment="Top" SelectionChanged="AppointmentView_SelectionChanged"/>
+                    <ListBox x:Name="appointmentView" Margin="10,50,0,0" HorizontalAlignment="Left" Width="256" FontWeight="Bold" FontSize="15" Height="308" VerticalAlignment="Top" VerticalContentAlignment="Top" SelectionChanged="AppointmentView_SelectionChanged"/>
+                    <DatePicker x:Name="displayDate" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top" Width="128" Height="25" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" FirstDayOfWeek="Monday"/>
 
                     <Label x:Name="roomLbl" Content="Room" HorizontalAlignment="Left" Margin="289,13,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="roomTb" HorizontalAlignment="Left" Margin="378,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
@@ -38,17 +39,19 @@
                     <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="143,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="26" RenderTransformOrigin="0.496,-0.862"/>
                     <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25"/>
                     <Button x:Name="ChangeBtn" Content="Change" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="ChangeBtn_Click"/>
-                    <Button x:Name="RefreshBtb" Content="Refresh" HorizontalAlignment="Left" Margin="10,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtb_Click"/>
+                    <Button x:Name="RefreshBtn" Content="Refresh" HorizontalAlignment="Left" Margin="10,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtn_Click"/>
                     <Button x:Name="DeleteBtn" Content="Delete" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="DeleteBtn_Click"/>
                     <Button x:Name="RefreshPrescriptionsBtn" Content="Refresh" HorizontalAlignment="Left" Margin="399,160,0,0" VerticalAlignment="Top" Width="77" FontSize="15" Height="25" Click="RefreshPrescriptionsBtn_Click"/>
                     <Button x:Name="RefreshAllergensBtn" Content="Refresh" HorizontalAlignment="Left" Margin="679,159,0,0" VerticalAlignment="Top" Width="85" FontSize="15" Height="26" Click="RefreshAllergensBtn_Click"/>
                     <Button x:Name="AddAllergensBtn" Content="Add" HorizontalAlignment="Left" Margin="594,376,0,0" VerticalAlignment="Top" Width="80" FontSize="15" Height="26" Click="AddAllergensBtn_Click"/>
+                    <Button x:Name="DisplayBtn" Content="Display" HorizontalAlignment="Left" Margin="143,16,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="DisplayBtn_Click" />
 
                     <Label x:Name="anamnesisLbl" Content="Anamnesis" HorizontalAlignment="Left" Margin="289,328,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="anamnesisTb" HorizontalAlignment="Left" Margin="289,363,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="100" VerticalAlignment="Top"/>
 
                     <Label x:Name="allergenLbl" Content="Allergen" HorizontalAlignment="Left" Margin="594,333,0,0" VerticalAlignment="Top" Width="89" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <ComboBox x:Name="ingrediantCb" HorizontalAlignment="Left" Margin="688,335,0,0" VerticalAlignment="Top" Width="176" Height="26" FontWeight="Normal" FontSize="15" SelectionChanged="TypeCb_SelectionChanged"/>
+
 
 
                 </Grid>
