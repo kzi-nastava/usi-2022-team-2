@@ -114,16 +114,36 @@ namespace HealthCare_System.controllers
             }
         }
 
-        public Room CreateNewRoom(string name, TypeOfRoom type)
+        public void CreateNewRoom(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
         {
-            if (name.Length == 0)
-                throw new Exception("Name cannot be empty");
-            else if (name.Length > 30 || name.Length < 5)
-                throw new Exception("Name must be between 5 and 30 characters");
+            if (name.Length > 30 || name.Length < 5)
+                throw new Exception();
 
-            Room newRoom = new Room(GenerateId(), name, type);
-            return newRoom;
+            Room newRoom = new Room(GenerateId(), name, type, equipmentAmount);
+            rooms.Add(newRoom);
+            Serialize();
         }
+
+        public void UpdateRoom(Room room, string name, TypeOfRoom type)
+        {
+            if (name.Length > 30 || name.Length < 5)
+                throw new Exception();
+            room.Name = name;
+            room.Type = type;
+            Serialize();
+        }
+
+        public void DeleteRoom(Room room)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
+            {
+                MoveFromRoom(room, equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+                MoveToRoom(FindById(1003), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+            }
+            rooms.Remove(room);
+            Serialize();
+        }
+
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
             room.EquipmentAmount[equipmnet] += amount;

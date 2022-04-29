@@ -109,7 +109,7 @@ namespace HealthCare_System.gui
             int index = 0;
             foreach (Room room in rooms)
             {
-                RoomView.Items.Add(room.Name);
+                RoomView.Items.Add("Id: "+ room.Id + ", Name: " + room.Name + ", Type: " + room.Type);
                 listedRooms[index] = room;
                 index++;
             }
@@ -124,7 +124,22 @@ namespace HealthCare_System.gui
 
         private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            if (listedRooms[RoomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            {
+                MessageBox.Show("Cannot delete storage!");
+                return;
+            }
+
+            if (factory.IsRoomAvailableForChange(listedRooms[RoomView.SelectedIndex]))
+            {
+                factory.RemoveRoom(listedRooms[RoomView.SelectedIndex]);
+                MessageBox.Show("Room deleted sucessfully!");
+            }
+            else
+            {
+                MessageBox.Show("Room is already taken by an appointmet so it is not able to be deleted!");
+            }
+
         }
 
         private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
@@ -134,14 +149,33 @@ namespace HealthCare_System.gui
 
         private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
-            updateRoomWindow.Show();
+            if (listedRooms[RoomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            {
+                MessageBox.Show("Cannot update storage!");
+                return;
+            }
+
+            if (factory.IsRoomAvailableForChange(listedRooms[RoomView.SelectedIndex]))
+            {
+                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
+                updateRoomWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Room is already taken by an appointmet so it is not able to be updated!");
+            }
+            
         }
 
         private void MoveEquipementBtn_Click(object sender, RoutedEventArgs e)
         {
             Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
             moveEquipmentWindow.Show();
+        }
+
+        private void RefreshRoomsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayRooms(this.factory.RoomController.Rooms);
         }
         #endregion
 
@@ -234,7 +268,9 @@ namespace HealthCare_System.gui
         {
 
         }
+
         #endregion
-      
+
+        
     }
 }
