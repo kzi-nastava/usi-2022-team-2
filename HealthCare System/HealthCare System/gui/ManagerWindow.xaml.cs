@@ -269,9 +269,6 @@ namespace HealthCare_System.gui
 
         }
 
-
-
-
         #endregion
 
         private void Window_Closing(object sender, CancelEventArgs e)

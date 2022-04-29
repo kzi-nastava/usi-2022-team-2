@@ -4,32 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Linq;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for PatientWindow.xaml
-    /// </summary>
     public partial class PatientWindow : Window
     {
         HealthCareFactory factory;
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
         Dictionary<int,Appointment> indexedAppointments;
+
         public PatientWindow(HealthCareFactory factory)
         {
-            this.Title = factory.User.FirstName + " " + factory.User.LastName;
+            Title = factory.User.FirstName + " " + factory.User.LastName;
             this.factory = factory;
             InitializeComponent();
             InitializeDoctors();
@@ -39,7 +28,6 @@ namespace HealthCare_System.gui
             datePicker.DisplayDateStart = DateTime.Now;
             datePickerEdit.DisplayDateStart = DateTime.Now;
             UpdateAppointmentHistory();
-
         }
 
         public void UpdateAppointmentHistory()
@@ -51,11 +39,10 @@ namespace HealthCare_System.gui
             {
                 if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
                 {
-                    
-                    appointmentHistoryLb.Items.Add("Start: " + appointment.Start.ToString("dd/MM/yyyy HH:mm") +
-                        ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                        ", type: " + appointment.Type.ToString().ToLower() +
-                        ", room: " + appointment.Room.Name);
+                    appointmentHistoryLb.Items.Add("Start: " 
+                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") +", doctor: " 
+                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
+                        ", type: " + appointment.Type.ToString().ToLower() +", room: " + appointment.Room.Name);
                 }
             }
         }
@@ -120,8 +107,10 @@ namespace HealthCare_System.gui
             Patient patient = (Patient) factory.User;
             try
             {
-                Appointment appointment=factory.AddAppointment(start, end, doctor, patient, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), AppointmentState.ACCEPTED, patient, appointment, null, RequestType.CREATE, DateTime.Now);
+                Appointment appointment=factory.AddAppointment(start, end, doctor, patient, 
+                    AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    AppointmentState.ACCEPTED, patient, appointment, null, RequestType.CREATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 MessageBox.Show("Appointment booked");
                 datePicker.SelectedDate = DateTime.Now;
@@ -221,7 +210,8 @@ namespace HealthCare_System.gui
                     factory.UpdateAppointment(appointment.Id, start, end, doctor, patient, AppointmentStatus.BOOKED);
                 }
                 
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    state, patient, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
                 if (needConfirmation)
@@ -292,7 +282,8 @@ namespace HealthCare_System.gui
                     state = AppointmentState.WAITING;
                 }
                 Patient patient = (Patient)factory.User;
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, null, RequestType.DELETE, DateTime.Now);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    state, patient, appointment, null, RequestType.DELETE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
                 if (needConfirmation)
