@@ -27,22 +27,28 @@
                     <Label x:Name="diseaseHystoryLbl" Content="Disease hystory" HorizontalAlignment="Left" Margin="594,13,0,0" VerticalAlignment="Top" Width="121" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="diseaseHistoryTb" HorizontalAlignment="Left" Margin="594,50,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="98" VerticalAlignment="Top"/>
 
-                    <Label x:Name="allergensLbl" Content="Allergens" HorizontalAlignment="Left" Margin="289,156,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <ListBox x:Name="allergensView" HorizontalAlignment="Left" Width="270" Margin="289,186,0,0" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="allergensLbl" Content="Allergens" HorizontalAlignment="Left" Margin="594,155,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <ListBox x:Name="allergensView" HorizontalAlignment="Left" Width="270" Margin="594,191,0,0" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
 
-                    <Label x:Name="prescriptionsLbl" Content="Prescriptions" HorizontalAlignment="Left" Margin="594,156,0,0" VerticalAlignment="Top" Width="110" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <ListBox x:Name="prescriptionView" Margin="594,186,0,0" HorizontalAlignment="Left" Width="270" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="prescriptionsLbl" Content="Prescriptions" HorizontalAlignment="Left" Margin="289,155,0,0" VerticalAlignment="Top" Width="110" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <ListBox x:Name="prescriptionView" Margin="289,191,0,0" HorizontalAlignment="Left" Width="270" Height="137" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
 
                     <Button x:Name="StartBtn" Content="Start" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="StartBtn_Click"/>
                     <Button x:Name="EndBtn" Content="End" HorizontalAlignment="Left" Margin="143,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="EndBtn_Click"/>
-                    <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="669,381,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" RenderTransformOrigin="0.496,-0.862"/>
-                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="668,415,0,0" VerticalAlignment="Top" Width="124" FontSize="15" Height="25"/>
+                    <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="143,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="26" RenderTransformOrigin="0.496,-0.862"/>
+                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25"/>
                     <Button x:Name="ChangeBtn" Content="Change" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="ChangeBtn_Click"/>
                     <Button x:Name="RefreshBtb" Content="Refresh" HorizontalAlignment="Left" Margin="10,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtb_Click"/>
                     <Button x:Name="DeleteBtn" Content="Delete" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="DeleteBtn_Click"/>
+                    <Button x:Name="RefreshPrescriptionsBtn" Content="Refresh" HorizontalAlignment="Left" Margin="399,160,0,0" VerticalAlignment="Top" Width="77" FontSize="15" Height="25" Click="RefreshPrescriptionsBtn_Click"/>
+                    <Button x:Name="RefreshAllergensBtn" Content="Refresh" HorizontalAlignment="Left" Margin="679,159,0,0" VerticalAlignment="Top" Width="85" FontSize="15" Height="26" Click="RefreshAllergensBtn_Click"/>
+                    <Button x:Name="AddAllergensBtn" Content="Add" HorizontalAlignment="Left" Margin="594,376,0,0" VerticalAlignment="Top" Width="80" FontSize="15" Height="26" Click="AddAllergensBtn_Click"/>
 
                     <Label x:Name="anamnesisLbl" Content="Anamnesis" HorizontalAlignment="Left" Margin="289,328,0,0" VerticalAlignment="Top" Width="80" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="anamnesisTb" HorizontalAlignment="Left" Margin="289,363,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="100" VerticalAlignment="Top"/>
+
+                    <Label x:Name="allergenLbl" Content="Allergen" HorizontalAlignment="Left" Margin="594,333,0,0" VerticalAlignment="Top" Width="89" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <ComboBox x:Name="ingrediantCb" HorizontalAlignment="Left" Margin="688,335,0,0" VerticalAlignment="Top" Width="176" Height="26" FontWeight="Normal" FontSize="15" SelectionChanged="TypeCb_SelectionChanged"/>
 
 
                 </Grid>

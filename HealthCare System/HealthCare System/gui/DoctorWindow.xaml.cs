@@ -12,6 +12,7 @@ namespace HealthCare_System.gui
         HealthCareFactory factory;
         Doctor doctor;
         Dictionary<string, Appointment> appontmentsDisplay;
+        Dictionary<string, Ingredient> ingrediantsDisplay;
 
         public DoctorWindow(HealthCareFactory factory)
         {
@@ -23,6 +24,7 @@ namespace HealthCare_System.gui
 
             InitializeAppointments();
             InitializeAppointmentType();
+
             appointmentDate.DisplayDateStart = DateTime.Now;
 
             StartBtn.IsEnabled = false;
@@ -31,6 +33,9 @@ namespace HealthCare_System.gui
             DeleteBtn.IsEnabled = false;
             PrescribeBtn.IsEnabled = false;
             ReferralBtn.IsEnabled = false;
+            RefreshAllergensBtn.IsEnabled = false;
+            RefreshPrescriptionsBtn.IsEnabled = false;
+            AddAllergensBtn.IsEnabled = false;
 
             roomTb.IsEnabled = false;
             patientTb.IsEnabled = false;
@@ -63,6 +68,48 @@ namespace HealthCare_System.gui
             typeCb.Items.Add(AppointmentType.OPERATION);
         }
 
+        void InitializeAllergens(Patient patient)
+        {
+            allergensView.Items.Clear();
+            List<Ingredient> allergens = patient.MedicalRecord.Allergens;
+            List<Ingredient> sortedAllergens = allergens.OrderBy(x => x.Id).ToList();
+
+            foreach (Ingredient allergen in sortedAllergens)
+            {
+                allergensView.Items.Add(allergen.Id + " - " + allergen.Name);
+            }
+        }
+
+        void InitializePrescriptions(Patient patient)
+        {
+            prescriptionView.Items.Clear();
+            List<Prescription> prescriptions = patient.MedicalRecord.Prescriptions;
+            List<Prescription> sortedPrescriptions = prescriptions.OrderBy(x => x.Start).ToList();
+
+            foreach (Prescription prescription in sortedPrescriptions)
+            {
+                prescriptionView.Items.Add(prescription.Drug.Name + ": " +
+                    prescription.Start.Date.ToString("dd/MM/yyyy") + " - " + prescription.End.Date.ToString("dd/MM/yyyy"));
+            }
+        }
+
+        void InitializeIngrediants(Patient patient)
+        {
+            ingrediantCb.Items.Clear();
+            ingrediantsDisplay = new Dictionary<string, Ingredient>();
+            List<Ingredient> ingredients = factory.IngredientController.Ingredients;
+            List<Ingredient> sortedIngrediants = ingredients.OrderBy(x => x.Id).ToList();
+
+            foreach (Ingredient ingredient in sortedIngrediants)
+            {
+                if (!patient.MedicalRecord.Allergens.Contains(ingredient))
+                {
+                    ingrediantCb.Items.Add(ingredient.Id + " - " + ingredient.Name);
+                    ingrediantsDisplay.Add(ingredient.Id + " - " + ingredient.Name, ingredient);
+                }
+            }
+        }
+
         private void AppointmentView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (appointmentView.SelectedIndex != -1)
@@ -70,6 +117,8 @@ namespace HealthCare_System.gui
                 StartBtn.IsEnabled = true;
                 ChangeBtn.IsEnabled = true;
                 DeleteBtn.IsEnabled = true;
+                RefreshPrescriptionsBtn.IsEnabled = true;
+                RefreshAllergensBtn.IsEnabled = true;
 
                 Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
 
@@ -85,18 +134,11 @@ namespace HealthCare_System.gui
 
                 weightTb.Text = patient.MedicalRecord.Weight.ToString();
 
-                allergensView.Items.Clear();
-                foreach (Ingredient allergen in patient.MedicalRecord.Allergens)
-                {
-                    allergensView.Items.Add(allergen.Id + " - " + allergen.Name);
-                }
+                InitializeAllergens(patient);
 
-                prescriptionView.Items.Clear();
-                foreach (Prescription prescription in patient.MedicalRecord.Prescriptions)
-                {
-                    prescriptionView.Items.Add(prescription.Drug.Name + ": " +
-                        prescription.Start.Date.ToString("dd/MM/yyyy") + " - " + prescription.End.Date.ToString("dd/MM/yyyy"));
-                }
+                InitializePrescriptions(patient);
+
+                InitializeIngrediants(patient);
             }
         }
 
@@ -110,6 +152,8 @@ namespace HealthCare_System.gui
             DeleteBtn.IsEnabled = false;
             PrescribeBtn.IsEnabled = false;
             ReferralBtn.IsEnabled = false;
+            RefreshAllergensBtn.IsEnabled = false;
+            RefreshPrescriptionsBtn.IsEnabled = false;
 
             roomTb.IsEnabled = false;
             patientTb.IsEnabled = false;
@@ -132,6 +176,7 @@ namespace HealthCare_System.gui
             EndBtn.IsEnabled = true;
             PrescribeBtn.IsEnabled = true;
             ReferralBtn.IsEnabled = true;
+            AddAllergensBtn.IsEnabled = true;
 
             heightTb.IsEnabled = true;
             weightTb.IsEnabled = true;
@@ -262,6 +307,7 @@ namespace HealthCare_System.gui
                 EndBtn.IsEnabled = false;
                 PrescribeBtn.IsEnabled = false;
                 ReferralBtn.IsEnabled = false;
+                AddAllergensBtn.IsEnabled = false;
 
                 RefreshBtb.IsEnabled = true;
 
@@ -276,15 +322,42 @@ namespace HealthCare_System.gui
             }
         }
 
+        private void RefreshAllergensBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeAllergens(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient);
+        }
+
+        private void RefreshPrescriptionsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InitializePrescriptions(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient);
+        }
+
+        private void AddAllergensBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
+            if (ingrediantCb.SelectedIndex == -1)
+            {
+                MessageBox.Show("You haven't selected an ingrediant!");
+                return;
+            }
+            Ingredient allergen = ingrediantsDisplay[ingrediantCb.SelectedItem.ToString()];
+
+            patient.MedicalRecord.Allergens.Add(allergen);
+
+            InitializeAllergens(patient);
+            InitializeIngrediants(patient);
+            
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             factory.User = null;
-            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) ==
-                MessageBoxResult.Yes)
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 MainWindow main = new MainWindow(factory);
                 main.Show();
             }
+            else e.Cancel = true;
         }
     }
 }
