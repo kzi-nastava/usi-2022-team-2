@@ -131,7 +131,7 @@ namespace HealthCare_System.factory
                     if (patient.Blocked)
                     {
                         MessageBox.Show("Account blocked. Contact secretary for more informations!");
-                        return null;
+                        return patient;
                     }
                     else
                     {
