@@ -48,7 +48,10 @@ namespace HealthCare_System.controllers
             string csv = "";
             foreach (AppointmentRequest request in appointmentRequests)
             {
-                csv += request.Id.ToString() + ";"  + request.Patient.Jmbg + ";"  + request.Appointment.Id.ToString() + "\n";
+                int newAppointmentInfo;
+                if (request.NewAppointment is null) newAppointmentInfo = -1;
+                else newAppointmentInfo = request.NewAppointment.Id;
+                csv += request.Id.ToString() + ";"  + request.Patient.Jmbg + ";"  + request.OldAppointment.Id.ToString() + ";" + newAppointmentInfo + "\n";
             }
             File.WriteAllText(linkPath, csv);
         }

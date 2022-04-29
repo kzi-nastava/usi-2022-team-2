@@ -13,18 +13,19 @@
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="12*"/>
-                        <ColumnDefinition Width="385*"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="336*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="bookBtn" Content="Book Appointment" HorizontalAlignment="Left" Margin="18,336,0,0" VerticalAlignment="Top" Height="32" Width="322" Click="bookBtn_Click" Grid.Column="1"/>
-                    <DatePicker x:Name="datePicker" HorizontalAlignment="Left" Margin="148,73,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <ComboBox x:Name="doctorCb" HorizontalAlignment="Left" Margin="148,245,0,0" VerticalAlignment="Top" Width="153" Grid.Column="1"/>
-                    <Label Content="Date:" HorizontalAlignment="Left" Margin="63,73,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <Label Content="Doctor:" HorizontalAlignment="Left" Margin="41,241,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <ListBox Margin="432,73,34,27" Grid.Column="1"/>
-                    <Label Content="Recommended appointments" HorizontalAlignment="Left" Margin="432,31,0,0" VerticalAlignment="Top" Width="304" Grid.Column="1"/>
-                    <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="148,158,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Height="33
-                             " Grid.Column="1"/>
-                    <Label Content="Time:" HorizontalAlignment="Left" Margin="60,156,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Button x:Name="bookBtn" Content="Book Appointment" HorizontalAlignment="Left" Margin="18,336,0,0" VerticalAlignment="Top" Height="32" Width="322" Click="bookBtn_Click" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <DatePicker x:Name="datePicker" HorizontalAlignment="Left" Margin="50,73,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <ComboBox x:Name="doctorCb" HorizontalAlignment="Left" Margin="50,245,0,0" VerticalAlignment="Top" Width="153" Grid.Column="2"/>
+                    <Label Content="Date:" HorizontalAlignment="Left" Margin="63,73,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Label Content="Doctor:" HorizontalAlignment="Left" Margin="41,241,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <ListBox Margin="334,73,34,27" Grid.Column="2"/>
+                    <Label Content="Recommended appointments" HorizontalAlignment="Left" Margin="334,31,0,0" VerticalAlignment="Top" Width="304" Grid.Column="2"/>
+                    <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="50,158,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Height="33
+                             " Grid.Column="2"/>
+                    <Label Content="Time:" HorizontalAlignment="Left" Margin="60,156,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="editTab" Header="My Appointments" FontSize="20" FontWeight="Bold">
@@ -39,6 +40,12 @@
                     <Label Content="My appointments" HorizontalAlignment="Left" Margin="481,18,0,0" VerticalAlignment="Top" Width="177"/>
                     <TextBox x:Name="timeEditTb" HorizontalAlignment="Left" Margin="136,158,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Height="33"/>
                     <Label Content="Time:" HorizontalAlignment="Left" Margin="48,156,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Appointment History" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="appointmentHistoryLb" Margin="32,31,34,66"/>
+                    <Button x:Name="refreshHistory" Content="Refresh" HorizontalAlignment="Left" Margin="685,337,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Click="refreshHistory_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

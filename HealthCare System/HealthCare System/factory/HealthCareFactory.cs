@@ -201,14 +201,21 @@ namespace HealthCare_System.factory
                 string line = file.ReadLine();
                 int requestId = Convert.ToInt32(line.Split(";")[0]);
                 string patientId = line.Split(";")[1];
-                int appointmentId = Convert.ToInt32(line.Split(";")[2].Trim());
+                int oldAppointmentId = Convert.ToInt32(line.Split(";")[2]);
+                int newAppointmentId = Convert.ToInt32(line.Split(";")[3].Trim());
+
 
                 AppointmentRequest request = this.appointmentRequestController.FindById(requestId);
                 Patient patient = this.patientController.FindByJmbg(patientId);
-                Appointment appointment = this.appointmentController.FindById(appointmentId);
-
+                Appointment oldAppointment = this.appointmentController.FindById(oldAppointmentId);
+                Appointment newAppointment = null;
+                if (newAppointmentId != -1)
+                {
+                    this.appointmentController.FindById(newAppointmentId);
+                }
                 request.Patient = patient;
-                request.Appointment = appointment;
+                request.OldAppointment = oldAppointment;
+                request.NewAppointment = newAppointment;
             }
 
             file.Close();

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace HealthCare_System.gui
 {
@@ -35,8 +36,29 @@ namespace HealthCare_System.gui
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
             UpdateLb();
+            datePicker.DisplayDateStart = DateTime.Now;
+            datePickerEdit.DisplayDateStart = DateTime.Now;
+            UpdateAppointmentHistory();
+
         }
 
+        public void UpdateAppointmentHistory()
+        {
+            Patient patient = (Patient)factory.User;
+
+            List<Appointment> sortedAppoinments = patient.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
+                {
+                    
+                    appointmentHistoryLb.Items.Add("Start: " + appointment.Start.ToString("dd/MM/yyyy HH:mm") +
+                        ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
+                        ", type: " + appointment.Type.ToString().ToLower() +
+                        ", room: " + appointment.Room.Name);
+                }
+            }
+        }
         public void InitializeDoctors()
         {
             indexedDoctors = new Dictionary<int, Doctor>();
@@ -72,7 +94,7 @@ namespace HealthCare_System.gui
             }
             DateTime start;
             DateTime date = datePicker.SelectedDate.Value;
-            if (date <= DateTime.Now)
+            if (date < DateTime.Now)
             {
                 MessageBox.Show("Invalid Date.");
                 return;
@@ -99,7 +121,7 @@ namespace HealthCare_System.gui
             try
             {
                 Appointment appointment=factory.AddAppointment(start, end, doctor, patient, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), AppointmentState.ACCEPTED, patient, appointment, RequestType.CREATE, DateTime.Now);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), AppointmentState.ACCEPTED, patient, appointment, null, RequestType.CREATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 MessageBox.Show("Appointment booked");
                 datePicker.SelectedDate = DateTime.Now;
@@ -119,9 +141,10 @@ namespace HealthCare_System.gui
             myAppointmentsLb.Items.Clear();
             Patient patient = (Patient)factory.User;
             int index = 0;
-            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            List<Appointment> sortedAppoinments = patient.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
+            foreach (Appointment appointment in sortedAppoinments)
             {
-                if (DateTime.Now < appointment.Start)
+                if (DateTime.Now < appointment.Start && appointment.Status!=AppointmentStatus.ON_HOLD)
                 {
                     indexedAppointments.Add(index, appointment);
                     myAppointmentsLb.Items.Add(appointment.Start.ToString("dd/MM/yyyy HH:mm") +
@@ -183,17 +206,22 @@ namespace HealthCare_System.gui
             Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
             DateTime end = start.AddMinutes((appointment.End-appointment.Start).TotalMinutes);
             Patient patient = (Patient)factory.User;
+            Appointment requestedAppointment = null;
             try
             {
-                AppointmentStatus status = AppointmentStatus.BOOKED;
                 AppointmentState state = AppointmentState.ACCEPTED;
                 if (needConfirmation)
                 {
-                    status = AppointmentStatus.ON_HOLD;
+
+                    requestedAppointment=factory.AddAppointment(start, end, doctor, patient, appointment.Type, AppointmentStatus.ON_HOLD, false);
                     state = AppointmentState.WAITING;
                 }
-                factory.UpdateAppointment(appointment.Id,start, end, doctor, patient,status);
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.UPDATE, DateTime.Now);
+                else
+                {
+                    factory.UpdateAppointment(appointment.Id, start, end, doctor, patient, AppointmentStatus.BOOKED);
+                }
+                
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
                 if (needConfirmation)
@@ -264,7 +292,7 @@ namespace HealthCare_System.gui
                     state = AppointmentState.WAITING;
                 }
                 Patient patient = (Patient)factory.User;
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.DELETE, DateTime.Now);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, null, RequestType.DELETE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
                 if (needConfirmation)
@@ -292,5 +320,10 @@ namespace HealthCare_System.gui
             }
             else e.Cancel = true;
         }
+
+        private void refreshHistory_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAppointmentHistory();
         }
+    }
 }
