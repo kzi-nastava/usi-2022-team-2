@@ -30,14 +30,13 @@
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,110,0,0" Name="textBoxBirth" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,140,0,0" Name="textBoxHeight" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,170,0,0" Name="textBoxWeight" VerticalAlignment="Top" Width="222" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,200,0,0" Name="textBoxHistory" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,230,0,0" Name="textBoxAlergies" VerticalAlignment="Top" Width="222" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,200,0,0" Name="textBoxHistory" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,260,0,0" Name="textBoxEmail" VerticalAlignment="Top" Width="222" />
         <PasswordBox Height="23" HorizontalAlignment="Left" Margin="240,290,0,0" Name="PasswordBox" VerticalAlignment="Top" Width="222" />
 
         <Button Content="Submit" Height="35" HorizontalAlignment="Left" Margin="100,350,0,0" Name="SubmitBtn" VerticalAlignment="Top" Width="100" Click="SubmitBtn_Click" />
         <Button Content="Cancel" Height="35" HorizontalAlignment="Right" Margin="300,350,60,0" Name="CancleBtn" VerticalAlignment="Top" Width="100" Click="CancleBtn_Click" />
-
 
     </Grid>
 </Window>

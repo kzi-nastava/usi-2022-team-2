@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Collections.Generic;
 
 namespace HealthCare_System.factory
 {
@@ -131,7 +130,7 @@ namespace HealthCare_System.factory
                     if (patient.Blocked)
                     {
                         MessageBox.Show("Account blocked. Contact secretary for more informations!");
-                        return null;
+                        return patient;
                     }
                     else
                     {
@@ -201,14 +200,21 @@ namespace HealthCare_System.factory
                 string line = file.ReadLine();
                 int requestId = Convert.ToInt32(line.Split(";")[0]);
                 string patientId = line.Split(";")[1];
-                int appointmentId = Convert.ToInt32(line.Split(";")[2].Trim());
+                int oldAppointmentId = Convert.ToInt32(line.Split(";")[2]);
+                int newAppointmentId = Convert.ToInt32(line.Split(";")[3].Trim());
+
 
                 AppointmentRequest request = this.appointmentRequestController.FindById(requestId);
                 Patient patient = this.patientController.FindByJmbg(patientId);
-                Appointment appointment = this.appointmentController.FindById(appointmentId);
-
+                Appointment oldAppointment = this.appointmentController.FindById(oldAppointmentId);
+                Appointment newAppointment = null;
+                if (newAppointmentId != -1)
+                {
+                    this.appointmentController.FindById(newAppointmentId);
+                }
                 request.Patient = patient;
-                request.Appointment = appointment;
+                request.OldAppointment = oldAppointment;
+                request.NewAppointment = newAppointment;
             }
 
             file.Close();
@@ -687,7 +693,8 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
+        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, 
+            AppointmentStatus status, bool emergency)
         {
             Room room = AvailableRoom(type, start, end);
             if (!doctor.IsAvailable(start, end))
@@ -772,6 +779,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
 
         }
+
         public void DeleteAppointment(int id)
         {
             Appointment appointment = appointmentController.FindById(id);
@@ -786,6 +794,66 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
+        public void DeletePatient(Patient patient)
+        {
+            MedicalRecord medicalRecord = patient.MedicalRecord;
+
+            foreach (Appointment appointment in medicalRecord.Appointments)
+            {
+                if(appointment.Start > DateTime.Now)
+                {
+                    throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                }
+                appointmentController.Appointments.Remove(appointment);
+            }
+            appointmentController.Serialize();
+
+            for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
+            {
+                if (prescriptionController.Prescriptions[i].MedicalRecord == medicalRecord)
+                {
+                    prescriptionController.Prescriptions.RemoveAt(i);
+                }
+            }
+            prescriptionController.Serialize();
+            medicalRecordController.MedicalRecords.Remove(medicalRecord);
+            medicalRecordController.Serialize();
+            
+
+            for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
+            {
+                if (drugNotificationController.DrugNotifications[i].Patient == patient)
+                {
+                    drugNotificationController.DrugNotifications.RemoveAt(i);
+                }
+            }
+            drugNotificationController.Serialize();
+            
+            patientController.Patients.Remove(patient);
+            patientController.Serialize();
+
+        }
+
+        public void AddPatient(Patient patient, MedicalRecord medRecord)
+        {
+            patientController.Patients.Add(patient);
+
+            patient.MedicalRecord = medRecord;
+            medRecord.Patient = patient;
+
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+            ingredientController.Serialize();
+        }
+
+        public void UpdatePatient()
+        {
+            patientController.Serialize();
+            medicalRecordController.Serialize();
+        }
+
+
 
         //Did this in filtering
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
