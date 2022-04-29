@@ -84,5 +84,14 @@ namespace HealthCare_System.controllers
             }
             File.WriteAllText(linkPath, csv);
         }
+
+        public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)
+        {
+            MedicalRecord medicalRecord = FindById(id);
+            medicalRecord.Height = height;
+            medicalRecord.Weight = weight;
+            medicalRecord.DiseaseHistory = diseaseHistory;
+            Serialize();
+        }
     }
 }

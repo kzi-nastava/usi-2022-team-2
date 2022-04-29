@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Collections.Generic;
 
 namespace HealthCare_System.factory
 {
@@ -678,7 +677,8 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
+        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, 
+            AppointmentStatus status, bool emergency)
         {
             Room room = AvailableRoom(type, start, end);
             if (!doctor.IsAvailable(start, end))
@@ -763,6 +763,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
 
         }
+
         public void DeleteAppointment(int id)
         {
             Appointment appointment = appointmentController.FindById(id);
@@ -777,7 +778,6 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
-
 
         public void DeletePatient(Patient patient)
         {
@@ -836,6 +836,7 @@ namespace HealthCare_System.factory
             patientController.Serialize();
             medicalRecordController.Serialize();
         }
+
 
 
         //Did this in filtering
