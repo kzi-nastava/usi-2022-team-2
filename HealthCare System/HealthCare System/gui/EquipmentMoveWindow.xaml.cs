@@ -56,7 +56,7 @@ namespace HealthCare_System.gui
             foreach (Equipment equipment in factory.EquipmentController.Equipment) 
             {
                 equipmentCb.Items.Add(equipment.Name);
-                equipment[index] = equipment;
+                this.equipment[index] = equipment;
                 index++;
             }
                 
