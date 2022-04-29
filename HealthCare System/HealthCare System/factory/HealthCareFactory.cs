@@ -828,6 +828,15 @@ namespace HealthCare_System.factory
                 }
             }
 
+            foreach (Transfer transfer in transferController.Transfers)
+            {
+                if (room == transfer.FromRoom || room == transfer.ToRoom)
+                {
+                    available = false;
+                    break;
+                }
+            }
+
             return available;
         }
 

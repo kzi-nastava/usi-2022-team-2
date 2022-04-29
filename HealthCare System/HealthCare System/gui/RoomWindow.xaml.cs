@@ -38,30 +38,30 @@ namespace HealthCare_System.gui
         void InitializeTitle()
         {
             if (createNewRoom)
-                TitleLbl.Content = "Create new room";
+                titleLbl.Content = "Create new room";
             else
-                TitleLbl.Content = "Update room";
+                titleLbl.Content = "Update room";
         }
 
         void InitializeFields()
         {
             if (!createNewRoom)
-                NameTb.Text = room.Name;
+                nameTb.Text = room.Name;
             else
-                NameTb.Text = "";
+                nameTb.Text = "";
             foreach (TypeOfRoom roomType in Enum.GetValues(typeof(TypeOfRoom)))
             {
                 if (roomType != TypeOfRoom.STORAGE)
-                    TypeCb.Items.Add(roomType);
+                    typeCb.Items.Add(roomType);
             }
             if (!createNewRoom)
-                TypeCb.SelectedItem = room.Type;
+                typeCb.SelectedItem = room.Type;
             else
-                TypeCb.SelectedIndex = 0;
+                typeCb.SelectedIndex = 0;
 
         }
 
-        private void SubmitBtn_Click(object sender, RoutedEventArgs e)
+        private void submitBtn_Click(object sender, RoutedEventArgs e)
         {
             if (createNewRoom)
             {
@@ -72,7 +72,7 @@ namespace HealthCare_System.gui
                 }
                 try
                 {
-                    factory.RoomController.CreateNewRoom(NameTb.Text, (TypeOfRoom)TypeCb.SelectedItem, equipmentAmount);
+                    factory.RoomController.CreateNewRoom(nameTb.Text, (TypeOfRoom)typeCb.SelectedItem, equipmentAmount);
                     MessageBox.Show("Room created sucessfully!");
                     Close();
                 }
@@ -85,7 +85,7 @@ namespace HealthCare_System.gui
             {
                 try
                 {
-                    factory.RoomController.UpdateRoom(room, NameTb.Text, (TypeOfRoom)TypeCb.SelectedItem);
+                    factory.RoomController.UpdateRoom(room, nameTb.Text, (TypeOfRoom)typeCb.SelectedItem);
                     MessageBox.Show("Room updated sucessfully!");
                     Close();
                 }
