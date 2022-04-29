@@ -7,6 +7,7 @@ using HealthCare_System.gui;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Windows.Threading;
 
 namespace HealthCare_System
 {
@@ -15,19 +16,19 @@ namespace HealthCare_System
     /// </summary>
     public partial class MainWindow : Window
     {
-        HealthCareFactory factory = new();
+        HealthCareFactory factory;
+        SecretaryWindow sc;
+
 
         public MainWindow(HealthCareFactory factory)
         {
             this.factory = factory;
             InitializeComponent();
-            StartTransfers();
         }
         public MainWindow()
         {
             factory = new();
             InitializeComponent();
-            StartTransfers();
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +64,7 @@ namespace HealthCare_System
                 factory.User = person;
                 Window managerWindow = new ManagerWindow(factory);
                 managerWindow.Show();
+                Close();
             }
             else if (person.GetType() == typeof(Secretary))
             {
@@ -71,33 +73,6 @@ namespace HealthCare_System
                 secretaryWindow.Show();
             }
         }
-
-        private async void StartTransfers()
-        {
-            await Task.Run(() => DoTransfers());
-        }
-
-        private void DoTransfers()
-        {
-            Thread.Sleep(300000);
-            if (factory.TransferController.Transfers.Count > 0)
-            {
-                List<Transfer> copyTransfers = new List<Transfer>();
-                foreach (Transfer copyTransfer in factory.TransferController.Transfers)
-                {
-                    copyTransfers.Add(copyTransfer);
-                }
-
-                foreach (Transfer transfer in copyTransfers)
-                {
-                    if (transfer.MomentOfTransfer < DateTime.Now)
-                        factory.ExecuteTransfer(transfer);
-                }
-            }
-            
-
-        }
-
     }
 
 }

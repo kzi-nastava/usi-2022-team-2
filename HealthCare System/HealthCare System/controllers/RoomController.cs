@@ -57,6 +57,11 @@ namespace HealthCare_System.controllers
             File.WriteAllText(linkPath, csv);
         }
 
+        int GenerateId()
+        {
+            return rooms[rooms.Count - 1].Id + 1;
+        }
+
         public List<Room> GetRoomsByType(AppointmentType type)
         {
             List<Room> filteredRooms = new List<Room>();
@@ -72,7 +77,7 @@ namespace HealthCare_System.controllers
                     filteredRooms.Add(room);
                 }
             }
-            return rooms;
+            return filteredRooms;
         }
 
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
@@ -107,6 +112,36 @@ namespace HealthCare_System.controllers
                     }
                 }
             }
+        }
+
+        public void CreateNewRoom(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
+        {
+            if (name.Length > 30 || name.Length < 5)
+                throw new Exception();
+
+            Room newRoom = new Room(GenerateId(), name, type, equipmentAmount);
+            rooms.Add(newRoom);
+            Serialize();
+        }
+
+        public void UpdateRoom(Room room, string name, TypeOfRoom type)
+        {
+            if (name.Length > 30 || name.Length < 5)
+                throw new Exception();
+            room.Name = name;
+            room.Type = type;
+            Serialize();
+        }
+
+        public void DeleteRoom(Room room)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
+            {
+                MoveFromRoom(room, equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+                MoveToRoom(FindById(1003), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+            }
+            rooms.Remove(room);
+            Serialize();
         }
 
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
