@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public DaysOffRequestController()
         {
-            path = "data/entities/DaysOffRequests.json";
+            path = "../../../data/entities/DaysOffRequests.json";
             Load();
         }
 

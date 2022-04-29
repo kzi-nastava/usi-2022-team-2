@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public ReferralController()
         {
-            path = "data/entities/Referrals.json";
+            path = "../../../data/entities/Referrals.json";
             Load();
         }
 
@@ -38,7 +38,7 @@ namespace HealthCare_System.controllers
                     return referral;
             return null;
         }
-
+        // TODO: Finalize function
         /*public void Serialize(string linkPath= "data/links/Referral_Linker.csv")
         {
             string referralsJson = JsonSerializer.Serialize(referrals, new JsonSerializerOptions { WriteIndented = true });

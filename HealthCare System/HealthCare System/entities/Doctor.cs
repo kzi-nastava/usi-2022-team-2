@@ -18,26 +18,26 @@ namespace HealthCare_System.entities
             freeDates = new List<DateTime>();
         }
 
-        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail, string password, 
-            List<Appointment> appointments, Specialization specialization, List<DateTime> freeDates) : 
-            base(jmbg, name, lastName, birthDate, mail, password)
+        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail,
+            string password, List<Appointment> appointments, Specialization specialization,
+            List<DateTime> freeDates) : base(jmbg, name, lastName, birthDate, mail, password)
         {
             this.appointments = appointments;
             this.specialization = specialization;
             this.freeDates = freeDates;
         }
 
-        public Doctor(Doctor doctor) :
-            base(doctor.Jmbg, doctor.FirstName, doctor.LastName, doctor.BirthDate, doctor.Mail, doctor.Password)
+        public Doctor(Doctor doctor) 
+            : base(doctor.Jmbg, doctor.FirstName, doctor.LastName, doctor.BirthDate, doctor.Mail, doctor.Password)
         {
             appointments = doctor.appointments;
             specialization = doctor.specialization;
             freeDates = doctor.freeDates;
         }
 
-        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail, string password,
-            Specialization specialization, List<DateTime> freeDates) :
-            base(jmbg, name, lastName, birthDate, mail, password)
+        public Doctor(string jmbg, string name, string lastName, DateTime birthDate, string mail,
+            string password, Specialization specialization, List<DateTime> freeDates) 
+            : base(jmbg, name, lastName, birthDate, mail, password)
         {
             appointments = new List<Appointment>();
             this.specialization = specialization;
@@ -76,7 +76,7 @@ namespace HealthCare_System.entities
 
         public List<Appointment> FilterAppointments(DateTime date)
         {
-            List<Appointment> upcoming = new List<Appointment>();
+            List<Appointment> upcoming = new();
 
             foreach (Appointment appointment in appointments)
             {

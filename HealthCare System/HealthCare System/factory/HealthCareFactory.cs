@@ -1,6 +1,5 @@
 ﻿using HealthCare_System.controllers;
 using HealthCare_System.entities;
-using HealthCare_System.gui;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,32 +36,84 @@ namespace HealthCare_System.factory
         SecretaryController secretaryController;
         TransferController transferController;
 
-        internal AnamnesisController AnamnesisController { get => anamnesisController; set => anamnesisController = value; }
-        internal AppointmentController AppointmentController { get => appointmentController; set => appointmentController = value; }
-        internal AppointmentRequestController AppointmentRequestController { get => appointmentRequestController; set => appointmentRequestController = value; }
-        internal DaysOffNotificationController DaysOffNotificationController { get => daysOffNotificationController; set => daysOffNotificationController = value; }
-        internal DaysOffRequestController DaysOffRequestController { get => daysOffRequestController; set => daysOffRequestController = value; }
-        internal DelayedAppointmentNotificationController DelayedAppointmentNotificationController { get => delayedAppointmentNotificationController; set => delayedAppointmentNotificationController = value; }
-        internal DoctorController DoctorController { get => doctorController; set => doctorController = value; }
-        internal DoctorSurveyController DoctorSurveyController { get => doctorSurveyController; set => doctorSurveyController = value; }
-        internal DrugController DrugController { get => drugController; set => drugController = value; }
-        internal DrugNotificationController DrugNotificationController { get => drugNotificationController; set => drugNotificationController = value; }
-        internal EquipmentController EquipmentController { get => equipmentController; set => equipmentController = value; }
-        internal HospitalSurveyController HospitalSurveyController { get => hospitalSurveyController; set => hospitalSurveyController = value; }
-        internal IngredientController IngredientController { get => ingredientController; set => ingredientController = value; }
-        internal ManagerController ManagerController { get => managerController; set => managerController = value; }
-        internal MedicalRecordController MedicalRecordController { get => medicalRecordController; set => medicalRecordController = value; }
-        internal MergingRenovationController MergingRenovationController { get => mergingRenovationController; set => mergingRenovationController = value; }
-        internal PatientController PatientController { get => patientController; set => patientController = value; }
-        internal PrescriptionController PrescriptionController { get => prescriptionController; set => prescriptionController = value; }
-        internal ReferralController ReferralController { get => referralController; set => referralController = value; }
-        internal RoomController RoomController { get => roomController; set => roomController = value; }
-        internal SimpleRenovationController SimpleRenovationController { get => simpleRenovationController; set => simpleRenovationController = value; }
-        internal SplittingRenovationController SplittingRenovationController { get => splittingRenovationController; set => splittingRenovationController = value; }
-        internal SupplyRequestController SupplyRequestController { get => supplyRequestController; set => supplyRequestController = value; }
+        #region Property
+        internal AnamnesisController AnamnesisController 
+            { get => anamnesisController; set => anamnesisController = value; }
+
+        internal AppointmentController AppointmentController 
+            { get => appointmentController; set => appointmentController = value; }
+
+        internal AppointmentRequestController AppointmentRequestController 
+            { get => appointmentRequestController; set => appointmentRequestController = value; }
+
+        internal DaysOffNotificationController DaysOffNotificationController 
+            { get => daysOffNotificationController; set => daysOffNotificationController = value; }
+
+        internal DaysOffRequestController DaysOffRequestController 
+            { get => daysOffRequestController; set => daysOffRequestController = value; }
+
+        internal DelayedAppointmentNotificationController DelayedAppointmentNotificationController 
+            { get => delayedAppointmentNotificationController; set => delayedAppointmentNotificationController = value; }
+
+        internal DoctorController DoctorController 
+            { get => doctorController; set => doctorController = value; }
+
+        internal DoctorSurveyController DoctorSurveyController 
+            { get => doctorSurveyController; set => doctorSurveyController = value; }
+
+        internal DrugController DrugController 
+            { get => drugController; set => drugController = value; }
+
+        internal DrugNotificationController DrugNotificationController 
+            { get => drugNotificationController; set => drugNotificationController = value; }
+
+        internal EquipmentController EquipmentController 
+            { get => equipmentController; set => equipmentController = value; }
+
+        internal HospitalSurveyController HospitalSurveyController 
+            { get => hospitalSurveyController; set => hospitalSurveyController = value; }
+
+        internal IngredientController IngredientController 
+            { get => ingredientController; set => ingredientController = value; }
+
+        internal ManagerController ManagerController 
+            { get => managerController; set => managerController = value; }
+
+        internal MedicalRecordController MedicalRecordController 
+            { get => medicalRecordController; set => medicalRecordController = value; }
+
+        internal MergingRenovationController MergingRenovationController 
+            { get => mergingRenovationController; set => mergingRenovationController = value; }
+
+        internal PatientController PatientController 
+            { get => patientController; set => patientController = value; }
+
+        internal PrescriptionController PrescriptionController 
+            { get => prescriptionController; set => prescriptionController = value; }
+
+        internal ReferralController ReferralController 
+            { get => referralController; set => referralController = value; }
+
+        internal RoomController RoomController 
+            { get => roomController; set => roomController = value; }
+
+        internal SimpleRenovationController SimpleRenovationController 
+            { get => simpleRenovationController; set => simpleRenovationController = value; }
+
+        internal SplittingRenovationController SplittingRenovationController 
+            { get => splittingRenovationController; set => splittingRenovationController = value; }
+
+        internal SupplyRequestController SupplyRequestController 
+            { get => supplyRequestController; set => supplyRequestController = value; }
+
         public Person User { get => user; set => user = value; }
-        internal SecretaryController SecretaryController{ get => secretaryController; set => secretaryController = value; }
-        internal TransferController TransferController { get => transferController; set => transferController = value; }
+
+        internal SecretaryController SecretaryController
+            { get => secretaryController; set => secretaryController = value; }
+
+        internal TransferController TransferController 
+            { get => transferController; set => transferController = value; }
+        #endregion
 
         public HealthCareFactory()
         {
@@ -114,9 +165,7 @@ namespace HealthCare_System.factory
             LinkSupplyRequestEquipment();
             LinkTransfers();
         }
-
-
-        //TODO add the rest of user types
+        #region Link
         public Person Login(string mail, string password)
         {
             foreach (Doctor doctor in doctorController.Doctors)
@@ -150,7 +199,7 @@ namespace HealthCare_System.factory
             return null;
         }
         
-        void LinkDrugNotification(string path = "data/links/Notification_Patient_Drug.csv")
+        void LinkDrugNotification(string path = "../../../data/links/Notification_Patient_Drug.csv")
         {
             StreamReader file = new(path);
 
@@ -161,9 +210,9 @@ namespace HealthCare_System.factory
                 string patientId = line.Split(";")[1];
                 int drugId = Convert.ToInt32(line.Split(";")[2].Trim());
 
-                DrugNotification notification = this.drugNotificationController.FindById(notificationId);
-                Patient patient = this.patientController.FindByJmbg(patientId);
-                Drug drug = this.drugController.FindById(drugId);
+                DrugNotification notification = drugNotificationController.FindById(notificationId);
+                Patient patient = patientController.FindByJmbg(patientId);
+                Drug drug = drugController.FindById(drugId);
 
                 notification.Drug=drug;
                 notification.Patient = patient;
@@ -172,7 +221,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkDrugIngredient(string path = "data/links/Drug_Ingredient.csv")
+        void LinkDrugIngredient(string path = "../../../data/links/Drug_Ingredient.csv")
         {
             StreamReader file = new(path);
 
@@ -182,8 +231,8 @@ namespace HealthCare_System.factory
                 int drugId = Convert.ToInt32(line.Split(";")[0]);
                 int ingredientId = Convert.ToInt32(line.Split(";")[1].Trim());
 
-                Drug drug = this.drugController.FindById(drugId);
-                Ingredient ingredient = this.ingredientController.FindById(ingredientId);
+                Drug drug = drugController.FindById(drugId);
+                Ingredient ingredient = ingredientController.FindById(ingredientId);
 
                 drug.Ingredients.Add(ingredient);
             }
@@ -191,7 +240,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkAppointmentRequest(string path = "data/links/AppointmentRequestLinker.csv")
+        void LinkAppointmentRequest(string path = "../../../data/links/AppointmentRequestLinker.csv")
         {
             StreamReader file = new(path);
 
@@ -204,13 +253,13 @@ namespace HealthCare_System.factory
                 int newAppointmentId = Convert.ToInt32(line.Split(";")[3].Trim());
 
 
-                AppointmentRequest request = this.appointmentRequestController.FindById(requestId);
-                Patient patient = this.patientController.FindByJmbg(patientId);
-                Appointment oldAppointment = this.appointmentController.FindById(oldAppointmentId);
+                AppointmentRequest request = appointmentRequestController.FindById(requestId);
+                Patient patient = patientController.FindByJmbg(patientId);
+                Appointment oldAppointment = appointmentController.FindById(oldAppointmentId);
                 Appointment newAppointment = null;
                 if (newAppointmentId != -1)
                 {
-                    this.appointmentController.FindById(newAppointmentId);
+                    appointmentController.FindById(newAppointmentId);
                 }
                 request.Patient = patient;
                 request.OldAppointment = oldAppointment;
@@ -220,7 +269,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkDaysOffNotification(string path = "data/links/Notification_Doctor.csv")
+        void LinkDaysOffNotification(string path = "../../../data/links/Notification_Doctor.csv")
         {
             StreamReader file = new(path);
 
@@ -230,8 +279,8 @@ namespace HealthCare_System.factory
                 int notificationId = Convert.ToInt32(line.Split(";")[0]);
                 string doctorId = line.Split(";")[1].Trim();
 
-                DaysOffNotification notification = this.daysOffNotificationController.FindById(notificationId);
-                Doctor doctor = this.doctorController.FindByJmbg(doctorId);
+                DaysOffNotification notification = daysOffNotificationController.FindById(notificationId);
+                Doctor doctor = doctorController.FindByJmbg(doctorId);
 
                 notification.Doctor = doctor;
             }
@@ -239,7 +288,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkDaysOffRequest(string path = "data/links/DaysOffRequest_Doctor.csv")
+        void LinkDaysOffRequest(string path = "../../../data/links/DaysOffRequest_Doctor.csv")
         {
             StreamReader file = new(path);
 
@@ -249,8 +298,8 @@ namespace HealthCare_System.factory
                 int requestId= Convert.ToInt32(line.Split(";")[0]);
                 string doctorId = line.Split(";")[1].Trim();
 
-                DaysOffRequest request= this.daysOffRequestController.FindById(requestId);
-                Doctor doctor = this.doctorController.FindByJmbg(doctorId);
+                DaysOffRequest request= daysOffRequestController.FindById(requestId);
+                Doctor doctor = doctorController.FindByJmbg(doctorId);
 
                 request.Doctor = doctor;
             }
@@ -258,7 +307,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkDelayedAppointmentNotification(string path = "data/links/DelayedAppointmentNotificationLinker.csv")
+        void LinkDelayedAppointmentNotification(string path = "../../../data/links/DelayedAppointmentNotificationLinker.csv")
         {
             StreamReader file = new(path);
 
@@ -268,8 +317,8 @@ namespace HealthCare_System.factory
                 int notificationtId = Convert.ToInt32(line.Split(";")[0]);
                 int appointmentId = Convert.ToInt32(line.Split(";")[1].Trim());
 
-                DelayedAppointmentNotification notification= this.delayedAppointmentNotificationController.FindById(notificationtId);
-                Appointment appointment = this.appointmentController.FindById(appointmentId);
+                DelayedAppointmentNotification notification= delayedAppointmentNotificationController.FindById(notificationtId);
+                Appointment appointment = appointmentController.FindById(appointmentId);
 
                 notification.Appointment = appointment;
             }
@@ -277,7 +326,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkMedicalRecordPatient(string path = "data/links/MedicalRecord_Patient.csv")
+        void LinkMedicalRecordPatient(string path = "../../../data/links/MedicalRecord_Patient.csv")
         {
             StreamReader file = new(path);
 
@@ -297,7 +346,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkAppointment(string path = "data/links/AppointmentLinker.csv")
+        void LinkAppointment(string path = "../../../data/links/AppointmentLinker.csv")
         {
             StreamReader file = new(path);
             while(!file.EndOfStream)
@@ -328,7 +377,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkMedicalRecordIngrediant(string path = "data/links/MedicalRecord_Ingredient.csv")
+        void LinkMedicalRecordIngrediant(string path = "../../../data/links/MedicalRecord_Ingredient.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -346,7 +395,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkDoctorSurvey(string path = "data/links/Doctor_DoctorSurvey.csv")
+        void LinkDoctorSurvey(string path = "../../../data/links/Doctor_DoctorSurvey.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -364,7 +413,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkPrescription(string path = "data/links/PrescriptionLinker.csv")
+        void LinkPrescription(string path = "../../../data/links/PrescriptionLinker.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -387,7 +436,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkReferral(string path = "data/links/ReferralLinker.csv")
+        void LinkReferral(string path = "../../../data/links/ReferralLinker.csv")
         {
             StreamReader file = new(path);
             while (!file.EndOfStream)
@@ -408,7 +457,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkRoomEquipment(string path = "data/links/Room_Equipment.csv")
+        void LinkRoomEquipment(string path = "../../../data/links/Room_Equipment.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -420,7 +469,7 @@ namespace HealthCare_System.factory
                 int amount = Convert.ToInt32(line.Split(";")[2].Trim());
 
                 Room room = this.roomController.FindById(roomId);
-                Equipment equipment = this.equipmentController.FindById(equipmentId);
+                Equipment equipment = equipmentController.FindById(equipmentId);
 
                 room.EquipmentAmount[equipment] = amount;
             }
@@ -428,7 +477,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkSimpleRenovationRoom(string path = "data/links/SimpleRenovation_Room.csv")
+        void LinkSimpleRenovationRoom(string path = "../../../data/links/SimpleRenovation_Room.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -438,8 +487,8 @@ namespace HealthCare_System.factory
                 int simpleRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
                 int roomId = Convert.ToInt32(line.Split(";")[1]);
 
-                SimpleRenovation simpleRenovation = this.simpleRenovationController.FindById(simpleRenovationId);
-                Room room = this.roomController.FindById(roomId);
+                SimpleRenovation simpleRenovation = simpleRenovationController.FindById(simpleRenovationId);
+                Room room = roomController.FindById(roomId);
 
                 simpleRenovation.Room = room;
             }
@@ -447,7 +496,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkSplittingRenovationRoom(string path = "data/links/SplittingRenovation_Room.csv")
+        void LinkSplittingRenovationRoom(string path = "../../../data/links/SplittingRenovation_Room.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -457,8 +506,8 @@ namespace HealthCare_System.factory
                 int splittingRenovationId = Convert.ToInt32(line.Split(";")[0].Trim());
                 int roomId = Convert.ToInt32(line.Split(";")[1]);
 
-                SplittingRenovation splittingRenovation = this.splittingRenovationController.FindById(splittingRenovationId);
-                Room room = this.roomController.FindById(roomId);
+                SplittingRenovation splittingRenovation = splittingRenovationController.FindById(splittingRenovationId);
+                Room room = roomController.FindById(roomId);
 
                 splittingRenovation.Room = room;
             }
@@ -466,7 +515,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkMergingRenovationRoom(string path = "data/links/MergingRenovation_Room.csv")
+        void LinkMergingRenovationRoom(string path = "../../../data/links/MergingRenovation_Room.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -477,9 +526,9 @@ namespace HealthCare_System.factory
                 int firstRoomId = Convert.ToInt32(line.Split(";")[1]);
                 int secondRoomId = Convert.ToInt32(line.Split(";")[2].Trim());
 
-                MergingRenovation mergingRenovation = this.mergingRenovationController.FindById(mergingRenovationId);
-                Room firstRoom = this.roomController.FindById(firstRoomId);
-                Room secondRoom = this.roomController.FindById(secondRoomId);
+                MergingRenovation mergingRenovation = mergingRenovationController.FindById(mergingRenovationId);
+                Room firstRoom = roomController.FindById(firstRoomId);
+                Room secondRoom = roomController.FindById(secondRoomId);
 
                 mergingRenovation.Rooms.Add(firstRoom);
                 mergingRenovation.Rooms.Add(secondRoom);
@@ -488,7 +537,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkSupplyRequestEquipment(string path = "data/links/SupplyRequest_Equipment.csv")
+        void LinkSupplyRequestEquipment(string path = "../../../data/links/SupplyRequest_Equipment.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -499,8 +548,8 @@ namespace HealthCare_System.factory
                 int equipmentId = Convert.ToInt32(line.Split(";")[1].Trim());
                 int amount = Convert.ToInt32(line.Split(";")[2].Trim());
 
-                SupplyRequest supplyRequest = this.supplyRequestController.FindById(supplyRequestId);
-                Equipment equipment = this.equipmentController.FindById(equipmentId);
+                SupplyRequest supplyRequest = supplyRequestController.FindById(supplyRequestId);
+                Equipment equipment = equipmentController.FindById(equipmentId);
 
                 supplyRequest.OrderDetails[equipment] = amount;
             }
@@ -508,7 +557,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
 
-        void LinkTransfers(string path = "data/links/TransferLinker.csv")
+        void LinkTransfers(string path = "../../../data/links/TransferLinker.csv")
         {
             StreamReader file = new StreamReader(path);
 
@@ -532,6 +581,7 @@ namespace HealthCare_System.factory
 
             file.Close();
         }
+        #endregion
 
         public void PrintContnent()
         {
@@ -684,8 +734,8 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, Patient patient, AppointmentType type, 
-            AppointmentStatus status, bool emergency)
+        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, 
+            Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
         {
             Room room = AvailableRoom(type, start, end);
             if (!doctor.IsAvailable(start, end))
@@ -703,7 +753,8 @@ namespace HealthCare_System.factory
             int appointmentId = appointmentController.GenerateId();
             int anamnesisId = anamnesisController.GenerateId();
             Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
-            Appointment appointment = new Appointment(appointmentId, start, end, doctor, patient, room, type, status, anamnesis, false, emergency);
+            Appointment appointment = new Appointment(appointmentId, start, end, doctor, patient,
+                room, type, status, anamnesis, false, emergency);
             appointmentController.Appointments.Add(appointment);
             doctor.Appointments.Add(appointment);
             patient.MedicalRecord.Appointments.Add(appointment);
@@ -743,7 +794,8 @@ namespace HealthCare_System.factory
 
         }
 
-        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient,AppointmentStatus status)
+        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor,
+            Patient patient,AppointmentStatus status)
         {
             Appointment appointment = appointmentController.FindById(id);
             if (appointment is null)
@@ -845,9 +897,8 @@ namespace HealthCare_System.factory
         }
 
 
-
-        //Did this in filtering
-        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType, Dictionary<Equipment, int> equipmentAmount) 
+        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType,
+            Dictionary<Equipment, int> equipmentAmount) 
         {
             if (roomType != "All")
             {

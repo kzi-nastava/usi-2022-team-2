@@ -15,7 +15,8 @@ namespace HealthCare_System.entities
 
         public Prescription() { }
 
-        public Prescription(int id, MedicalRecord medicalRecord, DateTime start, DateTime end, int frequency, Drug drug)
+        public Prescription(int id, MedicalRecord medicalRecord, DateTime start, DateTime end, 
+            int frequency, Drug drug)
         {
             this.id = id;
             this.medicalRecord = medicalRecord;
@@ -35,12 +36,12 @@ namespace HealthCare_System.entities
 
         public Prescription(Prescription prescription)
         {
-            this.id = prescription.id;
-            this.medicalRecord = prescription.medicalRecord;
-            this.start = prescription.start;
-            this.end = prescription.end;
-            this.frequency = prescription.frequency;
-            this.drug = prescription.drug;
+            id = prescription.id;
+            medicalRecord = prescription.medicalRecord;
+            start = prescription.start;
+            end = prescription.end;
+            frequency = prescription.frequency;
+            drug = prescription.drug;
         }
 
         [JsonPropertyName("id")]
@@ -63,7 +64,10 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Prescription[" + "id: " + this.id + ", medical record: " + this.medicalRecord.Id.ToString() + ", start: " + this.start.ToString("dd/MM/yyyy HH:mm") + ", end: " + this.end.ToString("dd/MM/yyyy HH:mm") + ", frequency: " + this.frequency.ToString() + ", drug: " + this.drug.Id.ToString() + "]";
+            return "Prescription[" + "id: " + id + ", medical record: " 
+                + medicalRecord.Id.ToString() + ", start: " + start.ToString("dd/MM/yyyy HH:mm") 
+                + ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", frequency: " 
+                + frequency.ToString() + ", drug: " + drug.Id.ToString() + "]";
         }
     }
 }

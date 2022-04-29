@@ -17,8 +17,8 @@ namespace HealthCare_System.entities
 
         protected Notification(Notification notification)
         {
-            this.id = notification.Id;
-            this.message = notification.Message;
+            id = notification.Id;
+            message = notification.Message;
         }
 
         [JsonPropertyName("message")]

@@ -1,24 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.entities;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for EquipmentMoveWindow.xaml
-    /// </summary>
     public partial class EquipmentMoveWindow : Window
     {
         HealthCareFactory factory;
@@ -39,7 +27,7 @@ namespace HealthCare_System.gui
             int index = 0;
             foreach (Room room in factory.RoomController.Rooms)
             {
-                moveFromView.Items.Add("Id: " + room.Id + ", Name: " + room.Name + ", Amount: " + room.EquipmentAmount[equipment[equipmentCb.SelectedIndex]].ToString());
+                moveFromView.Items.Add("Id: " + room.Id + ", Name: " + room.Name + ", Amount: "+ room.EquipmentAmount[equipment[equipmentCb.SelectedIndex]].ToString());
                 roomsFrom[index] = room;
                 index++;
             }
@@ -68,7 +56,7 @@ namespace HealthCare_System.gui
             foreach (Equipment equipment in factory.EquipmentController.Equipment) 
             {
                 equipmentCb.Items.Add(equipment.Name);
-                this.equipment[index] = equipment;
+                equipment[index] = equipment;
                 index++;
             }
                 
@@ -134,7 +122,7 @@ namespace HealthCare_System.gui
 
             try
             {
-                factory.TransferController.AddTransfer(momentOfTransfer, roomsFrom[moveFromView.SelectedIndex],
+                factory.TransferController.Add(momentOfTransfer, roomsFrom[moveFromView.SelectedIndex],
                 roomsTo[moveToView.SelectedIndex], equipment[equipmentCb.SelectedIndex], amount);
                 MessageBox.Show("Transfer succsessfully added.");
             }

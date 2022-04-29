@@ -23,8 +23,9 @@ namespace HealthCare_System.entities
 
         public Appointment() { }
 
-        public Appointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient, Room room, AppointmentType type, 
-            AppointmentStatus status, Anamnesis anamnesis, bool graded, bool emergency)
+        public Appointment(int id, DateTime start, DateTime end, Doctor doctor, Patient patient, 
+            Room room, AppointmentType type, AppointmentStatus status, Anamnesis anamnesis, 
+            bool graded, bool emergency)
         {
             this.id = id;
             this.start = start;
@@ -120,8 +121,9 @@ namespace HealthCare_System.entities
 
             return "Appointment[id: " + id + ", start: " + start.ToString("dd/MM/yyyy HH:mm") +
                 ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", doctor: " + doctorInfo +
-                ", patient: " + patientInfo + ", type: " + type.ToString() + ", anamnesis: " + anamnesisInfo + 
-                ", room: " + roomInfo + ", emergancy: " + emergency + ", status: " + status.ToString() + ", graded: " + graded + "]";
+                ", patient: " + patientInfo + ", type: " + type.ToString() + ", anamnesis: " 
+                + anamnesisInfo + ", room: " + roomInfo + ", emergancy: " + emergency + ", status: "
+                + status.ToString() + ", graded: " + graded + "]";
         }
     }
 }

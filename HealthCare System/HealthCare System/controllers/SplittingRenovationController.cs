@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public SplittingRenovationController()
         {
-            path = "data/entities/SplittingRenovations.json";
+            path = "../../../data/entities/SplittingRenovations.json";
             Load();
         }
 

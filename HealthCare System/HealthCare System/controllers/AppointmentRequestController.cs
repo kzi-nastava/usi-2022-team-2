@@ -13,7 +13,7 @@ namespace HealthCare_System.controllers
 
         public AppointmentRequestController()
         {
-            path = "data/entities/AppointmentRequests.json";
+            path = "../../../data/entities/AppointmentRequests.json";
             Load();
         }
 
@@ -40,7 +40,7 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize(string linkPath= "data/links/AppointmentRequestLinker.csv")
+        public void Serialize(string linkPath= "../../../data/links/AppointmentRequestLinker.csv")
         {
             string appointmentRequestsJson = JsonSerializer.Serialize(appointmentRequests, 
                 new JsonSerializerOptions { WriteIndented = true });
@@ -51,7 +51,8 @@ namespace HealthCare_System.controllers
                 int newAppointmentInfo;
                 if (request.NewAppointment is null) newAppointmentInfo = -1;
                 else newAppointmentInfo = request.NewAppointment.Id;
-                csv += request.Id.ToString() + ";"  + request.Patient.Jmbg + ";"  + request.OldAppointment.Id.ToString() + ";" + newAppointmentInfo + "\n";
+                csv += request.Id.ToString() + ";"  + request.Patient.Jmbg + ";" 
+                    + request.OldAppointment.Id.ToString() + ";" + newAppointmentInfo + "\n";
             }
             File.WriteAllText(linkPath, csv);
         }

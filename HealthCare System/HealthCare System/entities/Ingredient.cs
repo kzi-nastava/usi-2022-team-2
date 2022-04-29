@@ -17,8 +17,8 @@ namespace HealthCare_System.entities
 
         public Ingredient(Ingredient ingredient)
         {
-            this.id = ingredient.id;
-            this.name = ingredient.name;
+            id = ingredient.id;
+            name = ingredient.name;
         }
 
         [JsonPropertyName("id")]
@@ -29,7 +29,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Ingredient[" + "name: " + this.name + "]";
+            return "Ingredient[" + "name: " + name + "]";
         }
     }
 }

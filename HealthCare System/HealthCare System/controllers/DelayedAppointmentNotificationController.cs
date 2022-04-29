@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public DelayedAppointmentNotificationController()
         {
-            path = "data/entities/Drugs.json";
+            path = "../../../data/entities/Drugs.json";
             Load();
         }
 
@@ -22,8 +22,8 @@ namespace HealthCare_System.controllers
             Load();
         }
 
-        internal List<DelayedAppointmentNotification> DelayedAppointmentNotifications { get => delayedAppointmentNotifications; 
-            set => delayedAppointmentNotifications = value; }
+        internal List<DelayedAppointmentNotification> DelayedAppointmentNotifications 
+        { get => delayedAppointmentNotifications; set => delayedAppointmentNotifications = value; }
 
         public string Path { get => path; set => path = value; }
 

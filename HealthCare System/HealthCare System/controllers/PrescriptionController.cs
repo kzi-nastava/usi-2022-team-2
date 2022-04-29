@@ -1,11 +1,7 @@
 ﻿using HealthCare_System.entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HealthCare_System.controllers
 {
@@ -16,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public PrescriptionController()
         {
-            path = "data/entities/Prescriptions.json";
+            path = "../../../data/entities/Prescriptions.json";
             Load();
         }
 
