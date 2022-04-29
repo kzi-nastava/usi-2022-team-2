@@ -53,7 +53,16 @@ namespace HealthCare_System.controllers
             string csv = "";
             foreach (Appointment appointment in appointments)
             {
-                csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + appointment.Room.Id.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
+                int roomId;
+                if (appointment.Room == null)
+                {
+                    roomId = -1;
+                }
+                else
+                {
+                    roomId = appointment.Room.Id;
+                }
+                csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + roomId.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
             }
             File.WriteAllText(linkPath, csv);
         }

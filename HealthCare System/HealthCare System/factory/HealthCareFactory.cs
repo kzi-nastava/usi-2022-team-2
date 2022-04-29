@@ -312,7 +312,16 @@ namespace HealthCare_System.factory
                 Appointment appointment = appointmentController.FindById(appointmentId);
                 Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
                 Patient patient = patientController.FindByJmbg(patientJmbg);
-                Room room = roomController.FindById(roomId);
+                Room room;
+                if (roomId == -1)
+                {
+                    room = null;
+                }
+                else
+                {
+                    room = roomController.FindById(roomId);
+                }
+                
                 Anamnesis anamnesis = anamnesisController.FindById(anamnesisId);
 
                 appointment.Doctor = doctor;
@@ -872,6 +881,42 @@ namespace HealthCare_System.factory
             roomController.Serialize();
             transferController.Transfers.Remove(transfer);
             transferController.Serialize();
+        }
+
+        public bool IsRoomAvailableForChange(Room room)
+        {
+            bool available = true;
+
+            foreach (Appointment appointment in appointmentController.Appointments) 
+            {
+                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            foreach (Transfer transfer in transferController.Transfers)
+            {
+                if (room == transfer.FromRoom || room == transfer.ToRoom)
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            return available;
+        }
+
+        public void RemoveRoom(Room room)
+        {
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (appointment.Room == room)
+                    appointment.Room = null;
+            }
+            appointmentController.Serialize();
+            roomController.DeleteRoom(room);
         }
     }
 }

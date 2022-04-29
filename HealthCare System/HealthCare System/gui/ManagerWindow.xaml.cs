@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.entities;
+using System.ComponentModel;
+
 namespace HealthCare_System.gui
 {
     /// <summary>
@@ -40,12 +42,12 @@ namespace HealthCare_System.gui
         #region EquipmentFiltering
         private void ApplyEveryEquipmentFilter()
         {
-            if (RoomTypeFilter.SelectedIndex != -1 && AmountFilter.SelectedIndex != -1 && EquipementTypeFilter.SelectedIndex != -1)
+            if (roomTypeFilter.SelectedIndex != -1 && amountFilter.SelectedIndex != -1 && equipementTypeFilter.SelectedIndex != -1)
             {
                 equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
-                string roomType = RoomTypeFilter.SelectedItem.ToString();
-                string amount = AmountFilter.SelectedItem.ToString();
-                string equipmentType = EquipementTypeFilter.SelectedItem.ToString();
+                string roomType = roomTypeFilter.SelectedItem.ToString();
+                string amount = amountFilter.SelectedItem.ToString();
+                string equipmentType = equipementTypeFilter.SelectedItem.ToString();
                 factory.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
                 DisplayEquipment(equipmentAmount);
             }
@@ -62,42 +64,68 @@ namespace HealthCare_System.gui
 
         private void DisplayEquipment(Dictionary<Equipment, int> equipmentAmount)
         {
-            EquipementView.Items.Clear();
+            equipementView.Items.Clear();
             if (equipmentAmount.Count == 0)
             {
-                EquipementView.Items.Add("No data");
+                equipementView.Items.Add("No data");
             }
             else
             {
                 foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
                 {
-                    EquipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
+                    equipementView.Items.Add(entry.Key.ToString() + ",  Amount: " + entry.Value);
                 }
             }            
         }
 
-        private void RoomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void roomTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
-            ExecuteEquipmentQuery(SearchTb.Text);
+            ExecuteEquipmentQuery(searchTb.Text);
         }
 
-        private void AmountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void amountFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
-            ExecuteEquipmentQuery(SearchTb.Text);
+            ExecuteEquipmentQuery(searchTb.Text);
         }
 
-        private void EquipementTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void equipementTypeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
-            ExecuteEquipmentQuery(SearchTb.Text);
+            ExecuteEquipmentQuery(searchTb.Text);
         }
 
-        private void SearchTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void searchTb_TextChanged(object sender, TextChangedEventArgs e)
         {
             ApplyEveryEquipmentFilter();
-            ExecuteEquipmentQuery(SearchTb.Text);
+            ExecuteEquipmentQuery(searchTb.Text);
+        }
+
+        private void InitializeComboBoxes()
+        {
+            roomTypeFilter.Items.Add("All");
+            roomTypeFilter.SelectedIndex = 0;
+            foreach (TypeOfRoom roomType in Enum.GetValues(typeof(TypeOfRoom)))
+            {
+                roomTypeFilter.Items.Add(roomType);
+            }
+
+            amountFilter.Items.Add("All");
+            amountFilter.SelectedIndex = 0;
+            amountFilter.Items.Add("Nema na stanju");
+            amountFilter.Items.Add("0-10");
+            amountFilter.Items.Add("10+");
+
+            equipementTypeFilter.Items.Add("All");
+            equipementTypeFilter.SelectedIndex = 0;
+            foreach (TypeOfEquipment equipmentType in Enum.GetValues(typeof(TypeOfEquipment)))
+            {
+                equipementTypeFilter.Items.Add(equipmentType);
+            }
+
+
+
         }
         #endregion
 
@@ -105,43 +133,85 @@ namespace HealthCare_System.gui
         #region Rooms
         private void DisplayRooms(List<Room> rooms)
         {
-            RoomView.Items.Clear();
+            roomView.Items.Clear();
             int index = 0;
             foreach (Room room in rooms)
             {
-                RoomView.Items.Add(room.Name);
+                roomView.Items.Add("Id: "+ room.Id + ", Name: " + room.Name + ", Type: " + room.Type);
                 listedRooms[index] = room;
                 index++;
             }
-            RoomView.SelectedIndex = 0;
+            roomView.SelectedIndex = 0;
         }
 
-        private void NewRoomBtn_Click(object sender, RoutedEventArgs e)
+        private void newRoomBtn_Click(object sender, RoutedEventArgs e)
         {
             Window newRoomWindow = new RoomWindow(true, factory);
             newRoomWindow.Show();
         }
 
-        private void DeleteRoomBtn_Click(object sender, RoutedEventArgs e)
+        private void deleteRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (MessageBox.Show("Delete Room?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+                {
+                    MessageBox.Show("Cannot delete storage!");
+                    return;
+                }
+
+                if (factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+                {
+                    factory.RemoveRoom(listedRooms[roomView.SelectedIndex]);
+                    MessageBox.Show("Room deleted sucessfully!");
+                    DisplayRooms(this.factory.RoomController.Rooms);
+                }
+                else
+                {
+                    MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void renovateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
             //TODO
         }
 
-        private void RenovateRoomBtn_Click(object sender, RoutedEventArgs e)
+        private void updateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            {
+                MessageBox.Show("Cannot update storage!");
+                return;
+            }
+
+            if (factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            {
+                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
+                updateRoomWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be updated!");
+            }
+            
         }
 
-        private void UpdateRoomBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[RoomView.SelectedIndex]);
-            updateRoomWindow.Show();
-        }
-
-        private void MoveEquipementBtn_Click(object sender, RoutedEventArgs e)
+        private void moveEquipementBtn_Click(object sender, RoutedEventArgs e)
         {
             Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
             moveEquipmentWindow.Show();
+        }
+
+        private void refreshRoomsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayRooms(this.factory.RoomController.Rooms);
         }
         #endregion
 
@@ -149,32 +219,32 @@ namespace HealthCare_System.gui
         #region Drugs
         private void DisplayDrugs(List<Drug> drugs)
         {
-            DrugView.Items.Clear();
+            drugView.Items.Clear();
             int index = 0;
             foreach (Drug drug in drugs)
             {
-                DrugView.Items.Add(drug.Name);
+                drugView.Items.Add(drug.Name);
                 listedDrugs[index] = drug;
                 index++;
             }
         }
 
-        private void NewDrugBtn_Click(object sender, RoutedEventArgs e)
+        private void newDrugBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void RejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
+        private void rejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void UpdateDrugBtn_Click(object sender, RoutedEventArgs e)
+        private void updateDrugBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void DeleteDrugBtn_Click(object sender, RoutedEventArgs e)
+        private void deleteDrugBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -184,57 +254,50 @@ namespace HealthCare_System.gui
         #region Ingredients
         private void DisplayIngredients(List<Ingredient> ingredients)
         {
-            IngredientsView.Items.Clear();
+            ingredientsView.Items.Clear();
             int index = 0;
             foreach (Ingredient ingredient in ingredients)
             {
-                IngredientsView.Items.Add(ingredient.Name);
+                ingredientsView.Items.Add(ingredient.Name);
                 listedIngredients[index] = ingredient;
                 index++;
             }
         }
 
-        private void InitializeComboBoxes()
-        {
-            RoomTypeFilter.Items.Add("All");
-            RoomTypeFilter.SelectedIndex = 0;
-            foreach (TypeOfRoom roomType in Enum.GetValues(typeof(TypeOfRoom)))
-            {
-                RoomTypeFilter.Items.Add(roomType);
-            }
-
-            AmountFilter.Items.Add("All");
-            AmountFilter.SelectedIndex = 0;
-            AmountFilter.Items.Add("Nema na stanju");
-            AmountFilter.Items.Add("0-10");
-            AmountFilter.Items.Add("10+");
-
-            EquipementTypeFilter.Items.Add("All");
-            EquipementTypeFilter.SelectedIndex = 0;
-            foreach (TypeOfEquipment equipmentType in Enum.GetValues(typeof(TypeOfEquipment)))
-            {
-                EquipementTypeFilter.Items.Add(equipmentType);
-            }
-
-             
-            
-        }   
+        
                             
-        private void NewIngredientBtn_Click(object sender, RoutedEventArgs e)
+        private void newIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void UpdateIngredientBtn_Click(object sender, RoutedEventArgs e)
+        private void updateIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void DeleteIngredientBtn_Click(object sender, RoutedEventArgs e)
+        private void deleteIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+
+
+
         #endregion
-      
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            factory.User = null;
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
