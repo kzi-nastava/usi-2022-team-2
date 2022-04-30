@@ -4,7 +4,7 @@ namespace HealthCare_System.entities
 {
     public enum TypeOfEquipment
     {
-        Examination, Operation, Furniture 
+        EXAMINATION, OPERATION, FURNITURE 
     }
     public class Equipment
     {
@@ -25,10 +25,10 @@ namespace HealthCare_System.entities
 
         public Equipment(Equipment equipment) 
         {
-            this.id = equipment.id;
-            this.name = equipment.name;
-            this.type = equipment.type;
-            this.dynamic = equipment.dynamic;
+            id = equipment.id;
+            name = equipment.name;
+            type = equipment.type;
+            dynamic = equipment.dynamic;
         }
 
         [JsonPropertyName("id")]
@@ -45,7 +45,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Name: " + this.name;
+            return "Name: " + name;
         }
     }
 }

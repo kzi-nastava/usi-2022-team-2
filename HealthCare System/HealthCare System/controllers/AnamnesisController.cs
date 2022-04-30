@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public AnamnesisController()
         {
-            path = "data/entities/Anamneses.json";
+            path = "../../../data/entities/Anamneses.json";
             Load();
         }
 
@@ -48,6 +48,13 @@ namespace HealthCare_System.controllers
         public int GenerateId()
         {
             return anamneses[^1].Id + 1;
+        }
+
+        public void UpdateAnamnesis(int id, string description)
+        {
+            Anamnesis anamnesis = FindById(id);
+            anamnesis.Description = description;
+            Serialize();
         }
     }
 }

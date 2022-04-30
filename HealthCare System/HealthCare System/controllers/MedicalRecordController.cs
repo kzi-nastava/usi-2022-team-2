@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public MedicalRecordController()
         {
-            path = "data/entities/MedicalRecords.json";
+            path = "../../../data/entities/MedicalRecords.json";
             Load();
         }
 
@@ -39,10 +39,10 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public MedicalRecord add(double height, double weight, string diseaseHistory, List<Ingredient> allergens)
+        public MedicalRecord Add(double height, double weight, string diseaseHistory, List<Ingredient> allergens)
         {
-            MedicalRecord medRecord = new MedicalRecord(this.GenerateId(), height, weight, diseaseHistory, allergens);
-            this.medicalRecords.Add(medRecord);
+            MedicalRecord medRecord = new(this.GenerateId(), height, weight, diseaseHistory, allergens);
+            medicalRecords.Add(medRecord);
             return medRecord;
         }
 
@@ -51,7 +51,7 @@ namespace HealthCare_System.controllers
             return medicalRecords[^1].Id + 1;
         }
 
-        public void Serialize(string linkPath = "data/links/MedicalRecord_Ingredient.csv")
+        public void Serialize(string linkPath = "../../../data/links/MedicalRecord_Ingredient.csv")
         {
             string medicalRecordsJson = JsonSerializer.Serialize(medicalRecords, 
                 new JsonSerializerOptions { WriteIndented = true });
@@ -67,7 +67,7 @@ namespace HealthCare_System.controllers
             File.WriteAllText(linkPath, csv);
 
             csv = "";
-            linkPath = "data/links/MedicalRecord_Patient.csv";
+            linkPath = "../../../data/links/MedicalRecord_Patient.csv";
             foreach (MedicalRecord medRecord in medicalRecords)
             {
                 csv += medRecord.Id + ";" + medRecord.Patient.Jmbg + "\n";
@@ -75,7 +75,7 @@ namespace HealthCare_System.controllers
             File.WriteAllText(linkPath, csv);
 
             csv = "";
-            linkPath = "data/links/PrescriptionLinker.csv";
+            linkPath = "../../../data/links/PrescriptionLinker.csv";
             foreach (MedicalRecord medRecord in medicalRecords)
             {
                 foreach (Prescription prescription in medRecord.Prescriptions) {
@@ -83,6 +83,15 @@ namespace HealthCare_System.controllers
                 }
             }
             File.WriteAllText(linkPath, csv);
+        }
+
+        public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)
+        {
+            MedicalRecord medicalRecord = FindById(id);
+            medicalRecord.Height = height;
+            medicalRecord.Weight = weight;
+            medicalRecord.DiseaseHistory = diseaseHistory;
+            Serialize();
         }
     }
 }

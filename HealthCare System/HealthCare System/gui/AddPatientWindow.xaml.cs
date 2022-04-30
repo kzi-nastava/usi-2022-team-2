@@ -2,24 +2,12 @@
 using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for AddPatientWindow.xaml
-    /// </summary>
     public partial class AddPatientWindow : Window
     {
         bool isUpdate;
@@ -64,12 +52,13 @@ namespace HealthCare_System.gui
 
         private void CancleBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(textBoxEmail.Text, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$") ||
+            if (!Regex.IsMatch(textBoxEmail.Text, 
+                @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$") ||
                 textBoxEmail.Text == "")
             {
                 errormessage.Text = "Enter a valid email.";
@@ -141,7 +130,7 @@ namespace HealthCare_System.gui
 
                 factory.UpdatePatient();
 
-                this.Close();
+                Close();
                 MessageBox.Show("You succesefully updated patient.");
             }
             else
@@ -158,7 +147,7 @@ namespace HealthCare_System.gui
                         }
                     }
                 }
-                MedicalRecord medRecord = factory.MedicalRecordController.add(height, weight, history, ingredients);
+                MedicalRecord medRecord = factory.MedicalRecordController.Add(height, weight, history, ingredients);
 
                 patient.Jmbg = jmbg;
                 patient.FirstName = firstName;
@@ -169,7 +158,7 @@ namespace HealthCare_System.gui
 
                 factory.AddPatient(patient, medRecord);
 
-                this.Close();
+                Close();
                 MessageBox.Show("You succesefully registred new patient.");
             }
 

@@ -13,7 +13,7 @@ namespace HealthCare_System.controllers
 
         public AppointmentController()
         {
-            path = "data/entities/Appointments.json";
+            path = "../../../data/entities/Appointments.json";
             Load();
         }
 
@@ -45,7 +45,7 @@ namespace HealthCare_System.controllers
             return appointments[^1].Id + 1;
         }
 
-        public void Serialize(string linkPath= "data/links/AppointmentLinker.csv")
+        public void Serialize(string linkPath= "../../../data/links/AppointmentLinker.csv")
         {
             string appointmentsJson = JsonSerializer.Serialize(appointments,
                 new JsonSerializerOptions { WriteIndented = true });
@@ -53,7 +53,16 @@ namespace HealthCare_System.controllers
             string csv = "";
             foreach (Appointment appointment in appointments)
             {
-                csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + appointment.Room.Id.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
+                int roomId;
+                if (appointment.Room == null)
+                {
+                    roomId = -1;
+                }
+                else
+                {
+                    roomId = appointment.Room.Id;
+                }
+                csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + roomId.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
             }
             File.WriteAllText(linkPath, csv);
         }

@@ -9,10 +9,7 @@ namespace HealthCare_System.entities
 
         public DrugNotification() { }
 
-        public DrugNotification(int id, string message) : base(id, message)
-        {
-
-        }
+        public DrugNotification(int id, string message) : base(id, message) { }
 
         public DrugNotification(int id, string message, Patient patient, Drug drug) : base(id, message)
         {
@@ -22,8 +19,8 @@ namespace HealthCare_System.entities
 
         public DrugNotification(DrugNotification notification) : base(notification.Id, notification.Message)
         {
-            this.patient = notification.Patient;
-            this.drug = notification.Drug;
+            patient = notification.Patient;
+            drug = notification.Drug;
         }
 
         [JsonIgnore]
@@ -35,16 +32,15 @@ namespace HealthCare_System.entities
         public override string ToString()
         {
             string patientInfo;
-            if (this.patient is null) patientInfo = "null";
-            else patientInfo = this.Patient.Jmbg;
+            if (patient is null) patientInfo = "null";
+            else patientInfo = Patient.Jmbg;
 
             int drugInfo;
-            if (this.drug is null) drugInfo = -1;
-            else drugInfo = this.drug.Id;
+            if (drug is null) drugInfo = -1;
+            else drugInfo = drug.Id;
 
-            return "DrugNotification[" + "id: " + this.Id.ToString()+
-                ", message: " + this.Message + ", patient: " + patientInfo +
-                ", appointment: " + drugInfo + "]";
+            return "DrugNotification[" + "id: " + Id.ToString()+ ", message: " + Message 
+                + ", patient: " + patientInfo + ", appointment: " + drugInfo + "]";
         }
     }
 }

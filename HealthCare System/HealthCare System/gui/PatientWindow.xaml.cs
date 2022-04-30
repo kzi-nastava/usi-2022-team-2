@@ -4,39 +4,52 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for PatientWindow.xaml
-    /// </summary>
     public partial class PatientWindow : Window
     {
         HealthCareFactory factory;
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
         Dictionary<int,Appointment> indexedAppointments;
-        bool isEditTabSelected;
+
         public PatientWindow(HealthCareFactory factory)
         {
-            this.Title = factory.User.FirstName + " " + factory.User.LastName;
+            Title = factory.User.FirstName + " " + factory.User.LastName;
             this.factory = factory;
             InitializeComponent();
             InitializeDoctors();
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
+            UpdateLb();
+            datePicker.DisplayDateStart = DateTime.Now;
+            datePickerEdit.DisplayDateStart = DateTime.Now;
+            UpdateAppointmentHistory();
         }
 
+        public void UpdateAppointmentHistory()
+        {
+            Patient patient = (Patient)factory.User;
+
+            List<Appointment> sortedAppoinments = patient.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                string roomInfo = "";
+                if (appointment.Room != null)
+                    roomInfo=", room: " + appointment.Room.Name;
+                if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
+                {
+                    appointmentHistoryLb.Items.Add("Start: "
+                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", doctor: "
+                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
+                        ", type: " + appointment.Type.ToString().ToLower()
+                        + roomInfo);
+                }
+            }
+        }
         public void InitializeDoctors()
         {
             indexedDoctors = new Dictionary<int, Doctor>();
@@ -53,6 +66,7 @@ namespace HealthCare_System.gui
         public void UpdateDoctors(Specialization specialization)
         {
             indexedDoctorsEditTab.Clear();
+            doctorEditCb.Items.Clear();
             List<Doctor> doctors = factory.DoctorController.FindBySpecialization(specialization);
             int index = 0;
             foreach (Doctor doctor in doctors)
@@ -64,7 +78,12 @@ namespace HealthCare_System.gui
         }
         private void bookBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
             if (doctorCb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please choose doctor.");
@@ -72,7 +91,7 @@ namespace HealthCare_System.gui
             }
             DateTime start;
             DateTime date = datePicker.SelectedDate.Value;
-            if (date <= DateTime.Now)
+            if (date < DateTime.Now)
             {
                 MessageBox.Show("Invalid Date.");
                 return;
@@ -88,7 +107,7 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Invalid Time.");
                 return;
             }
-            if (start <= DateTime.Now.AddDays(1))
+            if (start <= DateTime.Now)
             {
                 MessageBox.Show("Appointment booked too soon.");
                 return;
@@ -98,9 +117,16 @@ namespace HealthCare_System.gui
             Patient patient = (Patient) factory.User;
             try
             {
-                Appointment appointment=factory.AddAppointment(start, end, doctor, patient, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), AppointmentState.ACCEPTED, patient, appointment, RequestType.CREATE, DateTime.Now);
+                Appointment appointment=factory.AddAppointment(start, end, doctor, patient, 
+                    AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    AppointmentState.ACCEPTED, patient, appointment, null, RequestType.CREATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
+                MessageBox.Show("Appointment booked");
+                datePicker.SelectedDate = DateTime.Now;
+                timeTb.Clear();
+                doctorCb.SelectedIndex = -1;
+                UpdateLb();
             }
             catch(Exception exception)
             {
@@ -114,37 +140,35 @@ namespace HealthCare_System.gui
             myAppointmentsLb.Items.Clear();
             Patient patient = (Patient)factory.User;
             int index = 0;
-            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            List<Appointment> sortedAppoinments = patient.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
+            foreach (Appointment appointment in sortedAppoinments)
             {
-                if (DateTime.Now < appointment.Start)
+                if (DateTime.Now < appointment.Start && appointment.Status!=AppointmentStatus.ON_HOLD)
                 {
+                    string roomInfo = "";
+                    if (appointment.Room != null)
+                        roomInfo = ", room: " + appointment.Room.Name;
                     indexedAppointments.Add(index, appointment);
                     myAppointmentsLb.Items.Add(appointment.Start.ToString("dd/MM/yyyy HH:mm") +
                   ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                ", type: " + appointment.Type.ToString() +
-                ", room: " + appointment.Room.Name);
+                ", type: " + appointment.Type.ToString().ToLower() + roomInfo);
                     index++;
                 }
-            }
-        }
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (editTab.IsSelected && !isEditTabSelected)
-            {
-                UpdateLb();
-                isEditTabSelected = true;
-            }
-            else if (!editTab.IsSelected)
-            {
-                isEditTabSelected = false;
             }
         }
 
         private void updateBtn_Click(object sender, RoutedEventArgs e)
         {
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
             if (myAppointmentsLb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select appointment");
+                return;
             }
             Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
             if (doctorEditCb.SelectedIndex == -1)
@@ -171,7 +195,12 @@ namespace HealthCare_System.gui
                 return;
             }
             bool needConfirmation = false;
-            if (start <= DateTime.Now.AddDays(2))
+            if (start <= DateTime.Now.AddDays(1))
+            {
+                MessageBox.Show("You cannot update appointment less than 24 hours before start.");
+                return;
+            }
+            else if (start <= DateTime.Now.AddDays(2))
             {
                 needConfirmation = true;
             }
@@ -184,19 +213,33 @@ namespace HealthCare_System.gui
             Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
             DateTime end = start.AddMinutes((appointment.End-appointment.Start).TotalMinutes);
             Patient patient = (Patient)factory.User;
+            Appointment requestedAppointment = null;
             try
             {
-                AppointmentStatus status = AppointmentStatus.BOOKED;
                 AppointmentState state = AppointmentState.ACCEPTED;
                 if (needConfirmation)
                 {
-                    status = AppointmentStatus.ON_HOLD;
+
+                    requestedAppointment=factory.AddAppointment(start, end, doctor, patient, appointment.Type, AppointmentStatus.ON_HOLD, false);
                     state = AppointmentState.WAITING;
                 }
-                factory.UpdateAppointment(appointment.Id,start, end, doctor, patient,status);
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.UPDATE, DateTime.Now);
+                else
+                {
+                    factory.UpdateAppointment(appointment.Id, start, end, doctor, patient, AppointmentStatus.BOOKED);
+                }
+                
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    state, patient, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
+                if (needConfirmation)
+                {
+                    MessageBox.Show("Appointment request made successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("Appointment updated successfully.");
+                }
             }
             catch (Exception exception)
             {
@@ -206,32 +249,55 @@ namespace HealthCare_System.gui
 
         private void myAppointmentsLb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
-            datePickerEdit.SelectedDate=appointment.Start;
-            timeEditTb.Text = appointment.Start.Hour.ToString() + ":" + appointment.Start.Minute.ToString();
-            UpdateDoctors(appointment.Doctor.Specialization);
-            foreach (KeyValuePair<int, Doctor> entry in indexedDoctorsEditTab)
+            if (myAppointmentsLb.SelectedIndex != -1)
             {
-                if (entry.Value == appointment.Doctor)
+                Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
+                datePickerEdit.SelectedDate = appointment.Start;
+                timeEditTb.Text = appointment.Start.ToString("hh:mm");
+                UpdateDoctors(appointment.Doctor.Specialization);
+                foreach (KeyValuePair<int, Doctor> entry in indexedDoctorsEditTab)
                 {
-                    doctorEditCb.SelectedIndex = entry.Key;
-                    break;
+                    if (entry.Value == appointment.Doctor)
+                    {
+                        doctorEditCb.SelectedIndex = entry.Key;
+                        break;
+                    }
                 }
             }
+            
 
+        }
+
+
+        public void CheckAntiTroll()
+        {
+            factory.AppointmentRequestController.RunAntiTrollCheck((Patient)factory.User);
         }
 
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
+
+
             if (myAppointmentsLb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select appointment");
+                return;
             }
             Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
             
             bool needConfirmation = false;
-            if (appointment.Start <= DateTime.Now.AddDays(2))
+            if (appointment.Start <= DateTime.Now.AddDays(1))
+            {
+                MessageBox.Show("You cannot delete appointment less than 24 hours before start.");
+                return;
+            }
+            else if (appointment.Start <= DateTime.Now.AddDays(2))
             {
                 needConfirmation = true;
             }
@@ -248,9 +314,18 @@ namespace HealthCare_System.gui
                     state = AppointmentState.WAITING;
                 }
                 Patient patient = (Patient)factory.User;
-                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(), state, patient, appointment, RequestType.DELETE, DateTime.Now);
+                AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
+                    state, patient, appointment, null, RequestType.DELETE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateLb();
+                if (needConfirmation)
+                {
+                    MessageBox.Show("Appointment request made successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("Appointment deleted successfully.");
+                }
             }
             catch (Exception exception)
             {
@@ -260,9 +335,29 @@ namespace HealthCare_System.gui
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            factory.User = null;
-            MainWindow main = new MainWindow(factory);
-            main.Show();
+            if (!((Patient) factory.User).Blocked)
+            {
+                factory.User = null;
+                if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    MainWindow main = new MainWindow(factory);
+                    main.Show();
+                }
+                else e.Cancel = true;
+            }
+            else
+            {
+                factory.User = null;
+                MessageBox.Show("Account blocked. Contact secretary for more informations!");
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
+            
         }
+
+        private void refreshHistory_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAppointmentHistory();
         }
+    }
 }

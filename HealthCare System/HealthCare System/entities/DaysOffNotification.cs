@@ -17,7 +17,7 @@ namespace HealthCare_System.entities
 
         public DaysOffNotification(DaysOffNotification notification) : base(notification.Id, notification.Message)
         {
-            this.doctor = notification.Doctor;
+            doctor = notification.Doctor;
         }
 
         [JsonIgnore]
@@ -26,11 +26,11 @@ namespace HealthCare_System.entities
         public override string ToString()
         {
             string doctorInfo;
-            if (this.doctor is null) doctorInfo = "null";
-            else doctorInfo = this.doctor.Jmbg;
+            if (doctor is null) doctorInfo = "null";
+            else doctorInfo = doctor.Jmbg;
 
-            return "DrugNotification[" + "id: " + this.Id.ToString() +
-                ", message: " + this.Message + ", doctor: " + doctorInfo + "]";
+            return "DrugNotification[" + "id: " + Id.ToString() +
+                ", message: " + Message + ", doctor: " + doctorInfo + "]";
         }
     }
 }

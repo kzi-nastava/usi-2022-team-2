@@ -14,10 +14,10 @@ namespace HealthCare_System.entities
         bool urgent;
         Doctor doctor;
 
-        public DaysOffRequest()
-{}
+        public DaysOffRequest() {}
 
-        public DaysOffRequest(int id,DateTime start, DateTime end, string description, DaysOffRequestState state, bool urgent)
+        public DaysOffRequest(int id,DateTime start, DateTime end, string description,
+            DaysOffRequestState state, bool urgent)
         {
             this.id = id;
             this.start = start;
@@ -27,7 +27,8 @@ namespace HealthCare_System.entities
             this.urgent = urgent;
         }
 
-        public DaysOffRequest(int id, DateTime start, DateTime end, string description, DaysOffRequestState state, bool urgent, Doctor doctor)
+        public DaysOffRequest(int id, DateTime start, DateTime end, string description,
+            DaysOffRequestState state, bool urgent, Doctor doctor)
         {
             this.id = id;
             this.start = start;
@@ -40,13 +41,13 @@ namespace HealthCare_System.entities
 
         public DaysOffRequest(DaysOffRequest request)
         {
-            this.id = request.id;
-            this.start = request.start;
-            this.end = request.end;
-            this.description = request.description;
-            this.state = request.state;
-            this.urgent = request.urgent;
-            this.doctor = request.doctor;
+            id = request.id;
+            start = request.start;
+            end = request.end;
+            description = request.description;
+            state = request.state;
+            urgent = request.urgent;
+            doctor = request.doctor;
         }
 
         [JsonPropertyName("id")]
@@ -73,11 +74,11 @@ namespace HealthCare_System.entities
         public override string ToString()
         {
             string doctorInfo;
-            if (this.doctor is null) doctorInfo = "null";
-            else doctorInfo = this.Doctor.Jmbg;
+            if (doctor is null) doctorInfo = "null";
+            else doctorInfo = Doctor.Jmbg;
 
-            return "DaysOffRequest[id: " + this.id.ToString() + ", start: " + this.start.ToString("dd/MM/yyyy HH:mm") +
-                ", end: " + this.end.ToString("dd/MM/yyyy HH:mm") + ", description: " + description +
+            return "DaysOffRequest[id: " + id.ToString() + ", start: " + start.ToString("dd/MM/yyyy HH:mm") +
+                ", end: " + end.ToString("dd/MM/yyyy HH:mm") + ", description: " + description +
                 ", state: " + state.ToString() + ", urgent: " + urgent.ToString() + ", doctor: " + doctorInfo+ "]";
         }
     }

@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public DoctorController()
         {
-            path = "data/entities/Doctors.json";
+            path = "../../../data/entities/Doctors.json";
             Load();
         }
 

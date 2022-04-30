@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "id": 1001,
     "description": "Patient is healthy."
@@ -38,5 +38,53 @@
   {
     "id": 1010,
     "description": "Patient is healthy."
+  },
+  {
+    "id": 1011,
+    "description": ""
+  },
+  {
+    "id": 1012,
+    "description": ""
+  },
+  {
+    "id": 1013,
+    "description": ""
+  },
+  {
+    "id": 1014,
+    "description": ""
+  },
+  {
+    "id": 1015,
+    "description": ""
+  },
+  {
+    "id": 1016,
+    "description": ""
+  },
+  {
+    "id": 1017,
+    "description": ""
+  },
+  {
+    "id": 1018,
+    "description": ""
+  },
+  {
+    "id": 1019,
+    "description": ""
+  },
+  {
+    "id": 1020,
+    "description": ""
+  },
+  {
+    "id": 1021,
+    "description": ""
+  },
+  {
+    "id": 1022,
+    "description": ""
   }
 ]

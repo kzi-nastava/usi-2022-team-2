@@ -4,13 +4,16 @@ using System.Text.Json.Serialization;
 namespace HealthCare_System.entities
 {
     public enum AppointmentState { WAITING, ACCEPTED, DENIED}
+
     public enum RequestType { CREATE, UPDATE, DELETE}
+
     public class AppointmentRequest
     {
         int id;
         AppointmentState state;
         Patient patient;
-        Appointment appointment;
+        Appointment oldAppointment;
+        Appointment newAppointment;
         RequestType type;
         DateTime requestCreated;
 
@@ -24,24 +27,26 @@ namespace HealthCare_System.entities
             this.requestCreated = requestCreated;
         }
 
-        public AppointmentRequest(int id, AppointmentState state, Patient pacijent, Appointment appointment, RequestType type, DateTime requestCreated)
+        public AppointmentRequest(int id, AppointmentState state, Patient pacijent, 
+            Appointment oldAppointment, Appointment newAppointment, RequestType type, DateTime requestCreated)
         {
             this.id = id;
             this.state = state;
             this.patient = pacijent;
-            this.appointment = appointment;
+            this.oldAppointment = oldAppointment;
             this.type = type;
             this.requestCreated = requestCreated;
         }
 
         public AppointmentRequest(AppointmentRequest request)
         {
-            this.id = request.id;
-            this.state = request.state;
-            this.patient = request.patient;
-            this.appointment = request.appointment;
-            this.type = request.type;
-            this.requestCreated = request.requestCreated;
+            id = request.id;
+            state = request.state;
+            patient = request.patient;
+            oldAppointment = request.oldAppointment;
+            newAppointment = request.newAppointment;
+            type = request.type;
+            requestCreated = request.requestCreated;
         }
 
         [JsonPropertyName("id")]
@@ -54,7 +59,10 @@ namespace HealthCare_System.entities
         public Patient Patient { get => patient; set => patient = value; }
 
         [JsonIgnore]
-        public Appointment Appointment { get => appointment; set => appointment = value; }
+        public Appointment OldAppointment { get => oldAppointment; set => oldAppointment = value; }
+
+        [JsonIgnore]
+        public Appointment NewAppointment { get => newAppointment; set => newAppointment = value; }
 
         [JsonPropertyName("type")]
         public RequestType Type { get => type; set => type = value; }
@@ -65,16 +73,20 @@ namespace HealthCare_System.entities
         public override string ToString()
         {
             string patientInfo;
-            if (this.patient is null) patientInfo = "null";
-            else patientInfo = this.Patient.Jmbg;
+            if (patient is null) patientInfo = "null";
+            else patientInfo = Patient.Jmbg;
 
-            int appointmentInfo;
-            if (this.appointment is null) appointmentInfo = -1;
-            else appointmentInfo = this.appointment.Id;
+            int oldAppointmentInfo;
+            if (oldAppointment is null) oldAppointmentInfo = -1;
+            else oldAppointmentInfo = oldAppointment.Id;
 
-            return "AppointmentRequest[" + "id: " + this.id.ToString() +
-                ", state: " + this.state.ToString() + ", patient: " + patientInfo +
-                ", appointment: " + appointmentInfo + "]";
+            int newAppointmentInfo;
+            if (newAppointment is null) newAppointmentInfo = -1;
+            else newAppointmentInfo = newAppointment.Id;
+
+            return "AppointmentRequest[" + "id: " + id.ToString() +
+                ", state: " + state.ToString() + ", patient: " + patientInfo +
+                ", appointment: " + oldAppointmentInfo + "]";
         }
     }
 }
