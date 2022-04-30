@@ -37,12 +37,16 @@ namespace HealthCare_System.gui
             List<Appointment> sortedAppoinments = patient.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
             foreach (Appointment appointment in patient.MedicalRecord.Appointments)
             {
+                string roomInfo = "";
+                if (appointment.Room != null)
+                    roomInfo=", room: " + appointment.Room.Name;
                 if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
                 {
-                    appointmentHistoryLb.Items.Add("Start: " 
-                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") +", doctor: " 
+                    appointmentHistoryLb.Items.Add("Start: "
+                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", doctor: "
                         + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                        ", type: " + appointment.Type.ToString().ToLower() +", room: " + appointment.Room.Name);
+                        ", type: " + appointment.Type.ToString().ToLower()
+                        + roomInfo);
                 }
             }
         }
@@ -62,6 +66,7 @@ namespace HealthCare_System.gui
         public void UpdateDoctors(Specialization specialization)
         {
             indexedDoctorsEditTab.Clear();
+            doctorEditCb.Items.Clear();
             List<Doctor> doctors = factory.DoctorController.FindBySpecialization(specialization);
             int index = 0;
             foreach (Doctor doctor in doctors)
@@ -73,7 +78,12 @@ namespace HealthCare_System.gui
         }
         private void bookBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
             if (doctorCb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please choose doctor.");
@@ -135,11 +145,13 @@ namespace HealthCare_System.gui
             {
                 if (DateTime.Now < appointment.Start && appointment.Status!=AppointmentStatus.ON_HOLD)
                 {
+                    string roomInfo = "";
+                    if (appointment.Room != null)
+                        roomInfo = ", room: " + appointment.Room.Name;
                     indexedAppointments.Add(index, appointment);
                     myAppointmentsLb.Items.Add(appointment.Start.ToString("dd/MM/yyyy HH:mm") +
                   ", doctor: " + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                ", type: " + appointment.Type.ToString().ToLower() +
-                ", room: " + appointment.Room.Name);
+                ", type: " + appointment.Type.ToString().ToLower() + roomInfo);
                     index++;
                 }
             }
@@ -147,6 +159,12 @@ namespace HealthCare_System.gui
 
         private void updateBtn_Click(object sender, RoutedEventArgs e)
         {
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
             if (myAppointmentsLb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select appointment");
@@ -235,7 +253,7 @@ namespace HealthCare_System.gui
             {
                 Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
                 datePickerEdit.SelectedDate = appointment.Start;
-                timeEditTb.Text = appointment.Start.Hour.ToString() + ":" + appointment.Start.Minute.ToString();
+                timeEditTb.Text = appointment.Start.ToString("hh:mm");
                 UpdateDoctors(appointment.Doctor.Specialization);
                 foreach (KeyValuePair<int, Doctor> entry in indexedDoctorsEditTab)
                 {
@@ -250,8 +268,22 @@ namespace HealthCare_System.gui
 
         }
 
+
+        public void CheckAntiTroll()
+        {
+            factory.AppointmentRequestController.RunAntiTrollCheck((Patient)factory.User);
+        }
+
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
+            CheckAntiTroll();
+            if (((Patient)factory.User).Blocked)
+            {
+                Close();
+                return;
+            }
+
+
             if (myAppointmentsLb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select appointment");
@@ -303,13 +335,24 @@ namespace HealthCare_System.gui
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            factory.User = null;
-            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (!((Patient) factory.User).Blocked)
             {
+                factory.User = null;
+                if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    MainWindow main = new MainWindow(factory);
+                    main.Show();
+                }
+                else e.Cancel = true;
+            }
+            else
+            {
+                factory.User = null;
+                MessageBox.Show("Account blocked. Contact secretary for more informations!");
                 MainWindow main = new MainWindow(factory);
                 main.Show();
             }
-            else e.Cancel = true;
+            
         }
 
         private void refreshHistory_Click(object sender, RoutedEventArgs e)
