@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="gui\DoctorWindow.xaml.cs">
+    <Compile Update="gui\EquipmentMoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="gui\ManagerWindow.xaml.cs">
@@ -11,15 +11,27 @@
     <Compile Update="gui\PatientWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="gui\RequestDetailsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="gui\RoomWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="gui\DoctorWindow.xaml">
+    <Page Update="gui\EquipmentMoveWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\ManagerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\PatientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\RequestDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\RoomWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="main\MainWindow.xaml">

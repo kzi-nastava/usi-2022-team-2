@@ -847,6 +847,36 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
+        public void AcceptRequest(AppointmentRequest request)
+        {
+            request.State = AppointmentState.ACCEPTED;
+            if (request.Type == RequestType.UPDATE)
+            {
+                appointmentController.Appointments.Remove(request.OldAppointment);
+                request.OldAppointment = null;
+            }else if (request.Type == RequestType.DELETE)
+            {
+                appointmentController.Appointments.Remove(request.OldAppointment);
+                appointmentController.Appointments.Remove(request.NewAppointment);
+                request.OldAppointment = null;
+                request.NewAppointment = null;
+            }
+            appointmentController.Serialize();
+            appointmentRequestController.Serialize();
+        }
+
+        public void RejectRequest(AppointmentRequest request)
+        {
+            request.State = AppointmentState.DENIED;
+            if (request.Type == RequestType.UPDATE)
+            {
+                appointmentController.Appointments.Remove(request.NewAppointment);
+                request.NewAppointment = null;
+                appointmentController.Serialize();
+            }
+            AppointmentRequestController.Serialize();
+        }
+
         public void DeletePatient(Patient patient)
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;

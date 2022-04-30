@@ -23,13 +23,13 @@ namespace HealthCare_System.gui
             if(isUpdate)
             {
                 this.patient = patient;
-                PasswordBox.Password = patient.Password;
-                PasswordBox.IsEnabled = false;
+                passwordBox.Password = patient.Password;
+                passwordBox.IsEnabled = false;
                 textBoxJmbg.Text = patient.Jmbg;
                 textBoxLastName.Text = patient.LastName;
                 textBoxFirstName.Text = patient.FirstName;
                 textBoxEmail.Text = patient.Mail;
-                textBoxBirth.Text = patient.BirthDate.ToString();
+                birthDatePicker.SelectedDate = patient.BirthDate;
                 textBoxHeight.Text = patient.MedicalRecord.Height.ToString();
                 textBoxWeight.Text = patient.MedicalRecord.Weight.ToString();
                 textBoxHistory.Text = patient.MedicalRecord.DiseaseHistory.ToString();
@@ -65,10 +65,10 @@ namespace HealthCare_System.gui
                 textBoxEmail.Select(0, textBoxEmail.Text.Length);
                 textBoxEmail.Focus();
                 return;
-            }else if (PasswordBox.Password.Length == 0)
+            }else if (passwordBox.Password.Length == 0)
             {
                 errormessage.Text = "Enter password.";
-                PasswordBox.Focus();
+                passwordBox.Focus();
                 return;
             }
             string jmbg = textBoxJmbg.Text;
@@ -88,16 +88,8 @@ namespace HealthCare_System.gui
                 weight = 0;
             }
             string history = textBoxHistory.Text;
-            string password = PasswordBox.Password;
-            DateTime birthDate;
-            try
-            {
-                birthDate = Convert.ToDateTime(textBoxBirth.Text);
-            }
-            catch
-            {
-                birthDate = DateTime.Now;
-            }
+            string password = passwordBox.Password;
+            DateTime birthDate = birthDatePicker.SelectedDate.Value;
 
             string[] ingredientNames;
             try

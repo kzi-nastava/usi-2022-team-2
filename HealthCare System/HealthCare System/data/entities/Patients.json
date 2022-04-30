@@ -1,48 +1,47 @@
 [
   {
-    "jmbg":"1005",
-    "mail": "p.peric@gmail.com",
-    "password": "peraperic",
+    "blocked": true,
+    "jmbg": "1005",
     "firstName": "Pera",
     "lastName": "Peric",
-    "birthDate": "1999-01-01",
-    "blocked":  true
+    "birthDate": "1999-01-01T00:00:00",
+    "mail": "p.peric@gmail.com",
+    "password": "peraperic"
   },
   {
+    "blocked": false,
     "jmbg": "1006",
-    "mail": "l.jankovic@gmail.com",
-    "password": "lukajankovic",
     "firstName": "Luka",
     "lastName": "Jankovic",
-    "birthDate": "2001-07-19",
-    "blocked": false
+    "birthDate": "2001-07-19T00:00:00",
+    "mail": "l.jankovic@gmail.com",
+    "password": "lukajankovic"
   },
   {
+    "blocked": false,
     "jmbg": "1007",
-    "mail": "m.vasic@gmail.com",
-    "password": "milanvasic",
     "firstName": "Milan",
     "lastName": "Vasic",
-    "birthDate": "2000-05-09",
-    "blocked": false
+    "birthDate": "2000-05-09T00:00:00",
+    "mail": "m.vasic@gmail.com",
+    "password": "milanvasic"
   },
   {
+    "blocked": false,
     "jmbg": "1008",
-    "mail": "s.jovanovic@gmail.com",
-    "password": "stefanjovanovic",
     "firstName": "Stefan",
     "lastName": "Jovanovic",
-    "birthDate": "2001-03-12",
-    "blocked": false
+    "birthDate": "2001-03-12T00:00:00",
+    "mail": "s.jovanovic@gmail.com",
+    "password": "stefanjovanovic"
   },
   {
+    "blocked": false,
     "jmbg": "1009",
-    "mail": "v.bogdanovic@gmail.com",
-    "password": "vukasinbogdanovic",
     "firstName": "Vukasin",
     "lastName": "Bogdanovic",
-    "birthDate": "2001-04-11",
-    "blocked": false
+    "birthDate": "2001-04-20T00:00:00",
+    "mail": "v.bogdanovic@gmail.com",
+    "password": "vukasinbogdanovic"
   }
-
 ]
