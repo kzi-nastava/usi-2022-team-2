@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public SupplyRequestController()
         {
-            path = "data/entities/SupplyRequests.json";
+            path = "../../../data/entities/SupplyRequests.json";
             Load();
         }
 

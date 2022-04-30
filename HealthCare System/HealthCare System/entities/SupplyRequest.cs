@@ -31,15 +31,17 @@ namespace HealthCare_System.entities
 
         public SupplyRequest(SupplyRequest request)
         {
-            this.id = request.id;
-            this.requestCreated = request.requestCreated;
-            this.orderDetails = request.orderDetails;
+            id = request.id;
+            requestCreated = request.requestCreated;
+            orderDetails = request.orderDetails;
         }
 
         [JsonPropertyName("id")]
         public int Id { get => id; set => id = value; }
+
         [JsonPropertyName("requestCreated")]
         public DateTime RequestCreated { get => requestCreated; set => requestCreated = value; }
+
         [JsonIgnore]
         public Dictionary<Equipment, int> OrderDetails { get => orderDetails; set => orderDetails = value; }
 
@@ -47,15 +49,17 @@ namespace HealthCare_System.entities
         {
             string orders="{";
             bool firstEntry = true;
-            foreach (KeyValuePair<Equipment, int> equipment in this.orderDetails)
+
+            foreach (KeyValuePair<Equipment, int> equipment in orderDetails)
             {
                 if (firstEntry) firstEntry = false;
                 else orders += ", ";
                 orders += equipment.Key + ":" + equipment.Value;
             }
+
             orders += "}";
-            return "SupplyRequest[" + "id: " + this.Id.ToString() +
-                ", requestCreated: " + this.requestCreated.ToString("dd/MM/yyyy HH:mm") + ", orderDetails: " + orders + "]";
+            return "SupplyRequest[" + "id: " + Id.ToString() + ", requestCreated: " 
+                + requestCreated.ToString("dd/MM/yyyy HH:mm") + ", orderDetails: " + orders + "]";
         }
     }
 }

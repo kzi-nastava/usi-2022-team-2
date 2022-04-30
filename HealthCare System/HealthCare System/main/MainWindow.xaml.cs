@@ -1,19 +1,10 @@
 ﻿using System.Windows;
 using HealthCare_System.entities;
-using System;
-using HealthCare_System.controllers;
 using HealthCare_System.factory;
 using HealthCare_System.gui;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Windows.Threading;
 
 namespace HealthCare_System
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         HealthCareFactory factory;
@@ -55,7 +46,7 @@ namespace HealthCare_System
                 {
                     PatientWindow patientWindow = new PatientWindow(factory);
                     patientWindow.Show();
-                    this.Close();
+                    Close();
                 }
                 
             }

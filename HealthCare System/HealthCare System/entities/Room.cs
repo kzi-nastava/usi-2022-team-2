@@ -11,6 +11,7 @@ namespace HealthCare_System.entities
         RELAX_ROOM,
         OTHER
     }
+
     public class Room
     {
         int id;
@@ -41,10 +42,10 @@ namespace HealthCare_System.entities
 
         public Room(Room room)
         {
-            this.id = room.id;
-            this.name = room.name;
-            this.type = room.type;
-            this.equipmentAmount = room.equipmentAmount;
+            id = room.id;
+            name = room.name;
+            type = room.type;
+            equipmentAmount = room.equipmentAmount;
         }
 
         [JsonPropertyName("id")]
@@ -61,7 +62,7 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "Room[id: " + this.id + ", name: " + this.name + " type: " + this.type + "]";
+            return "Room[id: " + id + ", name: " + name + " type: " + type + "]";
         }
     }
 }

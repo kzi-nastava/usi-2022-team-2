@@ -21,8 +21,9 @@ namespace HealthCare_System.entities
             prescriptions = new List<Prescription>();
         }
 
-        public MedicalRecord(int id, Patient patient, double height, double weight, string diseaseHistory, 
-            List<Appointment> appointments, List<Ingredient> allergens, List<Prescription> prescriptions)
+        public MedicalRecord(int id, Patient patient, double height, double weight, 
+            string diseaseHistory, List<Appointment> appointments, List<Ingredient> allergens, 
+            List<Prescription> prescriptions)
         {
             this.id = id;
             this.patient = patient;

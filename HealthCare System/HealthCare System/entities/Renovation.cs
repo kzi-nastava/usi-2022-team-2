@@ -20,9 +20,9 @@ namespace HealthCare_System.entities
 
         public Renovation(Renovation renovation) 
         {
-            this.id = renovation.id;
-            this.beginningDate = renovation.beginningDate;
-            this.endingDate = renovation.endingDate;
+            id = renovation.id;
+            beginningDate = renovation.beginningDate;
+            endingDate = renovation.endingDate;
         }
 
         [JsonPropertyName("id")]
@@ -36,7 +36,8 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "[" + "start: " + this.beginningDate.ToString("dd/MM/yyyy HH:mm") + " end: " + this.endingDate.ToString("dd/MM/yyyy HH:mm") + "]";
+            return "[" + "start: " + beginningDate.ToString("dd/MM/yyyy HH:mm") + " end: " 
+                + endingDate.ToString("dd/MM/yyyy HH:mm") + "]";
         }
     }
 }

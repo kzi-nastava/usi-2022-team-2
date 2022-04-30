@@ -39,8 +39,8 @@ namespace HealthCare_System.gui
                 int hour = Convert.ToInt32(timeTb.Text.Split(":")[0]);
                 int min = Convert.ToInt32(timeTb.Text.Split(":")[1]);
                 DateTime start = new(date.Year, date.Month, date.Day, hour, min, 0);
-                factory.UpdateAppointment(id, start, start.AddMinutes(duration), appointment.Doctor, patient,
-                    AppointmentStatus.BOOKED);
+                factory.UpdateAppointment(id, start, start.AddMinutes(duration), appointment.Doctor,
+                    patient, AppointmentStatus.BOOKED);
                 MessageBox.Show("Appointment changed!");
             }
             catch (InvalidOperationException)

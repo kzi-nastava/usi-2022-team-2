@@ -13,7 +13,7 @@ namespace HealthCare_System.controllers
 
         public AppointmentController()
         {
-            path = "data/entities/Appointments.json";
+            path = "../../../data/entities/Appointments.json";
             Load();
         }
 
@@ -45,7 +45,7 @@ namespace HealthCare_System.controllers
             return appointments[^1].Id + 1;
         }
 
-        public void Serialize(string linkPath= "data/links/AppointmentLinker.csv")
+        public void Serialize(string linkPath= "../../../data/links/AppointmentLinker.csv")
         {
             string appointmentsJson = JsonSerializer.Serialize(appointments,
                 new JsonSerializerOptions { WriteIndented = true });

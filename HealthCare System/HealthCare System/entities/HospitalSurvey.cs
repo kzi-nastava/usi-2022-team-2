@@ -13,7 +13,8 @@ namespace HealthCare_System.entities
 
         public HospitalSurvey() { }
 
-        public HospitalSurvey(int id, int seviceQuality, int hygiene, int satisfaction, int recommendation, string comment)
+        public HospitalSurvey(int id, int seviceQuality, int hygiene, int satisfaction, 
+            int recommendation, string comment)
         {
             this.id = id;
             this.seviceQuality = seviceQuality;
@@ -53,8 +54,9 @@ namespace HealthCare_System.entities
 
         public override string ToString()
         {
-            return "HospitalSurvey[" + "id: " + id + ", serviceQuality: " + seviceQuality + ", hygiene: " + hygiene +
-                ", satisfaction: " + satisfaction + ", recommendation: " + recommendation + ", comment: " + comment + "]";
+            return "HospitalSurvey[" + "id: " + id + ", serviceQuality: " + seviceQuality 
+                + ", hygiene: " + hygiene + ", satisfaction: " + satisfaction + ", recommendation: "
+                + recommendation + ", comment: " + comment + "]";
         }
 
     }

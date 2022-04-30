@@ -237,7 +237,8 @@ namespace HealthCare_System.gui
                     return;
                 }
 
-                factory.AddAppointment(start, start.AddMinutes(duration), doctor, patient, type, AppointmentStatus.BOOKED, false);
+                factory.AddAppointment(start, start.AddMinutes(duration), doctor, patient, type,
+                    AppointmentStatus.BOOKED, false);
                 MessageBox.Show("Appointment booked.");
                 InitializeAppointments();
             }
@@ -265,8 +266,8 @@ namespace HealthCare_System.gui
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete the appointment?", "Confirm", MessageBoxButton.YesNo) == 
-                MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete the appointment?", "Confirm",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 factory.DeleteAppointment(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Id);
                 InitializeAppointments();
@@ -290,8 +291,8 @@ namespace HealthCare_System.gui
 
                 string anamnesis = anamnesisTb.Text;
                 if (anamnesis == "")
-                    if (MessageBox.Show("Are you sure you want to end without anamnesis?", "Confirm", MessageBoxButton.YesNo) ==
-                        MessageBoxResult.No) return;
+                    if (MessageBox.Show("Are you sure you want to end without anamnesis?", "Confirm",
+                        MessageBoxButton.YesNo) ==MessageBoxResult.No) return;
 
                 factory.MedicalRecordController.UpdateMedicalRecord(appointment.Patient.MedicalRecord.Id,
                     height, weight, diseaseHisory);

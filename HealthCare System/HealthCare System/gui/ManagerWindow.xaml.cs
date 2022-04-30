@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.entities;
 using System.ComponentModel;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for ManagerWindow.xaml
-    /// </summary>
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
@@ -27,6 +15,7 @@ namespace HealthCare_System.gui
         Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
+
         public ManagerWindow(HealthCareFactory factory)
         {
             InitializeComponent();
@@ -35,8 +24,7 @@ namespace HealthCare_System.gui
             DisplayRooms(this.factory.RoomController.Rooms);
             DisplayDrugs(this.factory.DrugController.Drugs);
             DisplayIngredients(this.factory.IngredientController.Ingredients);
-            DisplayEquipment(this.factory.RoomController.GetEquipmentFromAllRooms());
-            
+            DisplayEquipment(this.factory.RoomController.GetEquipmentFromAllRooms());   
         }
 
         #region EquipmentFiltering
@@ -280,9 +268,6 @@ namespace HealthCare_System.gui
         {
 
         }
-
-
-
 
         #endregion
 

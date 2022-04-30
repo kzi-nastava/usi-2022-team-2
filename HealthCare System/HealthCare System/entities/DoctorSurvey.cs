@@ -59,8 +59,8 @@ namespace HealthCare_System.entities
             if (doctor is null) doctorInfo = "-1";
             else doctorInfo = Doctor.Jmbg;
 
-            return "DoctorSurvey[" + "id: " + id + ", doctor: " + doctorInfo + ", serviceQuality: " + serviceQuality +
-                ", recommendation: " + recommendation + ", comment: " + comment + "]";
+            return "DoctorSurvey[" + "id: " + id + ", doctor: " + doctorInfo + ", serviceQuality: "
+                + serviceQuality + ", recommendation: " + recommendation + ", comment: " + comment + "]";
         }
     }
 }

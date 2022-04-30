@@ -13,7 +13,7 @@ namespace HealthCare_System.controllers
 
         public RoomController() 
         {
-            path = "data/entities/Rooms.json";
+            path = "../../../data/entities/Rooms.json";
             Load();
         }
 
@@ -40,7 +40,7 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize(string linkPath = "data/links/Room_equipment.csv")
+        public void Serialize(string linkPath = "../../../data/links/Room_equipment.csv")
         {
             string roomsJson = JsonSerializer.Serialize(rooms, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, roomsJson);

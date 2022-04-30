@@ -10,14 +10,16 @@ namespace HealthCare_System.entities
 
         public DelayedAppointmentNotification(int id, string message) : base(id, message) { }
 
-        public DelayedAppointmentNotification(int id, string message, Appointment appointment) : base(id, message)
+        public DelayedAppointmentNotification(int id, string message, Appointment appointment)
+            : base(id, message)
         {
             this.appointment = appointment;
         }
 
-        public DelayedAppointmentNotification(DelayedAppointmentNotification notification) : base(notification.Id, notification.Message)
+        public DelayedAppointmentNotification(DelayedAppointmentNotification notification)
+            : base(notification.Id, notification.Message)
         {
-            this.appointment = notification.Appointment;
+            appointment = notification.Appointment;
         }
 
         [JsonIgnore]
@@ -26,11 +28,11 @@ namespace HealthCare_System.entities
         public override string ToString()
         {
             int appointmentInfo;
-            if (this.appointment is null) appointmentInfo = 91;
-            else appointmentInfo = this.appointment.Id;
+            if (appointment is null) appointmentInfo = 91;
+            else appointmentInfo = appointment.Id;
 
-            return "DrugNotification[" + "id: " + this.Id.ToString() +
-                ", message: " + this.Message + ", appointment: " + appointmentInfo.ToString() + "]";
+            return "DrugNotification[" + "id: " + Id.ToString() +
+                ", message: " + Message + ", appointment: " + appointmentInfo.ToString() + "]";
         }
     }
 

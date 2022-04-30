@@ -24,31 +24,19 @@ namespace HealthCare_System.entities
             this.blocked = blocked;
         }
 
-        public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName, patient.BirthDate, 
-            patient.Mail, patient.Password)
+        public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName,
+            patient.BirthDate, patient.Mail, patient.Password)
         {
             medicalRecord = patient.medicalRecord;
             blocked = patient.blocked;
         }
 
         [JsonIgnore]
-        public MedicalRecord MedicalRecord
-        {
-            get { return medicalRecord; }
-            set { medicalRecord = value; }
-        }
+        public MedicalRecord MedicalRecord { get => medicalRecord; set => medicalRecord = value; }
 
         [JsonPropertyName("blocked")]
-        public bool Blocked
-        {
-            get { return blocked; }
-            set { blocked = value; }
-        }
+        public bool Blocked { get => blocked; set => blocked = value; }
 
-        public List<Appointment> UpcomingAppointment(int nextDays)
-        {
-            return null;
-        }
 
         public bool IsAvailable(DateTime start, DateTime end)
         {
@@ -62,11 +50,6 @@ namespace HealthCare_System.entities
                 }
             }
             return true;
-        }
-
-        public override string ToString()
-        {
-            return FirstName + " | " + LastName + " | " + Mail + " | Blocked: " + blocked; 
         }
     }
 }

@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
-    public enum IngredientStatus
+    public enum DrugStatus
     { 
-        OnHold,
-        Accepted,
-        Rejected
+        ON_HOLD,
+        ACCEPTED,
+        REJECTED
     }
 
     public class Drug
@@ -15,14 +15,14 @@ namespace HealthCare_System.entities
         int id;
         string name;
         List<Ingredient> ingredients;
-        IngredientStatus status;
+        DrugStatus status;
 
         public Drug()
         {
             this.ingredients = new List<Ingredient>();
         }
 
-        public Drug(int id, string name, List<Ingredient> ingredients, IngredientStatus status)
+        public Drug(int id, string name, List<Ingredient> ingredients, DrugStatus status)
         {
             this.id = id;
             this.name = name;
@@ -30,21 +30,21 @@ namespace HealthCare_System.entities
             this.status = status;
         }
 
-        public Drug(int id, string name, IngredientStatus status)
+        public Drug(int id, string name, DrugStatus status)
         {
             this.id = id;
             this.name = name;
             this.ingredients = null;
             this.status = status;
-            this.ingredients = new List<Ingredient>();
+            ingredients = new List<Ingredient>();
         }
 
         public Drug(Drug drug) 
         {
-            this.id = drug.id;
-            this.name = drug.name;
-            this.ingredients = drug.ingredients;
-            this.status = drug.status;
+            id = drug.id;
+            name = drug.name;
+            ingredients = drug.ingredients;
+            status = drug.status;
         }
 
         [JsonPropertyName("id")]
@@ -57,11 +57,11 @@ namespace HealthCare_System.entities
         public List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
 
         [JsonPropertyName("status")]
-        public IngredientStatus Status { get => status; set => status = value; }
+        public DrugStatus Status { get => status; set => status = value; }
 
         public override string ToString()
         {
-            return "Drug[" + "name: " + this.name + " status: "+ this.status +"]";
+            return "Drug[" + "name: " + name + " status: "+ status +"]";
         }
     }
 }

@@ -12,7 +12,7 @@ namespace HealthCare_System.controllers
 
         public IngredientController()
         {
-            path = "data/entities/Ingredients.json";
+            path = "../../../data/entities/Ingredients.json";
             Load();
         }
 
@@ -53,7 +53,8 @@ namespace HealthCare_System.controllers
 
         public void Serialize()
         {
-            string ingredientsJson = JsonSerializer.Serialize(ingredients, new JsonSerializerOptions { WriteIndented = true });
+            string ingredientsJson = JsonSerializer.Serialize(ingredients,
+                new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, ingredientsJson);
         }
     }

@@ -62,8 +62,8 @@ namespace HealthCare_System.entities
             if (patient is null) patientInfo = "null";
             else patientInfo = Patient.Jmbg;
 
-            return "Refferal[" + "id: " + this.id + ", used: " + this.used + ", specialization: " + this.specialization.ToString() + 
-                ", doctor: " + doctorInfo +", patient: " + patientInfo + "]";
+            return "Refferal[" + "id: " + id + ", used: " + used + ", specialization: " 
+                + specialization.ToString() + ", doctor: " + doctorInfo +", patient: " + patientInfo + "]";
         }
     }
 }
