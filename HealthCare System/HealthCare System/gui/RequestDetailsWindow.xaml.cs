@@ -23,11 +23,11 @@ namespace HealthCare_System.gui
         public RequestDetailsWindow(AppointmentRequest request)
         {
             InitializeComponent();
-            textBlockDoctor.Text = request.Appointment.Doctor.FirstName + " " + request.Appointment.Doctor.LastName;
+            /*textBlockDoctor.Text = request.Appointment.Doctor.FirstName + " " + request.Appointment.Doctor.LastName;
             textBlockPatient.Text = request.Patient.FirstName + " " + request.Patient.LastName;
             textBlockTime.Text = request.RequestCreated.ToString();
             textBlockType.Text = request.Type.ToString();
-            textBlockStatus.Text = request.State.ToString();
+            textBlockStatus.Text = request.State.ToString();*/
         }
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)

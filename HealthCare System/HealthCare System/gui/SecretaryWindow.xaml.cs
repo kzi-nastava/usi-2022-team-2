@@ -38,14 +38,14 @@ namespace HealthCare_System.gui
 
         private void fillListBoxRequests()
         {
-            ListBoxRequests.Items.Clear();
+            /*ListBoxRequests.Items.Clear();
             foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
             {
                 if (appRequest.State == AppointmentState.WAITING)
                 {
                     ListBoxRequests.Items.Add(appRequest);
                 }
-            }
+            }*/
         }
         
         private void fillListBoxPatients()

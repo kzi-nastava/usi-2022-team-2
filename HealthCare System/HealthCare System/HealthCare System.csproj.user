@@ -11,6 +11,9 @@
     <Compile Update="gui\PatientWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="gui\RequestDetailsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="gui\RoomWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -23,6 +26,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\PatientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\RequestDetailsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\RoomWindow.xaml">
