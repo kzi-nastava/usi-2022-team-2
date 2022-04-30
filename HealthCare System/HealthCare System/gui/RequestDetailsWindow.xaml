@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare_System.gui"
         mc:Ignorable="d"
-        Title="RequestDetailsWindow" Height="300" Width="400" FontSize="16" FontWeight="Bold">
+        Title="RequestDetailsWindow" Height="300" Width="460" FontSize="16" FontWeight="Bold">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="252*" />
@@ -17,26 +17,26 @@
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="60,80,0,0" Name="textBlockLabelT" Text="Created on:" VerticalAlignment="Top" Width="150" TextDecorations="Underline"/>
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="60,110,0,0" Name="textBlockLabelType" Text="Action Type:" VerticalAlignment="Top" Width="150" TextDecorations="Underline"/>
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="60,140,0,0" Name="textBlockLabelstatus" Text="Request Status:" VerticalAlignment="Top" Width="150" TextDecorations="Underline"/>
-        
-        
-        
+
+
+
         <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,20,0,0" Name="textBlockPatient" Text="Patient Name:" VerticalAlignment="Top" Width="150" FontStyle="Oblique"  />
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,20,0,0" Name="textBlockPatient" Text="Patient Name:" VerticalAlignment="Top" Width="190" FontStyle="Oblique"  />
         </Border>
         <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,50,0,0" Name="textBlockDoctor" Text="Doctor's Name:" VerticalAlignment="Top" Width="150"  FontStyle="Oblique" />
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,50,0,0" Name="textBlockDoctor" Text="Doctor's Name:" VerticalAlignment="Top" Width="190"  FontStyle="Oblique" />
         </Border>
         <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,80,0,0" Name="textBlockTime" Text="Created on:" VerticalAlignment="Top" Width="150"  FontStyle="Oblique"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,80,0,0" Name="textBlockTime" Text="24/24/2222 10:43:00 PM:" VerticalAlignment="Top" Width="200"  FontStyle="Oblique"/>
         </Border>
         <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="White" Padding="1">
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,110,0,0" Name="textBlockType" Text="Action Type:" VerticalAlignment="Top" Width="150"  FontStyle="Oblique"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,110,0,0" Name="textBlockType" Text="Action Type:" VerticalAlignment="Top" Width="190"  FontStyle="Oblique"/>
         </Border>
         <Border BorderThickness="0 0 1.2 1.2" CornerRadius="3.2" BorderBrush="Black" Padding="1">
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,140,0,0" Name="textBlockStatus" Text="Request Status:" VerticalAlignment="Top" Width="150"  FontStyle="Oblique"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,140,0,0" Name="textBlockStatus" Text="Request Status:" VerticalAlignment="Top" Width="190"  FontStyle="Oblique"/>
         </Border>
 
-        <Button Content="Close" Height="35" HorizontalAlignment="Left" Margin="150,200,0,0" Name="CloseBtn" VerticalAlignment="Top" Width="100" Click="CloseBtn_Click" />
+        <Button Content="Close" Height="35" HorizontalAlignment="Left" Margin="324,218,0,0" Name="CloseBtn" VerticalAlignment="Top" Width="100" Click="CloseBtn_Click" />
 
     </Grid>
 </Window>

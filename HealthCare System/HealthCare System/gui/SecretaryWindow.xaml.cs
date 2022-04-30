@@ -38,14 +38,14 @@ namespace HealthCare_System.gui
 
         private void fillListBoxRequests()
         {
-            /*ListBoxRequests.Items.Clear();
+            ListBoxRequests.Items.Clear();
             foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
             {
                 if (appRequest.State == AppointmentState.WAITING)
                 {
                     ListBoxRequests.Items.Add(appRequest);
                 }
-            }*/
+            }
         }
         
         private void fillListBoxPatients()
@@ -128,6 +128,7 @@ namespace HealthCare_System.gui
             }
 
             patient.Blocked = !patient.Blocked;
+            factory.PatientController.Serialize();
             ShowBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
@@ -138,17 +139,46 @@ namespace HealthCare_System.gui
 
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
+            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            if (request is null)
+            {
+                MessageBox.Show("Select appointment request You want to accept!");
+                return;
+            }
+
+            factory.AcceptRequest(request);
+            fillListBoxRequests();
+            MessageBox.Show("You succesefully accepted selected request.");
 
         }
 
         private void RejectRequestBtn_Click(object sender, RoutedEventArgs e)
         {
+            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            if (request is null)
+            {
+                MessageBox.Show("Select appointment request You want to reject!");
+                return;
+            }
 
+            factory.RejectRequest(request);
+            fillListBoxRequests();
+            MessageBox.Show("You succesefully rejected selected request.");
         }
 
         private void RequestDetailsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            if (request is null)
+            {
+                MessageBox.Show("Select appointment request You want to see!");
+                return;
+            }
+            else
+            {
+                RequestDetailsWindow requestDetailsWindow = new RequestDetailsWindow(request);
+                requestDetailsWindow.Show();
+            }
         }
     }
 }

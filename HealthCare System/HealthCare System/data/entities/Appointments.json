@@ -3,90 +3,91 @@
     "id": 1001,
     "start": "2022-04-25T12:45:00",
     "end": "2022-04-25T13:00:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
+
   },
   {
     "id": 1002,
     "start": "2022-04-25T10:43:00",
     "end": "2022-04-25T10:58:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1003,
     "start": "2022-04-25T09:00:00",
     "end": "2022-04-25T09:15:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1004,
     "start": "2022-04-25T09:36:00",
     "end": "2022-04-25T09:51:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1005,
     "start": "2022-04-25T13:30:00",
     "end": "2022-04-25T17:30:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1006,
     "start": "2022-04-24T12:45:00",
     "end": "2022-04-24T13:00:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1007,
     "start": "2022-04-24T13:45:00",
     "end": "2022-04-24T14:00:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1008,
     "start": "2022-04-24T09:45:00",
     "end": "2022-04-24T10:45:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1009,
     "start": "2022-04-24T08:00:00",
     "end": "2022-04-24T08:15:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   },
   {
     "id": 1010,
     "start": "2022-04-24T17:45:00",
     "end": "2022-04-24T18:00:00",
-    "graded": false,
-    "emergent": false,
     "type": 0,
-    "status": 0
+    "status": 0,
+    "graded": false,
+    "emergancy": false
   }
 ]
