@@ -36,7 +36,7 @@
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="220,140,0,0" Name="textBlockStatus" Text="Request Status:" VerticalAlignment="Top" Width="190"  FontStyle="Oblique"/>
         </Border>
 
-        <Button Content="Close" Height="35" HorizontalAlignment="Left" Margin="324,218,0,0" Name="CloseBtn" VerticalAlignment="Top" Width="100" Click="CloseBtn_Click" />
+        <Button Content="Close" Height="35" HorizontalAlignment="Left" Margin="324,218,0,0" Name="closeBtn" VerticalAlignment="Top" Width="100" Click="CloseBtn_Click" />
 
     </Grid>
 </Window>

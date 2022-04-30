@@ -24,19 +24,19 @@
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,290,0,0" Name="textBlockPass" Text="Password:" VerticalAlignment="Top" Width="150" />
 
 
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,80,0,0" Name="textBoxFirstName" VerticalAlignment="Top" Width="222" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,50,0,0" Name="textBoxLastName" VerticalAlignment="Top" Width="222" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,80,0,0" Name="textBoxLastName" VerticalAlignment="Top" Width="222" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,50,0,0" Name="textBoxFirstName" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,20,0,0" Name="textBoxJmbg" VerticalAlignment="Top" Width="222" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="240,110,0,0" Name="textBoxBirth" VerticalAlignment="Top" Width="222" />
+        <DatePicker x:Name="birthDatePicker" HorizontalAlignment="Left" Margin="240,110,0,0" VerticalAlignment="Top" Width="222" Height="23" FontWeight="Normal" FontSize="12" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" FirstDayOfWeek="Monday"/>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,140,0,0" Name="textBoxHeight" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,170,0,0" Name="textBoxWeight" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,230,0,0" Name="textBoxAlergies" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,200,0,0" Name="textBoxHistory" VerticalAlignment="Top" Width="222" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="240,260,0,0" Name="textBoxEmail" VerticalAlignment="Top" Width="222" />
-        <PasswordBox Height="23" HorizontalAlignment="Left" Margin="240,290,0,0" Name="PasswordBox" VerticalAlignment="Top" Width="222" />
+        <PasswordBox Height="23" HorizontalAlignment="Left" Margin="240,290,0,0" Name="passwordBox" VerticalAlignment="Top" Width="222" />
 
-        <Button Content="Submit" Height="35" HorizontalAlignment="Left" Margin="100,350,0,0" Name="SubmitBtn" VerticalAlignment="Top" Width="100" Click="SubmitBtn_Click" />
-        <Button Content="Cancel" Height="35" HorizontalAlignment="Right" Margin="300,350,60,0" Name="CancleBtn" VerticalAlignment="Top" Width="100" Click="CancleBtn_Click" />
+        <Button Content="Submit" Height="35" HorizontalAlignment="Left" Margin="100,350,0,0" Name="submitBtn" VerticalAlignment="Top" Width="100" Click="SubmitBtn_Click" />
+        <Button Content="Cancel" Height="35" HorizontalAlignment="Right" Margin="300,350,60,0" Name="cancleBtn" VerticalAlignment="Top" Width="100" Click="CancleBtn_Click" />
 
     </Grid>
 </Window>

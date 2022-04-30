@@ -1,39 +1,32 @@
 [
   {
     "id": 1001,
-    "state":0,
-    "type":1,
-    "requestCreated":"2022-04-27T22:43:00"
+    "state": 0,
+    "type": 1,
+    "requestCreated": "2022-04-27T22:43:00"
   },
   {
     "id": 1002,
-    "state":0,
-    "type":2,
-    "requestCreated":"2022-04-28T19:43:00"
+    "state": 0,
+    "type": 2,
+    "requestCreated": "2022-04-28T19:43:00"
   },
   {
     "id": 1003,
-    "state":1,
-    "type":1,
-    "requestCreated":"2022-04-26T10:43:00"
+    "state": 1,
+    "type": 1,
+    "requestCreated": "2022-04-26T10:43:00"
   },
   {
     "id": 1004,
-    "state":1,
-    "type":2,
-    "requestCreated":"2022-04-25T13:43:00"
+    "state": 1,
+    "type": 2,
+    "requestCreated": "2022-04-25T13:43:00"
   },
   {
     "id": 1005,
-    "state":2,
-    "type":1,
-    "requestCreated":"2022-04-26T06:43:00"
-  },
-  {
-    "id": 1006,
-    "state":2,
-    "type":1,
-    "requestCreated":"2022-04-26T12:43:00"
+    "state": 2,
+    "type": 0,
+    "requestCreated": "2022-04-26T06:43:00"
   }
-  
 ]

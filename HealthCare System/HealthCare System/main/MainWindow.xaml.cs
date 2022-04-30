@@ -59,9 +59,11 @@ namespace HealthCare_System
             }
             else if (person.GetType() == typeof(Secretary))
             {
+                factory.User = person;
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
                 SecretaryWindow secretaryWindow = new SecretaryWindow(factory);
                 secretaryWindow.Show();
+                Close();
             }
         }
     }

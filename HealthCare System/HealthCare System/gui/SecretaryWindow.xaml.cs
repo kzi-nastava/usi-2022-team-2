@@ -2,6 +2,7 @@
 using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,24 +39,24 @@ namespace HealthCare_System.gui
 
         private void fillListBoxRequests()
         {
-            ListBoxRequests.Items.Clear();
+            listBoxRequests.Items.Clear();
             foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
             {
                 if (appRequest.State == AppointmentState.WAITING)
                 {
-                    ListBoxRequests.Items.Add(appRequest);
+                    listBoxRequests.Items.Add(appRequest);
                 }
             }
         }
         
         private void fillListBoxPatients()
         {
-            ListBoxPatients.Items.Clear();
+            listBoxPatients.Items.Clear();
             foreach (Patient patient in factory.PatientController.Patients)
             {
                 if (patient.Blocked == showingBlocked)
                 {
-                    ListBoxPatients.Items.Add(patient);
+                    listBoxPatients.Items.Add(patient);
                 }
                 
             }
@@ -63,7 +64,7 @@ namespace HealthCare_System.gui
 
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)ListBoxPatients.SelectedItem;
+            Patient patient = (Patient)listBoxPatients.SelectedItem;
             if (patient is null)
             {
                 MessageBox.Show("Select patient You want to update!");
@@ -87,18 +88,18 @@ namespace HealthCare_System.gui
             fillListBoxPatients();
             if (showingBlocked)
             {
-                ShowBlockedBtn.Content = "View Regular";
-                BlockBtn.Content = "Unblock";
+                showBlockedBtn.Content = "View Regular";
+                blockBtn.Content = "Unblock";
             }else
             {
-                ShowBlockedBtn.Content = "View Blocked";
-                BlockBtn.Content = "Block";
+                showBlockedBtn.Content = "View Blocked";
+                blockBtn.Content = "Block";
             }
         }
 
         private void DeletePatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)ListBoxPatients.SelectedItem;
+            Patient patient = (Patient)listBoxPatients.SelectedItem;
             if (patient is null)
             {
                 MessageBox.Show("Select patient You want to delete!");
@@ -120,7 +121,7 @@ namespace HealthCare_System.gui
 
         private void BlockBtn_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)ListBoxPatients.SelectedItem;
+            Patient patient = (Patient)listBoxPatients.SelectedItem;
             if (patient is null)
             {
                 MessageBox.Show("Select patient You want to block/unblock!");
@@ -129,7 +130,7 @@ namespace HealthCare_System.gui
 
             patient.Blocked = !patient.Blocked;
             factory.PatientController.Serialize();
-            ShowBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            showBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
@@ -139,7 +140,7 @@ namespace HealthCare_System.gui
 
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to accept!");
@@ -154,7 +155,7 @@ namespace HealthCare_System.gui
 
         private void RejectRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to reject!");
@@ -168,7 +169,7 @@ namespace HealthCare_System.gui
 
         private void RequestDetailsBtn_Click(object sender, RoutedEventArgs e)
         {
-            AppointmentRequest request = (AppointmentRequest)ListBoxRequests.SelectedItem;
+            AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to see!");
@@ -179,6 +180,17 @@ namespace HealthCare_System.gui
                 RequestDetailsWindow requestDetailsWindow = new RequestDetailsWindow(request);
                 requestDetailsWindow.Show();
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            factory.User = null;
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
+            else e.Cancel = true;
         }
     }
 }
