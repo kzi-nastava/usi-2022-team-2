@@ -1,0 +1,33 @@
+[
+  {
+    "jmbg":"1001",
+    "mail": "m.cuturic@gmail.com",
+    "password": "123",
+    "firstName": "Milos",
+    "lastName": "Cuturic",
+    "birthDate": "2001-10-29",
+    "specialization": 1,
+    "freeDates": [ "2022-04-25", "2022-04-29", "2022-05-01" ]
+      
+  },
+  {
+    "jmbg": "1002",
+    "mail": "i.jakovljevic@gmail.com",
+    "password": "123",
+    "firstName": "Ivana",
+    "lastName": "Jakovljevic",
+    "birthDate": "2000-02-12",
+    "specialization": 0,
+    "freeDates": [ "2022-04-24", "2022-04-27", "2022-05-05" ]
+  },
+  {
+    "jmbg": "1003",
+    "mail": "m.djukic@gmail.com",
+    "password": "123",
+    "firstName": "Miljana",
+    "lastName": "Djukic",
+    "birthDate": "1997-09-17",
+    "specialization": 2,
+    "freeDates": [ "2022-04-30", "2022-04-26", "2022-05-03" ]
+  }
+]

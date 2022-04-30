@@ -1,0 +1,42 @@
+﻿[
+  {
+    "id": 1001,
+    "seviceQuality": 4,
+    "hygiene": 5,
+    "satisfaction": 3,
+    "recommendation": 4,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1002,
+    "seviceQuality": 4,
+    "hygiene": 5,
+    "satisfaction": 2,
+    "recommendation": 4,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1003,
+    "seviceQuality": 5,
+    "hygiene": 5,
+    "satisfaction": 3,
+    "recommendation": 4,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1004,
+    "seviceQuality": 4,
+    "hygiene": 5,
+    "satisfaction": 3,
+    "recommendation": 5,
+    "comment": "Nice!"
+  },
+  {
+    "id": 1005,
+    "seviceQuality": 5,
+    "hygiene": 5,
+    "satisfaction": 3,
+    "recommendation": 4,
+    "comment": "Nice!"
+  }
+]

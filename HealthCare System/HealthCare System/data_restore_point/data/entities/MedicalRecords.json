@@ -1,0 +1,32 @@
+﻿[
+  {
+    "id": 1001,
+    "height": 185,
+    "weight": 75,
+    "diseaseHistory": "No past diseases."
+  },
+  {
+    "id": 1002,
+    "height": 180,
+    "weight": 80,
+    "diseaseHistory": "No past diseases."
+  },
+  {
+    "id": 1003,
+    "height": 190,
+    "weight": 90,
+    "diseaseHistory": "No past diseases."
+  },
+  {
+    "id": 1004,
+    "height": 175,
+    "weight": 75,
+    "diseaseHistory": "No past diseases."
+  },
+  {
+    "id": 1005,
+    "height": 180,
+    "weight": 75,
+    "diseaseHistory": "No past diseases."
+  }
+]
