@@ -48,6 +48,14 @@
                     <Button x:Name="refreshHistory" Content="Refresh" HorizontalAlignment="Left" Margin="685,337,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Click="refreshHistory_Click"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Anamneses" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="anamnesesSearchTb" HorizontalAlignment="Left" Margin="32,10,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="418" TextChanged="anamnesesSearchTb_TextChanged"/>
+                    <ComboBox x:Name="sortCriteriumCb" HorizontalAlignment="Left" Margin="470,10,0,0" VerticalAlignment="Top" Width="114" Height="29" SelectionChanged="sortCriteriumCb_SelectionChanged"/>
+                    <ComboBox x:Name="sortingDirectionCb" HorizontalAlignment="Left" Margin="625,10,0,0" VerticalAlignment="Top" Width="114" Height="29" SelectionChanged="sortingDirectionCb_SelectionChanged"/>
+                    <ListBox x:Name="sortedAnamnesesLb" Margin="32,55,32,10"/>
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>
