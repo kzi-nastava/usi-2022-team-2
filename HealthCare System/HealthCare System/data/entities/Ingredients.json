@@ -1,22 +1,22 @@
 [
   {
-    "id": 1001,
-    "name": "Penicilin"
+    "id":1001,
+    "name":"Penicilin"
   },
   {
-    "id": 1002,
-    "name": "Lactose"
+    "id":1002,
+    "name":"Lactose"
   },
   {
-    "id": 1003,
-    "name": "Mineral oil"
+    "id":1003,
+    "name":"Mineral oil"
   },
   {
-    "id": 1004,
-    "name": "Marijuana"
+    "id":1004,
+    "name":"Marijuana"
   },
   {
-    "id": 1005,
-    "name": "Fungus"
+    "id":1005,
+    "name":"Fungus"
   }
 ]

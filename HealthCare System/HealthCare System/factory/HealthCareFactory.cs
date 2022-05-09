@@ -873,15 +873,18 @@ namespace HealthCare_System.factory
             AppointmentRequestController.Serialize();
         }
 
-        private void DeleteAppointmens(MedicalRecord medicalRecord)
+        private void DeleteAppointmens(Patient patient)
         {
             for (int i = appointmentController.Appointments.Count - 1; i >= 0; i--)
-            {
-                if (appointmentController.Appointments[i].Start > DateTime.Now)
+            { 
+                if (appointmentController.Appointments[i].Patient == patient)
                 {
-                    throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                    if (appointmentController.Appointments[i].Start > DateTime.Now)
+                    {
+                        throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                    }
+                    DeleteAppointment(appointmentController.Appointments[i].Id);
                 }
-                DeleteAppointment(appointmentController.Appointments[i].Id);
             }
         }
 
@@ -915,19 +918,17 @@ namespace HealthCare_System.factory
 
             try
             {
-                DeleteAppointmens(medicalRecord);
+                DeleteAppointmens(patient);
             }
             catch
             {
                 throw;
             }
-
+            DeleteDrugNotifications(patient);
             DeletePrescriptions(medicalRecord);
 
             medicalRecordController.MedicalRecords.Remove(medicalRecord);
             medicalRecordController.Serialize();
-
-            DeleteDrugNotifications(patient);
             
             patientController.Patients.Remove(patient);
             patientController.Serialize();
