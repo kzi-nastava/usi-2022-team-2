@@ -849,18 +849,14 @@ namespace HealthCare_System.factory
 
         public void AcceptRequest(AppointmentRequest request)
         {
-            request.State = AppointmentState.ACCEPTED;
-            if (request.Type == RequestType.UPDATE)
+            if (request.Type == RequestType.DELETE)
             {
-                appointmentController.Appointments.Remove(request.OldAppointment);
-                request.OldAppointment = null;
-            }else if (request.Type == RequestType.DELETE)
-            {
-                appointmentController.Appointments.Remove(request.OldAppointment);
                 appointmentController.Appointments.Remove(request.NewAppointment);
-                request.OldAppointment = null;
                 request.NewAppointment = null;
             }
+            appointmentController.Appointments.Remove(request.OldAppointment);
+            request.OldAppointment = null;
+            request.State = AppointmentState.ACCEPTED;
             appointmentController.Serialize();
             appointmentRequestController.Serialize();
         }
