@@ -9,16 +9,25 @@ namespace HealthCare_System.controllers
     {
         List<MedicalRecord> medicalRecords;
         string path;
+        string ingredientLinkerPath;
+        string patientLinkerPath;
+        string prescriptionLinkerPath;
 
         public MedicalRecordController()
         {
             path = "../../../data/entities/MedicalRecords.json";
+            ingredientLinkerPath = "../../../data/links/MedicalRecord_Ingredient.csv";
+            patientLinkerPath = "../../../data/links/MedicalRecord_Patient.csv";
+            prescriptionLinkerPath = "../../../data/links/PrescriptionLinker.csv";
             Load();
         }
 
         public MedicalRecordController(string path)
         {
             this.path = path;
+            ingredientLinkerPath = "../../../data/links/MedicalRecord_Ingredient.csv";
+            patientLinkerPath = "../../../data/links/MedicalRecord_Patient.csv";
+            prescriptionLinkerPath = "../../../data/links/PrescriptionLinker.csv";
             Load();
         }
 
@@ -51,11 +60,8 @@ namespace HealthCare_System.controllers
             return medicalRecords[^1].Id + 1;
         }
 
-        public void Serialize(string linkPath = "../../../data/links/MedicalRecord_Ingredient.csv")
+        private void RewriteIngredientLinker()
         {
-            string medicalRecordsJson = JsonSerializer.Serialize(medicalRecords, 
-                new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, medicalRecordsJson);
             string csv = "";
             foreach (MedicalRecord medRecrod in medicalRecords)
             {
@@ -64,25 +70,43 @@ namespace HealthCare_System.controllers
                     csv += medRecrod.Id + ";" + ingredient.Id + "\n";
                 }
             }
-            File.WriteAllText(linkPath, csv);
+            File.WriteAllText(ingredientLinkerPath, csv);
+        }
 
-            csv = "";
-            linkPath = "../../../data/links/MedicalRecord_Patient.csv";
+        private void RewritePatientLinker()
+        {
+            string csv = "";
             foreach (MedicalRecord medRecord in medicalRecords)
             {
                 csv += medRecord.Id + ";" + medRecord.Patient.Jmbg + "\n";
             }
-            File.WriteAllText(linkPath, csv);
+            File.WriteAllText(patientLinkerPath, csv);
+        }
 
-            csv = "";
-            linkPath = "../../../data/links/PrescriptionLinker.csv";
+        private void RewritePrescriptionLinker()
+        {
+            string csv = "";
             foreach (MedicalRecord medRecord in medicalRecords)
             {
-                foreach (Prescription prescription in medRecord.Prescriptions) {
-                    csv += prescription.Id + ";" + medRecord.Id + ";" + prescription.Drug.Id +  "\n";
+                foreach (Prescription prescription in medRecord.Prescriptions)
+                {
+                    csv += prescription.Id + ";" + medRecord.Id + ";" + prescription.Drug.Id + "\n";
                 }
             }
-            File.WriteAllText(linkPath, csv);
+            File.WriteAllText(prescriptionLinkerPath, csv);
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/MedicalRecord_Ingredient.csv")
+        {
+            string medicalRecordsJson = JsonSerializer.Serialize(medicalRecords, 
+                new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, medicalRecordsJson);
+
+            RewriteIngredientLinker();
+
+            RewritePatientLinker();
+
+            RewritePrescriptionLinker();
         }
 
         public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)

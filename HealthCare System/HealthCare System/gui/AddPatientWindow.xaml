@@ -11,7 +11,7 @@
             <RowDefinition Height="252*" />
             <!--   <RowDefinition Height="12*" />-->
         </Grid.RowDefinitions>
-        <TextBlock Height="20" HorizontalAlignment="Left" Margin="67,0,0,0" x:Name ="errormessage" VerticalAlignment="Top" Width="247"  OpacityMask="Crimson" Foreground="#FFE5572C" />
+        <TextBlock Height="20" HorizontalAlignment="Left" Margin="67,0,0,0" x:Name ="errormessage" VerticalAlignment="Top" Width="247"  OpacityMask="Crimson" Foreground="#FFE5572C" FontSize="12" />
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,20,0,0" x:Name="textBlockJmbg" Text="Jmbg:" VerticalAlignment="Top" Width="150" />
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,50,0,0" Name="textBlockFirstname" Text="First Name:" VerticalAlignment="Top" Width="150" />
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,80,0,0" Name="textBlockLastname" Text="Last Name:" VerticalAlignment="Top" Width="150" />

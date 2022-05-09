@@ -69,11 +69,9 @@ namespace HealthCare_System.gui
             {
                 MessageBox.Show("Select patient You want to update!");
                 return;
-            }else
-            {
-                addPatientWin = new AddPatientWindow(factory, true, patient);
-                addPatientWin.Show();
             }
+            addPatientWin = new AddPatientWindow(factory, true, patient);
+            addPatientWin.Show();
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
@@ -103,20 +101,21 @@ namespace HealthCare_System.gui
             if (patient is null)
             {
                 MessageBox.Show("Select patient You want to delete!");
-                return;
-            }
 
-            try
-            {
-                factory.DeletePatient(patient);
             }
-            catch
+            else
             {
-                MessageBox.Show("Can't delete selected patient, because of it's future appointments.");
-                return;
+                try
+                {
+                    factory.DeletePatient(patient);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+                fillListBoxPatients();
             }
-            fillListBoxPatients();
-
         }
 
         private void BlockBtn_Click(object sender, RoutedEventArgs e)
@@ -125,12 +124,13 @@ namespace HealthCare_System.gui
             if (patient is null)
             {
                 MessageBox.Show("Select patient You want to block/unblock!");
-                return;
             }
-
-            patient.Blocked = !patient.Blocked;
-            factory.PatientController.Serialize();
-            showBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            else
+            {
+                patient.Blocked = !patient.Blocked;
+                factory.PatientController.Serialize();
+                showBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
         }
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
@@ -144,13 +144,13 @@ namespace HealthCare_System.gui
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to accept!");
-                return;
             }
-
-            factory.AcceptRequest(request);
-            fillListBoxRequests();
-            MessageBox.Show("You succesefully accepted selected request.");
-
+            else
+            {
+                factory.AcceptRequest(request);
+                fillListBoxRequests();
+                MessageBox.Show("You succesefully accepted selected request.");
+            }
         }
 
         private void RejectRequestBtn_Click(object sender, RoutedEventArgs e)
@@ -159,12 +159,13 @@ namespace HealthCare_System.gui
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to reject!");
-                return;
             }
-
-            factory.RejectRequest(request);
-            fillListBoxRequests();
-            MessageBox.Show("You succesefully rejected selected request.");
+            else
+            {
+                factory.RejectRequest(request);
+                fillListBoxRequests();
+                MessageBox.Show("You succesefully rejected selected request.");
+            }
         }
 
         private void RequestDetailsBtn_Click(object sender, RoutedEventArgs e)
@@ -173,7 +174,6 @@ namespace HealthCare_System.gui
             if (request is null)
             {
                 MessageBox.Show("Select appointment request You want to see!");
-                return;
             }
             else
             {

@@ -55,42 +55,8 @@ namespace HealthCare_System.gui
             Close();
         }
 
-        private void SubmitBtn_Click(object sender, RoutedEventArgs e)
+        private List<Ingredient> GetIngredients()
         {
-            if (!Regex.IsMatch(textBoxEmail.Text, 
-                @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$") ||
-                textBoxEmail.Text == "")
-            {
-                errormessage.Text = "Enter a valid email.";
-                textBoxEmail.Select(0, textBoxEmail.Text.Length);
-                textBoxEmail.Focus();
-                return;
-            }else if (passwordBox.Password.Length == 0)
-            {
-                errormessage.Text = "Enter password.";
-                passwordBox.Focus();
-                return;
-            }
-            string jmbg = textBoxJmbg.Text;
-            string firstName = textBoxFirstName.Text;
-            string lastName = textBoxLastName.Text;
-            string mail = textBoxEmail.Text;
-            double height;
-            double weight;
-            try
-            {
-                height = Convert.ToDouble(textBoxHeight.Text);
-                weight = Convert.ToDouble(textBoxWeight.Text);
-            }
-            catch
-            {
-                height = 0;
-                weight = 0;
-            }
-            string history = textBoxHistory.Text;
-            string password = passwordBox.Password;
-            DateTime birthDate = birthDatePicker.SelectedDate.Value;
-
             string[] ingredientNames;
             try
             {
@@ -108,52 +74,105 @@ namespace HealthCare_System.gui
                 }
             }
 
+            List<Ingredient> ingredients = new List<Ingredient>();
+            foreach (string name in ingredientNames)
+            {
+                foreach (Ingredient ingredient in factory.IngredientController.Ingredients)
+                {
+                    if (ingredient.Name.ToLower() == name.ToLower())
+                    {
+                        ingredients.Add(ingredient);
+                        continue;
+                    }
+                }
+            }
+            return ingredients;
+        }
+
+        private bool ValidateInput()
+        {
+            if (!Regex.IsMatch(textBoxEmail.Text, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$") || textBoxEmail.Text == "")
+            {
+                errormessage.Text = "Enter a valid email.";
+                textBoxEmail.Select(0, textBoxEmail.Text.Length);
+                textBoxEmail.Focus();
+                return false;
+            }
+            else if (passwordBox.Password.Length == 0)
+            {
+                errormessage.Text = "Enter password.";
+                passwordBox.Focus();
+                return false;
+            }
+
+            try
+            {
+                double height = Convert.ToDouble(textBoxHeight.Text);
+                double weight = Convert.ToDouble(textBoxWeight.Text);
+                DateTime date = birthDatePicker.SelectedDate.Value;
+            }
+            catch (FormatException)
+            {
+                errormessage.Text = "Enter a valid height or weight.";
+                textBoxHeight.Focus();
+                textBoxWeight.Focus();
+                return false;
+            }
+            catch
+            {
+                errormessage.Text = "Pick a date.";
+                birthDatePicker.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void UpdatePatient(double height, double weight, string history)
+        {
+            patient.MedicalRecord.Height = height;
+            patient.MedicalRecord.Weight = weight;
+            patient.MedicalRecord.DiseaseHistory = history;
+
+            factory.UpdatePatient();
+
+            MessageBox.Show("You succesefully updated patient.");
+        }
+
+        private void CreatePatient(double height, double weight, string history)
+        {
+            patient.Password = passwordBox.Password;
+
+            List<Ingredient> ingredients = GetIngredients();
+            MedicalRecord medRecord = factory.MedicalRecordController.Add(height, weight, history, ingredients);
+
+            factory.AddPatient(patient, medRecord);
+
+            MessageBox.Show("You succesefully registred new patient.");
+        }
+
+        private void SubmitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if(!ValidateInput()) { return; }
+
+            patient.Jmbg = textBoxJmbg.Text;
+            patient.FirstName = textBoxFirstName.Text;
+            patient.LastName = textBoxLastName.Text;
+            patient.Mail = textBoxEmail.Text;
+            patient.BirthDate = birthDatePicker.SelectedDate.Value;
+            double height = Convert.ToDouble(textBoxHeight.Text);
+            double weight = Convert.ToDouble(textBoxWeight.Text);
+            string history = textBoxHistory.Text;
 
             if (isUpdate)
             {
-                patient.Jmbg = jmbg;
-                patient.FirstName = firstName;
-                patient.LastName = lastName;
-                patient.Mail = mail;
-                patient.BirthDate = birthDate;
-                patient.MedicalRecord.Height = height;
-                patient.MedicalRecord.Weight = weight;
-                patient.MedicalRecord.DiseaseHistory = history;
 
-                factory.UpdatePatient();
-
-                Close();
-                MessageBox.Show("You succesefully updated patient.");
+                UpdatePatient(height, weight, history);
             }
             else
             {
-                List<Ingredient> ingredients = new List<Ingredient>();
-                foreach (string name in ingredientNames)
-                {
-                    foreach (Ingredient ingredient in factory.IngredientController.Ingredients)
-                    {
-                        if (ingredient.Name.ToLower() == name)
-                        {
-                            ingredients.Add(ingredient);
-                            continue;
-                        }
-                    }
-                }
-                MedicalRecord medRecord = factory.MedicalRecordController.Add(height, weight, history, ingredients);
-
-                patient.Jmbg = jmbg;
-                patient.FirstName = firstName;
-                patient.LastName = lastName;
-                patient.Mail = mail;
-                patient.BirthDate = birthDate;
-                patient.Password = password;
-
-                factory.AddPatient(patient, medRecord);
-
-                Close();
-                MessageBox.Show("You succesefully registred new patient.");
+                CreatePatient(height, weight, history);
             }
-
+            Close();
         }
     }
 }
