@@ -877,20 +877,20 @@ namespace HealthCare_System.factory
             AppointmentRequestController.Serialize();
         }
 
-        public void DeletePatient(Patient patient)
+        private void DeleteAppointmens(MedicalRecord medicalRecord)
         {
-            MedicalRecord medicalRecord = patient.MedicalRecord;
-
-            foreach (Appointment appointment in medicalRecord.Appointments)
+            for (int i = appointmentController.Appointments.Count - 1; i >= 0; i--)
             {
-                if(appointment.Start > DateTime.Now)
+                if (appointmentController.Appointments[i].Start > DateTime.Now)
                 {
                     throw new Exception("Can't delete selected patient, because of it's future appointments.");
                 }
-                appointmentController.Appointments.Remove(appointment);
+                DeleteAppointment(appointmentController.Appointments[i].Id);
             }
-            appointmentController.Serialize();
+        }
 
+        private void DeletePrescriptions(MedicalRecord medicalRecord)
+        {
             for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
             {
                 if (prescriptionController.Prescriptions[i].MedicalRecord == medicalRecord)
@@ -899,10 +899,10 @@ namespace HealthCare_System.factory
                 }
             }
             prescriptionController.Serialize();
-            medicalRecordController.MedicalRecords.Remove(medicalRecord);
-            medicalRecordController.Serialize();
-            
+        }
 
+        private void DeleteDrugNotifications(Patient patient)
+        {
             for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
             {
                 if (drugNotificationController.DrugNotifications[i].Patient == patient)
@@ -911,6 +911,27 @@ namespace HealthCare_System.factory
                 }
             }
             drugNotificationController.Serialize();
+        }
+
+        public void DeletePatient(Patient patient)
+        {
+            MedicalRecord medicalRecord = patient.MedicalRecord;
+
+            try
+            {
+                DeleteAppointmens(medicalRecord);
+            }
+            catch
+            {
+                throw;
+            }
+
+            DeletePrescriptions(medicalRecord);
+
+            medicalRecordController.MedicalRecords.Remove(medicalRecord);
+            medicalRecordController.Serialize();
+
+            DeleteDrugNotifications(patient);
             
             patientController.Patients.Remove(patient);
             patientController.Serialize();
