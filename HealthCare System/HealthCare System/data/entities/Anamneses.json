@@ -1,5 +1,45 @@
 [
   {
+    "id": 1001,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1002,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1003,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1004,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1005,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1006,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1007,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1008,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1009,
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1010,
+    "description": "Patient is healthy."
+  },
+  {
     "id": 1011,
     "description": ""
   },
