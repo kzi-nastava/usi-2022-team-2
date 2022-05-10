@@ -40,6 +40,20 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration)
+        {
+            Dictionary<Appointment, DateTime> appointments = new Dictionary<Appointment, DateTime>();
+            DateTime currentTime = DateTime.Now;
+            Appointment currentAppointment;
+            foreach (Doctor doctor in doctors)
+            {
+                currentAppointment = doctor.getNextAppointment(currentTime, duration);
+                appointments[currentAppointment] = doctor.getNextFreeAppointment(currentAppointment.Start, currentAppointment.End);
+            }
+            return appointments;
+        }
+
+
         public int GenerateId()
         {
             return appointments[^1].Id + 1;

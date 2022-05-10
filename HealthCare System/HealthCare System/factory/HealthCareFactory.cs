@@ -847,6 +847,34 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
+        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, int duration, int id)
+        {
+            DateTime limitTime = DateTime.Now.AddHours(2);
+            DateTime start = limitTime;
+            DateTime retTime;
+            Doctor doctor = doctors[0];
+            foreach (Doctor doc in doctors)
+            {
+                retTime = doc.getClosestFreeAppointment(duration);
+                if (retTime < start)
+                {
+                    start = retTime;
+                    doctor = doc;
+                }
+            }
+
+            if (limitTime == start)
+            {
+                return null;
+            }
+            AppointmentType type = AppointmentType.EXAMINATION;
+            if (duration != 15) { type = AppointmentType.OPERATION; }
+
+            Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
+            appointment.Doctor = doctor;
+            return appointment;
+        }
+
         public void AcceptRequest(AppointmentRequest request)
         {
             if (request.Type == RequestType.DELETE)

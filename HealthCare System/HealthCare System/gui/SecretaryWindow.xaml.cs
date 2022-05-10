@@ -28,18 +28,20 @@ namespace HealthCare_System.gui
         bool showingBlocked;
         AddPatientWindow addPatientWin;
         bool isOperation;
+        Dictionary<Appointment, DateTime> replaceableAppointments;
+
 
         public SecretaryWindow(HealthCareFactory factory)
         {
             InitializeComponent();
             this.factory = factory;
             this.showingBlocked = false;
-            setEmergencyAppTab();
+            SetEmergencyAppTab();
             fillListBoxPatients();
             fillListBoxRequests();
         }
 
-        private void setEmergencyAppTab()
+        private void SetEmergencyAppTab()
         {
             this.isOperation = false;
             this.textBoxDuration.IsEnabled = false;
@@ -77,6 +79,15 @@ namespace HealthCare_System.gui
                     listBoxPatients.Items.Add(patient);
                 }
                 
+            }
+        }
+
+        private void fillListBoxAppointments(List<Doctor> doctors, int duration)
+        {
+            replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration);
+            foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
+            {
+                listBoxAppointments.Items.Add(item.Key);
             }
         }
 
@@ -211,11 +222,50 @@ namespace HealthCare_System.gui
             else e.Cancel = true;
         }
 
-        private void rb_Checked(object sender, RoutedEventArgs e)
+        private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
-            this.isOperation = !this.isOperation;
-            this.textBoxDuration.IsEnabled = !this.textBoxDuration.IsEnabled;
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
+            Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, duration, factory.AppointmentController.GenerateId());
+
+            if (bookedAppointment == null)
+            {
+                MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
+                fillListBoxAppointments(doctors, duration);
+            }
+            bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+            factory.AddAppointment(bookedAppointment);
+            MessageBox.Show("You succesefully booked emergency appointment.");
         }
 
+
+        private void rbOperation_Checked(object sender, RoutedEventArgs e)
+        {
+            this.isOperation = true;
+            this.textBoxDuration.IsEnabled = true;
+        }
+
+        private void rbExamination_Checked(object sender, RoutedEventArgs e)
+        {
+            this.isOperation = false;
+            this.textBoxDuration.IsEnabled = false;
+        }
+
+        private void bookAndReplaceBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

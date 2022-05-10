@@ -74,7 +74,7 @@ namespace HealthCare_System.entities
             return true;
         }
 
-        private DateTime getNextFreeAppointment(DateTime start, DateTime end)
+        public DateTime getNextFreeAppointment(DateTime start, DateTime end)
         {
             foreach (DateTime date in freeDates)
             {
@@ -93,6 +93,22 @@ namespace HealthCare_System.entities
                 }
             }
             return start;
+        }
+
+        public Appointment getNextAppointment(DateTime currentTime, int duration)
+        {
+            Appointment retAppointment = appointments[0];
+            foreach (Appointment appointment in appointments)
+            {
+                if (appointment.Start > currentTime && 
+                    appointment.Start < retAppointment.Start 
+                    && appointment.Start.AddMinutes(duration) <= appointment.End)
+                {
+                    retAppointment = appointment;
+                }
+            }
+            return retAppointment;
+
         }
     
 
