@@ -27,14 +27,32 @@ namespace HealthCare_System.gui
         List<Patient> blockedPatients = new List<Patient>();
         bool showingBlocked;
         AddPatientWindow addPatientWin;
+        bool isOperation;
 
         public SecretaryWindow(HealthCareFactory factory)
         {
             InitializeComponent();
             this.factory = factory;
             this.showingBlocked = false;
+            setEmergencyAppTab();
             fillListBoxPatients();
             fillListBoxRequests();
+        }
+
+        private void setEmergencyAppTab()
+        {
+            this.isOperation = false;
+            this.textBoxDuration.IsEnabled = false;
+
+            foreach (Patient patient in factory.PatientController.Patients)
+            {
+                cmbPatient.Items.Add(patient);
+            }
+
+            foreach (int i in Enum.GetValues(typeof(Specialization)))
+            {
+                cmbSpecialization.Items.Add((Specialization)i);
+            }
         }
 
         private void fillListBoxRequests()
@@ -192,5 +210,12 @@ namespace HealthCare_System.gui
             }
             else e.Cancel = true;
         }
+
+        private void rb_Checked(object sender, RoutedEventArgs e)
+        {
+            this.isOperation = !this.isOperation;
+            this.textBoxDuration.IsEnabled = !this.textBoxDuration.IsEnabled;
+        }
+
     }
 }

@@ -74,6 +74,44 @@ namespace HealthCare_System.entities
             return true;
         }
 
+        private DateTime getNextFreeAppointment(DateTime start, DateTime end)
+        {
+            foreach (DateTime date in freeDates)
+            {
+                if (start.Date == date.Date)
+                {
+                    return start.AddDays(1);
+                }
+            }
+            foreach (Appointment appointment in appointments)
+            {
+                if ((appointment.Start <= start && appointment.End >= start) ||
+                    (appointment.Start <= end && appointment.End >= end) ||
+                    (start <= appointment.Start && end >= appointment.End))
+                {
+                    return appointment.End;
+                }
+            }
+            return start;
+        }
+    
+
+        public DateTime getClosestFreeAppointment(int duration)
+        {
+            DateTime currentClosest = DateTime.Now;
+            DateTime lastClosest = currentClosest;
+            while (true)
+            {
+                currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
+                if (currentClosest == lastClosest)
+                {
+                    break;
+                }
+                lastClosest = currentClosest;
+            }
+            return currentClosest;
+        }
+
         public List<Appointment> FilterAppointments(DateTime date)
         {
             List<Appointment> upcoming = new();
