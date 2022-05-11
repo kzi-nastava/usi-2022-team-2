@@ -168,7 +168,8 @@ namespace HealthCare_System.gui
 
         private void renovateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            Window renovationWindow = new RenovationWindow(factory);
+            renovationWindow.Show();
         }
 
         private void updateRoomBtn_Click(object sender, RoutedEventArgs e)
