@@ -288,7 +288,7 @@ namespace HealthCare_System.gui
             toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
 
             newAppointment = factory.AddAppointment(newAppointment);
-            factory.MakeNotifications(newAppointment);
+            factory.AddNotification(toReplaceAppointment, newAppointment.Start);
 
             MessageBox.Show("Doctor and patient are informed about appointment delay.");
         }

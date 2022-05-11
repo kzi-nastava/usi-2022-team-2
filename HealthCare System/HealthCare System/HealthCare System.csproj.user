@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="gui\DelayedAppointmentNotificationWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="gui\EquipmentMoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -19,6 +22,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="gui\DelayedAppointmentNotificationWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="gui\EquipmentMoveWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

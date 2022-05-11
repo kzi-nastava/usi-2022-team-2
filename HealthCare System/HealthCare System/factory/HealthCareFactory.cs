@@ -877,37 +877,13 @@ namespace HealthCare_System.factory
             return appointment;
         }
 
-        public void MakeNotifications(Appointment appointment)
+        public void AddNotification(Appointment appointment, DateTime oldStart)
         {
-            string text = "Your appointment with patient " + appointment.Patient + "is delayed. New start is " + appointment.Start + ".";
-            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.add(text);
-            sendMail("srdjan.stjepanovic01@gmail.com", appointment.Doctor.Mail, text);
-
-            text = "Your appointment with doctor " + appointment.Doctor + "is delayed. New start is " + appointment.Start + ".";
-            newNotification = delayedAppointmentNotificationController.add(text);
-            sendMail("srdjan.stjepanovic01@gmail.com", appointment.Patient.Mail, text);
+            string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
+            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.add(appointment, text);
+            delayedAppointmentNotificationController.Serialize();
         }
 
-        public void sendMail(string text, string from, string to)
-        {
-            try
-            {
-                MailMessage message = new MailMessage();
-                SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress(from);
-                message.To.Add(new MailAddress(to));
-                message.Subject = "Test";
-                message.Body = text;
-                smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com"; //for gmail host  
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential(from, "password");
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.Send(message);
-            }
-            catch (Exception) { }
-        }
 
         public void AcceptRequest(AppointmentRequest request)
         {

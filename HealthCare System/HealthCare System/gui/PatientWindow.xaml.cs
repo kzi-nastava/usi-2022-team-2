@@ -28,6 +28,8 @@ namespace HealthCare_System.gui
             datePicker.DisplayDateStart = DateTime.Now;
             datePickerEdit.DisplayDateStart = DateTime.Now;
             UpdateAppointmentHistory();
+
+            DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
         }
 
         public void UpdateAppointmentHistory()
