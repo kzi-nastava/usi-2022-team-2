@@ -986,24 +986,23 @@ namespace HealthCare_System.factory
         {
             bool available = true;
 
-            foreach (Appointment appointment in appointmentController.Appointments) 
+            available = IsRoomAvailableAppointments(room);
+            if (!available)
             {
-                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
-            foreach (Transfer transfer in transferController.Transfers)
+            available = IsRoomAvailableTransfers(room);
+            if (!available)
             {
-                if (room == transfer.FromRoom || room == transfer.ToRoom)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
+            available = IsRoomAvailableRenovations(room);
+            if (!available)
+            {
+                return available;
+            }
             return available;
         }
 
@@ -1017,5 +1016,81 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             roomController.DeleteRoom(room);
         }
+
+        public bool IsRoomAvailableAppointments(Room room)
+        {
+            bool available = true;
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableTransfers(Room room)
+        {
+            bool available = true;
+            foreach (Transfer transfer in transferController.Transfers)
+            {
+                if (room == transfer.FromRoom || room == transfer.ToRoom)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovations(Room room)
+        {
+            bool available = true;
+            foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+            {
+                if (room == simpleRenovation.Room)
+                {
+                    available = false;
+                    return available;
+                }
+            }
+
+            foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+            {
+                foreach (Room roomInMerging in mergingRenovation.Rooms)
+                {
+                    if (room == roomInMerging)
+                    {
+                        available = false;
+                        return available;
+                    }
+                }
+            }
+
+            foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
+            {
+                if (room == splittingRenovation.Room)
+                {
+                    available = false;
+                    return available;
+                }
+            }
+
+            return available;
+        }
+
+        public void StartSimpleRenovation(SimpleRenovation simpleRenovation) { }
+
+        public void StartMergingRenovation(MergingRenovation mergingRenovation) { }
+
+        public void StartSplittingRenovation(SplittingRenovation splittingRenovation) { }
+
+        public void FinishSimpleRenovation(SimpleRenovation simpleRenovation) { }
+
+        public void FinishMergingRenovation(MergingRenovation mergingRenovation) { }
+
+        public void FinishSplittingRenovation(SplittingRenovation splittingRenovation) { }
     }
 }
