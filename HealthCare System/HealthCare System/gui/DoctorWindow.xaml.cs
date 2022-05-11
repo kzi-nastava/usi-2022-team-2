@@ -27,24 +27,7 @@ namespace HealthCare_System.gui
 
             appointmentDate.DisplayDateStart = DateTime.Now;
 
-            StartBtn.IsEnabled = false;
-            EndBtn.IsEnabled = false;
-            ChangeBtn.IsEnabled = false;
-            DeleteBtn.IsEnabled = false;
-            PrescribeBtn.IsEnabled = false;
-            ReferralBtn.IsEnabled = false;
-            RefreshAllergensBtn.IsEnabled = false;
-            RefreshPrescriptionsBtn.IsEnabled = false;
-            RefreshBtn.IsEnabled = false;
-            AddAllergensBtn.IsEnabled = false;
-
-            roomTb.IsEnabled = false;
-            patientTb.IsEnabled = false;
-
-            heightTb.IsEnabled = false;
-            weightTb.IsEnabled = false;
-            diseaseHistoryTb.IsEnabled = false;
-            anamnesisTb.IsEnabled = false;
+            DisableComponents();
         }
 
         void InitializeAppointments()
@@ -109,6 +92,28 @@ namespace HealthCare_System.gui
                     ingrediantsDisplay.Add(ingredient.Id + " - " + ingredient.Name, ingredient);
                 }
             }
+        }
+
+        void DisableComponents()
+        {
+            StartBtn.IsEnabled = false;
+            EndBtn.IsEnabled = false;
+            ChangeBtn.IsEnabled = false;
+            DeleteBtn.IsEnabled = false;
+            PrescribeBtn.IsEnabled = false;
+            ReferralBtn.IsEnabled = false;
+            RefreshAllergensBtn.IsEnabled = false;
+            RefreshPrescriptionsBtn.IsEnabled = false;
+            RefreshBtn.IsEnabled = false;
+            AddAllergensBtn.IsEnabled = false;
+
+            roomTb.IsEnabled = false;
+            patientTb.IsEnabled = false;
+
+            heightTb.IsEnabled = false;
+            weightTb.IsEnabled = false;
+            diseaseHistoryTb.IsEnabled = false;
+            anamnesisTb.IsEnabled = false;
         }
 
         private void AppointmentView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -193,12 +198,11 @@ namespace HealthCare_System.gui
                 {
                     durationTb.Text = "15";
                     durationTb.IsEnabled = false;
+                    return;
                 }
-                else
-                {
-                    durationTb.IsEnabled = true;
-                    durationTb.Clear();
-                }
+                
+                durationTb.IsEnabled = true;
+                durationTb.Clear();
             }
         }
 
@@ -208,6 +212,7 @@ namespace HealthCare_System.gui
             {
                 string patientJmbg = patientJmbgTb.Text;
                 Patient patient = factory.PatientController.FindByJmbg(patientJmbg);
+                // TODO: move validation into AddAppointment
                 if (patient is null)
                 {
                     MessageBox.Show("Patient doesn't exist!");
@@ -266,8 +271,9 @@ namespace HealthCare_System.gui
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete the appointment?", "Confirm",
-                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete the appointment?", 
+                "Confirm", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
                 factory.DeleteAppointment(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Id);
                 InitializeAppointments();
@@ -291,8 +297,11 @@ namespace HealthCare_System.gui
 
                 string anamnesis = anamnesisTb.Text;
                 if (anamnesis == "")
-                    if (MessageBox.Show("Are you sure you want to end without anamnesis?", "Confirm",
-                        MessageBoxButton.YesNo) ==MessageBoxResult.No) return;
+                {
+                    MessageBoxResult result = MessageBox.Show("Are you sure you want to end without anamnesis?", 
+                        "Confirm", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No) return;
+                }
 
                 factory.MedicalRecordController.UpdateMedicalRecord(appointment.Patient.MedicalRecord.Id,
                     height, weight, diseaseHisory);

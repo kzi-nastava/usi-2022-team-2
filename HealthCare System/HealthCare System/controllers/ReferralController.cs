@@ -38,6 +38,7 @@ namespace HealthCare_System.controllers
                     return referral;
             return null;
         }
+
         // TODO: Finalize function
         /*public void Serialize(string linkPath= "data/links/Referral_Linker.csv")
         {
