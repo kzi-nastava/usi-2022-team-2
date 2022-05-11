@@ -41,6 +41,18 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public DelayedAppointmentNotification add(string text)
+        {
+            DelayedAppointmentNotification newNotification = new DelayedAppointmentNotification(GenerateId(), text);
+            delayedAppointmentNotifications.Add(newNotification);
+            return newNotification;
+        }
+
+        public int GenerateId()
+        {
+            return delayedAppointmentNotifications[^1].Id + 1;
+        }
+
         public void Serialize()
         {
             string delayedAppointmentNotificationsJson = JsonSerializer.Serialize(delayedAppointmentNotifications,

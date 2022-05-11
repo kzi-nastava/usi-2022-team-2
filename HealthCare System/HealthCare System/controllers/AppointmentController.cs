@@ -42,15 +42,25 @@ namespace HealthCare_System.controllers
 
         public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration)
         {
-            Dictionary<Appointment, DateTime> appointments = new Dictionary<Appointment, DateTime>();
+            Dictionary<Appointment, DateTime> appointmentsDict = new Dictionary<Appointment, DateTime>();
             DateTime currentTime = DateTime.Now;
             Appointment currentAppointment;
-            foreach (Doctor doctor in doctors)
+            //TODO: dodati dobavljanje 5 appointmenta
+            /*foreach (Doctor doctor in doctors)
             {
                 currentAppointment = doctor.getNextAppointment(currentTime, duration);
                 appointments[currentAppointment] = doctor.getNextFreeAppointment(currentAppointment.Start, currentAppointment.End);
+            }*/
+
+            foreach (Appointment appointment in appointments)
+            {
+                if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime)
+                {
+                    appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointment.Start, appointment.End);
+                }
+                if (appointmentsDict.Count == 5) { break; }
             }
-            return appointments;
+            return appointmentsDict;
         }
 
 

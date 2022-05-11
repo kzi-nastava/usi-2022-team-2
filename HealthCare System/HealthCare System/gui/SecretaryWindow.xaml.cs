@@ -222,7 +222,7 @@ namespace HealthCare_System.gui
             else e.Cancel = true;
         }
 
-        private void BookClosestAppointment(object sender, RoutedEventArgs e)
+        int getDuration()
         {
             int duration = 15;
             if (isOperation)
@@ -231,12 +231,18 @@ namespace HealthCare_System.gui
                 {
                     duration = Convert.ToInt32(textBoxDuration.Text);
                 }
-                catch(Exception ex)
+                catch 
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
                 }
             }
+            return duration;
+        }
 
+        private void BookClosestAppointment(object sender, RoutedEventArgs e)
+        {
+            int duration = getDuration();
+            
             List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
             Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, duration, factory.AppointmentController.GenerateId());
 
@@ -244,6 +250,7 @@ namespace HealthCare_System.gui
             {
                 MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
                 fillListBoxAppointments(doctors, duration);
+                return;
             }
             bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
             factory.AddAppointment(bookedAppointment);
@@ -265,7 +272,25 @@ namespace HealthCare_System.gui
 
         private void bookAndReplaceBtn_Click(object sender, RoutedEventArgs e)
         {
+            Appointment toReplaceAppointment = (Appointment)listBoxAppointments.SelectedItem;
+            if (toReplaceAppointment is null)
+            {
+                MessageBox.Show("Select appointment You want to replace!");
+            }
 
+            int duration = getDuration();
+            Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End, 
+                                                        Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
+            newAppointment.Doctor = toReplaceAppointment.Doctor;
+            newAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+
+            toReplaceAppointment.Start = replaceableAppointments[toReplaceAppointment];
+            toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
+
+            newAppointment = factory.AddAppointment(newAppointment);
+            factory.MakeNotifications(newAppointment);
+
+            MessageBox.Show("Doctor and patient are informed about appointment delay.");
         }
     }
 }

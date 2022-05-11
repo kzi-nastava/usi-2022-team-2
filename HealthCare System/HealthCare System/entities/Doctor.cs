@@ -89,7 +89,7 @@ namespace HealthCare_System.entities
                     (appointment.Start <= end && appointment.End >= end) ||
                     (start <= appointment.Start && end >= appointment.End))
                 {
-                    return appointment.End;
+                    return appointment.End.AddMinutes(1);
                 }
             }
             return start;
@@ -97,9 +97,15 @@ namespace HealthCare_System.entities
 
         public Appointment getNextAppointment(DateTime currentTime, int duration)
         {
-            Appointment retAppointment = appointments[0];
+            Appointment retAppointment = null;
+            
             foreach (Appointment appointment in appointments)
             {
+                if((appointment.Start > currentTime) && (retAppointment == null)) 
+                { 
+                    retAppointment = appointment;
+                    continue;
+                }
                 if (appointment.Start > currentTime && 
                     appointment.Start < retAppointment.Start 
                     && appointment.Start.AddMinutes(duration) <= appointment.End)
