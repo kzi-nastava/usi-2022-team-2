@@ -776,29 +776,22 @@ namespace HealthCare_System.factory
 
         public Appointment AddAppointment(Appointment appointment)
         {
-            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
-            if (!appointment.Doctor.IsAvailable(appointment.Start, appointment.End))
-            {
-                throw new Exception("Doctor is not available!");
-            }
-            if (!appointment.Patient.IsAvailable(appointment.Start, appointment.End))
-            {
-                throw new Exception("Patient is not available!");
-            }
-            if (room is null)
-            {
-                throw new Exception("Room is not found!");
-            }
             int anamnesisId = anamnesisController.GenerateId();
-            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
-            appointment.Room = room;
+            Anamnesis anamnesis = new(anamnesisId, "");
             appointment.Anamnesis = anamnesis;
+
+            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
+            appointment.Room = room;
+
+            appointment.Validate();
+
             appointmentController.Appointments.Add(appointment);
             appointment.Doctor.Appointments.Add(appointment);
             appointment.Patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisController.Anamneses.Add(anamnesis);
+            anamnesisController.Anamneses.Add(appointment.Anamnesis);
             appointmentController.Serialize();
             anamnesisController.Serialize();
+
             return appointment;
 
         }
@@ -808,21 +801,9 @@ namespace HealthCare_System.factory
         {
             Appointment appointment = appointmentController.FindById(id);
             if (appointment is null)
-            {
                 throw new Exception("Appointment is not found!");
-            }
-            if (doctor.Specialization != appointment.Doctor.Specialization)
-            {
-                throw new Exception("Cannot choose doctor with different specialization!");
-            }
-            if (!doctor.IsAvailable(start, end))
-            {
-                throw new Exception("Doctor is not available!");
-            }
-            if (!patient.IsAvailable(start, end))
-            {
-                throw new Exception("Patient is not available!");
-            }
+            appointment.Validate();
+
             appointment.Start = start;
             appointment.End = end;
             appointment.Doctor = doctor;
