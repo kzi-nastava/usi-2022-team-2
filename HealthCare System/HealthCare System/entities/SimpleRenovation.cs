@@ -26,7 +26,8 @@ namespace HealthCare_System.entities
             this.newRoomType = newRoomType;
         }
 
-        public SimpleRenovation(int id, DateTime beginningDate, DateTime endingDate, RenovationStatus status, Room room, string newRoomName, TypeOfRoom newRoomType)
+        public SimpleRenovation(int id, DateTime beginningDate, DateTime endingDate, RenovationStatus status, 
+            Room room, string newRoomName, TypeOfRoom newRoomType)
             : base(id, beginningDate, endingDate, status)
         {
             this.room = room;

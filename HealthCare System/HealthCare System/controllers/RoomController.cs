@@ -135,11 +135,7 @@ namespace HealthCare_System.controllers
 
         public void DeleteRoom(Room room)
         {
-            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
-            {
-                MoveFromRoom(room, equipmentAmountEntry.Key, equipmentAmountEntry.Value);
-                MoveToRoom(FindById(1003), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
-            }
+            MoveEquipmentToStorage(room);
             rooms.Remove(room);
             Serialize();
         }
@@ -156,6 +152,15 @@ namespace HealthCare_System.controllers
             room.EquipmentAmount[equipmnet] -= amount;
         }
 
+        public void MoveEquipmentToStorage(Room room)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
+            {
+                MoveFromRoom(room, equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+                MoveToRoom(FindById(1003), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+            }
+        }
 
+        
     }
 }

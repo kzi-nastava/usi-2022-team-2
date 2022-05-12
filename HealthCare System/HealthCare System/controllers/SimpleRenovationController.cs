@@ -2,6 +2,7 @@
 using HealthCare_System.entities;
 using System.Text.Json;
 using System.IO;
+using System;
 
 namespace HealthCare_System.controllers
 {
@@ -39,11 +40,65 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        public int GenerateId()
+        {
+            if (simpleRenovations.Count > 0)
+            {
+                return simpleRenovations[simpleRenovations.Count - 1].Id + 1;
+            }
+            return 1001;
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/SimpleRenovation_Room.csv")
         {
             string simpleRenovationsJson = JsonSerializer.Serialize(simpleRenovations, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, simpleRenovationsJson);
+            string csv = "";
+            foreach (SimpleRenovation simpleRenovation in simpleRenovations)
+            {
+                csv += simpleRenovation.Id + ";" + simpleRenovation.Room.Id + ";" + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
         }
+
+        public bool IsRoomAvailableAtAll(Room room)
+        {
+            bool available = true;
+            foreach (SimpleRenovation simpleRenovation in simpleRenovations)
+            {
+                if (room == simpleRenovation.Room)
+                {
+                    available = false;
+                    return available;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableAtTime(Room room, DateTime time)
+        {
+            bool available = true;
+            foreach (SimpleRenovation simpleRenovation in simpleRenovations)
+            {
+                if (room == simpleRenovation.Room && time.AddMinutes(15) >= simpleRenovation.BeginningDate)
+                {
+                    available = false;
+                    return available;
+                }
+            }
+            return available;
+        }
+
+        public void BookRenovation(DateTime start, DateTime end, Room room,
+            string newRoomName, TypeOfRoom newRoomType)
+        {
+            SimpleRenovation simpleRenovation = new SimpleRenovation(GenerateId(), start, end, 
+                RenovationStatus.BOOKED, room, newRoomName, newRoomType);
+            simpleRenovations.Add(simpleRenovation);
+            Serialize();
+        }
+
+
     }
 }

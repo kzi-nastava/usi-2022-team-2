@@ -52,11 +52,7 @@ namespace HealthCare_System.gui
         {
             if (createNewRoom)
             {
-                Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
-                foreach (Equipment equipment in factory.EquipmentController.Equipment)
-                {
-                    equipmentAmount[equipment] = 0;
-                }
+                Dictionary<Equipment, int> equipmentAmount = factory.InitalizeEquipment();
                 try
                 {
                     factory.RoomController.CreateNewRoom(nameTb.Text, (TypeOfRoom)typeCb.SelectedItem, equipmentAmount);

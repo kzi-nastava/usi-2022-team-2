@@ -91,5 +91,19 @@ namespace HealthCare_System.controllers
             }      
             return valid;
         }
+
+        public bool IsRoomAvailable(Room room)
+        {
+            bool available = true;
+            foreach (Transfer transfer in transfers)
+            {
+                if (room == transfer.FromRoom || room == transfer.ToRoom)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
     }
 }

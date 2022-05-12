@@ -1,17 +1,1 @@
-﻿[
-  {
-    "id": 1001,
-    "beginningDate": "2022-04-25T17:16",
-    "endingDate": "2022-04-28T17:16",
-    "newRoomName": "Testing simple succes 1",
-    "newRoomType": 4
-  },
-  {
-    "id": 1002,
-    "beginningDate": "2022-04-27T17:16",
-    "endingDate": "2022-04-28T17:16",
-    "newRoomName": "Testing simple succes 2",
-    "newRoomType": 4
-  }
-]
-
+[]
