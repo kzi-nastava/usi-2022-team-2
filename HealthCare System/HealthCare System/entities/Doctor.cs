@@ -122,15 +122,21 @@ namespace HealthCare_System.entities
         {
             DateTime currentClosest = DateTime.Now;
             DateTime lastClosest = currentClosest;
+            
             while (true)
             {
                 currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
+                while (!(IsAvailable(currentClosest, currentClosest.AddMinutes(duration))))
+                {
+                    currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
+                }
                 if (currentClosest == lastClosest)
                 {
                     break;
                 }
                 lastClosest = currentClosest;
             }
+
             return currentClosest;
         }
 

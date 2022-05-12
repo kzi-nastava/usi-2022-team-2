@@ -40,7 +40,7 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration)
+        public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration, Patient patient)
         {
             Dictionary<Appointment, DateTime> appointmentsDict = new Dictionary<Appointment, DateTime>();
             DateTime currentTime = DateTime.Now;
@@ -51,7 +51,8 @@ namespace HealthCare_System.controllers
                 if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime)
                 {
                     appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointment.Start, appointment.End);
-                    while (!(appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration))))
+                    while (!((appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)) &&
+                        appointment.Patient.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)))))
                     {
                         appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointmentsDict[appointment], 
                                                                                                   appointmentsDict[appointment].AddMinutes(duration));

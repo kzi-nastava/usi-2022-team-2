@@ -37,8 +37,8 @@ namespace HealthCare_System.gui
             this.factory = factory;
             this.showingBlocked = false;
             SetEmergencyAppTab();
-            fillListBoxPatients();
-            fillListBoxRequests();
+            FillListBoxPatients();
+            FillListBoxRequests();
         }
 
         private void SetEmergencyAppTab()
@@ -57,7 +57,7 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void fillListBoxRequests()
+        private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
             foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
@@ -69,7 +69,7 @@ namespace HealthCare_System.gui
             }
         }
         
-        private void fillListBoxPatients()
+        private void FillListBoxPatients()
         {
             listBoxPatients.Items.Clear();
             foreach (Patient patient in factory.PatientController.Patients)
@@ -82,9 +82,9 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void fillListBoxAppointments(List<Doctor> doctors, int duration)
+        private void FillListBoxAppointments(List<Doctor> doctors, int duration)
         {
-            replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration);
+            replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
             foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
             {
                 listBoxAppointments.Items.Add(item.Key);
@@ -112,7 +112,7 @@ namespace HealthCare_System.gui
         private void ShowBlockedBtn_Click(object sender, RoutedEventArgs e)
         {
             showingBlocked = !showingBlocked;
-            fillListBoxPatients();
+            FillListBoxPatients();
             if (showingBlocked)
             {
                 showBlockedBtn.Content = "View Regular";
@@ -143,7 +143,7 @@ namespace HealthCare_System.gui
                     MessageBox.Show(ex.Message);
                     return;
                 }
-                fillListBoxPatients();
+                FillListBoxPatients();
             }
         }
 
@@ -164,7 +164,7 @@ namespace HealthCare_System.gui
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
-            fillListBoxPatients();
+            FillListBoxPatients();
         }
 
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
@@ -177,7 +177,7 @@ namespace HealthCare_System.gui
             else
             {
                 factory.AcceptRequest(request);
-                fillListBoxRequests();
+                FillListBoxRequests();
                 MessageBox.Show("You succesefully accepted selected request.");
             }
         }
@@ -192,7 +192,7 @@ namespace HealthCare_System.gui
             else
             {
                 factory.RejectRequest(request);
-                fillListBoxRequests();
+                FillListBoxRequests();
                 MessageBox.Show("You succesefully rejected selected request.");
             }
         }
@@ -249,7 +249,7 @@ namespace HealthCare_System.gui
             if (bookedAppointment == null)
             {
                 MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
-                fillListBoxAppointments(doctors, duration);
+                FillListBoxAppointments(doctors, duration);
                 return;
             }
             bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
