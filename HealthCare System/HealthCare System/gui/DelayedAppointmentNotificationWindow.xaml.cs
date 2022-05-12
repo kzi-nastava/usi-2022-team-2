@@ -39,7 +39,7 @@ namespace HealthCare_System.gui
             foreach (DelayedAppointmentNotification notification in factory.DelayedAppointmentNotificationController.DelayedAppointmentNotifications)
             {
                 if ((notification.Appointment is not null) && (notification.Appointment.Doctor == user || notification.Appointment.Patient == user) &&
-                    (notification.Seen == false))
+                    (notification.SeenByPatient == false || notification.SeenByDoctor == false))
                 {
                     listBoxNotifications.Items.Add(notification);
                     counter += 1;
@@ -62,7 +62,13 @@ namespace HealthCare_System.gui
         {
             foreach(DelayedAppointmentNotification notification in listBoxNotifications.Items)
             {
-                notification.Seen = true;
+                if (user.GetType() == typeof(Doctor))
+                {
+                    notification.SeenByDoctor = true;
+                }else
+                {
+                    notification.SeenByPatient = true;
+                }
             }
             factory.DelayedAppointmentNotificationController.Serialize();
         }

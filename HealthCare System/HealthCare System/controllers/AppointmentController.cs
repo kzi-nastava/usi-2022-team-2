@@ -45,18 +45,18 @@ namespace HealthCare_System.controllers
             Dictionary<Appointment, DateTime> appointmentsDict = new Dictionary<Appointment, DateTime>();
             DateTime currentTime = DateTime.Now;
             Appointment currentAppointment;
-            //TODO: dodati dobavljanje 5 appointmenta
-            /*foreach (Doctor doctor in doctors)
-            {
-                currentAppointment = doctor.getNextAppointment(currentTime, duration);
-                appointments[currentAppointment] = doctor.getNextFreeAppointment(currentAppointment.Start, currentAppointment.End);
-            }*/
 
             foreach (Appointment appointment in appointments)
             {
                 if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime)
                 {
                     appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointment.Start, appointment.End);
+                    while (!(appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration))))
+                    {
+                        appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointmentsDict[appointment], 
+                                                                                                  appointmentsDict[appointment].AddMinutes(duration));
+                    }
+
                 }
                 if (appointmentsDict.Count == 5) { break; }
             }

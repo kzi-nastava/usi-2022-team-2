@@ -1,22 +1,32 @@
 [
   {
     "id":1001,
-    "message":"Appointment Delayed!"
+    "message":"Appointment Delayed!",
+    "seenByDoctor":false,
+    "seenByPatient":false
   },
   {
     "id":1002,
-    "message":"Appointment Delayed!"
+    "message":"Appointment Delayed!",
+    "seenByDoctor":false,
+    "seenByPatient":false
   },
   {
     "id":1003,
-    "message":"Appointment Delayed!"
+    "message":"Appointment Delayed!",
+    "seenByDoctor":false,
+    "seenByPatient":false
   },
   {
     "id":1004,
-    "message":"Appointment Delayed!"
+    "message":"Appointment Delayed!",
+    "seenByDoctor":false,
+    "seenByPatient":false
   },
   {
     "id":1005,
-    "message":"AppointmentDelayed!"
+    "message":"AppointmentDelayed!",
+    "seenByDoctor":false,
+    "seenByPatient":false
   }
 ]
