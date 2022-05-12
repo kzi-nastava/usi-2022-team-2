@@ -37,7 +37,7 @@
                     <Button x:Name="StartBtn" Content="Start" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="StartBtn_Click"/>
                     <Button x:Name="EndBtn" Content="End" HorizontalAlignment="Left" Margin="143,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="EndBtn_Click"/>
                     <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="143,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="26" RenderTransformOrigin="0.496,-0.862"/>
-                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25"/>
+                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25" Click="PrescribeBtn_Click"/>
                     <Button x:Name="ChangeBtn" Content="Change" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="ChangeBtn_Click"/>
                     <Button x:Name="RefreshBtn" Content="Refresh" HorizontalAlignment="Left" Margin="10,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtn_Click"/>
                     <Button x:Name="DeleteBtn" Content="Delete" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="DeleteBtn_Click"/>

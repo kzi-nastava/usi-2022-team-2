@@ -998,5 +998,15 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             roomController.DeleteRoom(room);
         }
+
+        public void AddPrescrition(Prescription prescription)
+        {
+            MedicalRecord medicalRecord = medicalRecordController.FindById(prescription.MedicalRecord.Id);
+            medicalRecord.ValidatePrescription(prescription);
+            medicalRecord.Prescriptions.Add(prescription);
+
+            prescriptionController.Prescriptions.Add(prescription);
+            prescriptionController.Serialize();
+        }
     }
 }
