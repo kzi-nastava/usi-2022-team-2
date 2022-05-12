@@ -23,6 +23,7 @@ namespace HealthCare_System
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
+            factory.PrintContnent();
             string mail = mailTb.Text;
             string password = passwordTb.Password;
             Person person = factory.Login(mail, password);

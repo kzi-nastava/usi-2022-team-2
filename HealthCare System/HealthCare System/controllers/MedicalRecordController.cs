@@ -12,6 +12,7 @@ namespace HealthCare_System.controllers
         string ingredientLinkerPath;
         string patientLinkerPath;
         string prescriptionLinkerPath;
+        string referralLinkerPath;
 
         public MedicalRecordController()
         {
@@ -19,6 +20,7 @@ namespace HealthCare_System.controllers
             ingredientLinkerPath = "../../../data/links/MedicalRecord_Ingredient.csv";
             patientLinkerPath = "../../../data/links/MedicalRecord_Patient.csv";
             prescriptionLinkerPath = "../../../data/links/PrescriptionLinker.csv";
+            referralLinkerPath = "../../../data/links/ReferralLinker.csv";
             Load();
         }
 
@@ -28,6 +30,7 @@ namespace HealthCare_System.controllers
             ingredientLinkerPath = "../../../data/links/MedicalRecord_Ingredient.csv";
             patientLinkerPath = "../../../data/links/MedicalRecord_Patient.csv";
             prescriptionLinkerPath = "../../../data/links/PrescriptionLinker.csv";
+            referralLinkerPath = "../../../data/links/ReferralLinker.csv";
             Load();
         }
 
@@ -96,6 +99,23 @@ namespace HealthCare_System.controllers
             File.WriteAllText(prescriptionLinkerPath, csv);
         }
 
+        private void RewriteReferralLinker()
+        {
+            string csv = "";
+            foreach (MedicalRecord medRecord in medicalRecords)
+            {
+                foreach (Referral referral in medRecord.Referrals)
+                {
+                    string doctorJmbg;
+                    if (referral.Doctor is null) doctorJmbg = "-1";
+                    else doctorJmbg = referral.Doctor.Jmbg;
+
+                    csv += referral.Id + ";" + doctorJmbg + ";" + medRecord.Id + "\n";
+                }
+            }
+            File.WriteAllText(referralLinkerPath, csv);
+        }
+
         public void Serialize(string linkPath = "../../../data/links/MedicalRecord_Ingredient.csv")
         {
             string medicalRecordsJson = JsonSerializer.Serialize(medicalRecords, 
@@ -107,6 +127,8 @@ namespace HealthCare_System.controllers
             RewritePatientLinker();
 
             RewritePrescriptionLinker();
+
+            RewriteReferralLinker();
         }
 
         public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)
