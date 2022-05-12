@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
@@ -92,6 +93,23 @@ namespace HealthCare_System.entities
 
         [JsonIgnore]
         public List<Prescription> Prescriptions { get => prescriptions; set => prescriptions = value; }
+
+        public bool IsDateValid(DateTime existingStart, DateTime existingEnd, DateTime newStart, DateTime newEnd)
+        {
+            return (existingStart <= newStart && existingEnd >= newStart) ||
+                    (existingStart <= newEnd && existingEnd >= newEnd) ||
+                    (newStart <= existingStart && newEnd >= existingEnd);
+        }
+
+        public void ValidatePrescription(Prescription prescription)
+        {
+            foreach (Prescription existing in prescriptions)
+            {
+                bool dateNotValid = IsDateValid(existing.Start, existing.End, prescription.Start, prescription.End);
+                if (existing.Drug.Id == prescription.Drug.Id && dateNotValid)
+                    throw new Exception("Chosen drug is already precribed in that time period!");
+            }
+        }
 
         public override string ToString()
         {
