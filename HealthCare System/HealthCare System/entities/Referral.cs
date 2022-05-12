@@ -7,17 +7,17 @@ namespace HealthCare_System.entities
         int id;
         Specialization specialization;
         Doctor doctor;
-        Patient patient;
+        MedicalRecord medicalRecord;
         bool used;
 
         public Referral() { }
 
-        public Referral(int id, Specialization specialization, Doctor doctor, Patient patient, bool used)
+        public Referral(int id, Specialization specialization, Doctor doctor, MedicalRecord medicalRecord, bool used)
         {
             this.id = id;
             this.specialization = specialization;
             this.doctor = doctor;
-            this.patient = patient;
+            this.medicalRecord = medicalRecord;
             this.used = used;
         }
 
@@ -33,7 +33,7 @@ namespace HealthCare_System.entities
             id = referral.id;
             specialization = referral.specialization;
             doctor = referral.doctor;
-            patient = referral.patient;
+            medicalRecord = referral.medicalRecord;
             used = referral.used;
         }
 
@@ -50,7 +50,7 @@ namespace HealthCare_System.entities
         public Doctor Doctor { get => doctor; set => doctor = value; }
 
         [JsonIgnore]
-        public Patient Patient { get => patient; set => patient = value; }
+        public MedicalRecord MedicalRecord { get => medicalRecord; set => medicalRecord = value; }
 
         public override string ToString()
         {
@@ -58,12 +58,12 @@ namespace HealthCare_System.entities
             if (doctor is null) doctorInfo = "null";
             else doctorInfo = Doctor.Jmbg;
 
-            string patientInfo;
-            if (patient is null) patientInfo = "null";
-            else patientInfo = Patient.Jmbg;
+            string medicalRecordInfo;
+            if (medicalRecord is null) medicalRecordInfo = "null";
+            else medicalRecordInfo = medicalRecord.Id.ToString();
 
             return "Refferal[" + "id: " + id + ", used: " + used + ", specialization: " 
-                + specialization.ToString() + ", doctor: " + doctorInfo +", patient: " + patientInfo + "]";
+                + specialization.ToString() + ", doctor: " + doctorInfo +", medicalRecord: " + medicalRecordInfo + "]";
         }
     }
 }

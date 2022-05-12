@@ -38,17 +38,34 @@ namespace HealthCare_System.controllers
                     return referral;
             return null;
         }
-        // TODO: Finalize function
-        /*public void Serialize(string linkPath= "data/links/Referral_Linker.csv")
+
+        public int GenerateId()
+        {
+            return referrals[^1].Id + 1;
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/ReferralLinker.csv")
         {
             string referralsJson = JsonSerializer.Serialize(referrals, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, referralsJson);
+
             string csv = "";
             foreach (Referral referral in referrals)
             {
-                csv += 
+                string doctorJmbg;
+                if (referral.Doctor is null) doctorJmbg = "-1";
+                else doctorJmbg = referral.Doctor.Jmbg;
+
+                csv += referral.Id + ";" + doctorJmbg + ";" + referral.MedicalRecord.Id + "\n";
             }
+
             File.WriteAllText(linkPath, csv);
-        }*/
+        }
+
+        public void Add(Referral referral)
+        {
+            referrals.Add(referral);
+            Serialize();
+        }
     }
 }

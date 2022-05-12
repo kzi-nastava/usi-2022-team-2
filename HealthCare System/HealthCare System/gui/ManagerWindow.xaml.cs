@@ -148,16 +148,21 @@ namespace HealthCare_System.gui
                     MessageBox.Show("Cannot delete storage!");
                     return;
                 }
-
-                if (factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+                else if (!factory.IsRoomAvailableRenovationsAtAll(listedRooms[roomView.SelectedIndex]))
+                {
+                    MessageBox.Show("Room is in process of renovation so it is not able to be deleted!");
+                    return;
+                }
+                else if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+                {
+                    MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
+                    return;
+                }
+                else
                 {
                     factory.RemoveRoom(listedRooms[roomView.SelectedIndex]);
                     MessageBox.Show("Room deleted sucessfully!");
                     DisplayRooms(this.factory.RoomController.Rooms);
-                }
-                else
-                {
-                    MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
                 }
             }
             else
@@ -168,7 +173,8 @@ namespace HealthCare_System.gui
 
         private void renovateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            Window renovationWindow = new RenovationWindow(factory);
+            renovationWindow.Show();
         }
 
         private void updateRoomBtn_Click(object sender, RoutedEventArgs e)
@@ -178,15 +184,19 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Cannot update storage!");
                 return;
             }
-
-            if (factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            else if (!factory.IsRoomAvailableRenovationsAtTime(listedRooms[roomView.SelectedIndex], DateTime.Now)) {
+                MessageBox.Show("Room is in process of renovation so it is not able to be updated!");
+                return;
+            }
+            else if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
             {
-                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
-                updateRoomWindow.Show();
+                MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be updated!");
+                return;
             }
             else
             {
-                MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be updated!");
+                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
+                updateRoomWindow.Show();
             }
             
         }
