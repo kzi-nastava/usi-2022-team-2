@@ -48,34 +48,44 @@ namespace HealthCare_System.gui
 
         }
 
+        void TryCreation()
+        {
+            Dictionary<Equipment, int> equipmentAmount = factory.InitalizeEquipment();
+            try
+            {
+                factory.RoomController.CreateNewRoom(nameTb.Text, (TypeOfRoom)typeCb.SelectedItem, equipmentAmount);
+                MessageBox.Show("Room created sucessfully!");
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show("Name must be between 5 and 30 characters!");
+            }
+        }
+
+        void TryUpdate()
+        {
+            try
+            {
+                factory.RoomController.UpdateRoom(room, nameTb.Text, (TypeOfRoom)typeCb.SelectedItem);
+                MessageBox.Show("Room updated sucessfully!");
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show("Name must be between 5 and 30 characters!");
+            }
+        }
+
         private void submitBtn_Click(object sender, RoutedEventArgs e)
         {
             if (createNewRoom)
             {
-                Dictionary<Equipment, int> equipmentAmount = factory.InitalizeEquipment();
-                try
-                {
-                    factory.RoomController.CreateNewRoom(nameTb.Text, (TypeOfRoom)typeCb.SelectedItem, equipmentAmount);
-                    MessageBox.Show("Room created sucessfully!");
-                    Close();
-                }
-                catch
-                {
-                    MessageBox.Show("Name must be between 5 and 30 characters!");
-                }
+                TryCreation();
             }
             else
             {
-                try
-                {
-                    factory.RoomController.UpdateRoom(room, nameTb.Text, (TypeOfRoom)typeCb.SelectedItem);
-                    MessageBox.Show("Room updated sucessfully!");
-                    Close();
-                }
-                catch
-                {
-                    MessageBox.Show("Name must be between 5 and 30 characters!");
-                }
+                TryUpdate();
             }
         }
     }

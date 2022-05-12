@@ -28,9 +28,11 @@ namespace HealthCare_System.gui
         }
 
         #region EquipmentFiltering
+    
         private void ApplyEveryEquipmentFilter()
         {
-            if (roomTypeFilter.SelectedIndex != -1 && amountFilter.SelectedIndex != -1 && equipementTypeFilter.SelectedIndex != -1)
+            if (roomTypeFilter.SelectedIndex != -1 && amountFilter.SelectedIndex != -1 && 
+                equipementTypeFilter.SelectedIndex != -1)
             {
                 equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
                 string roomType = roomTypeFilter.SelectedItem.ToString();
@@ -90,7 +92,7 @@ namespace HealthCare_System.gui
             ExecuteEquipmentQuery(searchTb.Text);
         }
 
-        private void InitializeComboBoxes()
+        void InitializeRoomTypeFilterCb()
         {
             roomTypeFilter.Items.Add("All");
             roomTypeFilter.SelectedIndex = 0;
@@ -98,22 +100,32 @@ namespace HealthCare_System.gui
             {
                 roomTypeFilter.Items.Add(roomType);
             }
+        }
 
+        void InitializeAmountFilterCb()
+        {
             amountFilter.Items.Add("All");
             amountFilter.SelectedIndex = 0;
             amountFilter.Items.Add("Nema na stanju");
             amountFilter.Items.Add("0-10");
             amountFilter.Items.Add("10+");
+        }
 
+        void InitializeEquipmentTypeFilterCb()
+        {
             equipementTypeFilter.Items.Add("All");
             equipementTypeFilter.SelectedIndex = 0;
             foreach (TypeOfEquipment equipmentType in Enum.GetValues(typeof(TypeOfEquipment)))
             {
                 equipementTypeFilter.Items.Add(equipmentType);
             }
+        }
 
-
-
+        private void InitializeComboBoxes()
+        {
+            InitializeRoomTypeFilterCb();
+            InitializeAmountFilterCb();
+            InitializeEquipmentTypeFilterCb();
         }
         #endregion
 
@@ -138,31 +150,57 @@ namespace HealthCare_System.gui
             newRoomWindow.Show();
         }
 
+        void ValidateForDelete()
+        {
+            if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            {
+                throw new Exception("Cannot delete storage!");
+            }
+
+            if (!factory.IsRoomAvailableRenovationsAtAll(listedRooms[roomView.SelectedIndex]))
+            {
+                throw new Exception("Room is in process of renovation so it is not able to be deleted!");
+            }
+
+            if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            {
+                throw new Exception("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
+            }
+        }
+
+        void ValidateForUpdate()
+        {
+            if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            {
+                throw new Exception("Cannot update storage!");
+            }
+
+            if (!factory.IsRoomAvailableRenovationsAtTime(listedRooms[roomView.SelectedIndex], DateTime.Now))
+            {
+                throw new Exception("Room is in process of renovation so it is not able to be updated!");
+            }
+
+            if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            {
+                throw new Exception("Room is already taken by an appointmet or transfer so it is not able to be updated!");
+            }
+        }
+
         private void deleteRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-
             if (MessageBox.Show("Delete Room?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+                try
                 {
-                    MessageBox.Show("Cannot delete storage!");
-                    return;
-                }
-                else if (!factory.IsRoomAvailableRenovationsAtAll(listedRooms[roomView.SelectedIndex]))
-                {
-                    MessageBox.Show("Room is in process of renovation so it is not able to be deleted!");
-                    return;
-                }
-                else if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
-                {
-                    MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
-                    return;
-                }
-                else
-                {
+                    ValidateForDelete();
                     factory.RemoveRoom(listedRooms[roomView.SelectedIndex]);
                     MessageBox.Show("Room deleted sucessfully!");
                     DisplayRooms(this.factory.RoomController.Rooms);
+                }
+                catch (Exception excp)
+                {
+                    MessageBox.Show(excp.Message);
+                    return;
                 }
             }
             else
@@ -179,24 +217,15 @@ namespace HealthCare_System.gui
 
         private void updateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (listedRooms[roomView.SelectedIndex].Type == TypeOfRoom.STORAGE)
+            try
             {
-                MessageBox.Show("Cannot update storage!");
-                return;
-            }
-            else if (!factory.IsRoomAvailableRenovationsAtTime(listedRooms[roomView.SelectedIndex], DateTime.Now)) {
-                MessageBox.Show("Room is in process of renovation so it is not able to be updated!");
-                return;
-            }
-            else if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
-            {
-                MessageBox.Show("Room is already taken by an appointmet or transfer so it is not able to be updated!");
-                return;
-            }
-            else
-            {
+                ValidateForUpdate();
                 Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
                 updateRoomWindow.Show();
+            }
+            catch (Exception excp)
+            {
+                MessageBox.Show(excp.Message);
             }
             
         }
@@ -209,7 +238,7 @@ namespace HealthCare_System.gui
 
         private void refreshRoomsBtn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayRooms(this.factory.RoomController.Rooms);
+            DisplayRooms(factory.RoomController.Rooms);
         }
         #endregion
 
