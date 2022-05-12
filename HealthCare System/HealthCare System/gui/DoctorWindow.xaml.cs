@@ -290,8 +290,7 @@ namespace HealthCare_System.gui
 
         private void ChangeBtn_Click(object sender, RoutedEventArgs e)
         {
-            Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
-            Window window = new ChangeAppointmentWindow(appointment, factory);
+            Window window = new ChangeAppointmentWindow(appontmentsDisplay[appointmentView.SelectedItem.ToString()], factory);
             window.Show();
         }
 
@@ -411,18 +410,6 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void PrescribeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (anamnesisTb.Text == "")
-            {
-                MessageBox.Show("You have to enter anamnesis before issuing a prescription.");
-                return;
-            }
-            Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
-            Window window = new PrescriptionWindow(patient, factory);
-            window.Show();
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             factory.User = null;
@@ -442,7 +429,7 @@ namespace HealthCare_System.gui
         private void HeightTb_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
-        }        
+        }
 
         private void WeightTb_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {

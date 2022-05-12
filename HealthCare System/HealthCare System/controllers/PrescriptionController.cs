@@ -39,25 +39,11 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public int GenerateId()
-        {
-            return prescriptions[^1].Id + 1;
-        }
-
-        public void Serialize(string linkPath = "../../../data/links/PrescriptionLinker.csv")
+        public void Serialize()
         {
             string prescriptionsJson = JsonSerializer.Serialize(prescriptions,
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, prescriptionsJson);
-
-            string csv = "";
-            foreach (Prescription prescription in prescriptions)
-            {
-                csv += prescription.Id + ";" + prescription.MedicalRecord.Id + ";" + prescription.Drug.Id + "\n";
-            }
-
-            File.WriteAllText(linkPath, csv);
         }
-
     }
 }
