@@ -68,7 +68,9 @@ namespace HealthCare_System.gui
                 doctor = doctorsDisplay[doctorCb.SelectedItem.ToString()];
 
             int id = factory.ReferralController.GenerateId();
-            Referral referral = new(id, specialization, doctor, patient, false);
+            Referral referral = new(id, specialization, doctor, patient.MedicalRecord, false);
+            factory.ReferralController.Add(referral);
+            MessageBox.Show("Referral issued!");
         }
     }
 }

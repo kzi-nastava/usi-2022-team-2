@@ -1,27 +1,47 @@
-﻿[
+[
   {
     "id": 1001,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1002,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1003,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1004,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1005,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
+  },
+  {
+    "id": 1006,
+    "used": false,
+    "specialization": 0
+  },
+  {
+    "id": 1007,
+    "used": false,
+    "specialization": 0
+  },
+  {
+    "id": 1008,
+    "used": false,
+    "specialization": 2
+  },
+  {
+    "id": 1009,
+    "used": false,
+    "specialization": 0
   }
 ]

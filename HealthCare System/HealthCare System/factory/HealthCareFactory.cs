@@ -453,14 +453,15 @@ namespace HealthCare_System.factory
                 string line = file.ReadLine();
                 int referralId = Convert.ToInt32(line.Split(";")[0]);
                 string doctorJmbg = line.Split(";")[1];
-                string patientJmbg = line.Split(";")[2].Trim();
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[2].Trim());
 
                 Referral referral = referralController.FindById(referralId);
                 Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
-                Patient patient = patientController.FindByJmbg(patientJmbg);
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
 
                 referral.Doctor = doctor;
-                referral.Patient = patient;
+                referral.MedicalRecord = medicalRecord;
+                medicalRecord.Referrals.Add(referral);
             }
 
             file.Close();
