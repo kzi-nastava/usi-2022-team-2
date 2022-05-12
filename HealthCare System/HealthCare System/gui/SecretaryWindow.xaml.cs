@@ -27,17 +27,37 @@ namespace HealthCare_System.gui
         List<Patient> blockedPatients = new List<Patient>();
         bool showingBlocked;
         AddPatientWindow addPatientWin;
+        bool isOperation;
+        Dictionary<Appointment, DateTime> replaceableAppointments;
+
 
         public SecretaryWindow(HealthCareFactory factory)
         {
             InitializeComponent();
             this.factory = factory;
             this.showingBlocked = false;
-            fillListBoxPatients();
-            fillListBoxRequests();
+            SetEmergencyAppTab();
+            FillListBoxPatients();
+            FillListBoxRequests();
         }
 
-        private void fillListBoxRequests()
+        private void SetEmergencyAppTab()
+        {
+            this.isOperation = false;
+            this.textBoxDuration.IsEnabled = false;
+
+            foreach (Patient patient in factory.PatientController.Patients)
+            {
+                cmbPatient.Items.Add(patient);
+            }
+
+            foreach (int i in Enum.GetValues(typeof(Specialization)))
+            {
+                cmbSpecialization.Items.Add((Specialization)i);
+            }
+        }
+
+        private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
             foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
@@ -49,7 +69,7 @@ namespace HealthCare_System.gui
             }
         }
         
-        private void fillListBoxPatients()
+        private void FillListBoxPatients()
         {
             listBoxPatients.Items.Clear();
             foreach (Patient patient in factory.PatientController.Patients)
@@ -59,6 +79,15 @@ namespace HealthCare_System.gui
                     listBoxPatients.Items.Add(patient);
                 }
                 
+            }
+        }
+
+        private void FillListBoxAppointments(List<Doctor> doctors, int duration)
+        {
+            replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
+            foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
+            {
+                listBoxAppointments.Items.Add(item.Key);
             }
         }
 
@@ -83,7 +112,7 @@ namespace HealthCare_System.gui
         private void ShowBlockedBtn_Click(object sender, RoutedEventArgs e)
         {
             showingBlocked = !showingBlocked;
-            fillListBoxPatients();
+            FillListBoxPatients();
             if (showingBlocked)
             {
                 showBlockedBtn.Content = "View Regular";
@@ -114,7 +143,7 @@ namespace HealthCare_System.gui
                     MessageBox.Show(ex.Message);
                     return;
                 }
-                fillListBoxPatients();
+                FillListBoxPatients();
             }
         }
 
@@ -135,7 +164,7 @@ namespace HealthCare_System.gui
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
-            fillListBoxPatients();
+            FillListBoxPatients();
         }
 
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
@@ -148,7 +177,7 @@ namespace HealthCare_System.gui
             else
             {
                 factory.AcceptRequest(request);
-                fillListBoxRequests();
+                FillListBoxRequests();
                 MessageBox.Show("You succesefully accepted selected request.");
             }
         }
@@ -163,7 +192,7 @@ namespace HealthCare_System.gui
             else
             {
                 factory.RejectRequest(request);
-                fillListBoxRequests();
+                FillListBoxRequests();
                 MessageBox.Show("You succesefully rejected selected request.");
             }
         }
@@ -191,6 +220,77 @@ namespace HealthCare_System.gui
                 main.Show();
             }
             else e.Cancel = true;
+        }
+
+        int getDuration()
+        {
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch 
+                {
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
+                }
+            }
+            return duration;
+        }
+
+        private void BookClosestAppointment(object sender, RoutedEventArgs e)
+        {
+            int duration = getDuration();
+            
+            List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
+            Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, duration, factory.AppointmentController.GenerateId());
+
+            if (bookedAppointment == null)
+            {
+                MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
+                FillListBoxAppointments(doctors, duration);
+                return;
+            }
+            bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+            factory.AddAppointment(bookedAppointment);
+            MessageBox.Show("You succesefully booked emergency appointment.");
+        }
+
+
+        private void rbOperation_Checked(object sender, RoutedEventArgs e)
+        {
+            this.isOperation = true;
+            this.textBoxDuration.IsEnabled = true;
+        }
+
+        private void rbExamination_Checked(object sender, RoutedEventArgs e)
+        {
+            this.isOperation = false;
+            this.textBoxDuration.IsEnabled = false;
+        }
+
+        private void bookAndReplaceBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Appointment toReplaceAppointment = (Appointment)listBoxAppointments.SelectedItem;
+            if (toReplaceAppointment is null)
+            {
+                MessageBox.Show("Select appointment You want to replace!");
+            }
+
+            int duration = getDuration();
+            Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End, 
+                                                        Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
+            newAppointment.Doctor = toReplaceAppointment.Doctor;
+            newAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+
+            toReplaceAppointment.Start = replaceableAppointments[toReplaceAppointment];
+            toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
+
+            newAppointment = factory.AddAppointment(newAppointment);
+            factory.AddNotification(toReplaceAppointment, newAppointment.Start);
+
+            MessageBox.Show("Doctor and patient are informed about appointment delay.");
         }
     }
 }

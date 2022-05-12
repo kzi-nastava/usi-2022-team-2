@@ -67,6 +67,12 @@ namespace HealthCare_System.entities
             this.emergency = emergency;
         }
 
+        public static AppointmentType getTypeByDuration(int duration)
+        {
+            if (duration != 15) { return AppointmentType.OPERATION; }
+            return AppointmentType.EXAMINATION;
+        }
+
         [JsonPropertyName("id")]
         public int Id { get => id; set => id = value; }
 

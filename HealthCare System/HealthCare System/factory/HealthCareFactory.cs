@@ -3,6 +3,8 @@ using HealthCare_System.entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Windows;
 
 namespace HealthCare_System.factory
@@ -828,6 +830,42 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
+        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, int duration, int id)
+        {
+            DateTime limitTime = DateTime.Now.AddHours(2);
+            DateTime start = limitTime;
+            DateTime retTime;
+            Doctor doctor = doctors[0];
+            foreach (Doctor doc in doctors)
+            {
+                retTime = doc.getClosestFreeAppointment(duration);
+                if (retTime < start)
+                {
+                    start = retTime;
+                    doctor = doc;
+                }
+            }
+
+            if (limitTime == start)
+            {
+                return null;
+            }
+            AppointmentType type = Appointment.getTypeByDuration(duration);
+           
+
+            Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
+            appointment.Doctor = doctor;
+            return appointment;
+        }
+
+        public void AddNotification(Appointment appointment, DateTime oldStart)
+        {
+            string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
+            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.add(appointment, text);
+            delayedAppointmentNotificationController.Serialize();
+        }
+
 
         public void AcceptRequest(AppointmentRequest request)
         {

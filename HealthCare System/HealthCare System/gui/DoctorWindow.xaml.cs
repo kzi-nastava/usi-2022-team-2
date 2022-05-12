@@ -109,6 +109,9 @@ namespace HealthCare_System.gui
             weightTb.IsEnabled = false;
             diseaseHistoryTb.IsEnabled = false;
             anamnesisTb.IsEnabled = false;
+
+            DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
+
         }
 
         private void AppointmentView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
