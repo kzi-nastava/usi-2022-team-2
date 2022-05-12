@@ -3,19 +3,28 @@ using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
 {
+    public enum RenovationStatus
+    {
+        BOOKED,
+        ACTIVE,
+        FINISHED
+    }
+
     public abstract class Renovation
     {
         int id;
         DateTime beginningDate;
         DateTime endingDate;
+        RenovationStatus status;
 
         public Renovation() { }
 
-        public Renovation(int id, DateTime beginningDate, DateTime endingDate)
+        public Renovation(int id, DateTime beginningDate, DateTime endingDate, RenovationStatus status)
         {
             this.id = id;
             this.beginningDate = beginningDate;
             this.endingDate = endingDate;
+            this.status = status;
         }
 
         public Renovation(Renovation renovation) 
@@ -23,6 +32,7 @@ namespace HealthCare_System.entities
             id = renovation.id;
             beginningDate = renovation.beginningDate;
             endingDate = renovation.endingDate;
+            status = renovation.status;
         }
 
         [JsonPropertyName("id")]
@@ -33,6 +43,9 @@ namespace HealthCare_System.entities
 
         [JsonPropertyName("endingDate")]
         public DateTime EndingDate { get => endingDate; set => endingDate = value; }
+
+        [JsonPropertyName("status")]
+        public RenovationStatus Status { get => status; set => status = value; }
 
         public override string ToString()
         {

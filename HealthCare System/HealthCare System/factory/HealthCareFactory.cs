@@ -968,22 +968,16 @@ namespace HealthCare_System.factory
         {
             bool available = true;
 
-            foreach (Appointment appointment in appointmentController.Appointments) 
+            available = IsRoomAvailableAppointments(room);
+            if (!available)
             {
-                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
-            foreach (Transfer transfer in transferController.Transfers)
+            available = transferController.IsRoomAvailable(room);
+            if (!available)
             {
-                if (room == transfer.FromRoom || room == transfer.ToRoom)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
             return available;
@@ -1009,5 +1003,206 @@ namespace HealthCare_System.factory
             prescriptionController.Prescriptions.Add(prescription);
             prescriptionController.Serialize();
         }
+        public bool IsRoomAvailableAppointments(Room room)
+        {
+            bool available = true;
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtAll(Room room)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtTime(Room room, DateTime time)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
+
+        public Dictionary<Equipment, int> InitalizeEquipment()
+        {
+            Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+            foreach (Equipment equipment in EquipmentController.Equipment)
+            {
+                equipmentAmount[equipment] = 0;
+            }
+            return equipmentAmount;
+        }
+
+        public void StartSimpleRenovation(SimpleRenovation simpleRenovation) 
+        {
+            simpleRenovation.Status = RenovationStatus.ACTIVE;
+            simpleRenovationController.Serialize();
+            roomController.MoveEquipmentToStorage(simpleRenovation.Room);
+            roomController.Serialize();
+        }
+
+        public void FinishSimpleRenovation(SimpleRenovation simpleRenovation) 
+        {
+            simpleRenovation.Status = RenovationStatus.FINISHED;
+            roomController.UpdateRoom(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
+            simpleRenovationController.SimpleRenovations.Remove(simpleRenovation);
+            simpleRenovationController.Serialize();
+        }
+
+        public void StartMergingRenovation(MergingRenovation mergingRenovation) 
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            mergingRenovationController.Serialize();
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                roomController.MoveEquipmentToStorage(room);
+            }
+            roomController.Serialize();
+        }
+
+        public void FinishMergingRenovation(MergingRenovation mergingRenovation) 
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                RemoveRoom(room);
+            }
+            Dictionary<Equipment, int> equipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(mergingRenovation.NewRoomName, mergingRenovation.NewRoomType, equipmentAmount);
+            mergingRenovationController.MergingRenovations.Remove(mergingRenovation);
+            mergingRenovationController.Serialize();
+        }
+
+        public void StartSplittingRenovation(SplittingRenovation splittingRenovation) 
+        {
+            splittingRenovation.Status = RenovationStatus.ACTIVE;
+            splittingRenovationController.Serialize();
+            roomController.MoveEquipmentToStorage(splittingRenovation.Room);
+            roomController.Serialize();
+        }      
+
+        public void FinishSplittingRenovation(SplittingRenovation splittingRenovation) 
+        {
+            splittingRenovation.Status = RenovationStatus.FINISHED;
+            RemoveRoom(splittingRenovation.Room);
+            Dictionary<Equipment, int> firstRoomEquipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(splittingRenovation.FirstNewRoomName, splittingRenovation.FirstNewRoomType,
+                firstRoomEquipmentAmount);
+            Dictionary<Equipment, int> secondRoomEquipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(splittingRenovation.SecondNewRoomName, splittingRenovation.SecondNewRoomType,
+                secondRoomEquipmentAmount);
+            splittingRenovationController.SplittingRenovations.Remove(splittingRenovation);
+            splittingRenovationController.Serialize();
+        }
+
+        public void TryToExecuteSimpleRenovations()
+        {
+            if (simpleRenovationController.SimpleRenovations.Count > 0)
+            {
+                foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+                {
+                    if (DateTime.Now >= simpleRenovation.EndingDate)
+                    {
+                        FinishSimpleRenovation(simpleRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= simpleRenovation.BeginningDate &&
+                        simpleRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartSimpleRenovation(simpleRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
+        public void TryToExecuteMergingRenovations()
+        {
+            if (mergingRenovationController.MergingRenovations.Count > 0)
+            {
+                foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+                {
+                    if (DateTime.Now >= mergingRenovation.EndingDate)
+                    {
+                        FinishMergingRenovation(mergingRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= mergingRenovation.BeginningDate &&
+                        mergingRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartMergingRenovation(mergingRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
+        public void TryToExecuteSplittingRenovations()
+        {
+            if (splittingRenovationController.SplittingRenovations.Count > 0)
+            {
+                foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
+                {
+                    if (DateTime.Now >= splittingRenovation.EndingDate)
+                    {
+                        FinishSplittingRenovation(splittingRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= splittingRenovation.BeginningDate &&
+                        splittingRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartSplittingRenovation(splittingRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
     }
 }

@@ -15,11 +15,17 @@ namespace HealthCare_System
         {
             this.factory = factory;
             InitializeComponent();
+            factory.TryToExecuteSimpleRenovations();
+            factory.TryToExecuteMergingRenovations();
+            factory.TryToExecuteSplittingRenovations();
         }
         public MainWindow()
         {
             factory = new();
             InitializeComponent();
+            factory.TryToExecuteSimpleRenovations();
+            factory.TryToExecuteMergingRenovations();
+            factory.TryToExecuteSplittingRenovations();
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
