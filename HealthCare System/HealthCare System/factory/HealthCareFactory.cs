@@ -1204,5 +1204,151 @@ namespace HealthCare_System.factory
             
         }
 
+
+        public Appointment SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
+        {
+            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
+            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            else if (DateTime.Now > todayEnd)
+                date=date.AddDays(1);
+            while (date.Date <= end.Date)
+            {
+                while (date < todayEnd)
+                {
+                    try
+                    {
+                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        appointment.Validate();
+                        return appointment;
+                    }
+                    catch
+                    {
+                    }
+                    date=date.AddMinutes(1);
+                }
+                todayStart = todayStart.AddDays(1);
+                todayEnd = todayEnd.AddDays(1);
+                date = todayStart;
+
+
+            }
+
+
+            return null;
+
+        }
+
+        public Appointment SearchPriorityDoctor(DateTime end, Doctor doctor)
+        {
+            DateTime todayStart = DateTime.Now.Date;
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            while (date <= end)
+            {
+                try
+                {
+                    Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                    Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                    (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                    appointment.Validate();
+                    return appointment;
+                }
+                catch
+                {
+                }
+                date = date.AddMinutes(1);
+            }
+            return null;
+
+        }
+
+        public Appointment SearchPriorityDate(DateTime end, int[] from, int[] to)
+        {
+            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
+            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            else if (DateTime.Now > todayEnd)
+                date = date.AddDays(1);
+            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            foreach (Doctor doctor in doctors)
+            {
+                while (date.Date <= end.Date)
+                {
+                    while (date < todayEnd)
+                    {
+                        try
+                        {
+                            Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                            Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                            appointment.Validate();
+                            return appointment;
+                        }
+                        catch
+                        {
+                        }
+                        date = date.AddMinutes(1);
+                    }
+                    todayStart = todayStart.AddDays(1);
+                    todayEnd = todayEnd.AddDays(1);
+                    date = todayStart;
+                }
+            }
+            return null;
+
+        }
+
+        public Appointment SearchPriorityDate(DateTime end, int[] from, int[] to)
+        {
+            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
+            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            else if (DateTime.Now > todayEnd)
+                date = date.AddDays(1);
+            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            foreach (Doctor doctor in doctors)
+            {
+                while (date.Date <= end.Date)
+                {
+                    while (date < todayEnd)
+                    {
+                        try
+                        {
+                            Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                            Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                            appointment.Validate();
+                            return appointment;
+                        }
+                        catch
+                        {
+                        }
+                        date = date.AddMinutes(1);
+                    }
+                    todayStart = todayStart.AddDays(1);
+                    todayEnd = todayEnd.AddDays(1);
+                    date = todayStart;
+                }
+            }
+            return null;
+
+        }
+
     }
+
+    
 }
