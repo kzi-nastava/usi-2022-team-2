@@ -22,6 +22,7 @@ namespace HealthCare_System.gui
             this.factory = factory;
             InitializeComponent();
             InitializeDoctors();
+            recommendedDoctorCb.SelectedItem = indexedDoctors[0];
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
             UpdateLb();
@@ -60,6 +61,7 @@ namespace HealthCare_System.gui
             {
                 indexedDoctors.Add(index,doctor);
                 doctorCb.Items.Add(doctor.FirstName + " " + doctor.LastName);
+                recommendedDoctorCb.Items.Add(doctor.FirstName + " " + doctor.LastName);
                 index++;
             }
         }
@@ -358,6 +360,43 @@ namespace HealthCare_System.gui
         private void refreshHistory_Click(object sender, RoutedEventArgs e)
         {
             UpdateAppointmentHistory();
+        }
+
+        private void SearchRecommendationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime recommendedEndDate = reccomendedEndDateDp.SelectedDate.Value;
+
+            int[] timeTupleFrom = ValidateTime(recommendedFromTb.Text);
+            int[] timeTupleTo = ValidateTime(recommendedToTb.Text);
+
+            Doctor doctor = indexedDoctors[recommendedDoctorCb.SelectedIndex];
+            
+
+
+            
+            
+
+             
+        }
+
+        private int[] ValidateTime(string time)
+        {
+            try
+            {
+                int hour = Convert.ToInt32(time.Split(':')[0]);
+                int minute = Convert.ToInt32(time.Split(':')[1]);
+                int[] timeTuple = { hour, minute };
+                return timeTuple;
+            }
+            catch
+            {
+               throw new Exception("Invalid Time.");
+            }
+
+        }
+        private DateTime CombineDateTime(DateTime date,int[] time)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, time[0], time[1], 0);
         }
     }
 }
