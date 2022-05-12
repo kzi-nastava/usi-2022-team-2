@@ -39,6 +39,11 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public int GenerateId()
+        {
+            return referrals[^1].Id + 1;
+        }
+
         // TODO: Finalize function
         /*public void Serialize(string linkPath= "data/links/Referral_Linker.csv")
         {

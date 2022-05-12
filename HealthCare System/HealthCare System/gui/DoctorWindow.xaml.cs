@@ -423,6 +423,13 @@ namespace HealthCare_System.gui
             window.Show();
         }
 
+        private void ReferralBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
+            Window window = new ReferralWindow(patient, factory);
+            window.Show();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             factory.User = null;
