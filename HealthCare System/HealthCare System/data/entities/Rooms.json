@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": 1001,
     "name": "Examination Room 001",
@@ -21,7 +21,7 @@
   },
   {
     "id": 1005,
-    "name": "Testing simple succes 1",
+    "name": "Coffe shop",
     "type": 4
   },
   {
@@ -33,15 +33,6 @@
     "id": 1007,
     "name": "Examination Room 003",
     "type": 1
-  },
-  {
-    "id": 1008,
-    "name": "Testing simple renovation",
-    "type": 4
-  },
-  {
-    "id": 1010,
-    "name": "Split 256",
-    "type": 4
   }
+
 ]

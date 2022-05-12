@@ -88,32 +88,5 @@
     "emergent": false,
     "type": 0,
     "status": 0
-  },
-  {
-    "id": 1011,
-    "start": "2022-05-11T19:30:00",
-    "end": "2022-05-11T19:45:00",
-    "graded": false,
-    "emergent": false,
-    "type": 0,
-    "status": 0
-  },
-  {
-    "id": 1012,
-    "start": "2022-05-14T19:30:00",
-    "end": "2022-05-14T19:45:00",
-    "graded": false,
-    "emergent": false,
-    "type": 1,
-    "status": 0
-  },
-  {
-    "id": 1013,
-    "start": "2022-05-12T20:15:00",
-    "end": "2022-05-12T20:30:00",
-    "graded": false,
-    "emergent": false,
-    "type": 0,
-    "status": 1
   }
 ]
