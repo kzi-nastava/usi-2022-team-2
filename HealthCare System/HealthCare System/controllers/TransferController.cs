@@ -66,7 +66,8 @@ namespace HealthCare_System.controllers
             int id = GenerateId();
             Transfer transfer = new Transfer(id, momentOfTransfer, fromRoom, toRoom, equipment, amount);
             if (!CheckWithOthers(transfer))
-                throw new Exception();
+                throw new Exception("Entered amount to be moved is larger than amount availabel " +
+                    "in the room after all the transfers are finished.");
             transfers.Add(transfer);
             Serialize();
         }

@@ -19,6 +19,12 @@ namespace HealthCare_System.gui
             InitializeComponent();
             this.factory = factory;
             InitializeComboBox();
+            InitializeDatePicker();
+        }
+
+        private void InitializeDatePicker()
+        {
+            datePick.SelectedDate = DateTime.Today;
         }
 
         void DisplayRoomsFrom()
@@ -74,63 +80,84 @@ namespace HealthCare_System.gui
             DisplayRoomsFrom();
         }
 
-        private void submitBtn_Click(object sender, RoutedEventArgs e)
+        int ValidateAmountFormat()
         {
-            DateTime momentOfTransfer;
-            DateTime date = datePick.SelectedDate.Value;
-
             try
             {
-                int hour = Convert.ToInt32(timeTb.Text.Split(':')[0]);
-                int minute = Convert.ToInt32(timeTb.Text.Split(':')[1]);
-                momentOfTransfer = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
-                if (momentOfTransfer < DateTime.Now)
-                {
-                    MessageBox.Show("You cannot enter date from the past.");
-                    return;
-                }
-
+                int amount = Convert.ToInt32(amountTb.Text);
+                return amount;
             }
             catch
             {
-                MessageBox.Show("Invalid Time Format.");
-                return;
+                return - 1;
             }
+        }
 
-            int amount;
-            try
-            {
-                amount = Convert.ToInt32(amountTb.Text);
-            }
-            catch
-            {
-                MessageBox.Show("Invalid Amount Format.");
-                return;
-            }
-
+        void ValidateAmountNumber(int amount)
+        {
             if (amount < 0)
             {
-                MessageBox.Show("Entered amount must be larger than 0.");
-                return;
+                throw new Exception("Entered amount must be larger than 0.");
             }
 
             if (amount > roomsFrom[moveFromView.SelectedIndex].EquipmentAmount[equipment[equipmentCb.SelectedIndex]])
             {
-                MessageBox.Show("Entered amount to be moved is larger than current amount available in the room.");
-                return;
+                throw new Exception("Entered amount to be moved is larger than current amount available in the room.");
             }
+        }
 
+        void TryTransfer(DateTime momentOfTransfer, int amount)
+        {
             try
             {
                 factory.TransferController.Add(momentOfTransfer, roomsFrom[moveFromView.SelectedIndex],
                 roomsTo[moveToView.SelectedIndex], equipment[equipmentCb.SelectedIndex], amount);
                 MessageBox.Show("Transfer succsessfully added.");
             }
+            catch (Exception excp)
+            {
+                MessageBox.Show(excp.Message);
+            }
+        }
+
+        private void submitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime momentOfTransfer;
+            DateTime selectedDate = datePick.SelectedDate.Value;
+            try
+            {
+                int hour = Convert.ToInt32(timeTb.Text.Split(':')[0]);
+                int minute = Convert.ToInt32(timeTb.Text.Split(':')[1]);
+                momentOfTransfer = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
+                if (momentOfTransfer < DateTime.Now)
+                {
+                    MessageBox.Show("You cannot enter date from the past.");
+                    return;
+                }
+            }
             catch
             {
-                MessageBox.Show("Entered amount to be moved is larger than amount availabel " +
-                    "in the room after all the transfers are finished.");
+                MessageBox.Show("Invalid time format!");
+                return;
             }
+
+            int amount = ValidateAmountFormat();
+            if (amount == -1)
+            {
+                MessageBox.Show("Invalid Amount Format.");
+                return;
+            }
+            try
+            {
+                ValidateAmountNumber(amount);
+            }
+            catch (Exception excp)
+            {
+                MessageBox.Show(excp.Message);
+                return;
+            }
+
+            TryTransfer(momentOfTransfer, amount);
         }
 
         private void refreshBtn_Click(object sender, RoutedEventArgs e)
