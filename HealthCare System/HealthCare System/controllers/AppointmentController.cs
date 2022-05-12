@@ -68,31 +68,7 @@ namespace HealthCare_System.controllers
         }
 
 
-        public Appointment SearchDoubleCriterium(DateTime end,int[] from,int[] to, Doctor doctor)
-        {
-            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
-            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
-            DateTime date = todayStart;
-            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
-                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
-            else if (DateTime.Now > todayEnd)
-                date.AddDays(1);
-            while (date.Date <= end.Date)
-            {
-                while (date < todayEnd)
-                {
-
-
-                    date.AddMinutes(1);
-                }
-
-                
-            }
-
-
-
-
-        }
+        
 
 
     }

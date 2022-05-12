@@ -1205,8 +1205,9 @@ namespace HealthCare_System.factory
         }
 
 
-        public Appointment SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
+        private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {
+            List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
@@ -1225,7 +1226,8 @@ namespace HealthCare_System.factory
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                         (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
                         appointment.Validate();
-                        return appointment;
+                        appointments.Add(appointment);
+                        return appointments;
                     }
                     catch
                     {
@@ -1244,8 +1246,9 @@ namespace HealthCare_System.factory
 
         }
 
-        public Appointment SearchPriorityDoctor(DateTime end, Doctor doctor)
+        private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
         {
+            List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date;
             DateTime date = todayStart;
             int id = appointmentController.GenerateId();
@@ -1259,7 +1262,8 @@ namespace HealthCare_System.factory
                     Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                     (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
                     appointment.Validate();
-                    return appointment;
+                    appointments.Add(appointment);
+                    return appointments;
                 }
                 catch
                 {
@@ -1270,8 +1274,9 @@ namespace HealthCare_System.factory
 
         }
 
-        public Appointment SearchPriorityDate(DateTime end, int[] from, int[] to)
+        private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
         {
+            List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
@@ -1293,11 +1298,10 @@ namespace HealthCare_System.factory
                             Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                             (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
                             appointment.Validate();
-                            return appointment;
+                            appointments.Add(appointment);
+                            return appointments;
                         }
-                        catch
-                        {
-                        }
+                        catch{}
                         date = date.AddMinutes(1);
                     }
                     todayStart = todayStart.AddDays(1);
@@ -1309,44 +1313,65 @@ namespace HealthCare_System.factory
 
         }
 
-        public Appointment SearchPriorityDate(DateTime end, int[] from, int[] to)
+        public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to)
         {
-            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
-            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime todayStart = end.AddDays(1);
             DateTime date = todayStart;
             int id = appointmentController.GenerateId();
-            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
-                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
-            else if (DateTime.Now > todayEnd)
-                date = date.AddDays(1);
             List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
-            foreach (Doctor doctor in doctors)
+            List<Appointment> appointments = new();
+            while (true)
             {
-                while (date.Date <= end.Date)
+                foreach (Doctor doctor in doctors)
                 {
-                    while (date < todayEnd)
+                    try
                     {
-                        try
-                        {
-                            Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
-                            Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
-                            appointment.Validate();
-                            return appointment;
-                        }
-                        catch
-                        {
-                        }
-                        date = date.AddMinutes(1);
+                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        appointment.Validate();
+                        appointments.Add(appointment);
+                        if (appointments.Count == 3)
+                            return appointments;
                     }
-                    todayStart = todayStart.AddDays(1);
-                    todayEnd = todayEnd.AddDays(1);
-                    date = todayStart;
+                    catch
+                    {
+                    }
+
+
+                    date = date.AddMinutes(1);
                 }
             }
-            return null;
 
         }
+        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor)
+        {
+            List<Appointment> appointments=SearchDoubleCriterium(end, from, to, doctor);
+            if (appointments != null)
+                return appointments;
+            if (priorityDoctor)
+            {
+                appointments = SearchPriorityDoctor(end, doctor);
+                if (appointments != null)
+                    return appointments;
+                appointments = SearchPriorityDate(end,from,to);
+                if (appointments != null)
+                    return appointments;
+            }
+            else
+            {
+                appointments = SearchPriorityDate(end, from, to);
+                if (appointments != null)
+                    return appointments;
+                appointments = SearchPriorityDoctor(end, doctor);
+                if (appointments != null)
+                    return appointments;
+                
+            }
+            return SearchNoPriority(end, from, to);
+
+        }
+
 
     }
 
