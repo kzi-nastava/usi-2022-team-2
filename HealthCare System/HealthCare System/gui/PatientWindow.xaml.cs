@@ -128,20 +128,15 @@ namespace HealthCare_System.gui
             }
             Doctor doctor = indexedDoctors[doctorCb.SelectedIndex];
 
-            DateTime start;
             DateTime date = datePicker.SelectedDate.Value;
-            try
+            int[] time = ValidateTime(timeTb.Text);
+            if (time!=null)
             {
-                int hour = Convert.ToInt32(timeTb.Text.Split(':')[0]);
-                int minute = Convert.ToInt32(timeTb.Text.Split(':')[1]);
-                start = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
-            }
-            catch
-            {
-                MessageBox.Show("Invalid Time.");
+                MessageBox.Show("Invalid Time");
                 return;
             }
 
+            DateTime start= new DateTime(date.Year, date.Month, date.Day, time[0], time[1], 0);
             DateTime end = start.AddMinutes(15);
 
             try
@@ -165,7 +160,6 @@ namespace HealthCare_System.gui
             {
                 MessageBox.Show(exception.Message);
             }
-
         }
         private void UpdateUpcomingAppointments()
         {
@@ -208,24 +202,24 @@ namespace HealthCare_System.gui
                 return;
             }
             Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
+
             if (doctorEditCb.SelectedIndex == -1)
             {
                 MessageBox.Show("Please choose doctor.");
                 return;
             }
-            DateTime start;
+            Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
             DateTime date = datePickerEdit.SelectedDate.Value;
-            try
+            int[] time = ValidateTime(timeTb.Text);
+            if (time != null)
             {
-                int hour = Convert.ToInt32(timeEditTb.Text.Split(':')[0]);
-                int minute = Convert.ToInt32(timeEditTb.Text.Split(':')[1]);
-                start = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
-            }
-            catch
-            {
-                MessageBox.Show("Invalid Time.");
+                MessageBox.Show("Invalid Time");
                 return;
             }
+
+            DateTime start = CombineDateTime(date, time);
+            DateTime end = start.AddMinutes((appointment.End - appointment.Start).TotalMinutes);
+
             bool needConfirmation = false;
             if (start <= DateTime.Now.AddDays(1))
             {
@@ -242,9 +236,6 @@ namespace HealthCare_System.gui
                 return;
             }
             
-            Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
-            DateTime end = start.AddMinutes((appointment.End-appointment.Start).TotalMinutes);
-            Patient patient = (Patient)factory.User;
             Appointment requestedAppointment = null;
             try
             {
@@ -252,18 +243,20 @@ namespace HealthCare_System.gui
                 if (needConfirmation)
                 {
 
-                    requestedAppointment=factory.AddAppointment(start, end, doctor, patient, appointment.Type, AppointmentStatus.ON_HOLD, false);
+                    requestedAppointment=factory.AddAppointment(start, end, doctor, user, appointment.Type, AppointmentStatus.ON_HOLD, false);
                     state = AppointmentState.WAITING;
                 }
                 else
                 {
-                    factory.UpdateAppointment(appointment.Id, start, end, doctor, patient, AppointmentStatus.BOOKED);
+                    factory.UpdateAppointment(appointment.Id, start, end, doctor, user, AppointmentStatus.BOOKED);
                 }
                 
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
-                    state, patient, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
+                    state, user, appointment, requestedAppointment, RequestType.UPDATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateUpcomingAppointments();
+
+
                 if (needConfirmation)
                 {
                     MessageBox.Show("Appointment request made successfully.");
@@ -335,6 +328,8 @@ namespace HealthCare_System.gui
             {
                 needConfirmation = true;
             }
+
+
             try
             {
                 AppointmentState state = AppointmentState.ACCEPTED;
@@ -347,9 +342,9 @@ namespace HealthCare_System.gui
                     appointment.Status = AppointmentStatus.ON_HOLD;
                     state = AppointmentState.WAITING;
                 }
-                Patient patient = (Patient)factory.User;
+
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
-                    state, patient, appointment, null, RequestType.DELETE, DateTime.Now);
+                    state, user, appointment, null, RequestType.DELETE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
                 UpdateUpcomingAppointments();
                 if (needConfirmation)
@@ -406,7 +401,7 @@ namespace HealthCare_System.gui
 
                 foreach (Appointment appointment in sortedAppointments)
                 {
-                    sortedAnamnesesLb.Items.Add(appointment);
+                    sortedAnamnesesLb.Items.Add(appointment.Anamnesis.Description);
                 }
             }
         }

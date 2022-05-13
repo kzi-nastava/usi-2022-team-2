@@ -1255,11 +1255,14 @@ namespace HealthCare_System.factory
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
+
             int id = appointmentController.GenerateId();
+
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
             else if (DateTime.Now > todayEnd)
                 date=date.AddDays(1);
+
             while (date.Date <= end.Date)
             {
                 while (date < todayEnd)
@@ -1269,6 +1272,7 @@ namespace HealthCare_System.factory
                         Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                         (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        
                         appointment.Validate();
                         appointments.Add(appointment);
                         return appointments;
@@ -1281,13 +1285,8 @@ namespace HealthCare_System.factory
                 todayStart = todayStart.AddDays(1);
                 todayEnd = todayEnd.AddDays(1);
                 date = todayStart;
-
-
             }
-
-
             return null;
-
         }
 
         private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
@@ -1295,9 +1294,11 @@ namespace HealthCare_System.factory
             List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date;
             DateTime date = todayStart;
+
             int id = appointmentController.GenerateId();
             if (DateTime.Now > todayStart)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+
             while (date <= end)
             {
                 try
@@ -1305,6 +1306,7 @@ namespace HealthCare_System.factory
                     Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                     Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                     (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                    
                     appointment.Validate();
                     appointments.Add(appointment);
                     return appointments;
@@ -1315,7 +1317,6 @@ namespace HealthCare_System.factory
                 date = date.AddMinutes(1);
             }
             return null;
-
         }
 
         private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
@@ -1324,12 +1325,15 @@ namespace HealthCare_System.factory
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
+
             int id = appointmentController.GenerateId();
+
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
             else if (DateTime.Now > todayEnd)
                 date = date.AddDays(1);
             List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+
             foreach (Doctor doctor in doctors)
             {
                 while (date.Date <= end.Date)
@@ -1341,6 +1345,7 @@ namespace HealthCare_System.factory
                             Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                             Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
                             (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                            
                             appointment.Validate();
                             appointments.Add(appointment);
                             return appointments;
@@ -1375,6 +1380,7 @@ namespace HealthCare_System.factory
                         (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
                         appointment.Validate();
                         appointments.Add(appointment);
+                        date = date.AddMinutes(14);
                         if (appointments.Count == 3)
                             return appointments;
                     }
