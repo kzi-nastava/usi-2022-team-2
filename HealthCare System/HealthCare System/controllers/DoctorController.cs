@@ -50,6 +50,7 @@ namespace HealthCare_System.controllers
         public List<Doctor> FindBySpecialization(Specialization specialization)
         {
             List<Doctor> filteredDoctors = new List<Doctor>();
+
             foreach (Doctor doctor in doctors)
             {
                 if (doctor.Specialization == specialization)
