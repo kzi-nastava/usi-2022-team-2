@@ -197,7 +197,7 @@ namespace HealthCare_System.gui
         private void updateBtn_Click(object sender, RoutedEventArgs e)
         {
             CheckAntiTroll();
-            if (((Patient)factory.User).Blocked)
+            if (user.Blocked)
             {
                 Close();
                 return;
@@ -215,11 +215,6 @@ namespace HealthCare_System.gui
             }
             DateTime start;
             DateTime date = datePickerEdit.SelectedDate.Value;
-            if (date <= DateTime.Now)
-            {
-                MessageBox.Show("Invalid Date.");
-                return;
-            }
             try
             {
                 int hour = Convert.ToInt32(timeEditTb.Text.Split(':')[0]);
@@ -316,7 +311,7 @@ namespace HealthCare_System.gui
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
             CheckAntiTroll();
-            if (((Patient)factory.User).Blocked)
+            if (user.Blocked)
             {
                 Close();
                 return;
@@ -400,53 +395,52 @@ namespace HealthCare_System.gui
         }
         private void anamnesesSearchTb_TextChanged(object sender, TextChangedEventArgs e)
         {
+
+            sortedAnamnesesLb.Items.Clear();
             if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
             {
-                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses(user, anamnesesSearchTb.Text,
                    (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-                sortedAnamnesesLb.Items.Clear();
+
+
                 foreach (Appointment appointment in sortedAppointments)
                 {
                     sortedAnamnesesLb.Items.Add(appointment);
                 }
             }
-            else
-                sortedAnamnesesLb.Items.Clear();
         }
 
         private void sortCriteriumCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            sortedAnamnesesLb.Items.Clear();
             if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
             {
-                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses(user, anamnesesSearchTb.Text,
                    (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-                sortedAnamnesesLb.Items.Clear();
+                
                 foreach (Appointment appointment in sortedAppointments)
                 {
                     sortedAnamnesesLb.Items.Add(appointment);
                 }
             }
-            else
-                sortedAnamnesesLb.Items.Clear();
         }
 
         private void sortingDirectionCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            sortedAnamnesesLb.Items.Clear();
             if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
             {
-                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses(user, anamnesesSearchTb.Text,
                    (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-                sortedAnamnesesLb.Items.Clear();
+                
                 foreach (Appointment appointment in sortedAppointments)
                 {
                     sortedAnamnesesLb.Items.Add(appointment);
                 }
             }
-            else
-                sortedAnamnesesLb.Items.Clear();
         }
         
         private void SearchRecommendationBtn_Click(object sender, RoutedEventArgs e)
