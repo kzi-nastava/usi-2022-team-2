@@ -20,10 +20,10 @@
                     <TextBox x:Name="patientTb" HorizontalAlignment="Left" Margin="378,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
 
                     <Label x:Name="heightLbl" Content="Height" HorizontalAlignment="Left" Margin="289,83,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="heightTb" HorizontalAlignment="Left" Margin="378,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15"/>
+                    <TextBox x:Name="heightTb" HorizontalAlignment="Left" Margin="378,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" PreviewTextInput="HeightTb_PreviewTextInput"/>
 
                     <Label x:Name="weight" Content="Wight" HorizontalAlignment="Left" Margin="289,118,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="weightTb" HorizontalAlignment="Left" Margin="378,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15"/>
+                    <TextBox x:Name="weightTb" HorizontalAlignment="Left" Margin="378,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" PreviewTextInput="WeightTb_PreviewTextInput"/>
 
                     <Label x:Name="diseaseHystoryLbl" Content="Disease hystory" HorizontalAlignment="Left" Margin="594,13,0,0" VerticalAlignment="Top" Width="121" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
                     <TextBox x:Name="diseaseHistoryTb" HorizontalAlignment="Left" Margin="594,50,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="98" VerticalAlignment="Top"/>
@@ -36,8 +36,8 @@
 
                     <Button x:Name="StartBtn" Content="Start" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="StartBtn_Click"/>
                     <Button x:Name="EndBtn" Content="End" HorizontalAlignment="Left" Margin="143,363,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="EndBtn_Click"/>
-                    <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="143,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="26" RenderTransformOrigin="0.496,-0.862"/>
-                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25"/>
+                    <Button x:Name="ReferralBtn" Content="Issue referral" HorizontalAlignment="Left" Margin="143,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="26" RenderTransformOrigin="0.496,-0.862" Click="ReferralBtn_Click"/>
+                    <Button x:Name="PrescribeBtn" Content="Prescribe" HorizontalAlignment="Left" Margin="481,160,0,0" VerticalAlignment="Top" Width="78" FontSize="15" Height="25" Click="PrescribeBtn_Click"/>
                     <Button x:Name="ChangeBtn" Content="Change" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="ChangeBtn_Click"/>
                     <Button x:Name="RefreshBtn" Content="Refresh" HorizontalAlignment="Left" Margin="10,438,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RefreshBtn_Click"/>
                     <Button x:Name="DeleteBtn" Content="Delete" HorizontalAlignment="Left" Margin="143,400,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="DeleteBtn_Click"/>
@@ -71,7 +71,7 @@
                     <ComboBox x:Name="typeCb" HorizontalAlignment="Left" Margin="402,239,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" SelectionChanged="TypeCb_SelectionChanged"/>
 
                     <Label x:Name="durationLbl" Content="Duration" HorizontalAlignment="Left" Margin="268,299,0,0" VerticalAlignment="Top" Width="83" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" RenderTransformOrigin="0.516,-0.319"/>
-                    <TextBox x:Name="durationTb" HorizontalAlignment="Left" Margin="402,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal"/>
+                    <TextBox x:Name="durationTb" HorizontalAlignment="Left" Margin="402,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal" PreviewTextInput="DurationTb_PreviewTextInput"/>
 
                     <Button x:Name="BookBtn" Content="Book" HorizontalAlignment="Left" Margin="268,375,0,0" VerticalAlignment="Top" Width="105" FontSize="15" Height="25" Click="BookBtn_Click"/>
 

@@ -21,11 +21,26 @@
                     <ComboBox x:Name="doctorCb" HorizontalAlignment="Left" Margin="50,245,0,0" VerticalAlignment="Top" Width="153" Grid.Column="2"/>
                     <Label Content="Date:" HorizontalAlignment="Left" Margin="63,73,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
                     <Label Content="Doctor:" HorizontalAlignment="Left" Margin="41,241,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
-                    <ListBox Margin="334,73,34,27" Grid.Column="2"/>
-                    <Label Content="Recommended appointments" HorizontalAlignment="Left" Margin="334,31,0,0" VerticalAlignment="Top" Width="304" Grid.Column="2"/>
                     <TextBox x:Name="timeTb" HorizontalAlignment="Left" Margin="50,158,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Height="33
                              " Grid.Column="2"/>
                     <Label Content="Time:" HorizontalAlignment="Left" Margin="60,156,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <GroupBox Grid.Column="2" Header="Recommend Appointment" Margin="292,0,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Canvas>
+                            <ListBox x:Name="recommendedAppointmentsLb" Height="63" Width="338" Canvas.Top="10" Canvas.Left="10" PreviewMouseDown="PlaceholdersListBox_OnPreviewMouseDown"/>
+                            <RadioButton x:Name="priorityDoctorRb" Content="Doctor" GroupName="priority" IsChecked="True" Canvas.Left="56" Canvas.Top="268"/>
+                            <RadioButton x:Name="priorityTimeRb" Content="Time" GroupName="priority" IsChecked="False" Canvas.Left="223" Canvas.Top="268"/>
+                            <TextBox x:Name="recommendedFromTb" Canvas.Left="55" Canvas.Top="165" Text="" TextWrapping="Wrap" Width="84" Height="33
+                             " Grid.Column="2"/>
+                            <Label Content="From" Canvas.Left="68" Canvas.Top="126"/>
+                            <Label Content="To" Canvas.Left="240" Canvas.Top="126" RenderTransformOrigin="0.119,-1.259"/>
+                            <Label Content="End Date: " Canvas.Left="26" Canvas.Top="78"/>
+                            <DatePicker x:Name="reccomendedEndDateDp" Canvas.Left="179" Canvas.Top="80"/>
+                            <Button x:Name="searchRecommendationBtn" Content="Search" Canvas.Left="104" Canvas.Top="313" Width="150" Height="32" Grid.Column="1" Grid.ColumnSpan="2" Click="SearchRecommendationBtn_Click"/>
+                            <TextBox x:Name="recommendedToTb" Canvas.Left="214" Canvas.Top="165" Text="" TextWrapping="Wrap" Width="84" Height="33"/>
+                            <ComboBox x:Name="recommendedDoctorCb" Width="153" Canvas.Left="179" Canvas.Top="230"/>
+                            <Label Content="Doctor:" Canvas.Left="51" Canvas.Top="226"/>
+                        </Canvas>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem x:Name="editTab" Header="My Appointments" FontSize="20" FontWeight="Bold">
@@ -44,7 +59,7 @@
             </TabItem>
             <TabItem Header="Appointment History" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="appointmentHistoryLb" Margin="32,31,34,66"/>
+                    <ListBox x:Name="appointmentHistoryLb" Margin="32,31,34,66" PreviewMouseDown="AppointmentHistoryListBox_OnPreviewMouseDown" />
                     <Button x:Name="refreshHistory" Content="Refresh" HorizontalAlignment="Left" Margin="685,337,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Click="refreshHistory_Click"/>
                 </Grid>
             </TabItem>

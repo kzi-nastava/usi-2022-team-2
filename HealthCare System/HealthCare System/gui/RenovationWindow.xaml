@@ -1,0 +1,89 @@
+﻿<Window x:Class="HealthCare_System.gui.RenovationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare_System.gui"
+        mc:Ignorable="d"
+        Title="RenovationWindow" Height="428" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Simple" FontWeight="Bold" FontSize="20">
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="roomsForSimpleCb" HorizontalAlignment="Left" Margin="97,76,0,0" VerticalAlignment="Top" Width="128" Height="25" FontSize="15" SelectionChanged="roomsForSimpleCb_SelectionChanged"/>
+                    <TextBox x:Name="roomNameForSimpleTb" HorizontalAlignment="Left" Margin="75,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <TextBox x:Name="roomTypeForSimpleTb" HorizontalAlignment="Left" Margin="75,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <TextBox x:Name="newRoomNameSimpleTb" HorizontalAlignment="Left" Margin="554,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15"/>
+                    <Label Content="Pick a room" HorizontalAlignment="Left" Margin="100,16,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Renovate into" HorizontalAlignment="Left" Margin="570,71,0,0" VerticalAlignment="Top"/>
+                    <DatePicker x:Name="simpleStartDp" HorizontalAlignment="Left" Margin="345,43,0,0" VerticalAlignment="Top" Height="26" Width="148" FontSize="15"/>
+                    <DatePicker x:Name="simpleEndDp" HorizontalAlignment="Left" Margin="345,88,0,0" VerticalAlignment="Top" Height="28" Width="148" FontSize="15"/>
+                    <Button x:Name="submitSimpleBtn" Content="Submit" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Height="37" Width="104" Click="submitSimpleBtn_Click"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="484,139,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="484,205,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Start:" HorizontalAlignment="Left" Margin="277,41,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="End:" HorizontalAlignment="Left" Margin="277,89,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <ComboBox x:Name="newRoomTypeSimpleCb" HorizontalAlignment="Left" Margin="554,212,0,0" VerticalAlignment="Top" Width="172" Height="25" FontSize="15"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Merging" FontWeight="Bold" FontSize="20">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Pick first room" HorizontalAlignment="Left" Margin="71,10,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="firstRoomsForMergingCb" HorizontalAlignment="Left" Margin="81,52,0,0" VerticalAlignment="Top" Width="128" Height="25" FontSize="15" SelectionChanged="firstRoomsForMergingCb_SelectionChanged"/>
+                    <TextBox x:Name="firstRoomNameForMergingTb" HorizontalAlignment="Left" Margin="59,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <TextBox x:Name="firstRoomTypeForMergingTb" HorizontalAlignment="Left" Margin="59,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <Label Content="Pick second room" HorizontalAlignment="Left" Margin="57,191,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="secondRoomsForMergingCb" HorizontalAlignment="Left" Margin="81,228,0,0" VerticalAlignment="Top" Width="128" Height="25" FontSize="15" SelectionChanged="secondRoomsForMergingCb_SelectionChanged"/>
+                    <TextBox x:Name="secondRoomNameForMergingTb" HorizontalAlignment="Left" Margin="59,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <TextBox x:Name="secondRoomTypeForMergingTb" HorizontalAlignment="Left" Margin="59,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15" IsEnabled="False"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="0,89,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="-2,266,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="-2,310,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <DatePicker x:Name="mergingStartDp" HorizontalAlignment="Left" Margin="345,43,0,0" VerticalAlignment="Top" Height="26" Width="148" FontSize="15"/>
+                    <DatePicker x:Name="mergingEndDp" HorizontalAlignment="Left" Margin="345,88,0,0" VerticalAlignment="Top" Height="28" Width="148" FontSize="15"/>
+                    <Label Content="Start:" HorizontalAlignment="Left" Margin="277,41,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="End:" HorizontalAlignment="Left" Margin="277,89,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Button x:Name="submitMergingBtn" Content="Submit" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Height="37" Width="104" Click="submitMergingBtn_Click"/>
+                    <Label Content="Renovate into" HorizontalAlignment="Left" Margin="570,71,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="newRoomNameMergingTb" HorizontalAlignment="Left" Margin="554,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" FontSize="15"/>
+                    <ComboBox x:Name="newRoomTypeMergingCb" HorizontalAlignment="Left" Margin="554,212,0,0" VerticalAlignment="Top" Width="172" Height="25" FontSize="15"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="484,139,0,0" VerticalAlignment="Top" FontSize="15"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="484,205,0,0" VerticalAlignment="Top" FontSize="15"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Splitting" FontWeight="Bold" FontSize="20">
+                <Grid x:Name="submitSplittingBtn1" Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="381*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Pick a room" HorizontalAlignment="Left" Margin="68,16,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <ComboBox x:Name="roomsForSplittingCb" HorizontalAlignment="Left" Margin="65,76,0,0" VerticalAlignment="Top" Width="128" Height="25" FontSize="15" Grid.Column="1" SelectionChanged="roomsForSplittingCb_SelectionChanged"/>
+                    <TextBox x:Name="roomNameForSplittingTb" HorizontalAlignment="Left" Margin="43,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" Grid.Column="1" FontSize="15" IsEnabled="False"/>
+                    <TextBox x:Name="roomTypeForSplittingTb" HorizontalAlignment="Left" Margin="43,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" Grid.Column="1" FontSize="15" IsEnabled="False"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" FontSize="15" Grid.ColumnSpan="2"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" FontSize="15" Grid.ColumnSpan="2"/>
+                    <DatePicker x:Name="splittingStartDp" HorizontalAlignment="Left" Margin="313,43,0,0" VerticalAlignment="Top" Height="26" Width="148" FontSize="15" Grid.Column="1"/>
+                    <DatePicker x:Name="splittingEndDp" HorizontalAlignment="Left" Margin="313,88,0,0" VerticalAlignment="Top" Height="28" Width="148" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Start:" HorizontalAlignment="Left" Margin="245,41,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                    <Label Content="End:" HorizontalAlignment="Left" Margin="245,89,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                    <Button x:Name="submitSplittingBtn" Content="Submit" HorizontalAlignment="Left" Margin="313,279,0,0" VerticalAlignment="Top" Height="37" Width="104" Grid.Column="1" Click="submitSplittingBtn_Click"/>
+                    <Label Content="First New Room" HorizontalAlignment="Left" Margin="553,19,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="firstNewRoomNameSplittingTb" HorizontalAlignment="Left" Margin="547,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" Grid.Column="1" FontSize="15"/>
+                    <ComboBox x:Name="firstNewRoomTypeSplittingCb" HorizontalAlignment="Left" Margin="547,132,0,0" VerticalAlignment="Top" Width="172" Height="24" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="486,74,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="486,124,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Second New Room" HorizontalAlignment="Left" Margin="539,185,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="secondNewRoomNameSplittingTb" HorizontalAlignment="Left" Margin="547,243,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="25" Grid.Column="1" FontSize="15"/>
+                    <ComboBox x:Name="secondNewRoomTypeSplittingCb" HorizontalAlignment="Left" Margin="547,297,0,0" VerticalAlignment="Top" Width="172" Height="24" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" Margin="486,241,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                    <Label Content="Type:" HorizontalAlignment="Left" Margin="486,295,0,0" VerticalAlignment="Top" FontSize="15" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

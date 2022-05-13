@@ -67,6 +67,12 @@ namespace HealthCare_System.entities
             this.emergency = emergency;
         }
 
+        public static AppointmentType getTypeByDuration(int duration)
+        {
+            if (duration != 15) { return AppointmentType.OPERATION; }
+            return AppointmentType.EXAMINATION;
+        }
+
         [JsonPropertyName("id")]
         public int Id { get => id; set => id = value; }
 
@@ -100,6 +106,17 @@ namespace HealthCare_System.entities
         [JsonIgnore]
         internal Anamnesis Anamnesis { get => anamnesis; set => anamnesis = value; }
 
+        public void Validate()
+        {
+            if (patient is null)
+                throw new Exception("Patient doesn't exist!");
+            if (!doctor.IsAvailable(start, end))
+                throw new Exception("Doctor is not available!");
+            if (!patient.IsAvailable(start, end))
+                throw new Exception("Patient is not available!");
+            if (room is null)
+                throw new Exception("Room is not found!");
+        }
 
         public override string ToString()
         {

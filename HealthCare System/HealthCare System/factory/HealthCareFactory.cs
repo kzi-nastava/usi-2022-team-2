@@ -3,6 +3,8 @@ using HealthCare_System.entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Windows;
 
 namespace HealthCare_System.factory
@@ -453,14 +455,15 @@ namespace HealthCare_System.factory
                 string line = file.ReadLine();
                 int referralId = Convert.ToInt32(line.Split(";")[0]);
                 string doctorJmbg = line.Split(";")[1];
-                string patientJmbg = line.Split(";")[2].Trim();
+                int medicalRecordId = Convert.ToInt32(line.Split(";")[2].Trim());
 
                 Referral referral = referralController.FindById(referralId);
                 Doctor doctor = doctorController.FindByJmbg(doctorJmbg);
-                Patient patient = patientController.FindByJmbg(patientJmbg);
+                MedicalRecord medicalRecord = medicalRecordController.FindById(medicalRecordId);
 
                 referral.Doctor = doctor;
-                referral.Patient = patient;
+                referral.MedicalRecord = medicalRecord;
+                medicalRecord.Referrals.Add(referral);
             }
 
             file.Close();
@@ -776,29 +779,22 @@ namespace HealthCare_System.factory
 
         public Appointment AddAppointment(Appointment appointment)
         {
-            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
-            if (!appointment.Doctor.IsAvailable(appointment.Start, appointment.End))
-            {
-                throw new Exception("Doctor is not available!");
-            }
-            if (!appointment.Patient.IsAvailable(appointment.Start, appointment.End))
-            {
-                throw new Exception("Patient is not available!");
-            }
-            if (room is null)
-            {
-                throw new Exception("Room is not found!");
-            }
             int anamnesisId = anamnesisController.GenerateId();
-            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
-            appointment.Room = room;
+            Anamnesis anamnesis = new(anamnesisId, "");
             appointment.Anamnesis = anamnesis;
+
+            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
+            appointment.Room = room;
+
+            appointment.Validate();
+
             appointmentController.Appointments.Add(appointment);
             appointment.Doctor.Appointments.Add(appointment);
             appointment.Patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisController.Anamneses.Add(anamnesis);
+            anamnesisController.Anamneses.Add(appointment.Anamnesis);
             appointmentController.Serialize();
             anamnesisController.Serialize();
+
             return appointment;
 
         }
@@ -808,21 +804,9 @@ namespace HealthCare_System.factory
         {
             Appointment appointment = appointmentController.FindById(id);
             if (appointment is null)
-            {
                 throw new Exception("Appointment is not found!");
-            }
-            if (doctor.Specialization != appointment.Doctor.Specialization)
-            {
-                throw new Exception("Cannot choose doctor with different specialization!");
-            }
-            if (!doctor.IsAvailable(start, end))
-            {
-                throw new Exception("Doctor is not available!");
-            }
-            if (!patient.IsAvailable(start, end))
-            {
-                throw new Exception("Patient is not available!");
-            }
+            appointment.Validate();
+
             appointment.Start = start;
             appointment.End = end;
             appointment.Doctor = doctor;
@@ -846,6 +830,42 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
+
+        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, int duration, int id)
+        {
+            DateTime limitTime = DateTime.Now.AddHours(2);
+            DateTime start = limitTime;
+            DateTime retTime;
+            Doctor doctor = doctors[0];
+            foreach (Doctor doc in doctors)
+            {
+                retTime = doc.getClosestFreeAppointment(duration);
+                if (retTime < start)
+                {
+                    start = retTime;
+                    doctor = doc;
+                }
+            }
+
+            if (limitTime == start)
+            {
+                return null;
+            }
+            AppointmentType type = Appointment.getTypeByDuration(duration);
+           
+
+            Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
+            appointment.Doctor = doctor;
+            return appointment;
+        }
+
+        public void AddNotification(Appointment appointment, DateTime oldStart)
+        {
+            string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
+            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.add(appointment, text);
+            delayedAppointmentNotificationController.Serialize();
+        }
+
 
         public void AcceptRequest(AppointmentRequest request)
         {
@@ -873,15 +893,18 @@ namespace HealthCare_System.factory
             AppointmentRequestController.Serialize();
         }
 
-        private void DeleteAppointmens(MedicalRecord medicalRecord)
+        private void DeleteAppointmens(Patient patient)
         {
             for (int i = appointmentController.Appointments.Count - 1; i >= 0; i--)
-            {
-                if (appointmentController.Appointments[i].Start > DateTime.Now)
+            { 
+                if (appointmentController.Appointments[i].Patient == patient)
                 {
-                    throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                    if (appointmentController.Appointments[i].Start > DateTime.Now)
+                    {
+                        throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                    }
+                    DeleteAppointment(appointmentController.Appointments[i].Id);
                 }
-                DeleteAppointment(appointmentController.Appointments[i].Id);
             }
         }
 
@@ -915,19 +938,17 @@ namespace HealthCare_System.factory
 
             try
             {
-                DeleteAppointmens(medicalRecord);
+                DeleteAppointmens(patient);
             }
             catch
             {
                 throw;
             }
-
+            DeleteDrugNotifications(patient);
             DeletePrescriptions(medicalRecord);
 
             medicalRecordController.MedicalRecords.Remove(medicalRecord);
             medicalRecordController.Serialize();
-
-            DeleteDrugNotifications(patient);
             
             patientController.Patients.Remove(patient);
             patientController.Serialize();
@@ -985,22 +1006,16 @@ namespace HealthCare_System.factory
         {
             bool available = true;
 
-            foreach (Appointment appointment in appointmentController.Appointments) 
+            available = IsRoomAvailableAppointments(room);
+            if (!available)
             {
-                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
-            foreach (Transfer transfer in transferController.Transfers)
+            available = transferController.IsRoomAvailable(room);
+            if (!available)
             {
-                if (room == transfer.FromRoom || room == transfer.ToRoom)
-                {
-                    available = false;
-                    break;
-                }
+                return available;
             }
 
             return available;
@@ -1016,5 +1031,387 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             roomController.DeleteRoom(room);
         }
+
+        public void AddPrescrition(Prescription prescription)
+        {
+            MedicalRecord medicalRecord = medicalRecordController.FindById(prescription.MedicalRecord.Id);
+            medicalRecord.ValidatePrescription(prescription);
+            medicalRecord.Prescriptions.Add(prescription);
+
+            prescriptionController.Prescriptions.Add(prescription);
+            prescriptionController.Serialize();
+        }
+        public bool IsRoomAvailableAppointments(Room room)
+        {
+            bool available = true;
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtAll(Room room)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtTime(Room room, DateTime time)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
+
+        public Dictionary<Equipment, int> InitalizeEquipment()
+        {
+            Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+            foreach (Equipment equipment in EquipmentController.Equipment)
+            {
+                equipmentAmount[equipment] = 0;
+            }
+            return equipmentAmount;
+        }
+
+        public void StartSimpleRenovation(SimpleRenovation simpleRenovation) 
+        {
+            simpleRenovation.Status = RenovationStatus.ACTIVE;
+            simpleRenovationController.Serialize();
+            roomController.MoveEquipmentToStorage(simpleRenovation.Room);
+            roomController.Serialize();
+        }
+
+        public void FinishSimpleRenovation(SimpleRenovation simpleRenovation) 
+        {
+            simpleRenovation.Status = RenovationStatus.FINISHED;
+            roomController.UpdateRoom(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
+            simpleRenovationController.SimpleRenovations.Remove(simpleRenovation);
+            simpleRenovationController.Serialize();
+        }
+
+        public void StartMergingRenovation(MergingRenovation mergingRenovation) 
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            mergingRenovationController.Serialize();
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                roomController.MoveEquipmentToStorage(room);
+            }
+            roomController.Serialize();
+        }
+
+        public void FinishMergingRenovation(MergingRenovation mergingRenovation) 
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                RemoveRoom(room);
+            }
+            Dictionary<Equipment, int> equipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(mergingRenovation.NewRoomName, mergingRenovation.NewRoomType, equipmentAmount);
+            mergingRenovationController.MergingRenovations.Remove(mergingRenovation);
+            mergingRenovationController.Serialize();
+        }
+
+        public void StartSplittingRenovation(SplittingRenovation splittingRenovation) 
+        {
+            splittingRenovation.Status = RenovationStatus.ACTIVE;
+            splittingRenovationController.Serialize();
+            roomController.MoveEquipmentToStorage(splittingRenovation.Room);
+            roomController.Serialize();
+        }      
+
+        public void FinishSplittingRenovation(SplittingRenovation splittingRenovation) 
+        {
+            splittingRenovation.Status = RenovationStatus.FINISHED;
+            RemoveRoom(splittingRenovation.Room);
+            Dictionary<Equipment, int> firstRoomEquipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(splittingRenovation.FirstNewRoomName, splittingRenovation.FirstNewRoomType,
+                firstRoomEquipmentAmount);
+            Dictionary<Equipment, int> secondRoomEquipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(splittingRenovation.SecondNewRoomName, splittingRenovation.SecondNewRoomType,
+                secondRoomEquipmentAmount);
+            splittingRenovationController.SplittingRenovations.Remove(splittingRenovation);
+            splittingRenovationController.Serialize();
+        }
+
+        public void TryToExecuteSimpleRenovations()
+        {
+            if (simpleRenovationController.SimpleRenovations.Count > 0)
+            {
+                foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+                {
+                    if (DateTime.Now >= simpleRenovation.EndingDate)
+                    {
+                        FinishSimpleRenovation(simpleRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= simpleRenovation.BeginningDate &&
+                        simpleRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartSimpleRenovation(simpleRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
+        public void TryToExecuteMergingRenovations()
+        {
+            if (mergingRenovationController.MergingRenovations.Count > 0)
+            {
+                foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+                {
+                    if (DateTime.Now >= mergingRenovation.EndingDate)
+                    {
+                        FinishMergingRenovation(mergingRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= mergingRenovation.BeginningDate &&
+                        mergingRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartMergingRenovation(mergingRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
+        public void TryToExecuteSplittingRenovations()
+        {
+            if (splittingRenovationController.SplittingRenovations.Count > 0)
+            {
+                foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
+                {
+                    if (DateTime.Now >= splittingRenovation.EndingDate)
+                    {
+                        FinishSplittingRenovation(splittingRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= splittingRenovation.BeginningDate &&
+                        splittingRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartSplittingRenovation(splittingRenovation);
+                        return;
+                    }
+                }
+            }
+            
+        }
+
+
+        private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
+        {
+            List<Appointment> appointments = new();
+            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
+            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            else if (DateTime.Now > todayEnd)
+                date=date.AddDays(1);
+            while (date.Date <= end.Date)
+            {
+                while (date < todayEnd)
+                {
+                    try
+                    {
+                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        appointment.Validate();
+                        appointments.Add(appointment);
+                        return appointments;
+                    }
+                    catch
+                    {
+                    }
+                    date=date.AddMinutes(1);
+                }
+                todayStart = todayStart.AddDays(1);
+                todayEnd = todayEnd.AddDays(1);
+                date = todayStart;
+
+
+            }
+
+
+            return null;
+
+        }
+
+        private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
+        {
+            List<Appointment> appointments = new();
+            DateTime todayStart = DateTime.Now.Date;
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            while (date <= end)
+            {
+                try
+                {
+                    Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                    Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                    (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                    appointment.Validate();
+                    appointments.Add(appointment);
+                    return appointments;
+                }
+                catch
+                {
+                }
+                date = date.AddMinutes(1);
+            }
+            return null;
+
+        }
+
+        private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
+        {
+            List<Appointment> appointments = new();
+            DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
+            DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            else if (DateTime.Now > todayEnd)
+                date = date.AddDays(1);
+            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            foreach (Doctor doctor in doctors)
+            {
+                while (date.Date <= end.Date)
+                {
+                    while (date < todayEnd)
+                    {
+                        try
+                        {
+                            Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                            Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                            appointment.Validate();
+                            appointments.Add(appointment);
+                            return appointments;
+                        }
+                        catch{}
+                        date = date.AddMinutes(1);
+                    }
+                    todayStart = todayStart.AddDays(1);
+                    todayEnd = todayEnd.AddDays(1);
+                    date = todayStart;
+                }
+            }
+            return null;
+
+        }
+
+        public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to)
+        {
+            DateTime todayStart = end.AddDays(1);
+            DateTime date = todayStart;
+            int id = appointmentController.GenerateId();
+            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            List<Appointment> appointments = new();
+            while (true)
+            {
+                foreach (Doctor doctor in doctors)
+                {
+                    try
+                    {
+                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        appointment.Validate();
+                        appointments.Add(appointment);
+                        if (appointments.Count == 3)
+                            return appointments;
+                    }
+                    catch
+                    {
+                    }
+
+
+                    date = date.AddMinutes(1);
+                }
+            }
+
+        }
+        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor)
+        {
+            List<Appointment> appointments=SearchDoubleCriterium(end, from, to, doctor);
+            if (appointments != null)
+                return appointments;
+            if (priorityDoctor)
+            {
+                appointments = SearchPriorityDoctor(end, doctor);
+                if (appointments != null)
+                    return appointments;
+                appointments = SearchPriorityDate(end,from,to);
+                if (appointments != null)
+                    return appointments;
+            }
+            else
+            {
+                appointments = SearchPriorityDate(end, from, to);
+                if (appointments != null)
+                    return appointments;
+                appointments = SearchPriorityDoctor(end, doctor);
+                if (appointments != null)
+                    return appointments;
+                
+            }
+            return SearchNoPriority(end, from, to);
+
+        }
+
+
     }
+
+    
 }

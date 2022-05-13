@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="gui\DelayedAppointmentNotificationWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="gui\EquipmentMoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -9,6 +12,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="gui\PatientWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="gui\PrescriptionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="gui\ReferralWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="gui\RequestDetailsWindow.xaml.cs">
@@ -19,6 +28,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="gui\DelayedAppointmentNotificationWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="gui\EquipmentMoveWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -26,6 +38,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\PatientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\PrescriptionWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\ReferralWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\RequestDetailsWindow.xaml">

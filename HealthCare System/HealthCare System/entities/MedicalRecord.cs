@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.entities
@@ -13,12 +14,14 @@ namespace HealthCare_System.entities
         List<Appointment> appointments;
         List<Ingredient> allergens;
         List<Prescription> prescriptions;
+        List<Referral> referrals;
 
         public MedicalRecord() 
         {
             appointments = new List<Appointment>();
             allergens = new List<Ingredient>();
             prescriptions = new List<Prescription>();
+            referrals = new List<Referral>();
         }
 
         public MedicalRecord(int id, Patient patient, double height, double weight, 
@@ -33,6 +36,7 @@ namespace HealthCare_System.entities
             this.appointments = appointments;
             this.allergens = allergens;
             this.prescriptions = prescriptions;
+            referrals = new List<Referral>();
         }
 
         public MedicalRecord(MedicalRecord medicalRecord)
@@ -45,6 +49,7 @@ namespace HealthCare_System.entities
             appointments = medicalRecord.appointments;
             allergens = medicalRecord.allergens;
             prescriptions = medicalRecord.prescriptions;
+            referrals = medicalRecord.referrals;
         }
 
         public MedicalRecord(int id, double height, double weight, string diseaseHistory)
@@ -56,6 +61,7 @@ namespace HealthCare_System.entities
             appointments = new List<Appointment>();
             allergens = new List<Ingredient>();
             prescriptions = new List<Prescription>();
+            referrals = new List<Referral>();
         }
 
         public MedicalRecord(int id, double height, double weight, string diseaseHistory, List<Ingredient> allergens)
@@ -67,6 +73,7 @@ namespace HealthCare_System.entities
             this.allergens = allergens;
             appointments = new List<Appointment>();
             prescriptions = new List<Prescription>();
+            referrals = new List<Referral>();
         }
 
         [JsonPropertyName("id")]
@@ -92,6 +99,26 @@ namespace HealthCare_System.entities
 
         [JsonIgnore]
         public List<Prescription> Prescriptions { get => prescriptions; set => prescriptions = value; }
+
+        [JsonIgnore]
+        public List<Referral> Referrals { get => referrals; set => referrals = value; }
+
+        public bool IsDateValid(DateTime existingStart, DateTime existingEnd, DateTime newStart, DateTime newEnd)
+        {
+            return (existingStart <= newStart && existingEnd >= newStart) ||
+                    (existingStart <= newEnd && existingEnd >= newEnd) ||
+                    (newStart <= existingStart && newEnd >= existingEnd);
+        }
+
+        public void ValidatePrescription(Prescription prescription)
+        {
+            foreach (Prescription existing in prescriptions)
+            {
+                bool dateNotValid = IsDateValid(existing.Start, existing.End, prescription.Start, prescription.End);
+                if (existing.Drug.Id == prescription.Drug.Id && dateNotValid)
+                    throw new Exception("Chosen drug is already precribed in that time period!");
+            }
+        }
 
         public override string ToString()
         {

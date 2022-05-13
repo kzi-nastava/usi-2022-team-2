@@ -74,6 +74,72 @@ namespace HealthCare_System.entities
             return true;
         }
 
+        public DateTime getNextFreeAppointment(DateTime start, DateTime end)
+        {
+            foreach (DateTime date in freeDates)
+            {
+                if (start.Date == date.Date)
+                {
+                    return start.AddDays(1);
+                }
+            }
+            foreach (Appointment appointment in appointments)
+            {
+                if ((appointment.Start <= start && appointment.End >= start) ||
+                    (appointment.Start <= end && appointment.End >= end) ||
+                    (start <= appointment.Start && end >= appointment.End))
+                {
+                    return appointment.End.AddMinutes(1);
+                }
+            }
+            return start;
+        }
+
+        public Appointment getNextAppointment(DateTime currentTime, int duration)
+        {
+            Appointment retAppointment = null;
+            
+            foreach (Appointment appointment in appointments)
+            {
+                if((appointment.Start > currentTime) && (retAppointment == null)) 
+                { 
+                    retAppointment = appointment;
+                    continue;
+                }
+                if (appointment.Start > currentTime && 
+                    appointment.Start < retAppointment.Start 
+                    && appointment.Start.AddMinutes(duration) <= appointment.End)
+                {
+                    retAppointment = appointment;
+                }
+            }
+            return retAppointment;
+
+        }
+    
+
+        public DateTime getClosestFreeAppointment(int duration)
+        {
+            DateTime currentClosest = DateTime.Now;
+            DateTime lastClosest = currentClosest;
+            
+            while (true)
+            {
+                currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
+                while (!(IsAvailable(currentClosest, currentClosest.AddMinutes(duration))))
+                {
+                    currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
+                }
+                if (currentClosest == lastClosest)
+                {
+                    break;
+                }
+                lastClosest = currentClosest;
+            }
+
+            return currentClosest;
+        }
+
         public List<Appointment> FilterAppointments(DateTime date)
         {
             List<Appointment> upcoming = new();
