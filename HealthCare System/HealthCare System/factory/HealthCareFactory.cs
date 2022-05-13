@@ -835,14 +835,14 @@ namespace HealthCare_System.factory
         {
             DateTime limitTime = DateTime.Now.AddHours(2);
             DateTime start = limitTime;
-            DateTime retTime;
+            DateTime closestTimeForDoctor;
             Doctor doctor = doctors[0];
             foreach (Doctor doc in doctors)
             {
-                retTime = doc.getClosestFreeAppointment(duration);
-                if (retTime < start)
+                closestTimeForDoctor = doc.getClosestFreeAppointment(duration);
+                if (closestTimeForDoctor < start)
                 {
-                    start = retTime;
+                    start = closestTimeForDoctor;
                     doctor = doc;
                 }
             }
