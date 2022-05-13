@@ -39,6 +39,7 @@ namespace HealthCare_System.gui
             SetEmergencyAppTab();
             FillListBoxPatients();
             FillListBoxRequests();
+            FillListBoxReferrals();
         }
 
         private void SetEmergencyAppTab()
@@ -84,10 +85,28 @@ namespace HealthCare_System.gui
 
         private void FillListBoxAppointments(List<Doctor> doctors, int duration)
         {
+            listBoxAppointments.Items.Clear();
             replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
             foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
             {
                 listBoxAppointments.Items.Add(item.Key);
+            }
+        }
+
+        private void FillListBoxReferrals()
+        {
+            listBoxReferrals.Items.Clear();
+            foreach (Referral referral in factory.ReferralController.Referrals)
+            {
+                if (referral.Used == false)
+                {
+                    listBoxReferrals.Items.Add(referral);
+                }
+            }
+
+            if (listBoxReferrals.Items.Count == 0)
+            {
+                listBoxReferrals.Items.Add("There isn't any unused referral.");
             }
         }
 
@@ -291,6 +310,21 @@ namespace HealthCare_System.gui
             factory.AddNotification(toReplaceAppointment, newAppointment.Start);
 
             MessageBox.Show("Doctor and patient are informed about appointment delay.");
+        }
+
+        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bookByRefferalBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
