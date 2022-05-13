@@ -1,4 +1,5 @@
-﻿using HealthCare_System.entities;
+﻿using HealthCare_System.controllers;
+using HealthCare_System.entities;
 using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace HealthCare_System.gui
             this.factory = factory;
             InitializeComponent();
             InitializeDoctors();
+            InitializeAnamnesesTab();
             recommendedDoctorCb.SelectedItem = indexedDoctors[0];
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedAppointmentsHistory = new Dictionary<int, Appointment>();
@@ -61,6 +63,14 @@ namespace HealthCare_System.gui
                 }
                 iterationNum++;
             }
+        }
+
+        public void InitializeAnamnesesTab()
+        {
+            sortingDirectionCb.ItemsSource = Enum.GetValues(typeof(SortDirection));
+            sortingDirectionCb.SelectedIndex = 0;
+            sortCriteriumCb.ItemsSource = Enum.GetValues(typeof(AnamnesesSortCriterium));
+            sortCriteriumCb.SelectedIndex = 0;
         }
         public void InitializeDoctors()
         {
@@ -372,7 +382,57 @@ namespace HealthCare_System.gui
         {
             UpdateAppointmentHistory();
         }
+        private void anamnesesSearchTb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
+            {
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
+                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
+                sortedAnamnesesLb.Items.Clear();
+                foreach (Appointment appointment in sortedAppointments)
+                {
+                    sortedAnamnesesLb.Items.Add(appointment);
+                }
+            }
+            else
+                sortedAnamnesesLb.Items.Clear();
+        }
 
+        private void sortCriteriumCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
+            {
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
+                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
+                sortedAnamnesesLb.Items.Clear();
+                foreach (Appointment appointment in sortedAppointments)
+                {
+                    sortedAnamnesesLb.Items.Add(appointment);
+                }
+            }
+            else
+                sortedAnamnesesLb.Items.Clear();
+        }
+
+        private void sortingDirectionCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
+            {
+                List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses((Patient)factory.User, anamnesesSearchTb.Text,
+                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
+                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
+                sortedAnamnesesLb.Items.Clear();
+                foreach (Appointment appointment in sortedAppointments)
+                {
+                    sortedAnamnesesLb.Items.Add(appointment);
+                }
+            }
+            else
+                sortedAnamnesesLb.Items.Clear();
+        }
+        
         private void SearchRecommendationBtn_Click(object sender, RoutedEventArgs e)
         {
             DateTime recommendedEndDate = reccomendedEndDateDp.SelectedDate.Value;
@@ -449,6 +509,5 @@ namespace HealthCare_System.gui
         {
             return new DateTime(date.Year, date.Month, date.Day, time[0], time[1], 0);
         }
-
     }
 }
