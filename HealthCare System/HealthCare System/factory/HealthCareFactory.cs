@@ -730,8 +730,14 @@ namespace HealthCare_System.factory
         {
 
             List<Room> rooms = roomController.GetRoomsByType(type);
+
+            foreach (Room room in rooms)
+                if (IsRoomAvailableRenovationsAtTime(room, start))
+                    rooms.Remove(room);
+
             foreach (Appointment appointment in appointmentController.Appointments)
             {
+
                 if (rooms.Contains(appointment.Room) && ((appointment.Start <= start && appointment.End >= start) ||
                     (appointment.Start <= end && appointment.End >= end) ||
                     (start <= appointment.Start && end >= appointment.End)))

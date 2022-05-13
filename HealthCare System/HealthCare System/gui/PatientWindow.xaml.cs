@@ -142,12 +142,6 @@ namespace HealthCare_System.gui
                 return;
             }
 
-            //TODO: Insert into validate?
-            if (start <= DateTime.Now)
-            {
-                MessageBox.Show("Appointment booked too soon.");
-                return;
-            }
             DateTime end = start.AddMinutes(15);
 
             try
