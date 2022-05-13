@@ -1,38 +1,32 @@
 [
   {
-    "seenByDoctor": true,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1001
+    "id": 1001,
+    "name": "Bromazepam",
+    "status": 1
   },
   {
-    "seenByDoctor": true,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1002
+    "id": 1002,
+    "name": "Alergosan",
+    "status": 1
   },
   {
-    "seenByDoctor": true,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1003
+    "id": 1003,
+    "name": "Bextra",
+    "status": 2
   },
   {
-    "seenByDoctor": true,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1004
+    "id": 1004,
+    "name": "Ozogamicin",
+    "status": 2
   },
   {
-    "seenByDoctor": true,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1005
+    "id": 1005,
+    "name": "Pemoline",
+    "status": 0
   },
   {
-    "seenByDoctor": false,
-    "seenByPatient": false,
-    "message": null,
-    "id": 1006
+    "id": 1006,
+    "name": "Pentobarbital",
+    "status": 0
   }
 ]
