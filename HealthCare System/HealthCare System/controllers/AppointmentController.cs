@@ -51,7 +51,7 @@ namespace HealthCare_System.controllers
 
             foreach (Appointment appointment in appointments)
             {
-                if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime)
+                if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime && appointment.Start <= currentTime.AddHours(2))
                 {
                     appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointment.Start, appointment.End);
                     while (!((appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)) &&
