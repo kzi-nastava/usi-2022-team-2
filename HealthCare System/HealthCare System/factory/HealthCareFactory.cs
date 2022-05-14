@@ -713,8 +713,10 @@ namespace HealthCare_System.factory
             referral.Used = true;
             referralController.Serialize();
 
-            return AddAppointment(closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor, referral.MedicalRecord.Patient,
-                AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
+            int id = appointmentController.GenerateId();
+            Appointment appointment = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
+                referral.MedicalRecord.Patient, null, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+            return AddAppointment(appointment);
 
         }
 
