@@ -37,8 +37,10 @@ namespace HealthCare_System.gui
             this.factory = factory;
             this.showingBlocked = false;
             SetEmergencyAppTab();
+            setReferralsTab();
             FillListBoxPatients();
             FillListBoxRequests();
+            FillListBoxReferrals();
         }
 
         private void SetEmergencyAppTab()
@@ -54,6 +56,14 @@ namespace HealthCare_System.gui
             foreach (int i in Enum.GetValues(typeof(Specialization)))
             {
                 cmbSpecialization.Items.Add((Specialization)i);
+            }
+        }
+
+        private void setReferralsTab()
+        {
+            foreach (Patient patient in factory.PatientController.Patients)
+            {
+                cmbPatientInReferrals.Items.Add(patient);
             }
         }
 
@@ -84,10 +94,43 @@ namespace HealthCare_System.gui
 
         private void FillListBoxAppointments(List<Doctor> doctors, int duration)
         {
+            listBoxAppointments.Items.Clear();
             replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
             foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
             {
                 listBoxAppointments.Items.Add(item.Key);
+            }
+        }
+
+        private void FillListBoxReferrals()
+        {
+            listBoxReferrals.Items.Clear();
+            Patient patient = (Patient)cmbPatientInReferrals.SelectedItem;
+            if (patient is null)
+            {
+                listBoxReferrals.Items.Add("There isn't any unused referral.");
+            }
+            else
+            {
+                foreach (MedicalRecord medicalRecord in factory.MedicalRecordController.MedicalRecords)
+                {
+                    if (medicalRecord.Patient == patient)
+                    {
+                        foreach (Referral referral in medicalRecord.Referrals)
+                        {
+                            if(referral.Used == false)
+                            {
+                                listBoxReferrals.Items.Add(referral);
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if (listBoxReferrals.Items.Count == 0)
+                {
+                    listBoxReferrals.Items.Add("There isn't any unused referral.");
+                }
             }
         }
 
@@ -242,7 +285,7 @@ namespace HealthCare_System.gui
         private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
             int duration = getDuration();
-            
+
             List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
             Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, duration, factory.AppointmentController.GenerateId());
 
@@ -250,11 +293,13 @@ namespace HealthCare_System.gui
             {
                 MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
                 FillListBoxAppointments(doctors, duration);
-                return;
             }
-            bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
-            factory.AddAppointment(bookedAppointment);
-            MessageBox.Show("You succesefully booked emergency appointment.");
+            else
+            {
+                bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+                factory.AddAppointment(bookedAppointment);
+                MessageBox.Show("You succesefully booked emergency appointment.");
+            }
         }
 
 
@@ -277,20 +322,41 @@ namespace HealthCare_System.gui
             {
                 MessageBox.Show("Select appointment You want to replace!");
             }
+            else
+            {
+                int duration = getDuration();
+                Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End,
+                                                            Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
+                newAppointment.Doctor = toReplaceAppointment.Doctor;
+                newAppointment.Patient = (Patient)cmbPatient.SelectedItem;
 
-            int duration = getDuration();
-            Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End, 
-                                                        Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
-            newAppointment.Doctor = toReplaceAppointment.Doctor;
-            newAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+                toReplaceAppointment.Start = replaceableAppointments[toReplaceAppointment];
+                toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
 
-            toReplaceAppointment.Start = replaceableAppointments[toReplaceAppointment];
-            toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
+                newAppointment = factory.AddAppointment(newAppointment);
+                factory.AddNotification(toReplaceAppointment, newAppointment.Start);
 
-            newAppointment = factory.AddAppointment(newAppointment);
-            factory.AddNotification(toReplaceAppointment, newAppointment.Start);
+                MessageBox.Show("Doctor and patient are informed about appointment delay.");
+            }
+        }
 
-            MessageBox.Show("Doctor and patient are informed about appointment delay.");
+        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FillListBoxReferrals();
+        }
+
+        private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Referral referral = (Referral)listBoxReferrals.SelectedItem;
+            if (referral is null)
+            {
+                MessageBox.Show("Select referral You want to use for new appointment!");
+            }
+            else
+            {
+                Appointment appointment = factory.BookAppointmentByReferral(referral);
+                MessageBox.Show("You successfully booked new appointment by selected referral.\nAppointment start: " + appointment.Start);
+            }
         }
     }
 }
