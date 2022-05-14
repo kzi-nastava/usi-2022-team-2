@@ -355,7 +355,7 @@ namespace HealthCare_System.gui
             else
             {
                 Appointment appointment = factory.BookAppointmentByReferral(referral);
-                MessageBox.Show("You successfully booked new appointment by selected referral.\nAppointment start: " + appointment.Start);
+                MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
         }
     }
