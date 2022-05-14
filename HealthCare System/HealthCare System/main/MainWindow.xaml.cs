@@ -33,7 +33,7 @@ namespace HealthCare_System
             string mail = mailTb.Text;
             string password = passwordTb.Password;
             Person person = factory.Login(mail, password);
-
+            factory.PrintContnent();
             if (person is null)
             {
                 MessageBox.Show("Invalid mail or password!");

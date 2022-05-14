@@ -15,7 +15,7 @@ namespace HealthCare_System.controllers
 
         public DelayedAppointmentNotificationController()
         {
-            path = "../../../data/entities/Drugs.json";
+            path = "../../../data/entities/DelayedAppointmentNotifications.json";
             Load();
         }
 

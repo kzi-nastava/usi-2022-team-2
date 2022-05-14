@@ -27,6 +27,12 @@ namespace HealthCare_System.gui
             this.factory = factory;
             InitializeComponent();
             InitializeComboBoxes(factory.RoomController.Rooms);
+            simpleStartDp.SelectedDate = DateTime.Today;
+            simpleEndDp.SelectedDate = DateTime.Today;
+            mergingStartDp.SelectedDate = DateTime.Today;
+            mergingEndDp.SelectedDate = DateTime.Today;
+            splittingStartDp.SelectedDate = DateTime.Today;
+            splittingEndDp.SelectedDate = DateTime.Today;
         }
 
         public void InitializeComboBoxes(List<Room> rooms)

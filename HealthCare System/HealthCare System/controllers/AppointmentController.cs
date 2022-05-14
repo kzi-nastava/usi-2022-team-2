@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace HealthCare_System.controllers
 {
+    public enum AnamnesesSortCriterium { DATE, DOCTOR, SPECIALIZATION};
+    public enum SortDirection { ASCENDING, DESCENDING};
     class AppointmentController
     {
         List<Appointment> appointments;
@@ -90,6 +93,57 @@ namespace HealthCare_System.controllers
                 csv += appointment.Id.ToString() + ";" + appointment.Doctor.Jmbg + ";" + appointment.Patient.Jmbg + ";" + roomId.ToString() + ";" + appointment.Anamnesis.Id.ToString()+"\n";
             }
             File.WriteAllText(linkPath, csv);
+        }
+
+        public List<Appointment> FindByWord(Patient patient, string word)
+        {
+            List<Appointment> results = new();
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                if (appointment.Anamnesis.Description.ToLower().Contains(word.ToLower()))
+                    results.Add(appointment);
+            }
+            return results;
+        }
+        public List<Appointment> SortByDate(List<Appointment> unsortedAppointments, SortDirection direction)
+        {
+            if (direction==SortDirection.ASCENDING)
+                return unsortedAppointments.OrderBy(x => x.Start).ToList();
+            else
+                return unsortedAppointments.OrderByDescending(x => x.Start).ToList();
+
+        }
+        public List<Appointment> SortByDoctor(List<Appointment> unsortedAppointments, SortDirection direction)
+        {
+            if (direction == SortDirection.ASCENDING)
+                return unsortedAppointments.OrderBy(x => x.Doctor.FirstName).ThenBy(x => x.Doctor.LastName).ToList();
+            else
+                return unsortedAppointments.OrderByDescending(x => x.Doctor.FirstName).ThenByDescending(x => x.Doctor.LastName).ToList();
+
+        }
+        public List<Appointment> SortBySpecialization(List<Appointment> unsortedAppointments, SortDirection direction)
+        {
+            if (direction == SortDirection.ASCENDING)
+                return unsortedAppointments.OrderBy(x => x.Doctor.Specialization).ToList();
+            else
+                return unsortedAppointments.OrderByDescending(x => x.Doctor.Specialization).ToList();
+
+        }
+        public List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium, SortDirection direction)
+        {
+            List<Appointment> unsortedAnamneses = FindByWord(patient, word);
+            if (criterium == AnamnesesSortCriterium.DATE)
+            {
+                return SortByDate(unsortedAnamneses, direction);
+            }
+            else if (criterium == AnamnesesSortCriterium.DOCTOR)
+            {
+                return SortByDoctor(unsortedAnamneses, direction);
+            }
+            else
+            {
+                return SortBySpecialization(unsortedAnamneses, direction);
+            }
         }
     }
 }
