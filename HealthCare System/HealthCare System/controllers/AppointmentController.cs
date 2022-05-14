@@ -57,6 +57,13 @@ namespace HealthCare_System.controllers
                     while (!((appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)) &&
                         appointment.Patient.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)))))
                     {
+                        if (appointment.Doctor.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration))
+                            && !appointment.Patient.IsAvailable(appointmentsDict[appointment], appointmentsDict[appointment].AddMinutes(duration)))
+                        {
+                            appointmentsDict[appointment] = appointmentsDict[appointment].AddMinutes(duration);
+                            continue;
+                        }
+
                         appointmentsDict[appointment] = appointment.Doctor.getNextFreeAppointment(appointmentsDict[appointment], 
                                                                                                   appointmentsDict[appointment].AddMinutes(duration));
                     }

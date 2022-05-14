@@ -118,7 +118,7 @@ namespace HealthCare_System.entities
         }
     
 
-        public DateTime getClosestFreeAppointment(int duration)
+        public DateTime getClosestFreeAppointment(int duration, Patient patient)
         {
             DateTime currentClosest = DateTime.Now;
             DateTime lastClosest = currentClosest;
@@ -126,8 +126,13 @@ namespace HealthCare_System.entities
             while (true)
             {
                 currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
-                while (!(IsAvailable(currentClosest, currentClosest.AddMinutes(duration))))
+                while (!(IsAvailable(currentClosest, currentClosest.AddMinutes(duration)) && patient.IsAvailable(currentClosest, currentClosest.AddMinutes(duration))))
                 {
+                    if (IsAvailable(currentClosest, currentClosest.AddMinutes(duration)) && !patient.IsAvailable(currentClosest, currentClosest.AddMinutes(duration)))
+                    {
+                        currentClosest = currentClosest.AddMinutes(duration);
+                        continue;
+                    }
                     currentClosest = getNextFreeAppointment(currentClosest, currentClosest.AddMinutes(duration));
                 }
                 if (currentClosest == lastClosest)

@@ -672,7 +672,7 @@ namespace HealthCare_System.factory
             anamnesisController.Serialize();
         }
 
-        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, int duration, int id)
+        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, Patient patient, int duration)
         {
             DateTime limitTime = DateTime.Now.AddHours(2);
             DateTime start = limitTime;
@@ -680,7 +680,7 @@ namespace HealthCare_System.factory
             Doctor doctor = doctors[0];
             foreach (Doctor doc in doctors)
             {
-                closestTimeForDoctor = doc.getClosestFreeAppointment(duration);
+                closestTimeForDoctor = doc.getClosestFreeAppointment(duration, patient);
                 if (closestTimeForDoctor < start)
                 {
                     start = closestTimeForDoctor;
@@ -693,8 +693,8 @@ namespace HealthCare_System.factory
                 return null;
             }
             AppointmentType type = Appointment.getTypeByDuration(duration);
-           
 
+            int id = appointmentController.GenerateId();
             Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
             appointment.Doctor = doctor;
             return appointment;
@@ -708,7 +708,7 @@ namespace HealthCare_System.factory
                 doctor = doctorController.FindBySpecialization(referral.Specialization)[0];
             }
 
-            DateTime closestTimeForDoctor = doctor.getClosestFreeAppointment(15);
+            DateTime closestTimeForDoctor = doctor.getClosestFreeAppointment(15, referral.MedicalRecord.Patient);
 
             referral.Used = true;
             referralController.Serialize();

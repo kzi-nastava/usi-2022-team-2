@@ -287,7 +287,7 @@ namespace HealthCare_System.gui
             int duration = getDuration();
 
             List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
-            Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, duration, factory.AppointmentController.GenerateId());
+            Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, (Patient)cmbPatient.SelectedItem, duration);
 
             if (bookedAppointment == null)
             {
