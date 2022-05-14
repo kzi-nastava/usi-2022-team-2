@@ -14,7 +14,7 @@
         <Label Content="Room:" HorizontalAlignment="Left" Margin="52,139,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.481,0.55"/>
         <Label Content="Type:" HorizontalAlignment="Left" Margin="63,180,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label Content="Anamnesis:" HorizontalAlignment="Left" Margin="8,223,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button x:Name="closeBtn" Content="Close" HorizontalAlignment="Center" Margin="0,293,0,0" VerticalAlignment="Top" Width="118" Click="closeBtn_Click"/>
+        <Button x:Name="closeBtn" Content="Close" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" Width="118" Click="closeBtn_Click"/>
         <Label x:Name="startL" Content="Start:" HorizontalAlignment="Left" Margin="123,23,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label x:Name="endL" Content="Start:" HorizontalAlignment="Left" Margin="123,59,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label x:Name="doctorL" Content="Start:" HorizontalAlignment="Left" Margin="126,102,0,0" VerticalAlignment="Top" FontSize="20"/>

@@ -17,6 +17,7 @@ namespace HealthCare_System.gui
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
         Dictionary<int,Appointment> indexedAppointments;
+        Dictionary<int,Appointment> indexedAnamneses;
         Dictionary<int,Appointment> indexedRecommendations;
         Dictionary<int,Appointment> indexedAppointmentsHistory;
         Patient user;
@@ -26,6 +27,7 @@ namespace HealthCare_System.gui
             Title = factory.User.FirstName + " " + factory.User.LastName;
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedAppointmentsHistory = new Dictionary<int, Appointment>();
+            indexedAnamneses= new Dictionary<int, Appointment>();
             indexedRecommendations = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
             indexedDoctors = new Dictionary<int, Doctor>();
@@ -41,6 +43,7 @@ namespace HealthCare_System.gui
             recommendedDoctorCb.SelectedItem = indexedDoctors[0];
             datePicker.DisplayDateStart = DateTime.Now;
             datePickerEdit.DisplayDateStart = DateTime.Now;
+            reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
 
             DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
         }
@@ -95,6 +98,23 @@ namespace HealthCare_System.gui
 
                 index++;
             }
+        }
+        public void UpdateAnamneses( List<Appointment> appointments)
+        {
+            indexedAnamneses.Clear();
+            sortedAnamnesesLb.Items.Clear();
+
+            int iterationNum = 0;
+
+            foreach (Appointment appointment in appointments)
+            {
+                indexedAnamneses.Add(iterationNum, appointment);
+
+                sortedAnamnesesLb.Items.Add(appointment.Anamnesis.Description);
+                
+                iterationNum++;
+            }
+
         }
         public void UpdateDoctors(Specialization specialization)
         {
@@ -399,10 +419,7 @@ namespace HealthCare_System.gui
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
 
 
-                foreach (Appointment appointment in sortedAppointments)
-                {
-                    sortedAnamnesesLb.Items.Add(appointment.Anamnesis.Description);
-                }
+                UpdateAnamneses(sortedAppointments);
             }
         }
 
@@ -414,11 +431,9 @@ namespace HealthCare_System.gui
                 List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses(user, anamnesesSearchTb.Text,
                    (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-                
-                foreach (Appointment appointment in sortedAppointments)
-                {
-                    sortedAnamnesesLb.Items.Add(appointment);
-                }
+
+
+                UpdateAnamneses(sortedAppointments);
             }
         }
 
@@ -430,18 +445,17 @@ namespace HealthCare_System.gui
                 List<Appointment> sortedAppointments = factory.AppointmentController.SortAnamneses(user, anamnesesSearchTb.Text,
                    (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
                    (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-                
-                foreach (Appointment appointment in sortedAppointments)
-                {
-                    sortedAnamnesesLb.Items.Add(appointment);
-                }
+
+
+                UpdateAnamneses(sortedAppointments);
             }
         }
         
         private void SearchRecommendationBtn_Click(object sender, RoutedEventArgs e)
         {
             DateTime recommendedEndDate = reccomendedEndDateDp.SelectedDate.Value;
-
+            indexedRecommendations.Clear();
+            recommendedAppointmentsLb.Items.Clear();
             int[] timeTupleFrom = ValidateTime(recommendedFromTb.Text);
             int[] timeTupleTo = ValidateTime(recommendedToTb.Text);
 
@@ -451,7 +465,7 @@ namespace HealthCare_System.gui
             if (appointments.Count==1)
             {
                 doctorCb.SelectedItem = appointments[0].Doctor.FirstName + " " + appointments[0].Doctor.LastName;
-                timeTb.Text = appointments[0].Start.ToString("hh:mm");
+                timeTb.Text = appointments[0].Start.ToString("HH:mm");
                 datePicker.SelectedDate = appointments[0].Start.Date;
             }
             else
@@ -459,8 +473,8 @@ namespace HealthCare_System.gui
                 for (int i = 0; i < appointments.Count; i++)
                 {
                     indexedRecommendations.Add(i, appointments[i]);
-                    string appointmentSummary = appointments[i].Doctor + "\t" + appointments[i].Start.ToString("dd/MM/yyyy hh:mm");
-                    recommendedAppointmentsLb.Items.Add(appointments[i].Doctor);
+                    string appointmentSummary = appointments[i].Doctor.FirstName + appointments[i].Doctor.LastName + "\t" + appointments[i].Start.ToString("dd/MM/yyyy HH:mm");
+                    recommendedAppointmentsLb.Items.Add(appointmentSummary);
                 }
 
             }
@@ -470,30 +484,17 @@ namespace HealthCare_System.gui
             var item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
             if (item != null)
             {
-                if (appointmentHistoryLb.SelectedIndex != -1)
+                if (recommendedAppointmentsLb.SelectedIndex != -1)
                 {
                     Appointment appointment = indexedRecommendations[recommendedAppointmentsLb.SelectedIndex];
                     doctorCb.SelectedItem = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
-                    timeTb.Text = appointment.Start.ToString("hh:mm");
+                    timeTb.Text = appointment.Start.ToString("HH:mm");
                     datePicker.SelectedDate = appointment.Start.Date;
                 }
 
             }
         }
 
-        private void AppointmentHistoryListBox_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
-            if (item != null)
-            {
-                if(appointmentHistoryLb.SelectedIndex!=-1)
-                {
-                    Appointment appointment = indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex];
-                    MessageBox.Show(appointment.Anamnesis.Description);
-                }
-
-            }
-        }
 
         private int[] ValidateTime(string time)
         {
@@ -514,6 +515,17 @@ namespace HealthCare_System.gui
         private DateTime CombineDateTime(DateTime date,int[] time)
         {
             return new DateTime(date.Year, date.Month, date.Day, time[0], time[1], 0);
+        }
+
+        private void searchAnamneses_Click(object sender, RoutedEventArgs e)
+        {
+            if (sortedAnamnesesLb.SelectedIndex != -1)
+            {
+                Appointment appointment = indexedAnamneses[sortedAnamnesesLb.SelectedIndex];
+                AppointmentInfo infoWindow = new AppointmentInfo(appointment);
+                infoWindow.Show();
+            }
+
         }
     }
 }
