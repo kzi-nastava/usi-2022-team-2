@@ -3,8 +3,6 @@ using HealthCare_System.entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Mail;
 using System.Windows;
 
 namespace HealthCare_System.factory
@@ -595,145 +593,15 @@ namespace HealthCare_System.factory
         }
         #endregion
 
-        public void PrintContnent()
-        {
-            Console.WriteLine("Anamneses:");
-            foreach (Anamnesis anamnesis in anamnesisController.Anamneses)
-                Console.WriteLine(anamnesis.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Appointments:");
-            foreach (Appointment appointment in appointmentController.Appointments)
-                Console.WriteLine(appointment.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("AppointmentRequests:");
-            foreach (AppointmentRequest appointmentRequest in appointmentRequestController.AppointmentRequests)
-                Console.WriteLine(appointmentRequest.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("DaysOffNotifications:");
-            foreach (DaysOffNotification daysOffNotification in daysOffNotificationController.DaysOffNotifications)
-                Console.WriteLine(daysOffNotification.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("DaysOffRequests:");
-            foreach (DaysOffRequest daysOffRequest in daysOffRequestController.DaysOffRequests)
-                Console.WriteLine(daysOffRequest.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("DelayedAppointmentNotification:");
-            foreach (DelayedAppointmentNotification delayedAppointmentNotification in 
-                delayedAppointmentNotificationController.DelayedAppointmentNotifications)
-                Console.WriteLine(delayedAppointmentNotification.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Doctors:");
-            foreach (Doctor doctor in doctorController.Doctors)
-                Console.WriteLine(doctor.ToString() + " appointments:" + doctor.Appointments.Count);
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("DoctorSurvey:");
-            foreach (DoctorSurvey doctorSurvey in doctorSurveyController.DoctorSurveys)
-                Console.WriteLine(doctorSurvey.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Drug:");
-            foreach (Drug drug in drugController.Drugs)
-                Console.WriteLine(drug.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("DrugNotification:");
-            foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
-                Console.WriteLine(drugNotification.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Equipment:");
-            foreach (Equipment equipment in equipmentController.Equipment)
-                Console.WriteLine(equipment.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("HospitalSurvey:");
-            foreach (HospitalSurvey hospitalSurvey in hospitalSurveyController.HospitalSurveys)
-                Console.WriteLine(hospitalSurvey.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Ingredient:");
-            foreach (Ingredient ingredient in ingredientController.Ingredients)
-                Console.WriteLine(ingredient.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Manager:");
-            foreach (Manager manager in managerController.Managers)
-                Console.WriteLine(manager.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("MedicalRecord:");
-            foreach (MedicalRecord medicalRecord in medicalRecordController.MedicalRecords)
-                Console.WriteLine(medicalRecord.ToString() + " appointments: " + medicalRecord.Appointments.Count);
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("MergintRenovations:");
-            foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
-                Console.WriteLine(mergingRenovation.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Patient:");
-            foreach (Patient patient in patientController.Patients)
-                Console.WriteLine(patient.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Prescription:");
-            foreach (Prescription prescription in prescriptionController.Prescriptions)
-                Console.WriteLine(prescription.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Refferal:");
-            foreach (Referral referral in referralController.Referrals)
-                Console.WriteLine(referral.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Room:");
-            foreach (Room room in roomController.Rooms)
-                Console.WriteLine(room.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("SimpleRenovation:");
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
-                Console.WriteLine(simpleRenovation.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("SplittingRenovation:");
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
-                Console.WriteLine(splittingRenovation.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("SupplyRequest:");
-            foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
-                Console.WriteLine(supplyRequest.ToString());
-            Console.WriteLine("-------------------------------------------");
-
-            Console.WriteLine("Transfer:");
-            if (transferController.Transfers.Count == 0)
-            {
-                Console.WriteLine("No transfers");
-            }
-            else
-            {
-                foreach (Transfer transfer in transferController.Transfers)
-                    Console.WriteLine(transfer.ToString());
-                Console.WriteLine("-------------------------------------------");
-            }    
-        }
-
         public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
         {
 
-            List<Room> rooms = roomController.GetRoomsByType(type);
+            List<Room> rooms = new List<Room>();
 
-           /* foreach (Room room in rooms)
+
+            foreach (Room room in roomController.GetRoomsByType(type))
                 if (IsRoomAvailableRenovationsAtTime(room, start))
-                    rooms.Remove(room);*/
+                    rooms.Add(room);
 
             foreach (Appointment appointment in appointmentController.Appointments)
             {
@@ -745,42 +613,12 @@ namespace HealthCare_System.factory
                     rooms.Remove(appointment.Room);
                 }
             }
+
             if (rooms.Count == 0)
             {
                 return null;
             }
             return rooms[0];
-        }
-
-        public Appointment AddAppointment(DateTime start, DateTime end, Doctor doctor, 
-            Patient patient, AppointmentType type, AppointmentStatus status, bool emergency)
-        {
-            Room room = AvailableRoom(type, start, end);
-            if (!doctor.IsAvailable(start, end))
-            {
-                throw new Exception("Doctor is not available!");
-            }
-            if (!patient.IsAvailable(start, end))
-            {
-                throw new Exception("Patient is not available!");
-            }
-            if (room is null)
-            {
-                throw new Exception("Room is not found!");
-            }
-            int appointmentId = appointmentController.GenerateId();
-            int anamnesisId = anamnesisController.GenerateId();
-            Anamnesis anamnesis = new Anamnesis(anamnesisId, "");
-            Appointment appointment = new Appointment(appointmentId, start, end, doctor, patient,
-                room, type, status, anamnesis, false, emergency);
-            appointmentController.Appointments.Add(appointment);
-            doctor.Appointments.Add(appointment);
-            patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisController.Anamneses.Add(anamnesis);
-            appointmentController.Serialize();
-            anamnesisController.Serialize();
-            return appointment;
-
         }
 
         public Appointment AddAppointment(Appointment appointment)
@@ -805,19 +643,16 @@ namespace HealthCare_System.factory
 
         }
 
-        public void UpdateAppointment(int id, DateTime start, DateTime end, Doctor doctor,
-            Patient patient,AppointmentStatus status)
+        public void UpdateAppointment(Appointment newAppointment)
         {
-            Appointment appointment = appointmentController.FindById(id);
-            if (appointment is null)
-                throw new Exception("Appointment is not found!");
-            appointment.Validate();
+            newAppointment.Validate();
+            Appointment appointment = appointmentController.FindById(newAppointment.Id);
 
-            appointment.Start = start;
-            appointment.End = end;
-            appointment.Doctor = doctor;
-            appointment.Patient = patient;
-            appointment.Status = status;
+            appointment.Start = newAppointment.Start;
+            appointment.End = newAppointment.End;
+            appointment.Doctor = newAppointment.Doctor;
+            appointment.Patient = newAppointment.Patient;
+            appointment.Status = newAppointment.Status;
             appointmentController.Serialize();
 
         }

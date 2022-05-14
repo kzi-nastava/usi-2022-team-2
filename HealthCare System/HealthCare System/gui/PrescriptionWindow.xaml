@@ -15,7 +15,7 @@
         <DatePicker x:Name="endDate" HorizontalAlignment="Left" Margin="104,99,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" FirstDayOfWeek="Monday"/>
         <Label x:Name="frequencyLbl" Content="Frequency" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="89" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
         <TextBox x:Name="frequencyTb" HorizontalAlignment="Left" Margin="104,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="26" FontSize="15" FontWeight="Normal" PreviewTextInput="FrequencyTb_PreviewTextInput"/>
-        <Button x:Name="AddAllergensBtn" Content="Add" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="89" FontSize="15" Height="26" Click="AddAllergensBtn_Click"/>
+        <Button x:Name="AddDrugBtn" Content="Add" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="89" FontSize="15" Height="26" Click="AddDrugBtn_Click"/>
 
     </Grid>
 </Window>

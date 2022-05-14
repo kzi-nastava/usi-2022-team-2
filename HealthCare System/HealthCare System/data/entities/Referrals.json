@@ -1,27 +1,32 @@
-﻿[
+[
   {
     "id": 1001,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1002,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1003,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1004,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
   },
   {
     "id": 1005,
-    "specialization": 0,
-    "used": false
+    "used": false,
+    "specialization": 0
+  },
+  {
+    "id": 1006,
+    "used": false,
+    "specialization": 2
   }
 ]

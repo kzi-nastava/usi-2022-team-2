@@ -130,9 +130,8 @@ namespace HealthCare_System.gui
 
             DateTime date = datePicker.SelectedDate.Value;
             int[] time = ValidateTime(timeTb.Text);
-            if (time!=null)
+            if (time == null)
             {
-                MessageBox.Show("Invalid Time");
                 return;
             }
 
@@ -141,8 +140,10 @@ namespace HealthCare_System.gui
 
             try
             {
-                Appointment appointment=factory.AddAppointment(start, end, doctor, user, 
-                    AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
+                int id = factory.AppointmentController.GenerateId();
+                Appointment newAppointment = new(id, start, end, doctor, user, null,
+                    AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                Appointment appointment = factory.AddAppointment(newAppointment);
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
                     AppointmentState.ACCEPTED, user, appointment, null, RequestType.CREATE, DateTime.Now);
                 factory.AppointmentRequestController.Add(request);
@@ -210,10 +211,9 @@ namespace HealthCare_System.gui
             }
             Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
             DateTime date = datePickerEdit.SelectedDate.Value;
-            int[] time = ValidateTime(timeTb.Text);
-            if (time != null)
+            int[] time = ValidateTime(timeEditTb.Text);
+            if (time == null)
             {
-                MessageBox.Show("Invalid Time");
                 return;
             }
 
@@ -240,15 +240,19 @@ namespace HealthCare_System.gui
             try
             {
                 AppointmentState state = AppointmentState.ACCEPTED;
+                Appointment newAppointment = new(appointment.Id, start, end, appointment.Doctor,
+                        user, appointment.Room, appointment.Type, appointment.Status, appointment.Anamnesis, false,
+                        appointment.Emergency);
                 if (needConfirmation)
                 {
 
-                    requestedAppointment=factory.AddAppointment(start, end, doctor, user, appointment.Type, AppointmentStatus.ON_HOLD, false);
+                    requestedAppointment=factory.AddAppointment(newAppointment);
                     state = AppointmentState.WAITING;
                 }
                 else
                 {
-                    factory.UpdateAppointment(appointment.Id, start, end, doctor, user, AppointmentStatus.BOOKED);
+                    
+                    factory.UpdateAppointment(newAppointment);
                 }
                 
                 AppointmentRequest request = new AppointmentRequest(factory.AppointmentRequestController.GenerateId(),
@@ -279,7 +283,7 @@ namespace HealthCare_System.gui
                 Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
 
                 datePickerEdit.SelectedDate = appointment.Start;
-                timeEditTb.Text = appointment.Start.ToString("hh:mm");
+                timeEditTb.Text = appointment.Start.ToString("HH:mm");
 
                 UpdateDoctors(appointment.Doctor.Specialization);
                 foreach (KeyValuePair<int, Doctor> entry in indexedDoctorsEditTab)
@@ -500,13 +504,13 @@ namespace HealthCare_System.gui
             try
             {
                 int hour = Convert.ToInt32(time.Split(':')[0]);
-                int minute = Convert.ToInt32(time.Split(':')[1]);
+                int minute = Convert.ToInt32(time.Split(':')[1].Trim());
                 int[] timeTuple = { hour, minute };
                 return timeTuple;
             }
             catch
             {
-                MessageBox.Show("Invalid Date");
+                MessageBox.Show("Invalid time format.");
                 return null;
             }
 
