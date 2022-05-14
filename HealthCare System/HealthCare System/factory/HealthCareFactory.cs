@@ -731,9 +731,9 @@ namespace HealthCare_System.factory
 
             List<Room> rooms = roomController.GetRoomsByType(type);
 
-            foreach (Room room in rooms)
+           /* foreach (Room room in rooms)
                 if (IsRoomAvailableRenovationsAtTime(room, start))
-                    rooms.Remove(room);
+                    rooms.Remove(room);*/
 
             foreach (Appointment appointment in appointmentController.Appointments)
             {
