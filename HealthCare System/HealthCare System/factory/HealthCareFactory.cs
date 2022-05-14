@@ -1114,9 +1114,9 @@ namespace HealthCare_System.factory
             int id = appointmentController.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
-                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
             else if (DateTime.Now > todayEnd)
-                date=date.AddDays(1);
+                date = date.AddDays(1);
 
             while (date.Date <= end.Date)
             {
@@ -1152,7 +1152,7 @@ namespace HealthCare_System.factory
 
             int id = appointmentController.GenerateId();
             if (DateTime.Now > todayStart)
-                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
 
             while (date <= end)
             {
@@ -1184,7 +1184,7 @@ namespace HealthCare_System.factory
             int id = appointmentController.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
-                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
             else if (DateTime.Now > todayEnd)
                 date = date.AddDays(1);
             List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
