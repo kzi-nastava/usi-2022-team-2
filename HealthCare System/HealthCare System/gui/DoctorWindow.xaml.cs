@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HealthCare_System.gui
 {
@@ -201,13 +202,13 @@ namespace HealthCare_System.gui
             durationTb.Clear();
         }
 
-        private DateTime ValidateDate()
+        public static DateTime ValidateDate(DatePicker datePicker, TextBox textBox)
         {
             try 
             { 
-                DateTime date = appointmentDate.SelectedDate.Value;
-                int hour = Convert.ToInt32(timeTb.Text.Split(":")[0]);
-                int min = Convert.ToInt32(timeTb.Text.Split(":")[1]);
+                DateTime date = datePicker.SelectedDate.Value;
+                int hour = Convert.ToInt32(textBox.Text.Split(":")[0]);
+                int min = Convert.ToInt32(textBox.Text.Split(":")[1]);
                 DateTime start = new(date.Year, date.Month, date.Day, hour, min, 0);
                 return start;
             }
@@ -231,15 +232,23 @@ namespace HealthCare_System.gui
             return default(DateTime);
         }
 
-        private int ValidateDuration()
+        public static int ValidateTextBox(TextBox textBox, string message)
         {
             try
             {
-                return Convert.ToInt32(durationTb.Text);
+                int returnValue = Convert.ToInt32(textBox.Text);
+
+                if (returnValue == 0)
+                {
+                    MessageBox.Show(message + " must be at least 1!");
+                    return -1;
+                }
+
+                return returnValue;
             }
             catch
             {
-                MessageBox.Show("Duration must be an integer!");
+                MessageBox.Show(message + " must be an integer!");
                 return -1;
             }
         }
@@ -249,13 +258,13 @@ namespace HealthCare_System.gui
             int id = factory.AppointmentController.GenerateId();
             Patient patient = factory.PatientController.FindByJmbg(patientJmbgTb.Text);
 
-            DateTime start = ValidateDate();
+            DateTime start = ValidateDate(appointmentDate, timeTb);
             if (start == default(DateTime))
                 return null;
 
             AppointmentType type = (AppointmentType)typeCb.SelectedItem;
 
-            int duration = ValidateDuration();
+            int duration = ValidateTextBox(durationTb, "Duration");
             if (duration == -1)
                 return null;
 
@@ -298,42 +307,16 @@ namespace HealthCare_System.gui
             window.Show();
         }
 
-        private int ValidateHeight()
-        {
-            try
-            {
-                return Convert.ToInt32(heightTb.Text);
-            }
-            catch
-            {
-                MessageBox.Show("Height must be an integer!");
-                return -1;
-            }
-        }
-
-        private int ValidateWeight()
-        {
-            try
-            {
-                return Convert.ToInt32(weightTb.Text);
-            }
-            catch
-            {
-                MessageBox.Show("Weight must be an integer!");
-                return -1;
-            }
-        }
-
         private void EndBtn_Click(object sender, RoutedEventArgs e)
         {
             
             Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
 
-            int height = ValidateHeight();
+            int height = ValidateTextBox(heightTb, "Height");
             if (height == -1)
                 return;
 
-            int weight = ValidateWeight();
+            int weight = ValidateTextBox(weightTb, "Weight");
             if (weight == -1)
                 return;
 
@@ -365,6 +348,8 @@ namespace HealthCare_System.gui
             AddAllergensBtn.IsEnabled = false;
 
             RefreshBtn.IsEnabled = true;
+            RefreshAllergensBtn.IsEnabled = false;
+            RefreshPrescriptionsBtn.IsEnabled = false;
 
             heightTb.IsEnabled = false;
             weightTb.IsEnabled = false;

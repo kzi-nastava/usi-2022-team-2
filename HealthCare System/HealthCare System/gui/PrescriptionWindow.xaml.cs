@@ -72,27 +72,6 @@ namespace HealthCare_System.gui
             return drug;
         }
 
-        private int ValidateFrequency()
-        {
-            try
-            {
-                int frequency = Convert.ToInt32(frequencyTb.Text);
-
-                if (frequency == 0)
-                {
-                    MessageBox.Show("Frequency must be at least 1!");
-                    return -1;
-                }
-
-                return frequency;
-            }
-            catch
-            {
-                MessageBox.Show("Frequency must be an integer!");
-                return -1;
-            }
-        }
-
         private Prescription ValidatePrescription()
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;
@@ -109,7 +88,7 @@ namespace HealthCare_System.gui
             if (end == default(DateTime))
                 return null;
 
-            int frequency = ValidateFrequency();
+            int frequency = DoctorWindow.ValidateTextBox(frequencyTb, "Frequency");
             if (frequency == -1)
                 return null;
 
@@ -117,7 +96,7 @@ namespace HealthCare_System.gui
             return new(id, medicalRecord, start, end, frequency, drug);
         }
 
-        private void AddAllergensBtn_Click(object sender, RoutedEventArgs e)
+        private void AddDrugBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
