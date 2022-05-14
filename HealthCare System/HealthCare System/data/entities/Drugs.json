@@ -1,32 +1,32 @@
 [
   {
-    "id": 1001,
-    "name": "Bromazepam",
-    "status": 1
+    "id":1001,
+    "name":"Bromazepam",
+    "status":1
   },
   {
-    "id": 1002,
-    "name": "Alergosan",
-    "status": 1
+    "id":1002,
+    "name":"Alergosan",
+    "status":1
   },
   {
-    "id": 1003,
-    "name": "Bextra",
-    "status": 2
+    "id":1003,
+    "name":"Bextra",
+    "status":2
   },
   {
-    "id": 1004,
-    "name": "Ozogamicin",
-    "status": 2
+    "id":1004,
+    "name":"Ozogamicin",
+    "status":2
   },
   {
-    "id": 1005,
-    "name": "Pemoline",
-    "status": 0
+    "id":1005,
+    "name":"Pemoline",
+    "status":0
   },
   {
-    "id": 1006,
-    "name": "Pentobarbital",
-    "status": 0
+    "id":1006,
+    "name":"Pentobarbital",
+    "status":0
   }
 ]

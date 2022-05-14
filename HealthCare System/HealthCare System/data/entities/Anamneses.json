@@ -1,42 +1,90 @@
 [
   {
     "id": 1001,
-    "description": "Vule kralj"
+    "description": "Patient is healthy."
   },
   {
     "id": 1002,
-    "description": " Bolestan mnogo"
+    "description": "Patient is healthy."
   },
   {
     "id": 1003,
-    "description": "Kasljanje"
+    "description": "Patient is healthy."
   },
   {
     "id": 1004,
-    "description": "Bolestan malo"
+    "description": "Patient is healthy."
   },
   {
     "id": 1005,
-    "description": "Kijanje i kasljanje"
+    "description": "Patient is healthy."
   },
   {
     "id": 1006,
-    "description": "Depresija"
+    "description": "Patient is healthy."
   },
   {
     "id": 1007,
-    "description": "Depresivan i kijanje"
+    "description": "Patient is healthy."
   },
   {
     "id": 1008,
-    "description": "Umor od rada"
+    "description": "Patient is healthy."
   },
   {
     "id": 1009,
-    "description": "Umor od nerada"
+    "description": "Patient is healthy."
   },
   {
     "id": 1010,
-    "description": "Alegija"
+    "description": "Patient is healthy."
+  },
+  {
+    "id": 1011,
+    "description": ""
+  },
+  {
+    "id": 1012,
+    "description": ""
+  },
+  {
+    "id": 1013,
+    "description": ""
+  },
+  {
+    "id": 1014,
+    "description": ""
+  },
+  {
+    "id": 1015,
+    "description": ""
+  },
+  {
+    "id": 1016,
+    "description": ""
+  },
+  {
+    "id": 1017,
+    "description": ""
+  },
+  {
+    "id": 1018,
+    "description": ""
+  },
+  {
+    "id": 1019,
+    "description": ""
+  },
+  {
+    "id": 1020,
+    "description": ""
+  },
+  {
+    "id": 1021,
+    "description": ""
+  },
+  {
+    "id": 1022,
+    "description": ""
   }
 ]

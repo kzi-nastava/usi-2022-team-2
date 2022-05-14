@@ -865,6 +865,24 @@ namespace HealthCare_System.factory
             return appointment;
         }
 
+        public Appointment BookAppointmentByReferral(Referral referral)
+        {
+            Doctor doctor = referral.Doctor;
+            if (doctor is null)
+            {
+                doctor = doctorController.FindBySpecialization(referral.Specialization)[0];
+            }
+
+            DateTime closestTimeForDoctor = doctor.getClosestFreeAppointment(15);
+
+            referral.Used = true;
+            referralController.Serialize();
+
+            return AddAppointment(closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor, referral.MedicalRecord.Patient,
+                AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, false);
+
+        }
+
         public void AddNotification(Appointment appointment, DateTime oldStart)
         {
             string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
