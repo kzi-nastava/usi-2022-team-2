@@ -39,6 +39,11 @@ namespace HealthCare_System.controllers
             return null;
         }
 
+        public int GenerateId()
+        {
+            return supplyRequests[^1].Id + 1;
+        }
+
         public void Serialize()
         {
             string supplyRequestsJson = JsonSerializer.Serialize(supplyRequests, 

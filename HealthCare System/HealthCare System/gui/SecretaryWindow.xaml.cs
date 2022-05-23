@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,10 +38,8 @@ namespace HealthCare_System.gui
             this.factory = factory;
             this.showingBlocked = false;
             SetEmergencyAppTab();
-            setReferralsTab();
-            FillListBoxPatients();
-            FillListBoxRequests();
-            FillListBoxReferrals();
+            SetReferralsTab();
+            SetEquipmentTab();
         }
 
         private void SetEmergencyAppTab()
@@ -57,16 +56,68 @@ namespace HealthCare_System.gui
             {
                 cmbSpecialization.Items.Add((Specialization)i);
             }
+
+            FillListBoxPatients();
+            FillListBoxRequests();
         }
 
-        private void setReferralsTab()
+        private void SetReferralsTab()
         {
             foreach (Patient patient in factory.PatientController.Patients)
             {
                 cmbPatientInReferrals.Items.Add(patient);
             }
+
+            FillListBoxReferrals();
+
         }
 
+        private void SetEquipmentTab()
+        {
+            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            {
+                if (equipment.Dynamic) cmbEquipment.Items.Add(equipment);
+            }
+
+            FillListBoxEquipment();
+
+            if (listBoxEquipment.Items.Count == 0)
+            {
+                listBoxEquipment.Items.Add("There is currently enough amount of dynamic equipment.");
+            }
+        }
+
+        private void FillListBoxEquipment()
+        {
+            listBoxEquipment.Items.Clear();
+            Dictionary<Equipment, int> dynamicEquipment = new Dictionary<Equipment, int>();
+
+            foreach (Room room in factory.RoomController.Rooms)
+            {
+                foreach(Equipment currentEquipment in room.EquipmentAmount.Keys)
+                {
+                    if (currentEquipment.Dynamic)
+                    {
+                        if (dynamicEquipment.ContainsKey(currentEquipment))
+                        {
+                            dynamicEquipment[currentEquipment] += room.EquipmentAmount[currentEquipment];
+                        }
+                        else
+                        {
+                            dynamicEquipment[currentEquipment] = room.EquipmentAmount[currentEquipment];
+                        }
+                    }
+                }
+            }
+
+            foreach (Equipment equipment in dynamicEquipment.Keys)
+            {
+                if (dynamicEquipment[equipment] == 0)
+                {
+                    listBoxEquipment.Items.Add(equipment);
+                }
+            }
+        }
         private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
@@ -210,6 +261,11 @@ namespace HealthCare_System.gui
             FillListBoxPatients();
         }
 
+        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FillListBoxReferrals();
+        }
+
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
@@ -254,33 +310,6 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            factory.User = null;
-            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                MainWindow main = new MainWindow(factory);
-                main.Show();
-            }
-            else e.Cancel = true;
-        }
-
-        int getDuration()
-        {
-            int duration = 15;
-            if (isOperation)
-            {
-                try
-                {
-                    duration = Convert.ToInt32(textBoxDuration.Text);
-                }
-                catch 
-                {
-                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
-                }
-            }
-            return duration;
-        }
 
         private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
@@ -340,10 +369,6 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            FillListBoxReferrals();
-        }
 
         private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -358,5 +383,65 @@ namespace HealthCare_System.gui
                 MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
         }
+
+        private void orderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Equipment equipment = (Equipment)cmbEquipment.SelectedItem;
+            if (equipment is null)
+            {
+                MessageBox.Show("Select equipment You want to order!");
+            }
+            else
+            {
+                int quantity;
+                if (textBoxEquipmentQuantity.Text == "")
+                {
+                    quantity = 1;
+                }
+                else
+                {
+                    quantity = Convert.ToInt32(textBoxEquipmentQuantity.Text);
+                }
+
+                factory.AddSupplyRequest(equipment, quantity);
+
+                MessageBox.Show("You have succesefully orderd new equipment.");
+            }
+        }
+
+        int getDuration()
+        {
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
+                }
+            }
+            return duration;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            factory.User = null;
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
+            else e.Cancel = true;
+        }
+
     }
 }

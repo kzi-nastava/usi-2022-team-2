@@ -15,6 +15,14 @@ namespace HealthCare_System.entities
             orderDetails = new Dictionary<Equipment, int>();
         }
 
+        public SupplyRequest(int id, Equipment equipment, int quantity)
+        {
+            this.id = id;
+            this.requestCreated = DateTime.Now;
+            this.orderDetails = new Dictionary<Equipment, int>();
+            this.orderDetails[equipment] = quantity;
+        }
+
         public SupplyRequest(int id, DateTime requestCreated)
         {
             this.id = id;

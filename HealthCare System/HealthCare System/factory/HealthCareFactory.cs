@@ -834,6 +834,13 @@ namespace HealthCare_System.factory
             medicalRecordController.Serialize();
         }
 
+        public void AddSupplyRequest(Equipment equipment, int quantity)
+        {
+            SupplyRequest supplyRequest = new SupplyRequest(supplyRequestController.GenerateId(), equipment, quantity);
+            supplyRequestController.SupplyRequests.Add(supplyRequest);
+            supplyRequestController.Serialize();
+        }
+
 
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType,
             Dictionary<Equipment, int> equipmentAmount) 
