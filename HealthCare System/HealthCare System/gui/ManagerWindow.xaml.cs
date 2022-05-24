@@ -289,18 +289,21 @@ namespace HealthCare_System.gui
                 listedIngredients[index] = ingredient;
                 index++;
             }
+            ingredientsView.SelectedIndex = 0;
         }
 
         
                             
         private void newIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window ingredientWindow = new IngredientWindow(true, factory);
+            ingredientWindow.Show();
         }
 
         private void updateIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window ingredientWindow = new IngredientWindow(false, factory, listedIngredients[ingredientsView.SelectedIndex]);
+            ingredientWindow.Show();
         }
 
         private void deleteIngredientBtn_Click(object sender, RoutedEventArgs e)
@@ -308,6 +311,10 @@ namespace HealthCare_System.gui
 
         }
 
+        private void refreshIngredientsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayIngredients(factory.IngredientController.Ingredients);
+        }
         #endregion
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -323,5 +330,7 @@ namespace HealthCare_System.gui
                 e.Cancel = true;
             }
         }
+
+       
     }
 }

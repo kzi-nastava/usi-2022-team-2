@@ -65,6 +65,7 @@
                     <Button x:Name="updateIngredientBtn" Content="Update" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top" Height="45" Width="160" Click="updateIngredientBtn_Click"/>
                     <Button x:Name="deleteIngredientBtn" Content="Delete" HorizontalAlignment="Left" Margin="664,360,0,0" VerticalAlignment="Top" Height="44" Width="160" Click="deleteIngredientBtn_Click"/>
                     <ListBox x:Name="ingredientsView" Margin="324,40,27,88"/>
+                    <Button x:Name="refreshIngredientsBtn" Content="Refresh" HorizontalAlignment="Left" Margin="61,294,0,0" VerticalAlignment="Top" Height="45" Width="160" Click="refreshIngredientsBtn_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

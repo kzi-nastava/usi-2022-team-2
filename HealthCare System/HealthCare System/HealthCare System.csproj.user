@@ -11,6 +11,9 @@
     <Compile Update="gui\EquipmentMoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="gui\IngredientWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="gui\ManagerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -38,6 +41,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\EquipmentMoveWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="gui\IngredientWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="gui\ManagerWindow.xaml">
