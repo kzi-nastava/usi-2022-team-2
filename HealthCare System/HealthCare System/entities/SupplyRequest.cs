@@ -9,6 +9,7 @@ namespace HealthCare_System.entities
         int id;
         DateTime requestCreated;
         Dictionary<Equipment, int> orderDetails;
+        bool finished;
 
         public SupplyRequest() 
         {
@@ -21,12 +22,14 @@ namespace HealthCare_System.entities
             this.requestCreated = DateTime.Now;
             this.orderDetails = new Dictionary<Equipment, int>();
             this.orderDetails[equipment] = quantity;
+            this.finished = false;
         }
 
         public SupplyRequest(int id, DateTime requestCreated)
         {
             this.id = id;
             this.requestCreated = requestCreated;
+            finished = false;
             orderDetails = new Dictionary<Equipment, int>();
         }
 
@@ -35,6 +38,7 @@ namespace HealthCare_System.entities
             this.id = id;
             this.requestCreated = requestCreated;
             this.orderDetails = orderDetails;
+            finished = false;
         }
 
         public SupplyRequest(SupplyRequest request)
@@ -42,6 +46,7 @@ namespace HealthCare_System.entities
             id = request.id;
             requestCreated = request.requestCreated;
             orderDetails = request.orderDetails;
+            finished = false;
         }
 
         [JsonPropertyName("id")]
@@ -49,6 +54,9 @@ namespace HealthCare_System.entities
 
         [JsonPropertyName("requestCreated")]
         public DateTime RequestCreated { get => requestCreated; set => requestCreated = value; }
+
+        [JsonPropertyName("finished")]
+        public bool Finished { get => finished; set => finished = value; }
 
         [JsonIgnore]
         public Dictionary<Equipment, int> OrderDetails { get => orderDetails; set => orderDetails = value; }

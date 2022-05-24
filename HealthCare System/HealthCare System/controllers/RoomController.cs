@@ -80,6 +80,19 @@ namespace HealthCare_System.controllers
             return filteredRooms;
         }
 
+        public Room GetStorage()
+        {
+            Room retRoom = null;
+            foreach (Room room in rooms)
+            {
+                if (room.Type == TypeOfRoom.STORAGE)
+                {
+                    retRoom = room;
+                }
+            }
+            return retRoom;
+        }
+
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
         {
             Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
