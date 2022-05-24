@@ -72,6 +72,22 @@
                     <Button x:Name="searchAnamneses" Content="Search" HorizontalAlignment="Left" Margin="613,356,0,0" VerticalAlignment="Top" Width="149" Click="searchAnamneses_Click"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Doctors" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="39,43,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="39,90,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Specialization:" HorizontalAlignment="Left" Margin="8,149,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Priority:" HorizontalAlignment="Left" Margin="70,201,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Order:" HorizontalAlignment="Left" Margin="86,251,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="doctorFirstNameTb" HorizontalAlignment="Left" Margin="177,49,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="doctorFirstNameTb_TextChanged"/>
+                    <TextBox x:Name="doctorLastNameTb" HorizontalAlignment="Left" Margin="177,99,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="doctorLastNameTb_TextChanged"/>
+                    <ListBox x:Name="doctorsLb" Margin="349,22,10,10"/>
+                    <ComboBox x:Name="doctorShowPriorityCb" HorizontalAlignment="Left" Margin="177,203,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorShowPriorityCb_SelectionChanged"/>
+                    <ComboBox x:Name="sortDirectionDoctorCb" HorizontalAlignment="Left" Margin="177,257,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="sortDirectionDoctorCb_SelectionChanged"/>
+                    <Button x:Name="bookDoctorCb" Content="Button" HorizontalAlignment="Left" Margin="102,342,0,0" VerticalAlignment="Top" Height="36" Width="195"/>
+                    <ComboBox x:Name="doctorSpecializationCb" HorizontalAlignment="Left" Margin="177,154,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorSpecializationCb_SelectionChanged"/>
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>
