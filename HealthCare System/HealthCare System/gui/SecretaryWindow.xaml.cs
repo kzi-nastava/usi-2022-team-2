@@ -40,6 +40,7 @@ namespace HealthCare_System.gui
             SetEmergencyAppTab();
             SetReferralsTab();
             SetEquipmentTab();
+            SetRoomsTab();
         }
 
         private void SetEmergencyAppTab()
@@ -86,6 +87,22 @@ namespace HealthCare_System.gui
                 listBoxEquipment.Items.Add("There is currently enough amount of dynamic equipment.");
             }
         }
+
+        private void SetRoomsTab()
+        {
+            foreach (Room room in factory.RoomController.Rooms)
+            {
+                cmbRoom.Items.Add(room);
+                cmbRoomFrom.Items.Add(room);
+                cmbRoomTo.Items.Add(room);
+            }
+
+            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            {
+                if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
+            }
+        }
+
 
         private void FillListBoxEquipment()
         {
@@ -184,6 +201,43 @@ namespace HealthCare_System.gui
                 }
             }
         }
+
+        private void FillListBoxEquipmentEnd(Room room)
+        {
+            listBoxEquipmentEnd.Items.Clear();
+
+            foreach (Equipment equipment in room.EquipmentAmount.Keys)
+            {
+                if (equipment.Dynamic && room.EquipmentAmount[equipment] == 0)
+                {
+                    listBoxEquipmentEnd.Items.Add(equipment);
+                }
+            }
+
+            if (listBoxEquipmentEnd.Items.Count == 0)
+            {
+                listBoxEquipmentEnd.Items.Add("There is no missing equipment in this room.");
+            }
+        }
+
+        private void FillListBoxEquipmentNearEnd(Room room)
+        {
+            listBoxEquipmentNearEnd.Items.Clear();
+
+            foreach (Equipment equipment in room.EquipmentAmount.Keys)
+            {
+                if (equipment.Dynamic && room.EquipmentAmount[equipment] <= 5 && room.EquipmentAmount[equipment] > 0)
+                {
+                    listBoxEquipmentNearEnd.Items.Add(equipment);
+                }
+            }
+
+            if (listBoxEquipmentNearEnd.Items.Count == 0)
+            {
+                listBoxEquipmentNearEnd.Items.Add("There are enough amount of every equipment in this room.");
+            }
+        }
+
 
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -307,6 +361,20 @@ namespace HealthCare_System.gui
             {
                 RequestDetailsWindow requestDetailsWindow = new RequestDetailsWindow(request);
                 requestDetailsWindow.Show();
+            }
+        }
+
+        private void showRoomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Room room = (Room)cmbRoom.SelectedItem;
+            if (room is null)
+            {
+                MessageBox.Show("Select room!");
+            }
+            else
+            {
+                FillListBoxEquipmentEnd(room);
+                FillListBoxEquipmentNearEnd(room);
             }
         }
 
@@ -442,6 +510,5 @@ namespace HealthCare_System.gui
             }
             else e.Cancel = true;
         }
-
     }
 }
