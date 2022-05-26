@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Linq;
 
 namespace HealthCare_System.controllers
 {
@@ -49,7 +50,7 @@ namespace HealthCare_System.controllers
 
         public List<Doctor> FindBySpecialization(Specialization specialization)
         {
-            List<Doctor> filteredDoctors = new List<Doctor>();
+            List<Doctor> filteredDoctors = new ();
 
             foreach (Doctor doctor in doctors)
             {
@@ -57,6 +58,63 @@ namespace HealthCare_System.controllers
                     filteredDoctors.Add(doctor);
             }
             return filteredDoctors;
+        }
+        public List<Doctor>FindByFirstName(string firstName)
+        {
+            List<Doctor> filteredDoctors = new();
+            foreach (Doctor doctor in doctors)
+            {
+                if (doctor.FirstName.ToLower().Contains(firstName.ToLower()))
+                    filteredDoctors.Add(doctor);
+            }
+            return filteredDoctors;
+        }
+        public List<Doctor> FindByLastName(string lastName)
+        {
+            List<Doctor> filteredDoctors = new();
+            foreach (Doctor doctor in doctors)
+            {
+                if (doctor.LastName.ToLower().Contains(lastName.ToLower()))
+                    filteredDoctors.Add(doctor);
+            }
+            return filteredDoctors;
+        }
+        public List<Doctor>FilterDoctors(string firstName,string lastName,Specialization specialization)
+        {
+            List<Doctor> filterFirstName = doctors;
+            List<Doctor> filterLastName = doctors;
+            List<Doctor> filterSpecialization = doctors;
+
+            if (firstName.Length>=3)
+                filterFirstName = FindByFirstName(firstName);
+            if(lastName.Length >= 3)
+                filterLastName = FindByLastName(lastName);
+            if (specialization!=Specialization.NULL)
+                filterSpecialization = FindBySpecialization(specialization);
+
+            return filterFirstName.Intersect(filterLastName).Intersect(filterSpecialization).ToList();
+
+        }
+        public List<Doctor>SortDoctorsByFirstName(List<Doctor> unsortedDoctors,SortDirection direction)
+        {
+            if (direction==SortDirection.DESCENDING)
+                return unsortedDoctors.OrderByDescending(t => t.FirstName).ToList();
+            else
+                return unsortedDoctors.OrderBy(t => t.FirstName).ToList();
+        }
+        public List<Doctor> SortDoctorsByLastName(List<Doctor> unsortedDoctors, SortDirection direction)
+        {
+            if (direction == SortDirection.DESCENDING)
+                return unsortedDoctors.OrderByDescending(t => t.LastName).ToList();
+            else
+                return unsortedDoctors.OrderBy(t => t.LastName).ToList();
+        }
+        public List<Doctor> SortDoctorsBySpecialization(List<Doctor> unsortedDoctors, SortDirection direction)
+        {
+            if (direction == SortDirection.DESCENDING)
+                return unsortedDoctors.OrderByDescending(t => t.Specialization).ToList();
+            else
+                return unsortedDoctors.OrderBy(t => t.Specialization).ToList();
         }
 
         public void Serialize()
