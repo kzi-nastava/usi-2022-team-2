@@ -315,7 +315,7 @@ namespace HealthCare_System.gui
             FillListBoxPatients();
         }
 
-        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
+        private void RefreshReferralsBtn_Click(object sender, RoutedEventArgs e)
         {
             FillListBoxReferrals();
         }
@@ -364,7 +364,7 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void showRoomBtn_Click(object sender, RoutedEventArgs e)
+        private void ShowRoomBtn_Click(object sender, RoutedEventArgs e)
         {
             Room room = (Room)cmbRoom.SelectedItem;
             if (room is null)
@@ -376,6 +376,30 @@ namespace HealthCare_System.gui
                 FillListBoxEquipmentEnd(room);
                 FillListBoxEquipmentNearEnd(room);
             }
+        }
+
+        private void TransferBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Room roomFrom = (Room)cmbRoomFrom.SelectedItem;
+            Room roomTo = (Room)cmbRoomTo.SelectedItem;
+            Equipment equipment = (Equipment)cmbEquipmentType.SelectedItem;
+            if (roomFrom is null || roomTo is null || equipment is null)
+            {
+                MessageBox.Show("Select rooms and equipment type!");
+                return;
+            }
+            int amount = Convert.ToInt32(textBoxEquipmentTransferQuantity.Text);
+
+            if (roomFrom.EquipmentAmount[equipment] < amount)
+            {
+                MessageBox.Show("The room has less selected equipment in stock than entered.");
+                return;
+            }
+
+            Transfer transfer = new Transfer(factory.TransferController.GenerateId(), DateTime.Now, roomFrom, roomTo, equipment, amount);
+            factory.ExecuteTransfer(transfer);
+
+            MessageBox.Show("You have successfully transfered equipment.");
         }
 
 
