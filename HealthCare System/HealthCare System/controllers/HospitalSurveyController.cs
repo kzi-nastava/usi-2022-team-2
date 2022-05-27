@@ -26,9 +26,19 @@ namespace HealthCare_System.controllers
 
         public string Path { get => path; set => path = value; }
 
+        public int GenerateId()
+        {
+            return hospitalSurveys[^1].Id + 1;
+        }
         void Load()
         {
             hospitalSurveys = JsonSerializer.Deserialize<List<HospitalSurvey>>(File.ReadAllText(path));
+        }
+
+        public void Add(HospitalSurvey survey)
+        {
+            hospitalSurveys.Add(survey);
+            Serialize();
         }
 
         public HospitalSurvey FindById(int id)
@@ -39,7 +49,7 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath = "../../../data/links/Doctor_DoctorSurvey.csv")
         {
             string hospitalSurveysJson = JsonSerializer.Serialize(hospitalSurveys, 
                 new JsonSerializerOptions { WriteIndented = true });
