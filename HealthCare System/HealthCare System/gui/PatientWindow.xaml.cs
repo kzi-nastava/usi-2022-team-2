@@ -13,6 +13,7 @@ namespace HealthCare_System.gui
 {
     public partial class PatientWindow : Window
     {
+        
         HealthCareFactory factory;
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
@@ -33,8 +34,9 @@ namespace HealthCare_System.gui
             indexedDoctors = new Dictionary<int, Doctor>();
             this.factory = factory;
             user =(Patient) factory.User;
-            
+
             InitializeComponent();
+            InitializeSearchEngineDoctors();
             InitializeDoctors();
             InitializeAnamnesesTab();
             UpdateUpcomingAppointments();
@@ -83,6 +85,17 @@ namespace HealthCare_System.gui
             sortingDirectionCb.SelectedIndex = 0;
             sortCriteriumCb.ItemsSource = Enum.GetValues(typeof(AnamnesesSortCriterium));
             sortCriteriumCb.SelectedIndex = 0;
+        }
+        public void InitializeSearchEngineDoctors()
+        {
+            sortDirectionDoctorCb.ItemsSource = Enum.GetValues(typeof(SortDirection));
+            sortDirectionDoctorCb.SelectedIndex = 0;
+            doctorShowPriorityCb.ItemsSource = Enum.GetValues(typeof(DoctorSortPriority));
+            doctorShowPriorityCb.SelectedIndex = 0;
+            doctorSpecializationCb.ItemsSource = Enum.GetValues(typeof(Specialization));
+            doctorSpecializationCb.SelectedIndex = 3;
+
+
         }
         public void InitializeDoctors()
         {
@@ -388,7 +401,7 @@ namespace HealthCare_System.gui
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (!((Patient) factory.User).Blocked)
+            if (!((Patient) user).Blocked)
             {
                 factory.User = null;
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -529,6 +542,55 @@ namespace HealthCare_System.gui
                 AppointmentInfo infoWindow = new AppointmentInfo(appointment);
                 infoWindow.Show();
             }
+
+        }
+
+
+
+        void updateSearchListDoctors()
+        {
+           
+            if (doctorShowPriorityCb.SelectedIndex!=-1 && sortDirectionDoctorCb.SelectedIndex != -1 && doctorSpecializationCb.SelectedIndex!=-1)
+            {
+                doctorsLb.Items.Clear();
+                DoctorSortPriority priority = (DoctorSortPriority)Enum.Parse(typeof(DoctorSortPriority), doctorShowPriorityCb.SelectedItem.ToString());
+                SortDirection direction = (SortDirection)Enum.Parse(typeof(SortDirection), sortDirectionDoctorCb.SelectedItem.ToString());
+                List<Doctor> doctors = factory.DoctorController.FilterDoctors(doctorFirstNameTb.Text,
+                    doctorLastNameTb.Text, (Specialization)Enum.Parse(typeof(Specialization), doctorSpecializationCb.SelectedItem.ToString()));
+                List<Doctor> sortedDoctors = factory.SortDoctors(doctors, priority, direction);
+                foreach (Doctor doctor in sortedDoctors)
+                {
+                    doctorsLb.Items.Add(doctor.FirstName + " " + doctor.LastName + ", " + doctor.Specialization.ToString().ToLower());
+                }
+            }
+           
+
+        }
+        private void doctorFirstNameTb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            updateSearchListDoctors();
+        }
+
+        private void doctorLastNameTb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            updateSearchListDoctors();
+        }
+
+        private void doctorSpecializationCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            updateSearchListDoctors();
+
+        }
+
+        private void doctorShowPriorityCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            updateSearchListDoctors();
+
+        }
+
+        private void sortDirectionDoctorCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            updateSearchListDoctors();
 
         }
     }

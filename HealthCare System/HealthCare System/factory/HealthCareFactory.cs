@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Linq;
 
 namespace HealthCare_System.factory
 {
+    public enum DoctorSortPriority { RATINGS, FIRST_NAME, LAST_NAME, SPECIALIZATION };
     public class HealthCareFactory
     {
         AnamnesisController anamnesisController;
@@ -1277,6 +1279,39 @@ namespace HealthCare_System.factory
 
         }
 
+        public List<Doctor> SortDoctorsByRatings(List<Doctor> doctors,SortDirection direction)
+        {
+            List<Tuple<Doctor, double>> ratings=new();
+            foreach(Doctor doctor in doctors)
+            {
+                ratings.Add(new Tuple<Doctor, double>(doctor, doctorSurveyController.FindAverageRatingForDoctor(doctor)));
+            }
+
+            List<Tuple<Doctor, double>> sortedRatings;
+            if (direction == SortDirection.DESCENDING)
+                sortedRatings = ratings.OrderByDescending(t => t.Item2).ToList();
+            else
+                sortedRatings = ratings.OrderBy(t => t.Item2).ToList();
+            List<Doctor> sortedDoctors = new();
+            foreach(Tuple<Doctor,double> tuple in sortedRatings)
+            {
+                sortedDoctors.Add(tuple.Item1);
+            }
+            return sortedDoctors;
+        }
+
+        public List<Doctor>SortDoctors(List<Doctor> doctors,DoctorSortPriority priority, SortDirection direction)
+        {
+            List<Doctor> sortedDoctors = new();
+            if (priority == DoctorSortPriority.RATINGS)
+                sortedDoctors = SortDoctorsByRatings(doctors,direction);
+            else if (priority == DoctorSortPriority.FIRST_NAME)
+                sortedDoctors = doctorController.SortDoctorsByFirstName(doctors,direction);
+            else if (priority==DoctorSortPriority.LAST_NAME)
+                sortedDoctors = doctorController.SortDoctorsByLastName(doctors, direction);
+            else
+                sortedDoctors = doctorController.SortDoctorsBySpecialization(doctors, direction);
+            return sortedDoctors;
 
         public bool IsIngredientAvailableForChange(Ingredient ingredient)
         {
@@ -1308,6 +1343,8 @@ namespace HealthCare_System.factory
             }
 
             return available;
+
+
         }
     }
 

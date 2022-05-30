@@ -60,6 +60,17 @@ namespace HealthCare_System.entities
         [JsonIgnore]
         public Dictionary<Equipment, int> EquipmentAmount { get => equipmentAmount; set => equipmentAmount = value; }
 
+        public Dictionary<Equipment, int> FilterDynamicEquipment()
+        {
+            Dictionary<Equipment, int> dynamicEquipment = new Dictionary<Equipment, int>();
+
+            foreach (KeyValuePair<Equipment, int> entry in equipmentAmount)
+                if (entry.Key.Dynamic)
+                    dynamicEquipment.Add(entry.Key, entry.Value);
+
+            return dynamicEquipment;
+        }
+
         public override string ToString()
         {
             return "Room[id: " + id + ", name: " + name + " type: " + type + "]";
