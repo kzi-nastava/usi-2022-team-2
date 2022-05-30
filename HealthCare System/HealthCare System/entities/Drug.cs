@@ -16,27 +16,30 @@ namespace HealthCare_System.entities
         string name;
         List<Ingredient> ingredients;
         DrugStatus status;
+        string message;
 
         public Drug()
         {
             this.ingredients = new List<Ingredient>();
         }
 
-        public Drug(int id, string name, List<Ingredient> ingredients, DrugStatus status)
+        public Drug(int id, string name, List<Ingredient> ingredients, DrugStatus status, string message)
         {
             this.id = id;
             this.name = name;
             this.ingredients = ingredients;
             this.status = status;
+            this.message = message;
         }
 
-        public Drug(int id, string name, DrugStatus status)
+        public Drug(int id, string name, DrugStatus status, string message)
         {
             this.id = id;
             this.name = name;
             this.ingredients = null;
             this.status = status;
             ingredients = new List<Ingredient>();
+            this.message = message;
         }
 
         public Drug(Drug drug) 
@@ -45,6 +48,7 @@ namespace HealthCare_System.entities
             name = drug.name;
             ingredients = drug.ingredients;
             status = drug.status;
+            message = drug.message;
         }
 
         [JsonPropertyName("id")]
@@ -58,6 +62,9 @@ namespace HealthCare_System.entities
 
         [JsonPropertyName("status")]
         public DrugStatus Status { get => status; set => status = value; }
+
+        [JsonPropertyName("message")]
+        public string Message { get => message; set => message = value; }
 
         public override string ToString()
         {

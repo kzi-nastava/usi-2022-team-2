@@ -76,5 +76,10 @@ namespace HealthCare_System.controllers
             ingredient.Name = name;
             Serialize();
         }
+
+        public void DeleteIngredient(Ingredient ingredient) {
+            ingredients.Remove(ingredient);
+            Serialize();
+        }
     }
 }

@@ -1278,6 +1278,37 @@ namespace HealthCare_System.factory
         }
 
 
+        public bool IsIngredientAvailableForChange(Ingredient ingredient)
+        {
+            bool available = true;
+
+            foreach (Drug drug in drugController.Drugs)
+            { 
+                if (drug.Ingredients.Contains(ingredient))
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            return available;
+        }
+
+        public bool IsDrugAvailableForChange(Drug drug)
+        {
+            bool available = true;
+
+            foreach (Prescription prescription in prescriptionController.Prescriptions)
+            {
+                if (prescription.Drug == drug)
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            return available;
+        }
     }
 
     
