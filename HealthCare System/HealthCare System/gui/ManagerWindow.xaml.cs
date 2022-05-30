@@ -275,7 +275,8 @@ namespace HealthCare_System.gui
 
         private void rejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window rejectedDrugsWindow = new RejectedDrugsWindow(factory);
+            rejectedDrugsWindow.Show();
         }
 
         private void updateDrugBtn_Click(object sender, RoutedEventArgs e)
