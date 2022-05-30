@@ -338,6 +338,9 @@ namespace HealthCare_System.gui
             appointment.Status = AppointmentStatus.FINISHED;
             factory.AppointmentController.Serialize();
 
+            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, factory);
+            dynamicEquipmentWindow.Show();
+
             InitializeAppointments();
 
             appointmentView.IsEnabled = true;
