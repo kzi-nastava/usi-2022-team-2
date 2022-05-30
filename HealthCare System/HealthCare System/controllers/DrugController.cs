@@ -47,10 +47,20 @@ namespace HealthCare_System.controllers
             return drugs[^1].Id + 1;
         }
 
-        public void Serialize()
+        public void Serialize(string linkPath = "../../../data/links/Drug_Ingredient.csv")
         {
             string drugsJson = JsonSerializer.Serialize(drugs, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, drugsJson);
+            string csv = "";
+            foreach (Drug drug in drugs)
+            {
+                foreach (Ingredient ingredient in drug.Ingredients)
+                {
+                    csv += drug.Id.ToString() + ";" + ingredient.Id.ToString() +  "\n";
+                }
+
+            }
+            File.WriteAllText(linkPath, csv);
         }
 
         public void CreateNewDrug(string name, List<Ingredient> ingredients)
@@ -69,6 +79,7 @@ namespace HealthCare_System.controllers
             drug.Name = name;
             drug.Ingredients = ingredients;
             drug.Status = DrugStatus.ON_HOLD;
+            drug.Message = "";
             Serialize();
         }
 

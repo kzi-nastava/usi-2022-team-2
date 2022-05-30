@@ -121,6 +121,7 @@ namespace HealthCare_System.controllers
         {
             string doctorsJson = JsonSerializer.Serialize(doctors, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, doctorsJson);
+
         }
     }
 }
