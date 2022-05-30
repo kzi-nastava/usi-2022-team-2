@@ -34,11 +34,5 @@
     "name": "Pentobarbital",
     "status": 1,
     "message": ""
-  },
-  {
-    "id": 1007,
-    "name": "NewDrug",
-    "status": 0,
-    "message": ""
   }
 ]
