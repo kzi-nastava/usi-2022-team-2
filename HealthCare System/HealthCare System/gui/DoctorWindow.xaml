@@ -79,7 +79,16 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Drugs" Margin="82,-2,-123,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="drugView" Margin="237,96,0,0" HorizontalAlignment="Left" Width="183" Height="342" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" SelectionChanged="DrugView_SelectionChanged"/>
+                    <Label x:Name="rejectionLbl" Content="Rejection Message" HorizontalAlignment="Left" Margin="433,258,0,0" VerticalAlignment="Top" Width="152" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="rejectionTb" HorizontalAlignment="Left" Margin="433,293,0,0" Text="" TextWrapping="Wrap" Width="270" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="106" VerticalAlignment="Top"/>
+                    <Button x:Name="AcceptBtn" Content="Accept" HorizontalAlignment="Left" Margin="433,413,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="AcceptBtn_Click"/>
+                    <Button x:Name="RejectBtn" Content="Reject" HorizontalAlignment="Left" Margin="580,413,0,0" VerticalAlignment="Top" Width="123" FontSize="15" Height="25" Click="RejectBtn_Click"/>
+                    <ListBox x:Name="drugIngridientView" Margin="433,96,0,0" HorizontalAlignment="Left" Width="270" Height="157" VerticalAlignment="Top" FontSize="15" FontWeight="Normal"/>
+                    <Label x:Name="drugIngredientsLbl" Content="Drug ingredients" HorizontalAlignment="Left" Margin="433,61,0,0" VerticalAlignment="Top" Width="152" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <Label x:Name="drugsLbl" Content="Drugs" HorizontalAlignment="Left" Margin="237,61,0,0" VerticalAlignment="Top" Width="152" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Absence" Margin="124,-2,-165,0">
                 <Grid Background="#FFE5E5E5"/>
