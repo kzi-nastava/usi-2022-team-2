@@ -66,16 +66,11 @@ namespace HealthCare_System.gui
             {
                 indexedAppointmentsHistory.Add(iterationNum, appointment);
 
-                string roomSummary = "";
-                if (appointment.Room != null)
-                    roomSummary=", room: " + appointment.Room.Name;
+                
                 if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
                 {
-                    string appointmentSummary = "Start: "
-                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", doctor: "
-                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                        ", type: " + appointment.Type.ToString().ToLower()
-                        + roomSummary;
+                    string appointmentSummary = appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", "
+                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
                     appointmentHistoryLb.Items.Add(appointmentSummary);
                 }
                 iterationNum++;
@@ -658,7 +653,10 @@ namespace HealthCare_System.gui
             int id = factory.DoctorSurveyController.GenerateId();
             Doctor doctor = indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Doctor;
             DoctorSurvey survey = new DoctorSurvey(id,doctor, doctorServiceQualityCb.SelectedIndex + 1, doctorRecommendCb.SelectedIndex + 1, doctorCommentTb.Text);
+            indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Graded = true;
             factory.DoctorSurveyController.Add(survey);
+            factory.DoctorSurveyController.Serialize();
+            factory.AppointmentController.Serialize();
             doctorServiceQualityCb.SelectedIndex = -1;
             doctorRecommendCb.SelectedIndex = -1;
             doctorCommentTb.Clear();
@@ -677,6 +675,7 @@ namespace HealthCare_System.gui
             HospitalSurvey survey = new HospitalSurvey(id, hospitalServiceQualityCb.SelectedIndex+1,hospitalHygieneCb.SelectedIndex+1,
                 hospitalSatisfactionCb.SelectedIndex+1,hospitalRecommendCb.SelectedIndex+1,hospitalCommentTb.Text);
             factory.HospitalSurveyController.Add(survey);
+            factory.HospitalSurveyController.Serialize();
             hospitalServiceQualityCb.SelectedIndex = -1;
             hospitalHygieneCb.SelectedIndex = -1;
             hospitalSatisfactionCb.SelectedIndex = -1;

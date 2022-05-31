@@ -74,8 +74,8 @@ namespace HealthCare_System.controllers
             string csv = "";
             foreach (DoctorSurvey survey in doctorSurveys)
             {
-               
-                csv += survey.Id.ToString() + ";" +survey.ServiceQuality.ToString()+";"+survey.Recommendation.ToString()+";"+survey.Comment + "\n";
+
+                csv += survey.Doctor.Jmbg.ToString() + ";" + survey.Id.ToString() + "\n";
             }
             File.WriteAllText(linkPath, csv);
         }
