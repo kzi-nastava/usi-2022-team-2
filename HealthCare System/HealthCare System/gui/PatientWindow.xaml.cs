@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using System.Windows.Input;
 
 namespace HealthCare_System.gui
@@ -21,6 +22,8 @@ namespace HealthCare_System.gui
         Dictionary<int,Appointment> indexedAnamneses;
         Dictionary<int,Appointment> indexedRecommendations;
         Dictionary<int,Appointment> indexedAppointmentsHistory;
+        DispatcherTimer timer;
+        List<DrugNotification> notifications;
         Patient user;
 
         public PatientWindow(HealthCareFactory factory)
@@ -32,6 +35,7 @@ namespace HealthCare_System.gui
             indexedRecommendations = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
             indexedDoctors = new Dictionary<int, Doctor>();
+            notifications = new();
             this.factory = factory;
             user =(Patient) factory.User;
 
@@ -41,13 +45,56 @@ namespace HealthCare_System.gui
             InitializeAnamnesesTab();
             UpdateUpcomingAppointments();
             UpdateAppointmentHistory();
+            StartTimer();
+
 
             recommendedDoctorCb.SelectedItem = indexedDoctors[0];
             datePicker.DisplayDateStart = DateTime.Now;
             datePickerEdit.DisplayDateStart = DateTime.Now;
             reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
+            minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
             DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
+        }
+        void StartTimer()
+        {
+            CreateNotifications();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+        void timer_Tick(object sender, EventArgs e)
+        {
+            CheckNotifications();
+        }
+        void CheckNotifications()
+        {
+            foreach (DrugNotification notification in notifications)
+            {
+                if (DateTime.Now.AddMinutes(user.MinutesBeforeDrug) > notification.Time.AddMinutes(-1) && DateTime.Now.AddMinutes(user.MinutesBeforeDrug) < notification.Time.AddMinutes(1) && !notification.Seen)
+                {
+                    notification.Seen = true;
+                    MessageBox.Show(notification.Message);
+                }
+            }
+        }
+        void CreateNotifications()
+        {
+            foreach (Prescription prescription in user.MedicalRecord.Prescriptions)
+            {
+                if ((prescription.Start <= DateTime.Now && prescription.End >= DateTime.Now) || prescription.Start >= DateTime.Now)
+                {
+                    DateTime time = prescription.Start;
+                    while (time < prescription.End)
+                    {
+                        int id = factory.DrugNotificationController.GenerateId();
+                        string message = "It's time to drink " + prescription.Drug.Name;
+                        notifications.Add(new DrugNotification(id, message, user, prescription.Drug, time));
+                        time = time.AddHours(24 / prescription.Frequency);
+                    }
+                }
+            }
         }
 
         public void UpdateAppointmentHistory()
@@ -57,7 +104,7 @@ namespace HealthCare_System.gui
             appointmentHistoryLb.Items.Clear();
 
             List<Appointment> sortedAppoinments = user.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
-            int iterationNum=0;
+            int iterationNum = 0;
 
             foreach (Appointment appointment in user.MedicalRecord.Appointments)
             {
@@ -592,6 +639,14 @@ namespace HealthCare_System.gui
         {
             updateSearchListDoctors();
 
+        }
+
+        private void saveUserDrugReminderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            user.MinutesBeforeDrug =(int) minutesBeforeDrugSl.Value;
+            factory.PatientController.Serialize();
+            notifications.Clear();
+            CreateNotifications();
         }
     }
 }

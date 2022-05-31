@@ -8,29 +8,21 @@ namespace HealthCare_System.controllers
     class DrugNotificationController
     {
         List<DrugNotification> drugNotifications;
-        string path;
 
         public DrugNotificationController()
         {
-            path = "../../../data/entities/DrugNotifications.json";
-            Load();
-        }
-
-        public DrugNotificationController(string path)
-        {
-            this.path = path;
-            Load();
+            drugNotifications = new();
         }
 
         internal List<DrugNotification> DrugNotifications { get => drugNotifications; set => drugNotifications = value; }
 
-        public string Path { get => path; set => path = value; }
 
-        void Load()
+        public int GenerateId()
         {
-            drugNotifications = JsonSerializer.Deserialize<List<DrugNotification>>(File.ReadAllText(path));
+            if (drugNotifications.Count == 0)
+                return 1;
+            return drugNotifications[^1].Id + 1;
         }
-
         public DrugNotification FindById(int id)
         {
             foreach (DrugNotification drugNofiticaion in drugNotifications)
@@ -39,18 +31,5 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public void Serialize(string linkPath = "../../../data/links/Notification_Patient_Drug.csv")
-        {
-            string drugNotificationsJson = JsonSerializer.Serialize(drugNotifications, 
-                new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, drugNotificationsJson);
-            string csv = "";
-            foreach (DrugNotification drugNotification in drugNotifications)
-            {
-                csv += drugNotification.Id + ";" + drugNotification.Patient.Jmbg + ";" 
-                    + drugNotification.Drug.Id + "\n";
-            }
-            File.WriteAllText(linkPath, csv);
-        }
     }
 }

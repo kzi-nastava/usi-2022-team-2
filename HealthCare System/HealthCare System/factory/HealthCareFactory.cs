@@ -147,7 +147,6 @@ namespace HealthCare_System.factory
             
 
             LinkDrugIngredient();
-            LinkDrugNotification();
             LinkAppointmentRequest();
             LinkDaysOffNotification();
             LinkDaysOffRequest();
@@ -783,17 +782,6 @@ namespace HealthCare_System.factory
             prescriptionController.Serialize();
         }
 
-        private void DeleteDrugNotifications(Patient patient)
-        {
-            for (int i = drugNotificationController.DrugNotifications.Count - 1; i >= 0; i--)
-            {
-                if (drugNotificationController.DrugNotifications[i].Patient == patient)
-                {
-                    drugNotificationController.DrugNotifications.RemoveAt(i);
-                }
-            }
-            drugNotificationController.Serialize();
-        }
 
         public void DeletePatient(Patient patient)
         {
@@ -807,7 +795,6 @@ namespace HealthCare_System.factory
             {
                 throw;
             }
-            DeleteDrugNotifications(patient);
             DeletePrescriptions(medicalRecord);
 
             medicalRecordController.MedicalRecords.Remove(medicalRecord);
