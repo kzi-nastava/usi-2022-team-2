@@ -1,34 +1,23 @@
 ﻿using HealthCare_System.Model;
 using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.RenovationRepo;
 using HealthCare_System.Repository.RoomRepo;
 using HealthCare_System.Services.EquipmentService;
+using HealthCare_System.Services.RenovationService;
 
 namespace HealthCare_System.Services.RoomService
 {
     class RoomService
     {
-        MergingRenovationRepo mergingRenovationRepo;
-        SimpleRenovationRepo simpleRenovationRepo;
-        SplittingRenovationRepo splittingRenovationRepo;
+        MergingRenovationService mergingRenovationService;
+        SimpleRenovationService simpleRenovationService;
+        EquipmentTransferService equipmentTransferService;
+        SplittingRenovationService splittingRenovationService;
+
         RoomRepo roomRepo;
         
-        EquipmentTransferService equipmentTransferService;
-
         public RoomService()
         {
-            equipmentTransferService = new();
-
-            MergingRenovationRepoFactory mergingRenovationRepoFactory = new();
-            mergingRenovationRepo = mergingRenovationRepoFactory.CreateMergingRenovationRepository();
-
-            SimpleRenovationRepoFactory simpleRenovationRepoFactory = new();
-            simpleRenovationRepo = simpleRenovationRepoFactory.CreateSimpleRenovationRepository();
-
-            SplittingRenovationRepoFactory splittingRenovationRepoFactory = new();
-            splittingRenovationRepo = splittingRenovationRepoFactory.CreateSplittingRenovationRepository();
-
             RoomRepoFactory roomRepoFactory = new();
             roomRepo = roomRepoFactory.CreateRoomRepository();
         }

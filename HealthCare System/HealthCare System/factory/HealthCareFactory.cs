@@ -601,6 +601,7 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
+        //prebaceno
         public Appointment AddAppointment(Appointment appointment)
         {
             int anamnesisId = anamnesisController.GenerateId();
