@@ -1,5 +1,5 @@
 ﻿using HealthCare_System.controllers;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;

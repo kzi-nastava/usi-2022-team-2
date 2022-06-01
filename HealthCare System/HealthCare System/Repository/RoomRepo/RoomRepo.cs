@@ -60,7 +60,7 @@ namespace HealthCare_System.Repository.RoomRepo
             File.WriteAllText(linkPath, csv);
         }
 
-        int GenerateId()
+        public int GenerateId()
         {
             return rooms[rooms.Count - 1].Id + 1;
         }
@@ -95,6 +95,18 @@ namespace HealthCare_System.Repository.RoomRepo
                 }
             }
             return retRoom;
+        }
+
+        public void Add(Room room)
+        {
+            rooms.Add(room);
+            Serialize();
+        }
+
+        public void Delete(Room room)
+        {
+            rooms.Remove(room);
+            Serialize();
         }
 
 
