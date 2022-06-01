@@ -8,20 +8,23 @@ namespace HealthCare_System.entities
     {
         MedicalRecord medicalRecord;
         bool blocked;
+        int minutesBeforeDrug;
 
         public Patient() { }
 
         public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password, MedicalRecord medicalRecord, bool blocked) : 
+            string password, MedicalRecord medicalRecord, bool blocked, int minutesBeforeDrug) : 
                 base(jmbg, firstName, lastName, birthDate, mail, password)
         {
             this.blocked = blocked;
+            this.minutesBeforeDrug = minutesBeforeDrug;
         }
 
         public Patient(string jmbg, string firstName, string lastName, DateTime birthDate, string mail,
-            string password, bool blocked) : base(jmbg, firstName, lastName, birthDate, mail, password)
+            string password, bool blocked, int minutesBeforeDrug) : base(jmbg, firstName, lastName, birthDate, mail, password)
         {
             this.blocked = blocked;
+            this.minutesBeforeDrug = minutesBeforeDrug;
         }
 
         public Patient(Patient patient) : base(patient.Jmbg, patient.FirstName, patient.LastName,
@@ -29,6 +32,7 @@ namespace HealthCare_System.entities
         {
             medicalRecord = patient.medicalRecord;
             blocked = patient.blocked;
+            minutesBeforeDrug = patient.minutesBeforeDrug;
         }
 
         [JsonIgnore]
@@ -36,6 +40,9 @@ namespace HealthCare_System.entities
 
         [JsonPropertyName("blocked")]
         public bool Blocked { get => blocked; set => blocked = value; }
+        
+        [JsonPropertyName("minutesBeforeDrug")]
+        public int MinutesBeforeDrug { get => minutesBeforeDrug; set => minutesBeforeDrug = value; }
 
 
         public bool IsAvailable(DateTime start, DateTime end)
