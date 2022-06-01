@@ -4,11 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.AppointmentRepo;
 
 namespace HealthCare_System.Services.AppointmentService
 {
     class AppointmentService
     {
+        AppointmentRepo appointmentRepo;
+
+        public AppointmentService()
+        {
+            AppointmentRepoFactory appointmentRepoFactory = new();
+            appointmentRepo = appointmentRepoFactory.CreateAppointmentRepository();
+        }
+
+        internal AppointmentRepo AppointmentRepo { get => appointmentRepo; }
 
         public Appointment AddAppointment(Appointment appointment)
         {

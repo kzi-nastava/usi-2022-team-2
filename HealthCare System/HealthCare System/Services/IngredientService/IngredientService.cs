@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.IngredientRepo;
 
 namespace HealthCare_System.Services.IngredientService
 {
     class IngredientService
     {
+        IngredientRepo ingredientRepo;
+
+        public IngredientService()
+        {
+            IngredientRepoFactory ingredientRepoFactory = new();
+            ingredientRepo = ingredientRepoFactory.CreateIngredientRepository();
+        }
+
+        public IngredientRepo IngredientRepo { get => ingredientRepo; }
+
         public void Add(string name)
         {
             if (name.Length > 30 || name.Length < 5)

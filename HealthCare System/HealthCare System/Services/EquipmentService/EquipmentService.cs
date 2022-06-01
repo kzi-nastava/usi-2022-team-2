@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.EquipmentRepo;
 
 namespace HealthCare_System.Services.EquipmentService
 {
     class EquipmentService
     {
+        EquipmentRepo equipmentRepo;
+
+        public EquipmentService()
+        {
+            EquipmentRepoFactory equipmentRepoFactory = new();
+            equipmentRepo = equipmentRepoFactory.CreateEquipmentRepository();
+        }
+
+        public EquipmentRepo EquipmentRepo { get => equipmentRepo; }
+
         public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
         {
             if (amount == "0-10")

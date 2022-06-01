@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.UserRepo;
 
 namespace HealthCare_System.Services.UserService
 {
     class DoctorService
     {
+        DoctorRepo doctorRepo;
+
+        public DoctorService()
+        {
+            DoctorRepoFactory doctorRepoFactory = new();
+            doctorRepo = doctorRepoFactory.CreateDoctorRepository();
+        }
+
+        public DoctorRepo DoctorRepo { get => doctorRepo; }
+
         public List<Doctor> FilterDoctors(string firstName, string lastName, Specialization specialization)
         {
             List<Doctor> filterFirstName = doctors;

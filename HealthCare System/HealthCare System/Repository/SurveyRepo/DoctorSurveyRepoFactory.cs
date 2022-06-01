@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Repository.SurveyRepo
 {
-    class DoctorSurveyRepoFDactory
+    class DoctorSurveyRepoFactory
     {
         private DoctorSurveyRepo doctorSurveyRepo;
 

@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.EquipmentRepo;
 
 namespace HealthCare_System.Services.EquipmentService
 {
     class EquipmentTransferService
     {
+        EquipmentTransferRepo equipmentTransferRepo;
+
+        public EquipmentTransferService()
+        {
+            EquipmentTransferRepoFactory equipmentTransferRepoFactory = new();
+            equipmentTransferRepo = equipmentTransferRepoFactory.CreateEquipmentTransferRepository();
+        }
+
+        public EquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo; }
+
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
             room.EquipmentAmount[equipmnet] += amount;

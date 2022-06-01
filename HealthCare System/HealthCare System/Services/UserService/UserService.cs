@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Repository.UserRepo;
 
 namespace HealthCare_System.Services.UserService
 {
     class UserService
     {
+        UserRepo userRepo;
+
+        public UserService()
+        {
+            UserRepoFactory userRepoFactory = new();
+            userRepo = userRepoFactory.CreateUserRepository();
+        }
+
+        public UserRepo UserRepo { get => userRepo;}
+
         public void RunAntiTrollCheck(Patient patient)
         {
             DateTime now = DateTime.Now;
