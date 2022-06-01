@@ -9,6 +9,7 @@ using System.Linq;
 namespace HealthCare_System.factory
 {
     public enum DoctorSortPriority { RATINGS, FIRST_NAME, LAST_NAME, SPECIALIZATION };
+
     public class HealthCareFactory
     {
         AnamnesisController anamnesisController;
@@ -198,28 +199,6 @@ namespace HealthCare_System.factory
                     return secretary;
 
             return null;
-        }
-
-        void LinkDrugNotification(string path = "../../../data/links/Notification_Patient_Drug.csv")
-        {
-            StreamReader file = new(path);
-
-            while (!file.EndOfStream)
-            {
-                string line = file.ReadLine();
-                int notificationId = Convert.ToInt32(line.Split(";")[0]);
-                string patientId = line.Split(";")[1];
-                int drugId = Convert.ToInt32(line.Split(";")[2].Trim());
-
-                DrugNotification notification = drugNotificationController.FindById(notificationId);
-                Patient patient = patientController.FindByJmbg(patientId);
-                Drug drug = drugController.FindById(drugId);
-
-                notification.Drug = drug;
-                notification.Patient = patient;
-            }
-
-            file.Close();
         }
 
         void LinkDrugIngredient(string path = "../../../data/links/Drug_Ingredient.csv")
@@ -728,7 +707,6 @@ namespace HealthCare_System.factory
             delayedAppointmentNotificationController.Serialize();
         }
 
-
         public void AcceptRequest(AppointmentRequest request)
         {
             if (request.Type == RequestType.DELETE)
@@ -781,7 +759,6 @@ namespace HealthCare_System.factory
             }
             prescriptionController.Serialize();
         }
-
 
         public void DeletePatient(Patient patient)
         {
@@ -844,7 +821,6 @@ namespace HealthCare_System.factory
             supplyRequestController.SupplyRequests.Add(supplyRequest);
             supplyRequestController.Serialize();
         }
-
 
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType,
             Dictionary<Equipment, int> equipmentAmount)
@@ -1114,7 +1090,6 @@ namespace HealthCare_System.factory
 
         }
 
-
         private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {
             List<Appointment> appointments = new();
@@ -1260,6 +1235,7 @@ namespace HealthCare_System.factory
             }
 
         }
+
         public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor)
         {
             List<Appointment> appointments = SearchDoubleCriterium(end, from, to, doctor);
