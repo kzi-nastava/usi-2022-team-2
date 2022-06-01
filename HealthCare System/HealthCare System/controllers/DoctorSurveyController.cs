@@ -38,6 +38,10 @@ namespace HealthCare_System.controllers
                     return doctorSurvey;
             return null;
         }
+        public int GenerateId()
+        {
+            return doctorSurveys[^1].Id + 1;
+        }
 
         public double FindAverageRatingForDoctor(Doctor doctor)
         {
@@ -56,11 +60,24 @@ namespace HealthCare_System.controllers
             return 0;
         }
 
-        public void Serialize()
+        public void Add(DoctorSurvey survey)
+        {
+            doctorSurveys.Add(survey);
+            Serialize();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/Doctor_DoctorSurvey.csv")
         {
             string doctorSurveysJson = JsonSerializer.Serialize(doctorSurveys, 
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, doctorSurveysJson);
+            string csv = "";
+            foreach (DoctorSurvey survey in doctorSurveys)
+            {
+
+                csv += survey.Doctor.Jmbg.ToString() + ";" + survey.Id.ToString() + "\n";
+            }
+            File.WriteAllText(linkPath, csv);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace HealthCare_System.gui
         
         HealthCareFactory factory;
         Dictionary<int,Doctor> indexedDoctors;
+        Dictionary<int,Doctor> indexedSearchedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
         Dictionary<int,Appointment> indexedAppointments;
         Dictionary<int,Appointment> indexedAnamneses;
@@ -32,6 +33,7 @@ namespace HealthCare_System.gui
             indexedRecommendations = new Dictionary<int, Appointment>();
             indexedDoctorsEditTab = new Dictionary<int, Doctor>();
             indexedDoctors = new Dictionary<int, Doctor>();
+            indexedSearchedDoctors = new Dictionary<int, Doctor>();
             this.factory = factory;
             user =(Patient) factory.User;
 
@@ -41,6 +43,7 @@ namespace HealthCare_System.gui
             InitializeAnamnesesTab();
             UpdateUpcomingAppointments();
             UpdateAppointmentHistory();
+            InitializeSurveys();
 
             recommendedDoctorCb.SelectedItem = indexedDoctors[0];
             datePicker.DisplayDateStart = DateTime.Now;
@@ -63,22 +66,30 @@ namespace HealthCare_System.gui
             {
                 indexedAppointmentsHistory.Add(iterationNum, appointment);
 
-                string roomSummary = "";
-                if (appointment.Room != null)
-                    roomSummary=", room: " + appointment.Room.Name;
+                
                 if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
                 {
-                    string appointmentSummary = "Start: "
-                        + appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", doctor: "
-                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName +
-                        ", type: " + appointment.Type.ToString().ToLower()
-                        + roomSummary;
+                    string appointmentSummary = appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", "
+                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
                     appointmentHistoryLb.Items.Add(appointmentSummary);
                 }
                 iterationNum++;
             }
         }
 
+
+        public void InitializeSurveys()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                hospitalServiceQualityCb.Items.Add(i + 1);
+                hospitalSatisfactionCb.Items.Add(i + 1);
+                hospitalRecommendCb.Items.Add(i + 1);
+                hospitalHygieneCb.Items.Add(i + 1);
+                doctorRecommendCb.Items.Add(i + 1);
+                doctorServiceQualityCb.Items.Add(i + 1);
+            }
+        }
         public void InitializeAnamnesesTab()
         {
             sortingDirectionCb.ItemsSource = Enum.GetValues(typeof(SortDirection));
@@ -553,14 +564,18 @@ namespace HealthCare_System.gui
             if (doctorShowPriorityCb.SelectedIndex!=-1 && sortDirectionDoctorCb.SelectedIndex != -1 && doctorSpecializationCb.SelectedIndex!=-1)
             {
                 doctorsLb.Items.Clear();
+                indexedSearchedDoctors.Clear();
                 DoctorSortPriority priority = (DoctorSortPriority)Enum.Parse(typeof(DoctorSortPriority), doctorShowPriorityCb.SelectedItem.ToString());
                 SortDirection direction = (SortDirection)Enum.Parse(typeof(SortDirection), sortDirectionDoctorCb.SelectedItem.ToString());
                 List<Doctor> doctors = factory.DoctorController.FilterDoctors(doctorFirstNameTb.Text,
                     doctorLastNameTb.Text, (Specialization)Enum.Parse(typeof(Specialization), doctorSpecializationCb.SelectedItem.ToString()));
                 List<Doctor> sortedDoctors = factory.SortDoctors(doctors, priority, direction);
+                int index = 0;
                 foreach (Doctor doctor in sortedDoctors)
                 {
+                    indexedSearchedDoctors.Add(index, doctor);
                     doctorsLb.Items.Add(doctor.FirstName + " " + doctor.LastName + ", " + doctor.Specialization.ToString().ToLower());
+                    index++;
                 }
             }
            
@@ -592,6 +607,80 @@ namespace HealthCare_System.gui
         {
             updateSearchListDoctors();
 
+        }
+
+        private void bookDoctorCb_Click(object sender, RoutedEventArgs e)
+        {
+            if (doctorsLb.SelectedIndex==-1)
+            {
+                MessageBox.Show("Please select doctor");
+                return;
+            }
+            if (indexedSearchedDoctors[doctorsLb.SelectedIndex].Specialization!=Specialization.GENERAL)
+            {
+                MessageBox.Show("You can only book appointment with doctor whose specialization is general!");
+                return;
+            }
+            for (int i=0; i < indexedDoctors.Count; i++)
+            {
+                if (indexedDoctors[i]== indexedSearchedDoctors[doctorsLb.SelectedIndex])
+                {
+                    doctorCb.SelectedIndex = i;
+                    tabs.SelectedIndex = 0;
+                    return;
+                }
+            }
+
+        }
+
+        private void rateDoctorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (appointmentHistoryLb.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select Appointment");
+                return;
+            }
+            if(doctorRecommendCb.SelectedIndex==-1 || doctorServiceQualityCb.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please Fill All Fields");
+                return;
+            }
+            if (indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Graded)
+            {
+                MessageBox.Show("Appointment Is Already Graded");
+                return;
+            }    
+            int id = factory.DoctorSurveyController.GenerateId();
+            Doctor doctor = indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Doctor;
+            DoctorSurvey survey = new DoctorSurvey(id,doctor, doctorServiceQualityCb.SelectedIndex + 1, doctorRecommendCb.SelectedIndex + 1, doctorCommentTb.Text);
+            indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Graded = true;
+            factory.DoctorSurveyController.Add(survey);
+            factory.DoctorSurveyController.Serialize();
+            factory.AppointmentController.Serialize();
+            doctorServiceQualityCb.SelectedIndex = -1;
+            doctorRecommendCb.SelectedIndex = -1;
+            doctorCommentTb.Clear();
+        }
+
+        private void rateHospitalBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (hospitalHygieneCb.SelectedIndex == -1 || hospitalRecommendCb.SelectedIndex == -1||
+                hospitalSatisfactionCb.SelectedIndex==-1||hospitalServiceQualityCb.SelectedIndex==-1)
+            {
+                MessageBox.Show("Please Fill All Fields");
+                return;
+            }
+            int id = factory.HospitalSurveyController.GenerateId();
+
+            HospitalSurvey survey = new HospitalSurvey(id, hospitalServiceQualityCb.SelectedIndex+1,hospitalHygieneCb.SelectedIndex+1,
+                hospitalSatisfactionCb.SelectedIndex+1,hospitalRecommendCb.SelectedIndex+1,hospitalCommentTb.Text);
+            factory.HospitalSurveyController.Add(survey);
+            factory.HospitalSurveyController.Serialize();
+            hospitalServiceQualityCb.SelectedIndex = -1;
+            hospitalHygieneCb.SelectedIndex = -1;
+            hospitalSatisfactionCb.SelectedIndex = -1;
+            hospitalRecommendCb.SelectedIndex = -1;
+            hospitalCommentTb.Clear();
         }
     }
 }
