@@ -1,22 +1,27 @@
 [
   {
     "id":1001,
-    "requestCreated":"2022-04-25T17:16"
+    "requestCreated":"2022-04-25T17:16",
+    "finished":true
   },
   {
     "id":1002,
-    "requestCreated":"2022-04-27T13:11"
+    "requestCreated":"2022-04-27T13:11",
+    "finished":true
   },
   {
     "id":1003,
-    "requestCreated":"2022-05-03T17:16"
+    "requestCreated":"2022-05-03T17:16",
+    "finished":true
   },
   {
     "id":1004,
-    "requestCreated":"2022-05-04T13:11"
+    "requestCreated":"2022-05-04T13:11",
+    "finished":true
   },
   {
     "id":1005,
-    "requestCreated":"2022-05-17T17:16"
+    "requestCreated":"2022-05-17T17:16",
+    "finished":true
   }
 ]
