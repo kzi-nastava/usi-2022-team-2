@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace HealthCare_System.entities
+namespace HealthCare_System.Model
 {
     public enum DrugConsumption{BEFORE_MEAL, DURING_MEAL, AFTER_MEAL, UNIMPORTANT}
     public class Prescription

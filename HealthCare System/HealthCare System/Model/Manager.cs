@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HealthCare_System.entities
+namespace HealthCare_System.Model
 {
     public class Manager : Person
     {

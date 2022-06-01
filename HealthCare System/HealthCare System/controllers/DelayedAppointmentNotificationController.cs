@@ -1,8 +1,6 @@
-﻿using HealthCare_System.entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HealthCare_System.Model;
 using System.IO;
-using System.Net;
-using System.Net.Mail;
 using System.Text.Json;
 
 namespace HealthCare_System.controllers
@@ -44,7 +42,7 @@ namespace HealthCare_System.controllers
             return null;
         }
 
-        public DelayedAppointmentNotification add(Appointment appointment, string text)
+        public DelayedAppointmentNotification Add(Appointment appointment, string text)
         {
             DelayedAppointmentNotification newNotification = new DelayedAppointmentNotification(GenerateId(), text, appointment);
             delayedAppointmentNotifications.Add(newNotification);

@@ -1,4 +1,4 @@
-﻿using HealthCare_System.entities;
+﻿using HealthCare_System.Model;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.controllers
 {
+    //moved
     class AnamnesisController
     {
         List<Anamnesis> anamneses;
@@ -58,6 +59,6 @@ namespace HealthCare_System.controllers
             Serialize();
         }
 
-        
+
     }
 }

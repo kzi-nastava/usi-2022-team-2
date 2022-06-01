@@ -8,5 +8,86 @@ namespace HealthCare_System.Services.EquipmentService
 {
     class EquipmentService
     {
+        public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
+        {
+            if (amount == "0-10")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] >= 10 || equipmentAmount[equipmentAmountEntry.Key] <= 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else if (amount == "10+")
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] < 10)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                {
+                    if (equipmentAmount[equipmentAmountEntry.Key] != 0)
+                        equipmentAmount.Remove(equipmentAmountEntry.Key);
+                }
+            }
+        }
+        public void EquipmentTypeFilter(string equipmentType, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                if (equipmentAmountEntry.Key.Type.ToString() != equipmentType)
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
+        }
+
+        public void EquipmentQuery(string value, Dictionary<Equipment, int> equipmentAmount)
+        {
+            foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+            {
+                bool containsValue = false;
+                foreach (PropertyInfo prop in equipmentAmountEntry.Key.GetType().GetProperties())
+                {
+                    try
+                    {
+                        string checkProp = prop.GetValue(equipmentAmountEntry.Key).ToString().ToLower();
+                        if (checkProp.Contains(value.ToLower()))
+                        {
+                            containsValue = true;
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                }
+                if (!containsValue)
+                    equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
+        }
+        public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
+        {
+            Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
+            foreach (Room room in rooms)
+            {
+                foreach (KeyValuePair<Equipment, int> equipmentAmountRoom in room.EquipmentAmount)
+                {
+                    if (equipmentAmountAllRooms.ContainsKey(equipmentAmountRoom.Key))
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] += equipmentAmountRoom.Value;
+                    }
+                    else
+                    {
+                        equipmentAmountAllRooms[equipmentAmountRoom.Key] = equipmentAmountRoom.Value;
+                    }
+                }
+            }
+            return equipmentAmountAllRooms;
+        }
     }
 }

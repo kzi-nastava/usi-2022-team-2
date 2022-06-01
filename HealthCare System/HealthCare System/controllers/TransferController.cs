@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using System.IO;
 
 namespace HealthCare_System.controllers

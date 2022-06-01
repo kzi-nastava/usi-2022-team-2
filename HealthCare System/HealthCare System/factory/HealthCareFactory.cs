@@ -703,7 +703,7 @@ namespace HealthCare_System.factory
         public void AddNotification(Appointment appointment, DateTime oldStart)
         {
             string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
-            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.add(appointment, text);
+            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.Add(appointment, text);
             delayedAppointmentNotificationController.Serialize();
         }
 

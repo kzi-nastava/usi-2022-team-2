@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace HealthCare_System.entities
+namespace HealthCare_System.Model
 {
     public enum DaysOffRequestState { WAITING, ACCEPTED, DENIED}
     public class DaysOffRequest

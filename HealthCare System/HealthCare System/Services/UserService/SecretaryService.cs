@@ -8,5 +8,6 @@ namespace HealthCare_System.Services.UserService
 {
     class SecretaryService
     {
+
     }
 }

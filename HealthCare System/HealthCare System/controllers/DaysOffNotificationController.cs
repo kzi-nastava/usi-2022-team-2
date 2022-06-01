@@ -1,5 +1,5 @@
-﻿using HealthCare_System.entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HealthCare_System.Model;
 using System.IO;
 using System.Text.Json;
 
