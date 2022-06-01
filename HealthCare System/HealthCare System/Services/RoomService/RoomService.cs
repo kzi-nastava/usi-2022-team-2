@@ -15,7 +15,9 @@ namespace HealthCare_System.Services.RoomService
         SplittingRenovationService splittingRenovationService;
 
         RoomRepo roomRepo;
-        
+
+        internal RoomRepo RoomRepo { get => roomRepo; }
+
         public RoomService()
         {
             RoomRepoFactory roomRepoFactory = new();

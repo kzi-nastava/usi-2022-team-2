@@ -47,7 +47,7 @@ namespace HealthCare_System.Services.AppointmentService
         }
         public List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium, SortDirection direction)
         {
-            List<Appointment> unsortedAnamneses = FindByWord(patient, word);
+            List<Appointment> unsortedAnamneses = appointmentRepo.FindByWord(patient, word);
             if (criterium == AnamnesesSortCriterium.DATE)
             {
                 return SortByDate(unsortedAnamneses, direction);

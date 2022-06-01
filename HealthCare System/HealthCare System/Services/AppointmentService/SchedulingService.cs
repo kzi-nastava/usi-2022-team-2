@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Model;
+using HealthCare_System.Services.RoomService;
+using HealthCare_System.Services.UserService;
 
 namespace HealthCare_System.Services.SchedulingService
 {
@@ -15,12 +17,14 @@ namespace HealthCare_System.Services.SchedulingService
 
             List<Room> rooms = new List<Room>();
 
+            RoomService.RoomService roomService = new();
+            AppointmentService.AppointmentService appointmentService = new();
 
-            foreach (Room room in roomController.GetRoomsByType(type))
-                if (IsRoomAvailableRenovationsAtTime(room, start))
+            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type))
+                if (roomService.IsRoomAvailableRenovationsAtTime(room, start))
                     rooms.Add(room);
 
-            foreach (Appointment appointment in appointmentController.Appointments)
+            foreach (Appointment appointment in appointmentService.AppointmentRepo.Appointments)
             {
 
                 if (rooms.Contains(appointment.Room) && ((appointment.Start <= start && appointment.End >= start) ||
@@ -39,7 +43,10 @@ namespace HealthCare_System.Services.SchedulingService
         }
         public Appointment AddAppointment(Appointment appointment)
         {
-            int anamnesisId = anamnesisController.GenerateId();
+            AnamnesisService.AnamnesisService anamnesisService = new();
+            AppointmentService.AppointmentService appointmentService = new();
+
+            int anamnesisId = anamnesisService.AnamnesisRepo.GenerateId();
             Anamnesis anamnesis = new(anamnesisId, "");
             appointment.Anamnesis = anamnesis;
 
@@ -48,58 +55,67 @@ namespace HealthCare_System.Services.SchedulingService
 
             appointment.Validate();
 
-            appointmentController.Appointments.Add(appointment);
+            appointmentService.AppointmentRepo.Appointments.Add(appointment);
             appointment.Doctor.Appointments.Add(appointment);
             appointment.Patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisController.Anamneses.Add(appointment.Anamnesis);
-            appointmentController.Serialize();
-            anamnesisController.Serialize();
+            anamnesisService.AnamnesisRepo.Anamneses.Add(appointment.Anamnesis);
+            appointmentService.AppointmentRepo.Serialize();
+            anamnesisService.AnamnesisRepo.Serialize();
 
             return appointment;
 
         }
         public void UpdateAppointment(Appointment newAppointment)
         {
+            AppointmentService.AppointmentService appointmentService = new();
+
             newAppointment.Validate();
-            Appointment appointment = appointmentController.FindById(newAppointment.Id);
+            Appointment appointment = appointmentService.AppointmentRepo.FindById(newAppointment.Id);
 
             appointment.Start = newAppointment.Start;
             appointment.End = newAppointment.End;
             appointment.Doctor = newAppointment.Doctor;
             appointment.Patient = newAppointment.Patient;
             appointment.Status = newAppointment.Status;
-            appointmentController.Serialize();
+            appointmentService.AppointmentRepo.Serialize();
 
         }
 
         public void DeleteAppointment(int id)
         {
-            Appointment appointment = appointmentController.FindById(id);
+            AppointmentService.AppointmentService appointmentService = new();
+            AnamnesisService.AnamnesisService anamnesisService = new();
+
+            Appointment appointment = appointmentService.AppointmentRepo.FindById(id);
             if (appointment is null)
             {
                 throw new Exception("Appointment is not found!");
             }
-            appointmentController.Appointments.Remove(appointment);
+            appointmentService.AppointmentRepo.Appointments.Remove(appointment);
             appointment.Doctor.Appointments.Remove(appointment);
             appointment.Patient.MedicalRecord.Appointments.Remove(appointment);
-            anamnesisController.Anamneses.Remove(appointment.Anamnesis);
-            appointmentController.Serialize();
-            anamnesisController.Serialize();
+            anamnesisService.AnamnesisRepo.Anamneses.Remove(appointment.Anamnesis);
+            appointmentService.AppointmentRepo.Serialize();
+            anamnesisService.AnamnesisRepo.Serialize();
         }
         public Appointment BookAppointmentByReferral(Referral referral)
         {
+            DoctorService doctorService = new();
+            AppointmentService.AppointmentService appointmentService = new();
+            ReferralService.ReferralService referralService = new();
+
             Doctor doctor = referral.Doctor;
             if (doctor is null)
             {
-                doctor = doctorController.FindBySpecialization(referral.Specialization)[0];
+                doctor = doctorService.DoctorRepo.FindBySpecialization(referral.Specialization)[0];
             }
 
             DateTime closestTimeForDoctor = doctor.getClosestFreeAppointment(15, referral.MedicalRecord.Patient);
 
             referral.Used = true;
-            referralController.Serialize();
+            referralService.ReferralRepo.Serialize();
 
-            int id = appointmentController.GenerateId();
+            int id = appointmentService.AppointmentRepo.GenerateId();
             Appointment appointment = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
                 referral.MedicalRecord.Patient, null, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
             return AddAppointment(appointment);
@@ -107,15 +123,17 @@ namespace HealthCare_System.Services.SchedulingService
         }
         private void DeleteAppointmens(Patient patient)
         {
-            for (int i = appointmentController.Appointments.Count - 1; i >= 0; i--)
+            AppointmentService.AppointmentService appointmentService = new();
+
+            for (int i = appointmentService.AppointmentRepo.Appointments.Count - 1; i >= 0; i--)
             {
-                if (appointmentController.Appointments[i].Patient == patient)
+                if (appointmentService.AppointmentRepo.Appointments[i].Patient == patient)
                 {
-                    if (appointmentController.Appointments[i].Start > DateTime.Now)
+                    if (appointmentService.AppointmentRepo.Appointments[i].Start > DateTime.Now)
                     {
                         throw new Exception("Can't delete selected patient, because of it's future appointments.");
                     }
-                    DeleteAppointment(appointmentController.Appointments[i].Id);
+                    DeleteAppointment(appointmentService.AppointmentRepo.Appointments[i].Id);
                 }
             }
         }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Model;
 using HealthCare_System.Repository.AppointmentRepo;
 
-namespace HealthCare_System.Services.SchedulingService
+namespace HealthCare_System.Services.AppointmentService
 {
     class AppointmentRequestService
     {
@@ -21,27 +22,30 @@ namespace HealthCare_System.Services.SchedulingService
 
         public void AcceptRequest(AppointmentRequest request)
         {
+            AppointmentService appointmentService = new();
+
             if (request.Type == RequestType.DELETE)
             {
-                appointmentController.Appointments.Remove(request.NewAppointment);
+                appointmentService.AppointmentRepo.Appointments.Remove(request.NewAppointment);
                 request.NewAppointment = null;
             }
-            appointmentController.Appointments.Remove(request.OldAppointment);
+            appointmentService.AppointmentRepo.Appointments.Remove(request.OldAppointment);
             request.OldAppointment = null;
             request.State = AppointmentState.ACCEPTED;
-            appointmentController.Serialize();
-            appointmentRequestController.Serialize();
+            appointmentService.AppointmentRepo.Serialize();
+            appointmentRequestRepo.Serialize();
         }
         public void RejectRequest(AppointmentRequest request)
         {
+            AppointmentService appointmentService = new();
             request.State = AppointmentState.DENIED;
             if (request.Type == RequestType.UPDATE)
             {
-                appointmentController.Appointments.Remove(request.NewAppointment);
+                appointmentService.AppointmentRepo.Appointments.Remove(request.NewAppointment);
                 request.NewAppointment = null;
-                appointmentController.Serialize();
+                appointmentService.AppointmentRepo.Serialize();
             }
-            AppointmentRequestController.Serialize();
+            appointmentRequestRepo.Serialize();
         }
     }
 }
