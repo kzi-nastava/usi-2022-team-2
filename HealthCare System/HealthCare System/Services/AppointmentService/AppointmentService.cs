@@ -20,27 +20,7 @@ namespace HealthCare_System.Services.AppointmentService
 
         internal AppointmentRepo AppointmentRepo { get => appointmentRepo; }
 
-        public Appointment AddAppointment(Appointment appointment)
-        {
-            int anamnesisId = anamnesisController.GenerateId();
-            Anamnesis anamnesis = new(anamnesisId, "");
-            appointment.Anamnesis = anamnesis;
-
-            Room room = AvailableRoom(appointment.Type, appointment.Start, appointment.End);
-            appointment.Room = room;
-
-            appointment.Validate();
-
-            appointmentController.Appointments.Add(appointment);
-            appointment.Doctor.Appointments.Add(appointment);
-            appointment.Patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisController.Anamneses.Add(appointment.Anamnesis);
-            appointmentController.Serialize();
-            anamnesisController.Serialize();
-
-            return appointment;
-
-        }
+        
         public List<Appointment> SortByDate(List<Appointment> unsortedAppointments, SortDirection direction)
         {
             if (direction == SortDirection.ASCENDING)
@@ -81,5 +61,7 @@ namespace HealthCare_System.Services.AppointmentService
                 return SortBySpecialization(unsortedAnamneses, direction);
             }
         }
+
+
     }
 }

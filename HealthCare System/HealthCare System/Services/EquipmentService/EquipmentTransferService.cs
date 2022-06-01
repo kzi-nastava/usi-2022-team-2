@@ -71,5 +71,14 @@ namespace HealthCare_System.Services.EquipmentService
             }
             return valid;
         }
+
+        public void ExecuteTransfer(Transfer transfer)
+        {
+            roomController.MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
+            roomController.MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
+            roomController.Serialize();
+            transferController.Transfers.Remove(transfer);
+            transferController.Serialize();
+        }
     }
 }

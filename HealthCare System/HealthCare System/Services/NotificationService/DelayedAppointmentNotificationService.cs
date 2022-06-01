@@ -20,5 +20,12 @@ namespace HealthCare_System.Services.NotificationService
 
         public DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo 
             { get => delayedAppointmentNotificationRepo; }
+
+        public void AddNotification(Appointment appointment, DateTime oldStart)
+        {
+            string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
+            DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.Add(appointment, text);
+            delayedAppointmentNotificationController.Serialize();
+        }
     }
 }

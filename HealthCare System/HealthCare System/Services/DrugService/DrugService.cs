@@ -68,5 +68,23 @@ namespace HealthCare_System.Services.DrugService
 
             return filtered;
         }
+
+        public bool IsDrugAvailableForChange(Drug drug)
+        {
+            bool available = true;
+
+            foreach (Prescription prescription in prescriptionController.Prescriptions)
+            {
+                if (prescription.Drug == drug)
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            return available;
+
+
+        }
     }
 }

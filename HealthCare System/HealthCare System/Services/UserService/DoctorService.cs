@@ -56,5 +56,19 @@ namespace HealthCare_System.Services.UserService
             else
                 return unsortedDoctors.OrderBy(t => t.Specialization).ToList();
         }
+
+        public List<Doctor> SortDoctors(List<Doctor> doctors, DoctorSortPriority priority, SortDirection direction)
+        {
+            List<Doctor> sortedDoctors = new();
+            if (priority == DoctorSortPriority.RATINGS)
+                sortedDoctors = SortDoctorsByRatings(doctors, direction);
+            else if (priority == DoctorSortPriority.FIRST_NAME)
+                sortedDoctors = doctorController.SortDoctorsByFirstName(doctors, direction);
+            else if (priority == DoctorSortPriority.LAST_NAME)
+                sortedDoctors = doctorController.SortDoctorsByLastName(doctors, direction);
+            else
+                sortedDoctors = doctorController.SortDoctorsBySpecialization(doctors, direction);
+            return sortedDoctors;
+        }
     }
 }

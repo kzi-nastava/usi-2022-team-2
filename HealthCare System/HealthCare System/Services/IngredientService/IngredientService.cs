@@ -33,5 +33,21 @@ namespace HealthCare_System.Services.IngredientService
             ingredient.Name = name;
             IngredientRepo.Serialize();
         }
+
+        public bool IsIngredientAvailableForChange(Ingredient ingredient)
+        {
+            bool available = true;
+
+            foreach (Drug drug in drugController.Drugs)
+            {
+                if (drug.Ingredients.Contains(ingredient))
+                {
+                    available = false;
+                    break;
+                }
+            }
+
+            return available;
+        }
     }
 }

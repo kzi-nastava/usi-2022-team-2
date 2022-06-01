@@ -191,6 +191,95 @@ namespace HealthCare_System.Services.RoomService
             }
             return rooms[0];
         }
+
+        public bool IsRoomAvailableForChange(Room room)
+        {
+            bool available = true;
+
+            available = IsRoomAvailableAppointments(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = transferController.IsRoomAvailable(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            return available;
+        }
+        public void RemoveRoom(Room room)
+        {
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (appointment.Room == room)
+                    appointment.Room = null;
+            }
+            appointmentController.Serialize();
+            roomController.DeleteRoom(room);
+        }
+
+        public bool IsRoomAvailableAppointments(Room room)
+        {
+            bool available = true;
+            foreach (Appointment appointment in appointmentController.Appointments)
+            {
+                if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtAll(Room room)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtAll(room);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
+
+        public bool IsRoomAvailableRenovationsAtTime(Room room, DateTime time)
+        {
+            bool available = true;
+            available = simpleRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = mergingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+
+            available = splittingRenovationController.IsRoomAvailableAtTime(room, time);
+            if (!available)
+            {
+                return available;
+            }
+            return available;
+        }
     }
     
 

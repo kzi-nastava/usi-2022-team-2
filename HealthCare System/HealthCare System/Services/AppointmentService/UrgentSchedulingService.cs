@@ -8,6 +8,33 @@ namespace HealthCare_System.Services.SchedulingService
 {
     class UrgentSchedulingService
     {
+        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, Patient patient, int duration)
+        {
+            DateTime limitTime = DateTime.Now.AddHours(2);
+            DateTime start = limitTime;
+            DateTime closestTimeForDoctor;
+            Doctor doctor = doctors[0];
+            foreach (Doctor doc in doctors)
+            {
+                closestTimeForDoctor = doc.getClosestFreeAppointment(duration, patient);
+                if (closestTimeForDoctor < start)
+                {
+                    start = closestTimeForDoctor;
+                    doctor = doc;
+                }
+            }
+
+            if (limitTime == start)
+            {
+                return null;
+            }
+            AppointmentType type = Appointment.getTypeByDuration(duration);
+
+            int id = appointmentController.GenerateId();
+            Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
+            appointment.Doctor = doctor;
+            return appointment;
+        }
         public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration, Patient patient)
         {
             Dictionary<Appointment, DateTime> appointmentsDict = new Dictionary<Appointment, DateTime>();

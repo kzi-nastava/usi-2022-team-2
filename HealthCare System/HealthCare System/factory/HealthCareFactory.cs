@@ -572,7 +572,7 @@ namespace HealthCare_System.factory
             file.Close();
         }
         #endregion
-
+        //+
         public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
         {
 
@@ -601,7 +601,7 @@ namespace HealthCare_System.factory
             return rooms[0];
         }
 
-        //prebaceno
+        //+
         public Appointment AddAppointment(Appointment appointment)
         {
             int anamnesisId = anamnesisController.GenerateId();
@@ -623,7 +623,7 @@ namespace HealthCare_System.factory
             return appointment;
 
         }
-
+        //+
         public void UpdateAppointment(Appointment newAppointment)
         {
             newAppointment.Validate();
@@ -637,7 +637,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
 
         }
-
+        //+
         public void DeleteAppointment(int id)
         {
             Appointment appointment = appointmentController.FindById(id);
@@ -652,7 +652,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             anamnesisController.Serialize();
         }
-
+        //+
         public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, Patient patient, int duration)
         {
             DateTime limitTime = DateTime.Now.AddHours(2);
@@ -680,7 +680,7 @@ namespace HealthCare_System.factory
             appointment.Doctor = doctor;
             return appointment;
         }
-
+        //+
         public Appointment BookAppointmentByReferral(Referral referral)
         {
             Doctor doctor = referral.Doctor;
@@ -700,14 +700,14 @@ namespace HealthCare_System.factory
             return AddAppointment(appointment);
 
         }
-
+        //+
         public void AddNotification(Appointment appointment, DateTime oldStart)
         {
             string text = "Your appointment booked for " + oldStart + " is delayed. New start is on: " + appointment.Start + ".";
             DelayedAppointmentNotification newNotification = delayedAppointmentNotificationController.Add(appointment, text);
             delayedAppointmentNotificationController.Serialize();
         }
-
+        //+
         public void AcceptRequest(AppointmentRequest request)
         {
             if (request.Type == RequestType.DELETE)
@@ -721,7 +721,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             appointmentRequestController.Serialize();
         }
-
+        //++
         public void RejectRequest(AppointmentRequest request)
         {
             request.State = AppointmentState.DENIED;
@@ -733,7 +733,7 @@ namespace HealthCare_System.factory
             }
             AppointmentRequestController.Serialize();
         }
-
+        //++
         private void DeleteAppointmens(Patient patient)
         {
             for (int i = appointmentController.Appointments.Count - 1; i >= 0; i--)
@@ -748,7 +748,7 @@ namespace HealthCare_System.factory
                 }
             }
         }
-
+        //++
         private void DeletePrescriptions(MedicalRecord medicalRecord)
         {
             for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
@@ -760,7 +760,7 @@ namespace HealthCare_System.factory
             }
             prescriptionController.Serialize();
         }
-
+        //++
         public void DeletePatient(Patient patient)
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;
@@ -782,7 +782,7 @@ namespace HealthCare_System.factory
             patientController.Serialize();
 
         }
-
+        //++
         public void AddPatient(Patient patient, MedicalRecord medRecord)
         {
             patientController.Patients.Add(patient);
@@ -794,13 +794,13 @@ namespace HealthCare_System.factory
             medicalRecordController.Serialize();
             ingredientController.Serialize();
         }
-
+        //++
         public void UpdatePatient()
         {
             patientController.Serialize();
             medicalRecordController.Serialize();
         }
-
+        //++
         public void TryToExecuteSupplyRequest()
         {
             Room storage = roomController.GetStorage();
@@ -815,14 +815,14 @@ namespace HealthCare_System.factory
                 }
             }
         }
-
+        //++
         public void AddSupplyRequest(Equipment equipment, int quantity)
         {
             SupplyRequest supplyRequest = new SupplyRequest(supplyRequestController.GenerateId(), equipment, quantity);
             supplyRequestController.SupplyRequests.Add(supplyRequest);
             supplyRequestController.Serialize();
         }
-
+        //++
         public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType,
             Dictionary<Equipment, int> equipmentAmount)
         {
@@ -841,7 +841,7 @@ namespace HealthCare_System.factory
                 equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
             }
         }
-
+        //++
         public void ExecuteTransfer(Transfer transfer)
         {
             roomController.MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
@@ -850,7 +850,7 @@ namespace HealthCare_System.factory
             transferController.Transfers.Remove(transfer);
             transferController.Serialize();
         }
-
+        //++
         public bool IsRoomAvailableForChange(Room room)
         {
             bool available = true;
@@ -869,7 +869,7 @@ namespace HealthCare_System.factory
 
             return available;
         }
-
+        //++
         public void RemoveRoom(Room room)
         {
             foreach (Appointment appointment in appointmentController.Appointments)
@@ -880,7 +880,7 @@ namespace HealthCare_System.factory
             appointmentController.Serialize();
             roomController.DeleteRoom(room);
         }
-
+        //++
         public void AddPrescrition(Prescription prescription)
         {
             MedicalRecord medicalRecord = medicalRecordController.FindById(prescription.MedicalRecord.Id);
@@ -903,7 +903,7 @@ namespace HealthCare_System.factory
             }
             return available;
         }
-
+        //+
         public bool IsRoomAvailableRenovationsAtAll(Room room)
         {
             bool available = true;
@@ -926,7 +926,7 @@ namespace HealthCare_System.factory
             }
             return available;
         }
-
+        //++
         public bool IsRoomAvailableRenovationsAtTime(Room room, DateTime time)
         {
             bool available = true;
@@ -949,7 +949,7 @@ namespace HealthCare_System.factory
             }
             return available;
         }
-
+        //+
         public Dictionary<Equipment, int> InitalizeEquipment()
         {
             Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
@@ -959,7 +959,7 @@ namespace HealthCare_System.factory
             }
             return equipmentAmount;
         }
-
+        //++
         public void StartSimpleRenovation(SimpleRenovation simpleRenovation)
         {
             simpleRenovation.Status = RenovationStatus.ACTIVE;
@@ -967,7 +967,7 @@ namespace HealthCare_System.factory
             roomController.MoveEquipmentToStorage(simpleRenovation.Room);
             roomController.Serialize();
         }
-
+        //++
         public void FinishSimpleRenovation(SimpleRenovation simpleRenovation)
         {
             simpleRenovation.Status = RenovationStatus.FINISHED;
@@ -975,7 +975,7 @@ namespace HealthCare_System.factory
             simpleRenovationController.SimpleRenovations.Remove(simpleRenovation);
             simpleRenovationController.Serialize();
         }
-
+        //++
         public void StartMergingRenovation(MergingRenovation mergingRenovation)
         {
             mergingRenovation.Status = RenovationStatus.ACTIVE;
@@ -986,7 +986,7 @@ namespace HealthCare_System.factory
             }
             roomController.Serialize();
         }
-
+        //++
         public void FinishMergingRenovation(MergingRenovation mergingRenovation)
         {
             mergingRenovation.Status = RenovationStatus.ACTIVE;
@@ -999,7 +999,7 @@ namespace HealthCare_System.factory
             mergingRenovationController.MergingRenovations.Remove(mergingRenovation);
             mergingRenovationController.Serialize();
         }
-
+        //++
         public void StartSplittingRenovation(SplittingRenovation splittingRenovation)
         {
             splittingRenovation.Status = RenovationStatus.ACTIVE;
@@ -1007,7 +1007,7 @@ namespace HealthCare_System.factory
             roomController.MoveEquipmentToStorage(splittingRenovation.Room);
             roomController.Serialize();
         }
-
+        //++
         public void FinishSplittingRenovation(SplittingRenovation splittingRenovation)
         {
             splittingRenovation.Status = RenovationStatus.FINISHED;
@@ -1090,7 +1090,7 @@ namespace HealthCare_System.factory
             }
 
         }
-
+        //++
         private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {
             List<Appointment> appointments = new();
@@ -1130,7 +1130,7 @@ namespace HealthCare_System.factory
             }
             return null;
         }
-
+        //++
         private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
         {
             List<Appointment> appointments = new();
@@ -1160,7 +1160,7 @@ namespace HealthCare_System.factory
             }
             return null;
         }
-
+        //++
         private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
         {
             List<Appointment> appointments = new();
@@ -1203,7 +1203,7 @@ namespace HealthCare_System.factory
             return null;
 
         }
-
+        //++
         public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to)
         {
             DateTime todayStart = end.AddDays(1);
@@ -1236,7 +1236,7 @@ namespace HealthCare_System.factory
             }
 
         }
-
+        //++
         public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor)
         {
             List<Appointment> appointments = SearchDoubleCriterium(end, from, to, doctor);
@@ -1264,7 +1264,7 @@ namespace HealthCare_System.factory
             return SearchNoPriority(end, from, to);
 
         }
-
+        //++
         public List<Doctor> SortDoctorsByRatings(List<Doctor> doctors, SortDirection direction)
         {
             List<Tuple<Doctor, double>> ratings = new();
@@ -1285,7 +1285,7 @@ namespace HealthCare_System.factory
             }
             return sortedDoctors;
         }
-
+        //++
         public List<Doctor> SortDoctors(List<Doctor> doctors, DoctorSortPriority priority, SortDirection direction)
         {
             List<Doctor> sortedDoctors = new();
@@ -1299,7 +1299,7 @@ namespace HealthCare_System.factory
                 sortedDoctors = doctorController.SortDoctorsBySpecialization(doctors, direction);
             return sortedDoctors;
         }
-
+        //++
         public bool IsIngredientAvailableForChange(Ingredient ingredient)
         {
             bool available = true;
@@ -1315,7 +1315,7 @@ namespace HealthCare_System.factory
 
             return available;
         }
-
+        //++
         public bool IsDrugAvailableForChange(Drug drug)
         {
             bool available = true;

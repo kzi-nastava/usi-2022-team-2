@@ -42,5 +42,38 @@ namespace HealthCare_System.Services.UserService
             if (createRequests > 7 || editRequests > 4)
                 patient.Blocked = true;
         }
+
+        public Person Login(string mail, string password)
+        {
+            foreach (Doctor doctor in doctorController.Doctors)
+                if (doctor.Mail == mail && doctor.Password == password)
+                    return doctor;
+
+            foreach (Patient patient in patientController.Patients)
+                if (patient.Mail == mail && patient.Password == password)
+                {
+                    appointmentRequestController.RunAntiTrollCheck(patient);
+                    if (patient.Blocked)
+                    {
+                        MessageBox.Show("Account blocked. Contact secretary for more informations!");
+                        return patient;
+                    }
+                    else
+                    {
+
+                        return patient;
+                    }
+
+                }
+            foreach (Manager manager in managerController.Managers)
+                if (manager.Mail == mail && manager.Password == password)
+                    return manager;
+
+            foreach (Secretary secretary in secretaryController.Secretaries)
+                if (secretary.Mail == mail && secretary.Password == password)
+                    return secretary;
+
+            return null;
+        }
     }
 }

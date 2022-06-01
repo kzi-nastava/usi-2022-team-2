@@ -29,5 +29,52 @@ namespace HealthCare_System.Services.RenovationService
             mergingRenovations.Add(mergingRenovation);
             Serialize();
         }
+
+        public void StartMergingRenovation(MergingRenovation mergingRenovation)
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            mergingRenovationController.Serialize();
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                roomController.MoveEquipmentToStorage(room);
+            }
+            roomController.Serialize();
+        }
+
+        public void FinishMergingRenovation(MergingRenovation mergingRenovation)
+        {
+            mergingRenovation.Status = RenovationStatus.ACTIVE;
+            foreach (Room room in mergingRenovation.Rooms)
+            {
+                RemoveRoom(room);
+            }
+            Dictionary<Equipment, int> equipmentAmount = InitalizeEquipment();
+            roomController.CreateNewRoom(mergingRenovation.NewRoomName, mergingRenovation.NewRoomType, equipmentAmount);
+            mergingRenovationController.MergingRenovations.Remove(mergingRenovation);
+            mergingRenovationController.Serialize();
+        }
+
+        public void TryToExecuteMergingRenovations()
+        {
+            if (mergingRenovationController.MergingRenovations.Count > 0)
+            {
+                foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+                {
+                    if (DateTime.Now >= mergingRenovation.EndingDate)
+                    {
+                        FinishMergingRenovation(mergingRenovation);
+                        return;
+                    }
+
+                    if (DateTime.Now >= mergingRenovation.BeginningDate &&
+                        mergingRenovation.Status == RenovationStatus.BOOKED)
+                    {
+                        StartMergingRenovation(mergingRenovation);
+                        return;
+                    }
+                }
+            }
+
+        }
     }
 }

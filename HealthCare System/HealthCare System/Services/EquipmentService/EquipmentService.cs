@@ -100,5 +100,34 @@ namespace HealthCare_System.Services.EquipmentService
             }
             return equipmentAmountAllRooms;
         }
+
+        public void ApplyEquipmentFilters(string roomType, string amount, string equipmentType,
+            Dictionary<Equipment, int> equipmentAmount)
+        {
+            if (roomType != "All")
+            {
+                roomController.RoomTypeFilter(roomType, equipmentAmount);
+            }
+
+            if (amount != "All")
+            {
+                equipmentController.AmountFilter(amount, equipmentAmount);
+            }
+
+            if (equipmentType != "All")
+            {
+                equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
+            }
+        }
+
+        public Dictionary<Equipment, int> InitalizeEquipment()
+        {
+            Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
+            foreach (Equipment equipment in EquipmentController.Equipment)
+            {
+                equipmentAmount[equipment] = 0;
+            }
+            return equipmentAmount;
+        }
     }
 }
