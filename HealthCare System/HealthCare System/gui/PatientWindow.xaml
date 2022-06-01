@@ -8,7 +8,7 @@
         Closing="DataWindow_Closing"
         Title="PatientWindow" Height="450" Width="800">
     <Grid>
-        <TabControl >
+        <TabControl x:Name="tabs" >
             <TabItem x:Name="bookTab" Header="Book" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -58,9 +58,20 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Appointment History" FontSize="20" FontWeight="Bold">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="appointmentHistoryLb" Margin="32,31,34,66"  />
-                    <Button x:Name="refreshHistory" Content="Refresh" HorizontalAlignment="Left" Margin="685,337,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Click="refreshHistory_Click"/>
+                <Grid Background="#FFE5E5E5" Margin="0,0,-2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="appointmentHistoryLb" Margin="10,10,437,53"  />
+                    <Button x:Name="refreshHistory" Content="Refresh" HorizontalAlignment="Left" Margin="147,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Click="refreshHistory_Click" Height="31" Width="75"/>
+                    <Label Content="Service Quality:" HorizontalAlignment="Left" Margin="425,59,0,0" VerticalAlignment="Top" Height="37" Width="163"/>
+                    <ComboBox x:Name="doctorServiceQualityCb" HorizontalAlignment="Left" Margin="593,66,0,0" VerticalAlignment="Top" Width="68" Height="28"/>
+                    <Label Content="Recommend:" HorizontalAlignment="Left" Margin="449,102,0,0" VerticalAlignment="Top" Height="36" Width="133"/>
+                    <ComboBox x:Name="doctorRecommendCb" HorizontalAlignment="Left" Margin="593,110,0,0" VerticalAlignment="Top" Width="68" Height="28"/>
+                    <TextBox x:Name="doctorCommentTb" HorizontalAlignment="Left" Margin="393,181,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="161"/>
+                    <Label Content="Comment:" HorizontalAlignment="Left" Margin="395,146,0,0" VerticalAlignment="Top" Height="36" Width="133"/>
+                    <Button x:Name="rateDoctorBtn" Content="Rate Doctor" HorizontalAlignment="Left" Margin="489,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.378,-0.508" Height="31" Width="145" Click="rateDoctorBtn_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Anamneses" FontSize="20" FontWeight="Bold">
@@ -84,7 +95,7 @@
                     <ListBox x:Name="doctorsLb" Margin="349,22,10,10"/>
                     <ComboBox x:Name="doctorShowPriorityCb" HorizontalAlignment="Left" Margin="177,203,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorShowPriorityCb_SelectionChanged"/>
                     <ComboBox x:Name="sortDirectionDoctorCb" HorizontalAlignment="Left" Margin="177,257,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="sortDirectionDoctorCb_SelectionChanged"/>
-                    <Button x:Name="bookDoctorCb" Content="Button" HorizontalAlignment="Left" Margin="102,342,0,0" VerticalAlignment="Top" Height="36" Width="195"/>
+                    <Button x:Name="bookDoctorCb" Content="Button" HorizontalAlignment="Left" Margin="102,342,0,0" VerticalAlignment="Top" Height="36" Width="195" Click="bookDoctorCb_Click"/>
                     <ComboBox x:Name="doctorSpecializationCb" HorizontalAlignment="Left" Margin="177,154,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorSpecializationCb_SelectionChanged"/>
                 </Grid>
             </TabItem>
@@ -93,6 +104,24 @@
                     <Button x:Name="saveUserDrugReminderBtn" Content="Save" HorizontalAlignment="Center" Margin="0,317,0,0" VerticalAlignment="Top" Width="198" Click="saveUserDrugReminderBtn_Click"/>
                     <Slider x:Name="minutesBeforeDrugSl" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" Width="484" Minimum="10" Maximum="180" LargeChange="10" SmallChange="1" AutoToolTipPlacement="TopLeft"/>
                     <Label Content="Drug Reminder (minutes)" HorizontalAlignment="Center" Margin="0,138,0,0" VerticalAlignment="Top"/>
+            <TabItem Header="Surveys" FontSize="20" FontWeight="Bold">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="62*"/>
+                        <ColumnDefinition Width="87*"/>
+                        <ColumnDefinition Width="248*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="rateHospitalBtn" Content="Rate Hospital" HorizontalAlignment="Left" Margin="14,336,0,0" VerticalAlignment="Top" Height="40" Width="170" Grid.Column="2" Click="rateHospitalBtn_Click"/>
+                    <Label Content="Service Quailty:" HorizontalAlignment="Left" Margin="19,106,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="Hygiene:" HorizontalAlignment="Left" Margin="82,145,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="Satisfaction:" HorizontalAlignment="Left" Margin="50,187,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="Recommend:" HorizontalAlignment="Left" Margin="43,226,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="hospitalCommentTb"  HorizontalAlignment="Left" Margin="8,106,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="443" Height="157" Grid.Column="2"/>
+                    <ComboBox x:Name="hospitalServiceQualityCb" HorizontalAlignment="Left" Margin="57,110,0,0" VerticalAlignment="Top" Width="68" Height="28" Grid.Column="1"/>
+                    <ComboBox x:Name="hospitalHygieneCb" HorizontalAlignment="Left" Margin="57,153,0,0" VerticalAlignment="Top" Width="68" Height="28" RenderTransformOrigin="0.52,0.532" Grid.Column="1"/>
+                    <ComboBox x:Name="hospitalSatisfactionCb" HorizontalAlignment="Left" Margin="57,195,0,0" VerticalAlignment="Top" Width="68" Height="28" Grid.Column="1"/>
+                    <ComboBox x:Name="hospitalRecommendCb" HorizontalAlignment="Left" Margin="57,233,0,0" VerticalAlignment="Top" Width="68" Height="28" Grid.Column="1"/>
+                    <Label Content="Comment:" HorizontalAlignment="Left" Margin="3,70,0,0" VerticalAlignment="Top" Grid.Column="2"/>
                 </Grid>
             </TabItem>
         </TabControl>

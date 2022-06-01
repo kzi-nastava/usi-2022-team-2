@@ -120,6 +120,7 @@ namespace HealthCare_System.gui
         private void StartDate_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             endDate.DisplayDateStart = startDate.SelectedDate.Value.AddDays(1);
+            endDate.SelectedDate = startDate.SelectedDate.Value.AddDays(1);
         }
     }
 }

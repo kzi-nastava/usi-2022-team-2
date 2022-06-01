@@ -250,30 +250,75 @@ namespace HealthCare_System.gui
             int index = 0;
             foreach (Drug drug in drugs)
             {
-                drugView.Items.Add(drug.Name);
-                listedDrugs[index] = drug;
-                index++;
+                if (drug.Status == DrugStatus.ACCEPTED) {
+                    drugView.Items.Add(drug.Name);
+                    listedDrugs[index] = drug;
+                    index++;
+                }
+            }
+            drugView.SelectedIndex = 0;
+        }
+
+        private void ValidateDrugForChange()
+        {
+            if (!factory.IsDrugAvailableForChange(listedDrugs[drugView.SelectedIndex]))
+            {
+                throw new Exception("Drug exists in a prescription so it is not available for change");
             }
         }
 
         private void newDrugBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window drugWindow = new DrugWindow(factory, true);
+            drugWindow.Show();
         }
 
         private void rejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window rejectedDrugsWindow = new RejectedDrugsWindow(factory);
+            rejectedDrugsWindow.Show();
         }
 
         private void updateDrugBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                ValidateDrugForChange();
+                Window drugWindow = new DrugWindow(factory, false, listedDrugs[drugView.SelectedIndex]);
+                drugWindow.Show();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
 
         }
 
         private void deleteDrugBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Delete Drug?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    ValidateDrugForChange();
+                    factory.DrugController.DeleteDrug(listedDrugs[drugView.SelectedIndex]);
+                    MessageBox.Show("Drug deleted sucessfully!");
+                    DisplayDrugs(factory.DrugController.Drugs);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
 
+        private void refreshDrugsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayDrugs(factory.DrugController.Drugs);
         }
         #endregion
 
@@ -289,25 +334,63 @@ namespace HealthCare_System.gui
                 listedIngredients[index] = ingredient;
                 index++;
             }
+            ingredientsView.SelectedIndex = 0;
         }
 
-        
+        private void ValidateIngredientForChange()
+        {
+            if (!factory.IsIngredientAvailableForChange(listedIngredients[ingredientsView.SelectedIndex]))
+            {
+                throw new Exception("Ingredient exists in a drug so it is not available for change");
+            }
+        }
                             
         private void newIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Window ingredientWindow = new IngredientWindow(true, factory);
+            ingredientWindow.Show();
         }
 
         private void updateIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                ValidateIngredientForChange();
+                Window ingredientWindow = new IngredientWindow(false, factory, listedIngredients[ingredientsView.SelectedIndex]);
+                ingredientWindow.Show();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void deleteIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (MessageBox.Show("Delete Ingredient?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    ValidateIngredientForChange();
+                    factory.IngredientController.DeleteIngredient(listedIngredients[ingredientsView.SelectedIndex]);
+                    MessageBox.Show("Ingredient deleted sucessfully!");
+                    DisplayIngredients(factory.IngredientController.Ingredients);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+            else
+            {
+                return;
+            }
         }
 
+        private void refreshIngredientsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayIngredients(factory.IngredientController.Ingredients);
+        }
         #endregion
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -323,5 +406,7 @@ namespace HealthCare_System.gui
                 e.Cancel = true;
             }
         }
+
+        
     }
 }

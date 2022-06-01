@@ -18,6 +18,7 @@ namespace HealthCare_System
             factory.TryToExecuteSimpleRenovations();
             factory.TryToExecuteMergingRenovations();
             factory.TryToExecuteSplittingRenovations();
+            factory.TryToExecuteSupplyRequest();
         }
         public MainWindow()
         {
@@ -26,6 +27,7 @@ namespace HealthCare_System
             factory.TryToExecuteSimpleRenovations();
             factory.TryToExecuteMergingRenovations();
             factory.TryToExecuteSplittingRenovations();
+            factory.TryToExecuteSupplyRequest();
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {

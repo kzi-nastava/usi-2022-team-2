@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,10 +38,9 @@ namespace HealthCare_System.gui
             this.factory = factory;
             this.showingBlocked = false;
             SetEmergencyAppTab();
-            setReferralsTab();
-            FillListBoxPatients();
-            FillListBoxRequests();
-            FillListBoxReferrals();
+            SetReferralsTab();
+            SetEquipmentTab();
+            SetRoomsTab();
         }
 
         private void SetEmergencyAppTab()
@@ -57,16 +57,84 @@ namespace HealthCare_System.gui
             {
                 cmbSpecialization.Items.Add((Specialization)i);
             }
+
+            FillListBoxPatients();
+            FillListBoxRequests();
         }
 
-        private void setReferralsTab()
+        private void SetReferralsTab()
         {
             foreach (Patient patient in factory.PatientController.Patients)
             {
                 cmbPatientInReferrals.Items.Add(patient);
             }
+
+            FillListBoxReferrals();
+
         }
 
+        private void SetEquipmentTab()
+        {
+            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            {
+                if (equipment.Dynamic) cmbEquipment.Items.Add(equipment);
+            }
+
+            FillListBoxEquipment();
+
+            if (listBoxEquipment.Items.Count == 0)
+            {
+                listBoxEquipment.Items.Add("There is currently enough amount of dynamic equipment.");
+            }
+        }
+
+        private void SetRoomsTab()
+        {
+            foreach (Room room in factory.RoomController.Rooms)
+            {
+                cmbRoom.Items.Add(room);
+                cmbRoomFrom.Items.Add(room);
+                cmbRoomTo.Items.Add(room);
+            }
+
+            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            {
+                if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
+            }
+        }
+
+
+        private void FillListBoxEquipment()
+        {
+            listBoxEquipment.Items.Clear();
+            Dictionary<Equipment, int> dynamicEquipment = new Dictionary<Equipment, int>();
+
+            foreach (Room room in factory.RoomController.Rooms)
+            {
+                foreach(Equipment currentEquipment in room.EquipmentAmount.Keys)
+                {
+                    if (currentEquipment.Dynamic)
+                    {
+                        if (dynamicEquipment.ContainsKey(currentEquipment))
+                        {
+                            dynamicEquipment[currentEquipment] += room.EquipmentAmount[currentEquipment];
+                        }
+                        else
+                        {
+                            dynamicEquipment[currentEquipment] = room.EquipmentAmount[currentEquipment];
+                        }
+                    }
+                }
+            }
+
+            foreach (Equipment equipment in dynamicEquipment.Keys)
+            {
+                if (dynamicEquipment[equipment] == 0)
+                {
+                    listBoxEquipment.Items.Add(equipment);
+                }
+            }
+        }
         private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
@@ -133,6 +201,43 @@ namespace HealthCare_System.gui
                 }
             }
         }
+
+        private void FillListBoxEquipmentEnd(Room room)
+        {
+            listBoxEquipmentEnd.Items.Clear();
+
+            foreach (Equipment equipment in room.EquipmentAmount.Keys)
+            {
+                if (equipment.Dynamic && room.EquipmentAmount[equipment] == 0)
+                {
+                    listBoxEquipmentEnd.Items.Add(equipment);
+                }
+            }
+
+            if (listBoxEquipmentEnd.Items.Count == 0)
+            {
+                listBoxEquipmentEnd.Items.Add("There is no missing equipment in this room.");
+            }
+        }
+
+        private void FillListBoxEquipmentNearEnd(Room room)
+        {
+            listBoxEquipmentNearEnd.Items.Clear();
+
+            foreach (Equipment equipment in room.EquipmentAmount.Keys)
+            {
+                if (equipment.Dynamic && room.EquipmentAmount[equipment] <= 5 && room.EquipmentAmount[equipment] > 0)
+                {
+                    listBoxEquipmentNearEnd.Items.Add(equipment);
+                }
+            }
+
+            if (listBoxEquipmentNearEnd.Items.Count == 0)
+            {
+                listBoxEquipmentNearEnd.Items.Add("There are enough amount of every equipment in this room.");
+            }
+        }
+
 
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -210,6 +315,11 @@ namespace HealthCare_System.gui
             FillListBoxPatients();
         }
 
+        private void RefreshReferralsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FillListBoxReferrals();
+        }
+
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
@@ -254,33 +364,44 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ShowRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            factory.User = null;
-            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            Room room = (Room)cmbRoom.SelectedItem;
+            if (room is null)
             {
-                MainWindow main = new MainWindow(factory);
-                main.Show();
+                MessageBox.Show("Select room!");
             }
-            else e.Cancel = true;
+            else
+            {
+                FillListBoxEquipmentEnd(room);
+                FillListBoxEquipmentNearEnd(room);
+            }
         }
 
-        int getDuration()
+        private void TransferBtn_Click(object sender, RoutedEventArgs e)
         {
-            int duration = 15;
-            if (isOperation)
+            Room roomFrom = (Room)cmbRoomFrom.SelectedItem;
+            Room roomTo = (Room)cmbRoomTo.SelectedItem;
+            Equipment equipment = (Equipment)cmbEquipmentType.SelectedItem;
+            if (roomFrom is null || roomTo is null || equipment is null)
             {
-                try
-                {
-                    duration = Convert.ToInt32(textBoxDuration.Text);
-                }
-                catch 
-                {
-                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
-                }
+                MessageBox.Show("Select rooms and equipment type!");
+                return;
             }
-            return duration;
+            int amount = Convert.ToInt32(textBoxEquipmentTransferQuantity.Text);
+
+            if (roomFrom.EquipmentAmount[equipment] < amount)
+            {
+                MessageBox.Show("The room has less selected equipment in stock than entered.");
+                return;
+            }
+
+            Transfer transfer = new Transfer(factory.TransferController.GenerateId(), DateTime.Now, roomFrom, roomTo, equipment, amount);
+            factory.ExecuteTransfer(transfer);
+
+            MessageBox.Show("You have successfully transfered equipment.");
         }
+
 
         private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
@@ -340,10 +461,6 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void refreshReferralsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            FillListBoxReferrals();
-        }
 
         private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -357,6 +474,65 @@ namespace HealthCare_System.gui
                 Appointment appointment = factory.BookAppointmentByReferral(referral);
                 MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
+        }
+
+        private void orderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Equipment equipment = (Equipment)cmbEquipment.SelectedItem;
+            if (equipment is null)
+            {
+                MessageBox.Show("Select equipment You want to order!");
+            }
+            else
+            {
+                int quantity;
+                if (textBoxEquipmentQuantity.Text == "")
+                {
+                    quantity = 1;
+                }
+                else
+                {
+                    quantity = Convert.ToInt32(textBoxEquipmentQuantity.Text);
+                }
+
+                factory.AddSupplyRequest(equipment, quantity);
+
+                MessageBox.Show("You have succesefully orderd new equipment.");
+            }
+        }
+
+        int getDuration()
+        {
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
+                }
+            }
+            return duration;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            factory.User = null;
+            if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                MainWindow main = new MainWindow(factory);
+                main.Show();
+            }
+            else e.Cancel = true;
         }
     }
 }

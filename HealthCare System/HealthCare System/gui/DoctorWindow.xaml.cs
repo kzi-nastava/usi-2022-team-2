@@ -16,6 +16,7 @@ namespace HealthCare_System.gui
         DateTime startPoint;
         Dictionary<string, Appointment> appontmentsDisplay;
         Dictionary<string, Ingredient> ingrediantsDisplay;
+        Dictionary<string, Drug> drugsDisplay;
 
         public DoctorWindow(HealthCareFactory factory)
         {
@@ -26,6 +27,8 @@ namespace HealthCare_System.gui
             InitializeComponent();
 
             InitializeAppointmentType();
+
+            InitializeDrugs();
 
             appointmentDate.DisplayDateStart = DateTime.Now;
 
@@ -92,6 +95,21 @@ namespace HealthCare_System.gui
                 }
         }
 
+        void InitializeDrugs()
+        {
+            drugView.Items.Clear();
+            drugsDisplay = new Dictionary<string, Drug>();
+            List<Drug> drugs = factory.DrugController.FillterOnHold();
+            List<Drug> sortedDrugs = drugs.OrderBy(x => x.Name).ToList();
+
+            foreach (Drug drug in sortedDrugs)
+            {
+                string key = drug.Name;
+                drugsDisplay.Add(key, drug);
+                drugView.Items.Add(key);
+            }
+        }
+
         void DisableComponents()
         {
             StartBtn.IsEnabled = false;
@@ -104,6 +122,8 @@ namespace HealthCare_System.gui
             RefreshPrescriptionsBtn.IsEnabled = false;
             RefreshBtn.IsEnabled = false;
             AddAllergensBtn.IsEnabled = false;
+            AcceptBtn.IsEnabled = false;
+            RejectBtn.IsEnabled = false;
 
             roomTb.IsEnabled = false;
             patientTb.IsEnabled = false;
@@ -338,6 +358,9 @@ namespace HealthCare_System.gui
             appointment.Status = AppointmentStatus.FINISHED;
             factory.AppointmentController.Serialize();
 
+            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, factory);
+            dynamicEquipmentWindow.Show();
+
             InitializeAppointments();
 
             appointmentView.IsEnabled = true;
@@ -442,6 +465,53 @@ namespace HealthCare_System.gui
         private void WeightTb_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void AcceptBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Drug drug = drugsDisplay[drugView.SelectedItem.ToString()];
+            factory.DrugController.AcceptDrug(drug);
+            MessageBox.Show("Drug accepted!");
+
+            AcceptBtn.IsEnabled = false;
+            RejectBtn.IsEnabled = false;
+
+            InitializeDrugs();
+        }
+
+        private void RejectBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Drug drug = drugsDisplay[drugView.SelectedItem.ToString()];
+
+            string message = rejectionTb.Text;
+            if (message == "")
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to reject without a message?",
+                    "Confirm", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.No) return;
+            }
+
+            factory.DrugController.RejectDrug(drug, message);
+            MessageBox.Show("Drug rejected!");
+
+            AcceptBtn.IsEnabled = false;
+            RejectBtn.IsEnabled = false;
+
+            InitializeDrugs();
+        }
+
+        private void DrugView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (drugView.SelectedIndex != -1)
+            {
+                Drug drug = drugsDisplay[drugView.SelectedItem.ToString()];
+                List<Ingredient> ingredients = drug.Ingredients.OrderBy(x => x.Id).ToList();
+                foreach (Ingredient ingredient in ingredients)
+                    drugIngridientView.Items.Add(ingredient.Id + " - " + ingredient.Name);
+
+                AcceptBtn.IsEnabled = true;
+                RejectBtn.IsEnabled = true;
+            }
         }
     }
 }
