@@ -63,7 +63,17 @@ namespace HealthCare_System.Repository.EquipmentRepo
             return transfers[transfers.Count - 1].Id + 1;
         }
 
-        
+        public void Add(Transfer transfer)
+        {
+            transfers.Add(transfer);
+            Serialize();
+        }
+
+        public void Delete(Transfer transfer)
+        {
+            transfers.Remove(transfer);
+            Serialize();
+        }
 
         
     }

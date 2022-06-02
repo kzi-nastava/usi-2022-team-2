@@ -62,5 +62,17 @@ namespace HealthCare_System.Repository.PrescriptionRepo
 
             File.WriteAllText(linkPath, csv);
         }
+
+        public void Add(Prescription prescription)
+        {
+            prescriptions.Add(prescription);
+            Serialize();
+        }
+
+        public void Delete(Prescription prescription)
+        {
+            prescriptions.Remove(prescription);
+            Serialize();
+        }
     }
 }

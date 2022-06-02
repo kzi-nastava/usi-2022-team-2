@@ -20,7 +20,11 @@ namespace HealthCare_System.Services.AppointmentService
 
         internal AppointmentRepo AppointmentRepo { get => appointmentRepo; }
 
-        
+        public List<Appointment> Appointments()
+        {
+            return appointmentRepo.Appointments;
+        }
+
         public List<Appointment> SortByDate(List<Appointment> unsortedAppointments, SortDirection direction)
         {
             if (direction == SortDirection.ASCENDING)

@@ -4,17 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.EquipmentRepo;
+using HealthCare_System.Model;
+using System.Reflection;
+using HealthCare_System.Services.RoomService;
 
 namespace HealthCare_System.Services.EquipmentService
 {
     class EquipmentService
     {
         EquipmentRepo equipmentRepo;
+        RoomService.RoomService roomService; //?
 
         public EquipmentService()
         {
             EquipmentRepoFactory equipmentRepoFactory = new();
             equipmentRepo = equipmentRepoFactory.CreateEquipmentRepository();
+        }
+
+        public List<Equipment> Equipment()
+        {
+            return equipmentRepo.Equipment;
         }
 
         public EquipmentRepo EquipmentRepo { get => equipmentRepo; }
@@ -46,12 +55,28 @@ namespace HealthCare_System.Services.EquipmentService
                 }
             }
         }
+
         public void EquipmentTypeFilter(string equipmentType, Dictionary<Equipment, int> equipmentAmount)
         {
             foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
             {
                 if (equipmentAmountEntry.Key.Type.ToString() != equipmentType)
                     equipmentAmount.Remove(equipmentAmountEntry.Key);
+            }
+        }
+
+        public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
+        {
+            roomService = new();
+            foreach (Room room in roomService.Rooms())
+            {
+                if (roomType != room.Type.ToString())
+                {
+                    foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
+                    {
+                        equipmentAmount[equipmentAmountEntry.Key] -= room.EquipmentAmount[equipmentAmountEntry.Key];
+                    }
+                }
             }
         }
 
@@ -81,10 +106,12 @@ namespace HealthCare_System.Services.EquipmentService
                     equipmentAmount.Remove(equipmentAmountEntry.Key);
             }
         }
+
         public Dictionary<Equipment, int> GetEquipmentFromAllRooms()
         {
+            roomService = new();
             Dictionary<Equipment, int> equipmentAmountAllRooms = new Dictionary<Equipment, int>();
-            foreach (Room room in rooms)
+            foreach (Room room in roomService.Rooms())
             {
                 foreach (KeyValuePair<Equipment, int> equipmentAmountRoom in room.EquipmentAmount)
                 {
@@ -106,24 +133,24 @@ namespace HealthCare_System.Services.EquipmentService
         {
             if (roomType != "All")
             {
-                roomController.RoomTypeFilter(roomType, equipmentAmount);
+                RoomTypeFilter(roomType, equipmentAmount);
             }
 
             if (amount != "All")
             {
-                equipmentController.AmountFilter(amount, equipmentAmount);
+                AmountFilter(amount, equipmentAmount);
             }
 
             if (equipmentType != "All")
             {
-                equipmentController.EquipmentTypeFilter(equipmentType, equipmentAmount);
+                EquipmentTypeFilter(equipmentType, equipmentAmount);
             }
         }
 
         public Dictionary<Equipment, int> InitalizeEquipment()
         {
             Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
-            foreach (Equipment equipment in EquipmentController.Equipment)
+            foreach (Equipment equipment in equipmentRepo.Equipment)
             {
                 equipmentAmount[equipment] = 0;
             }

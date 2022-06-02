@@ -4,21 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.AppointmentRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.UserService;
+
 
 namespace HealthCare_System.Services.SchedulingService
 {
     class AppointmentRecomendationService
     {
-
+        AppointmentService.AppointmentService appointmentService;
+        SchedulingService schedulingService;
+        DoctorService doctorService;
 
         private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {
+            appointmentService = new();
+            schedulingService = new();
             List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
 
-            int id = appointmentController.GenerateId();
+            int id = appointmentService.AppointmentRepo.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
@@ -31,9 +38,9 @@ namespace HealthCare_System.Services.SchedulingService
                 {
                     try
                     {
-                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                         appointment.Validate();
                         appointments.Add(appointment);
@@ -53,11 +60,12 @@ namespace HealthCare_System.Services.SchedulingService
 
         private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
         {
+            appointmentService = new();
             List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date;
             DateTime date = todayStart;
 
-            int id = appointmentController.GenerateId();
+            int id = appointmentService.AppointmentRepo.GenerateId();
             if (DateTime.Now > todayStart)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
 
@@ -65,9 +73,9 @@ namespace HealthCare_System.Services.SchedulingService
             {
                 try
                 {
-                    Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                    Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                     Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                    (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                    (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                     appointment.Validate();
                     appointments.Add(appointment);
@@ -83,18 +91,21 @@ namespace HealthCare_System.Services.SchedulingService
 
         private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
         {
+            appointmentService = new();
+            doctorService = new();
+            schedulingService = new();
             List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
 
-            int id = appointmentController.GenerateId();
+            int id = appointmentService.AppointmentRepo.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
             else if (DateTime.Now > todayEnd)
                 date = date.AddDays(1);
-            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(Specialization.GENERAL);
 
             foreach (Doctor doctor in doctors)
             {
@@ -104,9 +115,9 @@ namespace HealthCare_System.Services.SchedulingService
                     {
                         try
                         {
-                            Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                            Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                             Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                             appointment.Validate();
                             appointments.Add(appointment);
@@ -126,10 +137,13 @@ namespace HealthCare_System.Services.SchedulingService
 
         public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to)
         {
+            appointmentService = new();
+            doctorService = new();
+            schedulingService = new();
             DateTime todayStart = end.AddDays(1);
             DateTime date = todayStart;
-            int id = appointmentController.GenerateId();
-            List<Doctor> doctors = doctorController.FindBySpecialization(Specialization.GENERAL);
+            int id = appointmentService.AppointmentRepo.GenerateId();
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(Specialization.GENERAL);
             List<Appointment> appointments = new();
             while (true)
             {
@@ -137,9 +151,9 @@ namespace HealthCare_System.Services.SchedulingService
                 {
                     try
                     {
-                        Room room = AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
+                        Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
+                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
                         appointment.Validate();
                         appointments.Add(appointment);
                         date = date.AddMinutes(14);

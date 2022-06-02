@@ -53,5 +53,17 @@ namespace HealthCare_System.Repository.EquipmentRepo
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, supplyRequestsJson);
         }
+
+        public void Add(SupplyRequest supplyRequest)
+        {
+            supplyRequests.Add(supplyRequest);
+            Serialize();
+        }
+
+        public void Delete(SupplyRequest supplyRequest)
+        {
+            supplyRequests.Remove(supplyRequest);
+            Serialize();
+        }
     }
 }

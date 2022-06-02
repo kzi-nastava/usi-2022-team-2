@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.AnamnesisService
 {
@@ -18,5 +19,10 @@ namespace HealthCare_System.Services.AnamnesisService
         }
 
         internal AnamnesisRepo AnamnesisRepo { get => anamnesisRepo; }
+
+        public List<Anamnesis> Anamneses()
+        {
+            return anamnesisRepo.Anamneses;
+        }
     }
 }

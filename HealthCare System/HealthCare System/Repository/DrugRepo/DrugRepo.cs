@@ -71,5 +71,11 @@ namespace HealthCare_System.Repository.DrugRepo
             drugs.Add(drug);
             Serialize();
         }
+
+        public void Delete(Drug drug)
+        {
+            drugs.Remove(drug);
+            Serialize();
+        }
     }
 }

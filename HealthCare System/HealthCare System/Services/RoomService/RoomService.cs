@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HealthCare_System.Repository.RoomRepo;
 using HealthCare_System.Services.EquipmentService;
 using HealthCare_System.Services.RenovationService;
+using HealthCare_System.Services.AppointmentService;
 
 namespace HealthCare_System.Services.RoomService
 {
@@ -13,6 +14,8 @@ namespace HealthCare_System.Services.RoomService
         SimpleRenovationService simpleRenovationService;
         EquipmentTransferService equipmentTransferService;
         SplittingRenovationService splittingRenovationService;
+        AppointmentService.AppointmentService appointmentService;
+
 
         RoomRepo roomRepo;
 
@@ -24,10 +27,21 @@ namespace HealthCare_System.Services.RoomService
             roomRepo = roomRepoFactory.CreateRoomRepository();
         }
 
+        public List<Room> Rooms()
+        {
+            return roomRepo.Rooms;
+        }
+
+        public Room Storage()
+        {
+            return roomRepo.GetStorage();
+        }
+
         public bool IsRoomAvailableAtAllMerging(Room room)
         {
+            mergingRenovationService = new();
             bool available = true;
-            foreach (MergingRenovation mergingRenovation in mergingRenovationRepo.MergingRenovations)
+            foreach (MergingRenovation mergingRenovation in mergingRenovationService.MergingRenovations())
             {
                 foreach (Room roomInMerging in mergingRenovation.Rooms)
                 {
@@ -43,8 +57,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailableAtTimeMerging(Room room, DateTime time)
         {
+            mergingRenovationService = new();
             bool available = true;
-            foreach (MergingRenovation mergingRenovation in mergingRenovationRepo.MergingRenovations)
+            foreach (MergingRenovation mergingRenovation in mergingRenovationService.MergingRenovations())
             {
                 foreach (Room roomInMerging in mergingRenovation.Rooms)
                 {
@@ -56,20 +71,6 @@ namespace HealthCare_System.Services.RoomService
                 }
             }
             return available;
-        }
-
-        public void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount)
-        {
-            foreach (Room room in roomRepo.Rooms)
-            {
-                if (roomType != room.Type.ToString())
-                {
-                    foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in equipmentAmount)
-                    {
-                        equipmentAmount[equipmentAmountEntry.Key] -= room.EquipmentAmount[equipmentAmountEntry.Key];
-                    }
-                }
-            }
         }
 
         public void CreateNewRoom(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
@@ -98,8 +99,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailableAtAllSimple(Room room)
         {
+            simpleRenovationService = new();
             bool available = true;
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationRepo.SimpleRenovations)
+            foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room)
                 {
@@ -112,8 +114,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailableAtTimeSimple(Room room, DateTime time)
         {
+            simpleRenovationService = new();
             bool available = true;
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationRepo.SimpleRenovations)
+            foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room && time.AddMinutes(15) >= simpleRenovation.BeginningDate)
                 {
@@ -126,8 +129,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailableAtAllSplitting(Room room)
         {
+            splittingRenovationService = new();
             bool available = true;
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationRepo.SplittingRenovations)
+            foreach (SplittingRenovation splittingRenovation in splittingRenovationService.SplittingRenovations())
             {
                 if (room == splittingRenovation.Room)
                 {
@@ -140,8 +144,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailableAtTimeSplitting(Room room, DateTime time)
         {
+            splittingRenovationService = new();
             bool available = true;
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationRepo.SplittingRenovations)
+            foreach (SplittingRenovation splittingRenovation in splittingRenovationService.SplittingRenovations())
             {
                 if (room == splittingRenovation.Room && time.AddMinutes(15) >= splittingRenovation.BeginningDate)
                 {
@@ -154,8 +159,9 @@ namespace HealthCare_System.Services.RoomService
 
         public bool IsRoomAvailable(Room room)
         {
+            equipmentTransferService = new();
             bool available = true;
-            foreach (Transfer transfer in transfers)
+            foreach (Transfer transfer in equipmentTransferService.Transfers())
             {
                 if (room == transfer.FromRoom || room == transfer.ToRoom)
                 {
@@ -166,6 +172,7 @@ namespace HealthCare_System.Services.RoomService
             return available;
         }
 
+        /*
         public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
         {
 
@@ -192,7 +199,7 @@ namespace HealthCare_System.Services.RoomService
                 return null;
             }
             return rooms[0];
-        }
+        }*/
 
         public bool IsRoomAvailableForChange(Room room)
         {
@@ -204,7 +211,7 @@ namespace HealthCare_System.Services.RoomService
                 return available;
             }
 
-            available = transferController.IsRoomAvailable(room);
+            available = IsRoomAvailable(room);
             if (!available)
             {
                 return available;
@@ -212,21 +219,24 @@ namespace HealthCare_System.Services.RoomService
 
             return available;
         }
+
         public void RemoveRoom(Room room)
         {
-            foreach (Appointment appointment in appointmentController.Appointments)
+            appointmentService = new();
+            foreach (Appointment appointment in appointmentService.Appointments())
             {
                 if (appointment.Room == room)
                     appointment.Room = null;
             }
-            appointmentController.Serialize();
-            roomController.DeleteRoom(room);
+            appointmentService.AppointmentRepo.Serialize();
+            DeleteRoom(room);
         }
 
         public bool IsRoomAvailableAppointments(Room room)
         {
+            appointmentService = new();
             bool available = true;
-            foreach (Appointment appointment in appointmentController.Appointments)
+            foreach (Appointment appointment in appointmentService.Appointments())
             {
                 if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
                 {
@@ -240,19 +250,19 @@ namespace HealthCare_System.Services.RoomService
         public bool IsRoomAvailableRenovationsAtAll(Room room)
         {
             bool available = true;
-            available = simpleRenovationController.IsRoomAvailableAtAll(room);
+            available = IsRoomAvailableAtAllSimple(room);
             if (!available)
             {
                 return available;
             }
 
-            available = mergingRenovationController.IsRoomAvailableAtAll(room);
+            available = IsRoomAvailableAtAllMerging(room);
             if (!available)
             {
                 return available;
             }
 
-            available = splittingRenovationController.IsRoomAvailableAtAll(room);
+            available = IsRoomAvailableAtAllSplitting(room);
             if (!available)
             {
                 return available;
@@ -263,19 +273,19 @@ namespace HealthCare_System.Services.RoomService
         public bool IsRoomAvailableRenovationsAtTime(Room room, DateTime time)
         {
             bool available = true;
-            available = simpleRenovationController.IsRoomAvailableAtTime(room, time);
+            available = IsRoomAvailableAtTimeSimple(room, time);
             if (!available)
             {
                 return available;
             }
 
-            available = mergingRenovationController.IsRoomAvailableAtTime(room, time);
+            available = IsRoomAvailableAtTimeMerging(room, time);
             if (!available)
             {
                 return available;
             }
 
-            available = splittingRenovationController.IsRoomAvailableAtTime(room, time);
+            available = IsRoomAvailableAtTimeSplitting(room, time);
             if (!available)
             {
                 return available;

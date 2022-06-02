@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.DrugRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.PrescriptionService;
 
 namespace HealthCare_System.Services.DrugService
 {
     class DrugService
     {
         DrugRepo drugRepo;
+        PrescriptionService.PrescriptionService prescriptionService;//?
 
         public DrugService()
         {
@@ -19,12 +22,17 @@ namespace HealthCare_System.Services.DrugService
 
         internal DrugRepo DrugRepo { get => drugRepo; }
 
+        public List<Drug> Drugs()
+        {
+            return drugRepo.Drugs;
+        }
+
         public void CreateNewDrug(string name, List<Ingredient> ingredients)
         {
             if (name.Length > 30 || name.Length < 5)
                 throw new Exception();
-            Drug drug = new Drug(GenerateId(), name, ingredients, DrugStatus.ON_HOLD, "");
-            drugRepo.Add();
+            Drug drug = new Drug(drugRepo.GenerateId(), name, ingredients, DrugStatus.ON_HOLD, "");
+            drugRepo.Add(drug);
         }
 
         public void UpdateDrug(string name, List<Ingredient> ingredients, Drug drug)
@@ -35,34 +43,33 @@ namespace HealthCare_System.Services.DrugService
             drug.Ingredients = ingredients;
             drug.Status = DrugStatus.ON_HOLD;
             drug.Message = "";
-            Serialize();
+            drugRepo.Serialize();
         }
         //TODO: Move to DrugRequestService??
         public void RejectDrug(Drug drug, string message)
         {
             drug.Status = DrugStatus.REJECTED;
             drug.Message = message;
-            Serialize();
+            drugRepo.Serialize();
         }
 
         public void AcceptDrug(Drug drug)
         {
             drug.Status = DrugStatus.ACCEPTED;
             drug.Message = "";
-            Serialize();
+            drugRepo.Serialize();
         }
 
         public void DeleteDrug(Drug drug)
         {
-            drugs.Remove(drug);
-            Serialize();
+            drugRepo.Delete(drug);
         }
 
         public List<Drug> FillterOnHold()
         {
             List<Drug> filtered = new List<Drug>();
 
-            foreach (Drug drug in drugs)
+            foreach (Drug drug in drugRepo.Drugs)
                 if (drug.Status == DrugStatus.ON_HOLD)
                     filtered.Add(drug);
 
@@ -71,9 +78,10 @@ namespace HealthCare_System.Services.DrugService
 
         public bool IsDrugAvailableForChange(Drug drug)
         {
+            prescriptionService = new();
             bool available = true;
 
-            foreach (Prescription prescription in prescriptionController.Prescriptions)
+            foreach (Prescription prescription in prescriptionService.Prescriptions)
             {
                 if (prescription.Drug == drug)
                 {

@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.EquipmentRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.RoomService;
 
 namespace HealthCare_System.Services.EquipmentService
 {
     class EquipmentTransferService
     {
         EquipmentTransferRepo equipmentTransferRepo;
+        RoomService.RoomService roomService;
 
         public EquipmentTransferService()
         {
@@ -18,6 +21,11 @@ namespace HealthCare_System.Services.EquipmentService
         }
 
         public EquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo; }
+
+        public List<Transfer> Transfers()
+        {
+            return equipmentTransferRepo.Transfers;
+        }
 
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
@@ -33,31 +41,32 @@ namespace HealthCare_System.Services.EquipmentService
 
         public void MoveEquipmentToStorage(Room room)
         {
+            roomService = new();
             foreach (KeyValuePair<Equipment, int> equipmentAmountEntry in room.EquipmentAmount)
             {
                 MoveFromRoom(room, equipmentAmountEntry.Key, equipmentAmountEntry.Value);
-                MoveToRoom(FindById(1003), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
+                MoveToRoom(roomService.Storage(), equipmentAmountEntry.Key, equipmentAmountEntry.Value);
             }
         }
+
         public void Add(DateTime momentOfTransfer, Room fromRoom, Room toRoom,
             Equipment equipment, int amount)
         {
-            int id = GenerateId();
+            int id = equipmentTransferRepo.GenerateId();
             Transfer transfer = new Transfer(id, momentOfTransfer, fromRoom, toRoom, equipment, amount);
             if (!CheckWithOthers(transfer))
                 throw new Exception("Entered amount to be moved is larger than amount availabel " +
                     "in the room after all the transfers are finished.");
-            transfers.Add(transfer);
-            Serialize();
+            equipmentTransferRepo.Add(transfer);
         }
 
         public bool CheckWithOthers(Transfer newTransfer)
         {
             bool valid = true;
             int amountOfEquipmentStashed = 0;
-            if (transfers.Count > 0)
+            if (equipmentTransferRepo.Transfers.Count > 0)
             {
-                foreach (Transfer stashedTransfer in transfers)
+                foreach (Transfer stashedTransfer in equipmentTransferRepo.Transfers)
                 {
                     if (newTransfer.FromRoom == stashedTransfer.FromRoom &&
                         newTransfer.Equipment == stashedTransfer.Equipment)
@@ -74,11 +83,11 @@ namespace HealthCare_System.Services.EquipmentService
 
         public void ExecuteTransfer(Transfer transfer)
         {
-            roomController.MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
-            roomController.MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
-            roomController.Serialize();
-            transferController.Transfers.Remove(transfer);
-            transferController.Serialize();
+            roomService = new();
+            MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
+            MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
+            roomService.RoomRepo.Serialize();
+            equipmentTransferRepo.Delete(transfer);
         }
     }
 }

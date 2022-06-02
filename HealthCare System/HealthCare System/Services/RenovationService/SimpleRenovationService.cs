@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.RenovationRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.RoomService;
+using HealthCare_System.Services.EquipmentService;
 
 namespace HealthCare_System.Services.RenovationService
 {
     class SimpleRenovationService
     {
         SimpleRenovationRepo simpleRenovationRepo;
+        RoomService.RoomService roomService;
+        EquipmentTransferService equipmentTransferService;
+        EquipmentService.EquipmentService equipmentService;
 
         public SimpleRenovationService()
         {
@@ -19,36 +25,42 @@ namespace HealthCare_System.Services.RenovationService
 
         public SimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo;}
 
+        public List<SimpleRenovation> SimpleRenovations()
+        {
+            return simpleRenovationRepo.SimpleRenovations;
+        }
+
         public void BookRenovation(DateTime start, DateTime end, Room room,
             string newRoomName, TypeOfRoom newRoomType)
         {
-            SimpleRenovation simpleRenovation = new SimpleRenovation(GenerateId(), start, end,
+            SimpleRenovation simpleRenovation = new SimpleRenovation(simpleRenovationRepo.GenerateId(), start, end,
                 RenovationStatus.BOOKED, room, newRoomName, newRoomType);
-            simpleRenovations.Add(simpleRenovation);
-            Serialize();
+            simpleRenovationRepo.Add(simpleRenovation);
         }
 
         public void StartSimpleRenovation(SimpleRenovation simpleRenovation)
         {
+            roomService = new();
+            equipmentTransferService = new();
             simpleRenovation.Status = RenovationStatus.ACTIVE;
-            simpleRenovationController.Serialize();
-            roomController.MoveEquipmentToStorage(simpleRenovation.Room);
-            roomController.Serialize();
+            simpleRenovationRepo.Serialize();
+            equipmentTransferService.MoveEquipmentToStorage(simpleRenovation.Room);
+            roomService.RoomRepo.Serialize();
         }
 
         public void FinishSimpleRenovation(SimpleRenovation simpleRenovation)
         {
+            roomService = new();
             simpleRenovation.Status = RenovationStatus.FINISHED;
-            roomController.UpdateRoom(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
-            simpleRenovationController.SimpleRenovations.Remove(simpleRenovation);
-            simpleRenovationController.Serialize();
+            roomService.UpdateRoom(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
+            simpleRenovationRepo.Delete(simpleRenovation);
         }
 
         public void TryToExecuteSimpleRenovations()
         {
-            if (simpleRenovationController.SimpleRenovations.Count > 0)
+            if (simpleRenovationRepo.SimpleRenovations.Count > 0)
             {
-                foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+                foreach (SimpleRenovation simpleRenovation in simpleRenovationRepo.SimpleRenovations)
                 {
                     if (DateTime.Now >= simpleRenovation.EndingDate)
                     {

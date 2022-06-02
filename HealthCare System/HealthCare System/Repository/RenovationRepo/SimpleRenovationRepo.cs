@@ -65,8 +65,17 @@ namespace HealthCare_System.Repository.RenovationRepo
             File.WriteAllText(linkPath, csv);
         }
 
-        
+        public void Add(SimpleRenovation simpleRenovation)
+        {
+            simpleRenovations.Add(simpleRenovation);
+            Serialize();
+        }
 
-        
+        public void Delete(SimpleRenovation simpleRenovation)
+        {
+            simpleRenovations.Remove(simpleRenovation);
+            Serialize();
+        }
+
     }
 }

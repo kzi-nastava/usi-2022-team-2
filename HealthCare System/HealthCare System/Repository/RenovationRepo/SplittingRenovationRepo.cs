@@ -69,8 +69,19 @@ namespace HealthCare_System.Repository.RenovationRepo
             File.WriteAllText(linkPath, csv);
         }
 
-        
-        
+
+        public void Add(SplittingRenovation splittingRenovation)
+        {
+            splittingRenovations.Add(splittingRenovation);
+            Serialize();
+        }
+
+        public void Delete(SplittingRenovation splittingRenovation)
+        {
+            splittingRenovations.Remove(splittingRenovation);
+            Serialize();
+        }
+
 
     }
 }

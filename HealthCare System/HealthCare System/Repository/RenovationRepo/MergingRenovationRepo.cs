@@ -65,5 +65,17 @@ namespace HealthCare_System.Repository.RenovationRepo
             }
             File.WriteAllText(linkPath, csv);
         }
+
+        public void Add(MergingRenovation mergingRenovation)
+        {
+            mergingRenovations.Add(mergingRenovation);
+            Serialize();
+        }
+
+        public void Delete(MergingRenovation mergingRenovation)
+        {
+            mergingRenovations.Remove(mergingRenovation);
+            Serialize();
+        }
     }
 }

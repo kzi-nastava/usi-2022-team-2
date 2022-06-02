@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.PrescriptionRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.MedicalRecordService;
 
 namespace HealthCare_System.Services.PrescriptionService
 {
     class PrescriptionService
     {
         PrescriptionRepo prescriptionRepo;
+        MedicalRecordService.MedicalRecordService medicalRecordService;
 
         public PrescriptionService()
         {
@@ -19,26 +22,31 @@ namespace HealthCare_System.Services.PrescriptionService
 
         public PrescriptionRepo PrescriptionRepo { get => prescriptionRepo;}
 
+        public List<Prescription> Prescriptions()
+        {
+            return prescriptionRepo.Prescriptions;
+        }
+
         private void DeletePrescriptions(MedicalRecord medicalRecord)
         {
-            for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
+            for (int i = prescriptionRepo.Prescriptions.Count - 1; i >= 0; i--)
             {
-                if (prescriptionController.Prescriptions[i].MedicalRecord == medicalRecord)
+                if (prescriptionRepo.Prescriptions[i].MedicalRecord == medicalRecord)
                 {
-                    prescriptionController.Prescriptions.RemoveAt(i);
+                    prescriptionRepo.Prescriptions.RemoveAt(i);
                 }
             }
-            prescriptionController.Serialize();
+            prescriptionRepo.Serialize();
         }
 
         public void AddPrescrition(Prescription prescription)
         {
-            MedicalRecord medicalRecord = medicalRecordController.FindById(prescription.MedicalRecord.Id);
+            medicalRecordService = new();
+            MedicalRecord medicalRecord = medicalRecordService.FindById(prescription.MedicalRecord.Id);
             medicalRecord.ValidatePrescription(prescription);
             medicalRecord.Prescriptions.Add(prescription);
 
-            prescriptionController.Prescriptions.Add(prescription);
-            prescriptionController.Serialize();
+            prescriptionRepo.Add(prescription);
         }
     }
 }
