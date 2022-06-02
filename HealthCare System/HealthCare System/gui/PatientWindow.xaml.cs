@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Input;
+using HealthCare_System.Services.UserService;
 
 namespace HealthCare_System.gui
 {
@@ -26,6 +27,10 @@ namespace HealthCare_System.gui
         DispatcherTimer timer;
         List<DrugNotification> notifications;
         Patient user;
+
+        DoctorService doctorService;
+
+        
 
         public PatientWindow(HealthCareFactory factory)
         {
@@ -57,6 +62,8 @@ namespace HealthCare_System.gui
             minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
             DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
+
+            
         }
         void StartTimer()
         {
@@ -90,9 +97,8 @@ namespace HealthCare_System.gui
                     DateTime time = prescription.Start;
                     while (time < prescription.End)
                     {
-                        int id = factory.DrugNotificationController.GenerateId();
                         string message = "It's time to drink " + prescription.Drug.Name;
-                        notifications.Add(new DrugNotification(id, message, user, prescription.Drug, time));
+                        notifications.Add(new DrugNotification(-1, message, user, prescription.Drug, time));
                         time = time.AddHours(24 / prescription.Frequency);
                     }
                 }
@@ -151,12 +157,11 @@ namespace HealthCare_System.gui
             doctorShowPriorityCb.SelectedIndex = 0;
             doctorSpecializationCb.ItemsSource = Enum.GetValues(typeof(Specialization));
             doctorSpecializationCb.SelectedIndex = 3;
-
-
         }
         public void InitializeDoctors()
         {
-            List<Doctor> doctors = factory.DoctorController.FindBySpecialization(Specialization.GENERAL);
+            doctorService = new();
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(Specialization.GENERAL);
 
             int index = 0;
             foreach (Doctor doctor in doctors)
@@ -191,7 +196,7 @@ namespace HealthCare_System.gui
             indexedDoctorsEditTab.Clear();
             doctorEditCb.Items.Clear();
 
-            List<Doctor> doctors = factory.DoctorController.FindBySpecialization(specialization);
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(specialization);
 
             int index = 0;
             foreach (Doctor doctor in doctors)

@@ -2,6 +2,7 @@
 using HealthCare_System.Model;
 using HealthCare_System.factory;
 using HealthCare_System.gui;
+using HealthCare_System.Services.UserService;
 
 namespace HealthCare_System
 {
@@ -9,7 +10,7 @@ namespace HealthCare_System
     {
         HealthCareFactory factory;
         SecretaryWindow sc;
-
+        DoctorService doctorService;
 
         public MainWindow(HealthCareFactory factory)
         {
@@ -31,6 +32,7 @@ namespace HealthCare_System
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
+            doctorService = new();
             string mail = mailTb.Text;
             string password = passwordTb.Password;
             Person person = factory.Login(mail, password);
