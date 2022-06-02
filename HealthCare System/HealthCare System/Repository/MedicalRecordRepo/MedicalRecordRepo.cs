@@ -60,6 +60,11 @@ namespace HealthCare_System.Repository.MedicalRecordRepo
             medicalRecords.Add(medRecord);
             Serialize();
         }
+        public void Delete(MedicalRecord medicalRecord)
+        {
+            MedicalRecords.Remove(medicalRecord);
+            Serialize();
+        }
 
         public int GenerateId()
         {

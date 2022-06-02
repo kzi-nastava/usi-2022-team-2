@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.PrescriptionRepo;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.PrescriptionService
 {
@@ -19,7 +20,7 @@ namespace HealthCare_System.Services.PrescriptionService
 
         public PrescriptionRepo PrescriptionRepo { get => prescriptionRepo;}
 
-        private void DeletePrescriptions(MedicalRecord medicalRecord)
+        public void DeletePrescriptions(MedicalRecord medicalRecord)
         {
             for (int i = prescriptionController.Prescriptions.Count - 1; i >= 0; i--)
             {

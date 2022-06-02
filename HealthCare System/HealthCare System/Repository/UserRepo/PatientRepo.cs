@@ -56,6 +56,12 @@ namespace HealthCare_System.Repository.UserRepo
             patients.Add(patient);
             Serialize();
         }
+        public void Delete(Patient patient)
+        {
+            Patients.Remove(patient);
+            Serialize();
+        }
+        
 
         public void Serialize()
         {

@@ -21,5 +21,10 @@ namespace HealthCare_System.Services.UserService
         }
 
         public ManagerRepo ManagerRepo { get => managerRepo;}
+
+        public List<Manager> Managers()
+        {
+            return managerRepo.Managers;
+        }
     }
 }

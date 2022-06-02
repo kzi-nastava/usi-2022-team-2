@@ -4,21 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.AppointmentRepo;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.SchedulingService
 {
     class AppointmentRecomendationService
     {
+        AppointmentService appointmentService;
 
 
         private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {
+            appointmentService = new();
             List<Appointment> appointments = new();
             DateTime todayStart = DateTime.Now.Date.AddHours(from[0]).AddMinutes(from[1]);
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
 
-            int id = appointmentController.GenerateId();
+            int id = appointmentService.AppointmentRepo.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);

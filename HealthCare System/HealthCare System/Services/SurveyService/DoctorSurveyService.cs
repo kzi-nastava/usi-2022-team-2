@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.SurveyRepo;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.SurveyService
 {
@@ -23,7 +24,7 @@ namespace HealthCare_System.Services.SurveyService
         {
             int sumOfRatings = 0;
             int numberOfRatings = 0;
-            foreach (DoctorSurvey survey in doctorSurveys)
+            foreach (DoctorSurvey survey in doctorSurveyRepo.DoctorSurveys)
             {
                 if (survey.Doctor == doctor)
                 {
@@ -41,7 +42,7 @@ namespace HealthCare_System.Services.SurveyService
             List<Tuple<Doctor, double>> ratings = new();
             foreach (Doctor doctor in doctors)
             {
-                ratings.Add(new Tuple<Doctor, double>(doctor, doctorSurveyController.FindAverageRatingForDoctor(doctor)));
+                ratings.Add(new Tuple<Doctor, double>(doctor, FindAverageRatingForDoctor(doctor)));
             }
 
             List<Tuple<Doctor, double>> sortedRatings;

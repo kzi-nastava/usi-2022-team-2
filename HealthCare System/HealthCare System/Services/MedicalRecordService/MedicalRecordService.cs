@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.MedicalRecordRepo;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.MedicalRecordService
 {
@@ -19,6 +20,11 @@ namespace HealthCare_System.Services.MedicalRecordService
 
         public MedicalRecordRepo MedicalRecordRepo { get => medicalRecordRepo; }
 
+        public List<MedicalRecord> MedicalRecords()
+        {
+            return medicalRecordRepo.MedicalRecords;
+        }
+
         public MedicalRecord Add(double height, double weight, string diseaseHistory, List<Ingredient> allergens)
         {
             MedicalRecord medRecord = new(medicalRecordRepo.GenerateId(), height, weight, diseaseHistory, allergens);
@@ -32,6 +38,10 @@ namespace HealthCare_System.Services.MedicalRecordService
             medicalRecord.Weight = weight;
             medicalRecord.DiseaseHistory = diseaseHistory;
             Serialize();
+        }
+        public void Delete(MedicalRecord medicalRecord)
+        {
+            medicalRecordRepo.Delete(medicalRecord);
         }
     }
 }

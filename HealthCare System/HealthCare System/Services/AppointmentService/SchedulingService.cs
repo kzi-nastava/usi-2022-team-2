@@ -121,7 +121,7 @@ namespace HealthCare_System.Services.SchedulingService
             return AddAppointment(appointment);
 
         }
-        private void DeleteAppointmens(Patient patient)
+        public void DeleteAppointmens(Patient patient)
         {
             AppointmentService.AppointmentService appointmentService = new();
 

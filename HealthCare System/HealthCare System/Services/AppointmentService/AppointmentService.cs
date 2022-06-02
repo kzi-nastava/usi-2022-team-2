@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.AppointmentRepo;
+using HealthCare_System.Services.AppointmentService;
 
 namespace HealthCare_System.Services.AppointmentService
 {
     class AppointmentService
     {
         AppointmentRepo appointmentRepo;
+        SchedulingService.SchedulingService schedulingService;
 
         public AppointmentService()
         {
@@ -59,6 +61,24 @@ namespace HealthCare_System.Services.AppointmentService
             else
             {
                 return SortBySpecialization(unsortedAnamneses, direction);
+            }
+        }
+
+        private void DeleteAppointmens(Patient patient)
+        {
+            
+
+            for (int i = AppointmentRepo.Appointments.Count - 1; i >= 0; i--)
+            {
+                schedulingService = new();
+                if (AppointmentRepo.Appointments[i].Patient == patient)
+                {
+                    if (AppointmentRepo.Appointments[i].Start > DateTime.Now)
+                    {
+                        throw new Exception("Can't delete selected patient, because of it's future appointments.");
+                    }
+                    schedulingService.DeleteAppointment(AppointmentRepo.Appointments[i].Id);
+                }
             }
         }
 

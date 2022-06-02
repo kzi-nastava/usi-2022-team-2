@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.UserRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.AppointmentService;
+using HealthCare_System.Services.PrescriptionService;
+using HealthCare_System.Services.MedicalRecordService;
 
 namespace HealthCare_System.Services.UserService
 {
     class PatientService
     {
         PatientRepo patientRepo;
-
+        SchedulingService.SchedulingService schedulingService;
+        PrescriptionService.PrescriptionService prescriptionService;
+        MedicalRecordService.MedicalRecordService medicalRecordService;
+        IngredientService.IngredientService ingredientService;
+        
         public PatientService()
         {
             PatientRepoFactory patientRepoFactory = new();
@@ -19,42 +27,47 @@ namespace HealthCare_System.Services.UserService
 
         public PatientRepo PatientRepo { get => patientRepo;}
 
+        public List<Patient> Patients()
+        {
+            return patientRepo.Patients;
+        }
+
         public void DeletePatient(Patient patient)
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;
-
+            schedulingService = new();
+            prescriptionService = new();
+            medicalRecordService = new();
             try
             {
-                DeleteAppointmens(patient);
+                schedulingService.DeleteAppointmens(patient);
             }
             catch
             {
                 throw;
             }
-            DeletePrescriptions(medicalRecord);
+            prescriptionService.DeletePrescriptions(medicalRecord);
 
-            medicalRecordController.MedicalRecords.Remove(medicalRecord);
-            medicalRecordController.Serialize();
-
-            patientController.Patients.Remove(patient);
-            patientController.Serialize();
+            medicalRecordService.Delete(medicalRecord);
+            patientRepo.Delete(patient);
 
         }
         public void AddPatient(Patient patient, MedicalRecord medRecord)
         {
-            patientController.Patients.Add(patient);
+            medicalRecordService = new();
+            ingredientService = new();
+            patientRepo.Add(patient);
 
             patient.MedicalRecord = medRecord;
             medRecord.Patient = patient;
-
-            patientController.Serialize();
-            medicalRecordController.Serialize();
-            ingredientController.Serialize();
+            medicalRecordService.MedicalRecordRepo.Serialize();
+            ingredientService.IngredientRepo.Serialize();
         }
         public void UpdatePatient()
         {
-            patientController.Serialize();
-            medicalRecordController.Serialize();
+            medicalRecordService = new();
+            patientRepo.Serialize();
+            medicalRecordService.MedicalRecordRepo.Serialize();
         }
     }
 }
