@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using HealthCare_System.factory;
 
 namespace HealthCare_System.gui

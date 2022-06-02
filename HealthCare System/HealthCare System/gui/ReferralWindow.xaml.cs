@@ -1,4 +1,4 @@
-﻿using HealthCare_System.entities;
+﻿using HealthCare_System.Model;
 using HealthCare_System.factory;
 using System.Collections.Generic;
 using System.Linq;

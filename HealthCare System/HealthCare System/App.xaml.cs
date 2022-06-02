@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using HealthCare_System.factory;
 
 namespace HealthCare_System

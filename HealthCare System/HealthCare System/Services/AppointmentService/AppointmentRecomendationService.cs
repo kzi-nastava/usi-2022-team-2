@@ -15,10 +15,9 @@ namespace HealthCare_System.Services.SchedulingService
         AppointmentService.AppointmentService appointmentService;
         SchedulingService schedulingService;
         DoctorService doctorService;
-        AppointmentService appointmentService;
 
 
-        private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
+        private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor, Patient patient)
         {
             appointmentService = new();
             schedulingService = new();
@@ -42,7 +41,7 @@ namespace HealthCare_System.Services.SchedulingService
                     {
                         Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
+                        patient, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                         appointment.Validate();
                         appointments.Add(appointment);
@@ -60,7 +59,7 @@ namespace HealthCare_System.Services.SchedulingService
             return null;
         }
 
-        private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor)
+        private List<Appointment> SearchPriorityDoctor(DateTime end, Doctor doctor, Patient patient)
         {
             appointmentService = new();
             List<Appointment> appointments = new();
@@ -77,7 +76,7 @@ namespace HealthCare_System.Services.SchedulingService
                 {
                     Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                     Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                    (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
+                    patient, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                     appointment.Validate();
                     appointments.Add(appointment);
@@ -91,7 +90,7 @@ namespace HealthCare_System.Services.SchedulingService
             return null;
         }
 
-        private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to)
+        private List<Appointment> SearchPriorityDate(DateTime end, int[] from, int[] to, Patient patient)
         {
             appointmentService = new();
             doctorService = new();
@@ -119,7 +118,7 @@ namespace HealthCare_System.Services.SchedulingService
                         {
                             Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                             Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                            (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
+                            patient, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
 
                             appointment.Validate();
                             appointments.Add(appointment);
@@ -137,7 +136,7 @@ namespace HealthCare_System.Services.SchedulingService
 
         }
 
-        public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to)
+        public List<Appointment> SearchNoPriority(DateTime end, int[] from, int[] to, Patient patient)
         {
             appointmentService = new();
             doctorService = new();
@@ -155,7 +154,7 @@ namespace HealthCare_System.Services.SchedulingService
                     {
                         Room room = schedulingService.AvailableRoom(AppointmentType.EXAMINATION, date, date.AddMinutes(15));
                         Appointment appointment = new Appointment(id, date, date.AddMinutes(15), doctor,
-                        (Patient)user, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
+                        patient, room, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);//? user
                         appointment.Validate();
                         appointments.Add(appointment);
                         date = date.AddMinutes(14);
@@ -173,31 +172,31 @@ namespace HealthCare_System.Services.SchedulingService
 
         }
 
-        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor)
+        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, bool priorityDoctor, Patient patient)
         {
-            List<Appointment> appointments = SearchDoubleCriterium(end, from, to, doctor);
+            List<Appointment> appointments = SearchDoubleCriterium(end, from, to, doctor, patient);
             if (appointments != null)
                 return appointments;
             if (priorityDoctor)
             {
-                appointments = SearchPriorityDoctor(end, doctor);
+                appointments = SearchPriorityDoctor(end, doctor, patient);
                 if (appointments != null)
                     return appointments;
-                appointments = SearchPriorityDate(end, from, to);
+                appointments = SearchPriorityDate(end, from, to, patient);
                 if (appointments != null)
                     return appointments;
             }
             else
             {
-                appointments = SearchPriorityDate(end, from, to);
+                appointments = SearchPriorityDate(end, from, to, patient);
                 if (appointments != null)
                     return appointments;
-                appointments = SearchPriorityDoctor(end, doctor);
+                appointments = SearchPriorityDoctor(end, doctor, patient);
                 if (appointments != null)
                     return appointments;
 
             }
-            return SearchNoPriority(end, from, to);
+            return SearchNoPriority(end, from, to, patient);
 
         }
     }

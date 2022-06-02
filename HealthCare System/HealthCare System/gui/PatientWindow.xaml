@@ -104,6 +104,8 @@
                     <Button x:Name="saveUserDrugReminderBtn" Content="Save" HorizontalAlignment="Center" Margin="0,317,0,0" VerticalAlignment="Top" Width="198" Click="saveUserDrugReminderBtn_Click"/>
                     <Slider x:Name="minutesBeforeDrugSl" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" Width="484" Minimum="10" Maximum="180" LargeChange="10" SmallChange="1" AutoToolTipPlacement="TopLeft"/>
                     <Label Content="Drug Reminder (minutes)" HorizontalAlignment="Center" Margin="0,138,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Surveys" FontSize="20" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>

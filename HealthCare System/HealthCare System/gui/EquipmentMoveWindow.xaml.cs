@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare_System.factory;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.gui
 {

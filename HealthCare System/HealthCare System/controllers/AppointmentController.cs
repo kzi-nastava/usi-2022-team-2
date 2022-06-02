@@ -7,8 +7,8 @@ using System.Text.Json;
 
 namespace HealthCare_System.controllers
 {
-    public enum AnamnesesSortCriterium { DATE, DOCTOR, SPECIALIZATION};
-    public enum SortDirection { ASCENDING, DESCENDING};
+    /*public enum AnamnesesSortCriterium { DATE, DOCTOR, SPECIALIZATION};
+    public enum SortDirection { ASCENDING, DESCENDING};*/
     class AppointmentController
     {
         List<Appointment> appointments;

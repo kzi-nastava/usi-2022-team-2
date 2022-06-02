@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using HealthCare_System.factory;
 using HealthCare_System.gui;
 

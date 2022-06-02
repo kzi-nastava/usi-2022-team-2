@@ -81,7 +81,7 @@ namespace HealthCare_System.Services.DrugService
             prescriptionService = new();
             bool available = true;
 
-            foreach (Prescription prescription in prescriptionService.Prescriptions)
+            foreach (Prescription prescription in prescriptionService.Prescriptions())
             {
                 if (prescription.Drug == drug)
                 {

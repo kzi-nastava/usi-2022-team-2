@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.factory;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.gui
 {

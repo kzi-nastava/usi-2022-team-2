@@ -1,5 +1,5 @@
 ﻿using HealthCare_System.controllers;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
@@ -657,10 +657,11 @@ namespace HealthCare_System.gui
 
         private void saveUserDrugReminderBtn_Click(object sender, RoutedEventArgs e)
         {
-            user.MinutesBeforeDrug =(int) minutesBeforeDrugSl.Value;
+            user.MinutesBeforeDrug = (int)minutesBeforeDrugSl.Value;
             factory.PatientController.Serialize();
             notifications.Clear();
             CreateNotifications();
+        }
             
         private void bookDoctorCb_Click(object sender, RoutedEventArgs e)
         {

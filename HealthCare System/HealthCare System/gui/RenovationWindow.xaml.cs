@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using HealthCare_System.factory;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.gui
 {
