@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.UserRepo;
+using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.UserService
 {
@@ -18,5 +19,10 @@ namespace HealthCare_System.Services.UserService
         }
 
         public SecretaryRepo SecretaryRepo { get => secretaryRepo;}
+
+        public List<Secretary> Secretaries()
+        {
+            return secretaryRepo.Secretaries;
+        }
     }
 }

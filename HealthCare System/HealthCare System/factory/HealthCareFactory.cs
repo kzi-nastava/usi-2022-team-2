@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace HealthCare_System.factory
 {
-    public enum DoctorSortPriority { RATINGS, FIRST_NAME, LAST_NAME, SPECIALIZATION };
+    
 
     public class HealthCareFactory
     {

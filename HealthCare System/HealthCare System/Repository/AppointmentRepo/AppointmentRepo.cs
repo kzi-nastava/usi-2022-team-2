@@ -7,10 +7,15 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace HealthCare_System.Repository.AppointmentRepo
+namespace HealthCare_System
 {
     public enum AnamnesesSortCriterium { DATE, DOCTOR, SPECIALIZATION };
     public enum SortDirection { ASCENDING, DESCENDING };
+    public enum DoctorSortPriority { RATINGS, FIRST_NAME, LAST_NAME, SPECIALIZATION };
+}
+namespace HealthCare_System.Repository.AppointmentRepo
+{
+    
     class AppointmentRepo
     {
         List<Appointment> appointments;

@@ -28,6 +28,7 @@ namespace HealthCare_System.Services.PrescriptionService
         }
 
         private void DeletePrescriptions(MedicalRecord medicalRecord)
+        public void DeletePrescriptions(MedicalRecord medicalRecord)
         {
             for (int i = prescriptionRepo.Prescriptions.Count - 1; i >= 0; i--)
             {

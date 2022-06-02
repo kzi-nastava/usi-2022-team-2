@@ -45,5 +45,9 @@ namespace HealthCare_System.Services.MedicalRecordService
             medicalRecord.DiseaseHistory = diseaseHistory;
             medicalRecordRepo.Serialize();
         }
+        public void Delete(MedicalRecord medicalRecord)
+        {
+            medicalRecordRepo.Delete(medicalRecord);
+        }
     }
 }

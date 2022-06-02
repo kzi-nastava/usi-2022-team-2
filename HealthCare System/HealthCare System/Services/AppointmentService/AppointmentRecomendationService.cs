@@ -15,6 +15,8 @@ namespace HealthCare_System.Services.SchedulingService
         AppointmentService.AppointmentService appointmentService;
         SchedulingService schedulingService;
         DoctorService doctorService;
+        AppointmentService appointmentService;
+
 
         private List<Appointment> SearchDoubleCriterium(DateTime end, int[] from, int[] to, Doctor doctor)
         {

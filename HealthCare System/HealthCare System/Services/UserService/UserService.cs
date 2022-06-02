@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.UserRepo;
+using HealthCare_System.Services.AppointmentService;
+using HealthCare_System.Model;
+using System.Windows;
 
 namespace HealthCare_System.Services.UserService
 {
     class UserService
     {
         UserRepo userRepo;
+        PatientService patientService;
+        DoctorService doctorService;
+        ManagerService managerService;
+        SecretaryService secretaryService;
+        AppointmentRequestService appointmentRequestService;
 
         public UserService()
         {
@@ -21,11 +29,12 @@ namespace HealthCare_System.Services.UserService
 
         public void RunAntiTrollCheck(Patient patient)
         {
+            appointmentRequestService = new();
             DateTime now = DateTime.Now;
             int createRequests = 0;
             int editRequests = 0;
 
-            foreach (AppointmentRequest request in appointmentRequests)
+            foreach (AppointmentRequest request in appointmentRequestService.AppointmentRequests())
             {
                 if (request.Patient == patient)
                 {
@@ -45,14 +54,20 @@ namespace HealthCare_System.Services.UserService
 
         public Person Login(string mail, string password)
         {
-            foreach (Doctor doctor in doctorController.Doctors)
+            doctorService = new();
+            patientService = new();
+            managerService = new();
+            secretaryService = new();
+            appointmentRequestService = new();
+
+            foreach (Doctor doctor in doctorService.Doctors())
                 if (doctor.Mail == mail && doctor.Password == password)
                     return doctor;
 
-            foreach (Patient patient in patientController.Patients)
+            foreach (Patient patient in patientService.Patients())
                 if (patient.Mail == mail && patient.Password == password)
                 {
-                    appointmentRequestController.RunAntiTrollCheck(patient);
+                    RunAntiTrollCheck(patient);
                     if (patient.Blocked)
                     {
                         MessageBox.Show("Account blocked. Contact secretary for more informations!");
@@ -65,11 +80,11 @@ namespace HealthCare_System.Services.UserService
                     }
 
                 }
-            foreach (Manager manager in managerController.Managers)
+            foreach (Manager manager in managerService.Managers())
                 if (manager.Mail == mail && manager.Password == password)
                     return manager;
 
-            foreach (Secretary secretary in secretaryController.Secretaries)
+            foreach (Secretary secretary in secretaryService.Secretaries())
                 if (secretary.Mail == mail && secretary.Password == password)
                     return secretary;
 

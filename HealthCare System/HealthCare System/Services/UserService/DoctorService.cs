@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare_System.Repository.UserRepo;
+using HealthCare_System.Model;
+using HealthCare_System.Services.SurveyService;
 
 namespace HealthCare_System.Services.UserService
 {
     class DoctorService
     {
         DoctorRepo doctorRepo;
+        DoctorSurveyService surveyService;
 
         public DoctorService()
         {
@@ -19,18 +22,22 @@ namespace HealthCare_System.Services.UserService
 
         public DoctorRepo DoctorRepo { get => doctorRepo; }
 
+        public List<Doctor> Doctors()
+        {
+            return doctorRepo.Doctors;
+        }
         public List<Doctor> FilterDoctors(string firstName, string lastName, Specialization specialization)
         {
-            List<Doctor> filterFirstName = doctors;
-            List<Doctor> filterLastName = doctors;
-            List<Doctor> filterSpecialization = doctors;
-
+            List<Doctor> filterFirstName = doctorRepo.Doctors;
+            List<Doctor> filterLastName = doctorRepo.Doctors;
+            List<Doctor> filterSpecialization = doctorRepo.Doctors;
+            
             if (firstName.Length >= 3)
-                filterFirstName = FindByFirstName(firstName);
+                filterFirstName = DoctorRepo.FindByFirstName(firstName);
             if (lastName.Length >= 3)
-                filterLastName = FindByLastName(lastName);
+                filterLastName = DoctorRepo.FindByLastName(lastName);
             if (specialization != Specialization.NULL)
-                filterSpecialization = FindBySpecialization(specialization);
+                filterSpecialization = DoctorRepo.FindBySpecialization(specialization);
 
             return filterFirstName.Intersect(filterLastName).Intersect(filterSpecialization).ToList();
 
@@ -59,15 +66,16 @@ namespace HealthCare_System.Services.UserService
 
         public List<Doctor> SortDoctors(List<Doctor> doctors, DoctorSortPriority priority, SortDirection direction)
         {
+            surveyService = new();
             List<Doctor> sortedDoctors = new();
             if (priority == DoctorSortPriority.RATINGS)
-                sortedDoctors = SortDoctorsByRatings(doctors, direction);
+                sortedDoctors = surveyService.SortDoctorsByRatings(doctorRepo.Doctors, direction);
             else if (priority == DoctorSortPriority.FIRST_NAME)
-                sortedDoctors = doctorController.SortDoctorsByFirstName(doctors, direction);
+                sortedDoctors = SortDoctorsByFirstName(doctors, direction);
             else if (priority == DoctorSortPriority.LAST_NAME)
-                sortedDoctors = doctorController.SortDoctorsByLastName(doctors, direction);
+                sortedDoctors = SortDoctorsByLastName(doctors, direction);
             else
-                sortedDoctors = doctorController.SortDoctorsBySpecialization(doctors, direction);
+                sortedDoctors = SortDoctorsBySpecialization(doctors, direction);
             return sortedDoctors;
         }
     }

@@ -20,6 +20,10 @@ namespace HealthCare_System.Services.AppointmentService
 
         internal AppointmentRequestRepo AppointmentRequestRepo { get => appointmentRequestRepo; }
 
+        public List<AppointmentRequest> AppointmentRequests()
+        {
+            return appointmentRequestRepo.AppointmentRequests;
+        }
         public void AcceptRequest(AppointmentRequest request)
         {
             AppointmentService appointmentService = new();
