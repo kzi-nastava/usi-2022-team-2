@@ -50,7 +50,7 @@ namespace HealthCare_System.Repository.AnamnesisRepo
             return anamneses[^1].Id + 1;
         }
 
-        public void UpdateAnamnesis(int id, string description)
+        public void Update(int id, string description)
         {
             Anamnesis anamnesis = FindById(id);
             anamnesis.Description = description;

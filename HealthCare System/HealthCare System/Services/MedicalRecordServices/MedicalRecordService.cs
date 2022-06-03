@@ -32,7 +32,7 @@ namespace HealthCare_System.Services.MedicalRecordServices
             return medRecord;
         }
 
-        public void UpdateMedicalRecord(int id, double height, double weight, string diseaseHistory)
+        public void Update(int id, double height, double weight, string diseaseHistory)
         {
             MedicalRecord medicalRecord = medicalRecordRepo.FindById(id);
             medicalRecord.Height = height;

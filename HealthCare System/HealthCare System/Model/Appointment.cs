@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Model.Dto;
+using System;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
@@ -53,6 +54,21 @@ namespace HealthCare_System.Model
             anamnesis = appointment.anamnesis;
             graded = appointment.graded;
             emergency = appointment.emergency;
+        }
+
+        public Appointment(AppointmentDto appointmentDto)
+        {
+            id = appointmentDto.Id;
+            start = appointmentDto.Start;
+            end = appointmentDto.End;
+            doctor = appointmentDto.Doctor;
+            patient = appointmentDto.Patient;
+            room = appointmentDto.Room;
+            type = appointmentDto.Type;
+            status = appointmentDto.Status;
+            anamnesis = appointmentDto.Anamnesis;
+            graded = appointmentDto.Graded;
+            emergency = appointmentDto.Emergency;
         }
 
         public Appointment(int id, DateTime start, DateTime end, AppointmentType type,

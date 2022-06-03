@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using HealthCare_System.Model.Dto;
+using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
 {
@@ -35,6 +36,15 @@ namespace HealthCare_System.Model
             doctor = referral.doctor;
             medicalRecord = referral.medicalRecord;
             used = referral.used;
+        }
+
+        public Referral(ReferralDto referralDto)
+        {
+            id = referralDto.Id;
+            specialization = referralDto.Specialization;
+            doctor = referralDto.Doctor;
+            medicalRecord = referralDto.MedicalRecord;
+            used = referralDto.Used;
         }
 
         [JsonPropertyName("id")]

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using HealthCare_System.Database;
+using HealthCare_System.Services.EquipmentServices;
 
 namespace HealthCare_System.gui
 {
@@ -13,19 +14,20 @@ namespace HealthCare_System.gui
     public partial class DynamicEquipmentWindow : Window
     {
         Room room;
-        HealthCareFactory factory;
         HealthCareDatabase database;
         Dictionary<string, KeyValuePair<Equipment, int>> dynamicEquipmentDisplay;
+        EquipmentTransferService equpmentTransferService;
 
-        public DynamicEquipmentWindow(Room room, HealthCareFactory factory, HealthCareDatabase database)
+        public DynamicEquipmentWindow(Room room, HealthCareDatabase database)
         {
             this.room = room;
-            this.factory = factory;
             this.database =  database;
 
             InitializeComponent();
 
             InitializeEquipment();
+
+            equpmentTransferService = new(database.EquipmentTransferRepo, null);
 
             roomNameLbl.Content = room.Name;
             nameTb.IsReadOnly = true;
@@ -67,8 +69,8 @@ namespace HealthCare_System.gui
                 return;
             }
 
-            factory.RoomController.MoveFromRoom(room, equipment.Key, spentAmount);
-            factory.RoomController.Serialize();
+            equpmentTransferService.MoveFromRoom(room, equipment.Key, spentAmount);
+            database.RoomRepo.Serialize();
             InitializeEquipment();
             MessageBox.Show("Equipment updated!");
         }
