@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthCare_System.Repository.SurveyRepo;
 using HealthCare_System.Model;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.SurveyServices
 {
@@ -53,6 +54,12 @@ namespace HealthCare_System.Services.SurveyServices
                 sortedDoctors.Add(tuple.Item1);
             }
             return sortedDoctors;
+        }
+
+        public void Add(DoctorSurveyDto doctorSurveyDto)
+        {
+            DoctorSurvey survey = new(doctorSurveyDto);
+            doctorSurveyRepo.Add(survey);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using HealthCare_System.Model.Dto;
+using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
 {
@@ -28,6 +29,14 @@ namespace HealthCare_System.Model
             serviceQuality = doctorSurvey.serviceQuality;
             recommendation = doctorSurvey.recommendation;
             comment = doctorSurvey.comment;
+        }
+        public DoctorSurvey(DoctorSurveyDto doctorSurvey)
+        {
+            id = doctorSurvey.Id;
+            doctor = doctorSurvey.Doctor;
+            serviceQuality = doctorSurvey.ServiceQuality;
+            recommendation = doctorSurvey.Recommendation;
+            comment = doctorSurvey.Comment;
         }
 
         public DoctorSurvey(int id, int serviceQuality, int recommendation, string comment)

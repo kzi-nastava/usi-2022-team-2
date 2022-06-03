@@ -69,7 +69,7 @@ namespace HealthCare_System.Services.UserServices
         {
             List<Doctor> sortedDoctors = new();
             if (priority == DoctorSortPriority.RATINGS)
-                sortedDoctors = surveyService.SortDoctorsByRatings(doctorRepo.Doctors, direction);
+                sortedDoctors = surveyService.SortDoctorsByRatings(doctors, direction);
             else if (priority == DoctorSortPriority.FIRST_NAME)
                 sortedDoctors = SortDoctorsByFirstName(doctors, direction);
             else if (priority == DoctorSortPriority.LAST_NAME)
