@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Model;
+using HealthCare_System.Model.Dto;
 using System;
 using System.Collections.Generic;
 
@@ -7,22 +8,37 @@ namespace HealthCare_System.Services.AppointmentServices
     class UrgentSchedulingService
     {
         AppointmentService appointmentService;
+        SchedulingService schedulingService;
 
-        public UrgentSchedulingService(AppointmentService appointmentService)
+        public UrgentSchedulingService(AppointmentService appointmentService, SchedulingService schedulingService)
         {
             this.appointmentService = appointmentService;
+            this.schedulingService = schedulingService;
         }
 
-        public Appointment BookClosestEmergancyAppointment(List<Doctor> doctors, Patient patient, int duration)
+        public Appointment ReplaceAppointment(Appointment toReplaceAppointment, UrgentAppointmentDto urgentAppointmentDto)
+        {
+            AppointmentType type = Appointment.getTypeByDuration(urgentAppointmentDto.Duration);
+            int id = appointmentService.AppointmentRepo.GenerateId();
+            AppointmentDto appointmentDto = new AppointmentDto(id, toReplaceAppointment.Start, toReplaceAppointment.End, urgentAppointmentDto.Doctor, 
+                urgentAppointmentDto.Patient, null, type, AppointmentStatus.BOOKED, null, false, true);
+
+            toReplaceAppointment.Start = urgentAppointmentDto.DelayedStart;
+            toReplaceAppointment.End = urgentAppointmentDto.DelayedEnd;
+
+            return schedulingService.AddAppointment(appointmentDto);
+        }
+
+        public void BookClosestEmergancyAppointment(UrgentAppointmentDto urgentAppointmentDto)
         {
 
             DateTime limitTime = DateTime.Now.AddHours(2);
             DateTime start = limitTime;
             DateTime closestTimeForDoctor;
-            Doctor doctor = doctors[0];
-            foreach (Doctor doc in doctors)
+            Doctor doctor = urgentAppointmentDto.Doctors[0];
+            foreach (Doctor doc in urgentAppointmentDto.Doctors)
             {
-                closestTimeForDoctor = doc.getClosestFreeAppointment(duration, patient);
+                closestTimeForDoctor = doc.getClosestFreeAppointment(urgentAppointmentDto.Duration, urgentAppointmentDto.Patient);
                 if (closestTimeForDoctor < start)
                 {
                     start = closestTimeForDoctor;
@@ -32,14 +48,15 @@ namespace HealthCare_System.Services.AppointmentServices
 
             if (limitTime == start)
             {
-                return null;
+                throw new Exception("There is no available appointment in next 2h. Select one booked to be replaced.");
             }
-            AppointmentType type = Appointment.getTypeByDuration(duration);
 
+            AppointmentType type = Appointment.getTypeByDuration(urgentAppointmentDto.Duration);
             int id = appointmentService.AppointmentRepo.GenerateId();
-            Appointment appointment = new Appointment(id, start, start.AddMinutes(duration), type, AppointmentStatus.BOOKED, false, true);
-            appointment.Doctor = doctor;
-            return appointment;
+            AppointmentDto appointmentDto = new AppointmentDto(id, start, start.AddMinutes(urgentAppointmentDto.Duration), doctor, urgentAppointmentDto.Patient, null,
+                type, AppointmentStatus.BOOKED, null, false, true);
+
+            Appointment _ = schedulingService.AddAppointment(appointmentDto);
         }
 
         public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration, 

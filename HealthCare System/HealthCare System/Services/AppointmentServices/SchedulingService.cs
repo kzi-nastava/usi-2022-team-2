@@ -107,7 +107,7 @@ namespace HealthCare_System.Services.AppointmentServices
 
         public Appointment BookAppointmentByReferral(Referral referral)
         {
-            /*Doctor doctor = referral.Doctor;
+            Doctor doctor = referral.Doctor;
             if (doctor is null)
             {
                 doctor = doctorService.DoctorRepo.FindBySpecialization(referral.Specialization)[0];
@@ -119,11 +119,9 @@ namespace HealthCare_System.Services.AppointmentServices
             referralService.ReferralRepo.Serialize();
 
             int id = appointmentService.AppointmentRepo.GenerateId();
-            Appointment appointment = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
+            AppointmentDto appointmentDto = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
                 referral.MedicalRecord.Patient, null, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
-            return AddAppointment(appointment);*/
-            return null;
-
+            return AddAppointment(appointmentDto);
         }
 
         public void DeleteAppointmens(Patient patient)

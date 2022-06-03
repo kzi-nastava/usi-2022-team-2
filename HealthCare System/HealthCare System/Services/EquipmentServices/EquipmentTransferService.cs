@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthCare_System.Repository.EquipmentRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.EquipmentServices
 {
@@ -26,7 +27,7 @@ namespace HealthCare_System.Services.EquipmentServices
 
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
-            room.EquipmentAmount[equipmnet] += amount;
+            room.EquipmentAmount[equipmnet] += amount;            
         }
 
         public void MoveFromRoom(Room room, Equipment equipmnet, int amount)
@@ -77,12 +78,11 @@ namespace HealthCare_System.Services.EquipmentServices
             return valid;
         }
 
-        public void ExecuteTransfer(Transfer transfer)
+        public void ExecuteTransfer(TransferDto transferDto)
         {
-            MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
-            MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
+            MoveFromRoom(transferDto.FromRoom, transferDto.Equipment, transferDto.Amount);
+            MoveToRoom(transferDto.ToRoom, transferDto.Equipment, transferDto.Amount);
             roomService.RoomRepo.Serialize();
-            equipmentTransferRepo.Delete(transfer);
         }
     }
 }

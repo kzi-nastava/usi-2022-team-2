@@ -14,10 +14,11 @@ namespace HealthCare_System.Services.AppointmentServices
         public AppointmentService(AppointmentRepo appointmentRepo, SchedulingService schedulingService)
         {
             this.appointmentRepo = appointmentRepo;
-            this.schedulingService = schedulingService;
+            this.SchedulingService = schedulingService;
         }
 
         internal AppointmentRepo AppointmentRepo { get => appointmentRepo; }
+        internal SchedulingService SchedulingService { get => schedulingService; set => schedulingService = value; }
 
         public List<Appointment> Appointments()
         {
@@ -79,7 +80,7 @@ namespace HealthCare_System.Services.AppointmentServices
                     {
                         throw new Exception("Can't delete selected patient, because of it's future appointments.");
                     }
-                    schedulingService.DeleteAppointment(AppointmentRepo.Appointments[i].Id);
+                    SchedulingService.DeleteAppointment(AppointmentRepo.Appointments[i].Id);
                 }
             }
         }

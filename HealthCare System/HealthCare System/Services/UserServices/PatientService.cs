@@ -65,5 +65,11 @@ namespace HealthCare_System.Services.UserServices
             patientRepo.Serialize();
             medicalRecordService.MedicalRecordRepo.Serialize();
         }
+
+        public void BlockPatient(Patient patient)
+        {
+            patient.Blocked = !patient.Blocked;
+            patientRepo.Serialize();
+        }
     }
 }

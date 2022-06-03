@@ -10,11 +10,13 @@ namespace HealthCare_System.Services.EquipmentServices
     {
         SupplyRequestRepo supplyRequestRepo;
         RoomService roomService;
+        EquipmentTransferService equipmentTransferService;
 
-        public SupplyRequestService(SupplyRequestRepo supplyRequestRepo, RoomService roomService)
+        public SupplyRequestService(SupplyRequestRepo supplyRequestRepo, RoomService roomService, EquipmentTransferService equipmentTransferService)
         {
             this.supplyRequestRepo = supplyRequestRepo;
             this.roomService = roomService;
+            this.equipmentTransferService = equipmentTransferService;
         }
 
         public SupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo; }
@@ -33,11 +35,12 @@ namespace HealthCare_System.Services.EquipmentServices
                 {
                     foreach (Equipment equipment in supplyRequest.OrderDetails.Keys)
                     {
-                        // staviti metodu MoveToRoom() i serijalizovati sobe?
-                        storage.EquipmentAmount[equipment] += supplyRequest.OrderDetails[equipment];
+                        equipmentTransferService.MoveToRoom(storage, equipment, supplyRequest.OrderDetails[equipment]);
                     }
+                    supplyRequest.Finished = true;
                 }
             }
+
         }
 
         public void AddSupplyRequest(Equipment equipment, int quantity)

@@ -26,10 +26,10 @@ namespace HealthCare_System.Services.AppointmentServices
         {
             if (request.Type == RequestType.DELETE)
             {
-                appointmentService.AppointmentRepo.Appointments.Remove(request.NewAppointment);
+                appointmentService.Appointments().Remove(request.NewAppointment);
                 request.NewAppointment = null;
             }
-            appointmentService.AppointmentRepo.Appointments.Remove(request.OldAppointment);
+            appointmentService.Appointments().Remove(request.OldAppointment);
             request.OldAppointment = null;
             request.State = AppointmentState.ACCEPTED;
             appointmentService.AppointmentRepo.Serialize();
@@ -40,7 +40,7 @@ namespace HealthCare_System.Services.AppointmentServices
             request.State = AppointmentState.DENIED;
             if (request.Type == RequestType.UPDATE)
             {
-                appointmentService.AppointmentRepo.Appointments.Remove(request.NewAppointment);
+                appointmentService.Appointments().Remove(request.NewAppointment);
                 request.NewAppointment = null;
                 appointmentService.AppointmentRepo.Serialize();
             }
