@@ -4,20 +4,23 @@ using System.Windows;
 using System.Windows.Controls;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
     public partial class EquipmentMoveWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<int, Room> roomsFrom = new Dictionary<int, Room>();
         Dictionary<int, Room> roomsTo = new Dictionary<int, Room>();
         Dictionary<int, Equipment> equipment = new Dictionary<int, Equipment>();
 
-        public EquipmentMoveWindow(HealthCareFactory factory)
+        public EquipmentMoveWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
+            this.database = database;
             InitializeComboBox();
             InitializeDatePicker();
         }

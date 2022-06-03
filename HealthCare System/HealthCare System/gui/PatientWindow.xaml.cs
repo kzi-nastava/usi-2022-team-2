@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Input;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -16,6 +17,7 @@ namespace HealthCare_System.gui
     {
         
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedSearchedDoctors;
         Dictionary<int,Doctor> indexedDoctorsEditTab;
@@ -27,7 +29,7 @@ namespace HealthCare_System.gui
         List<DrugNotification> notifications;
         Patient user;
 
-        public PatientWindow(HealthCareFactory factory)
+        public PatientWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             Title = factory.User.FirstName + " " + factory.User.LastName;
             indexedAppointments = new Dictionary<int, Appointment>();
@@ -39,6 +41,7 @@ namespace HealthCare_System.gui
             notifications = new();
             indexedSearchedDoctors = new Dictionary<int, Doctor>();
             this.factory = factory;
+            this.database =  database;
             user =(Patient) factory.User;
 
             InitializeComponent();
@@ -56,7 +59,7 @@ namespace HealthCare_System.gui
             reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
             minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
-            DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
+            DelayedAppointmentNotificationWindow notificationWindow = new(factory, database);
         }
         void StartTimer()
         {
@@ -463,7 +466,7 @@ namespace HealthCare_System.gui
                 factory.User = null;
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MainWindow main = new MainWindow(factory);
+                    MainWindow main = new MainWindow(factory, database);
                     main.Show();
                 }
                 else e.Cancel = true;
@@ -472,7 +475,7 @@ namespace HealthCare_System.gui
             {
                 factory.User = null;
                 MessageBox.Show("Account blocked. Contact secretary for more informations!");
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(factory, database);
                 main.Show();
             }
             

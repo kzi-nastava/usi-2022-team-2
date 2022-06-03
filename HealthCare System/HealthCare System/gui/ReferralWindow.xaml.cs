@@ -3,6 +3,7 @@ using HealthCare_System.factory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -10,12 +11,14 @@ namespace HealthCare_System.gui
     {
         Patient patient;
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<string, Doctor> doctorsDisplay;
 
-        public ReferralWindow(Patient patient, HealthCareFactory factory)
+        public ReferralWindow(Patient patient, HealthCareFactory factory, HealthCareDatabase database)
         {
             this.patient = patient;
             this.factory = factory;
+            this.database  =  database;
 
             InitializeComponent();
 

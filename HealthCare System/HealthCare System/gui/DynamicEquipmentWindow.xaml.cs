@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -13,12 +14,14 @@ namespace HealthCare_System.gui
     {
         Room room;
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<string, KeyValuePair<Equipment, int>> dynamicEquipmentDisplay;
 
-        public DynamicEquipmentWindow(Room room, HealthCareFactory factory)
+        public DynamicEquipmentWindow(Room room, HealthCareFactory factory, HealthCareDatabase database)
         {
             this.room = room;
             this.factory = factory;
+            this.database =  database;
 
             InitializeComponent();
 

@@ -7,19 +7,22 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
     public partial class PrescriptionWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Patient patient;
         Dictionary<string, Drug> drugsDisplay;
 
-        public PrescriptionWindow(Patient patient, HealthCareFactory factory)
+        public PrescriptionWindow(Patient patient, HealthCareFactory factory, HealthCareDatabase database)
         {
             this.factory = factory;
             this.patient = patient;
+            this.database  =  database;
 
             InitializeComponent();
 

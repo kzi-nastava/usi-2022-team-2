@@ -2,6 +2,7 @@
 using HealthCare_System.factory;
 using System;
 using System.Windows;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -9,11 +10,13 @@ namespace HealthCare_System.gui
     {
         Appointment appointment;
         HealthCareFactory factory;
+        HealthCareDatabase database;
 
-        public ChangeAppointmentWindow(Appointment appointment, HealthCareFactory factory)
+        public ChangeAppointmentWindow(Appointment appointment, HealthCareFactory factory, HealthCareDatabase database)
         {
             this.appointment = appointment;
             this.factory = factory;
+            this.database  = database;
 
             InitializeComponent();
 

@@ -6,21 +6,24 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
     public partial class DoctorWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Doctor doctor;
         DateTime startPoint;
         Dictionary<string, Appointment> appontmentsDisplay;
         Dictionary<string, Ingredient> ingrediantsDisplay;
         Dictionary<string, Drug> drugsDisplay;
 
-        public DoctorWindow(HealthCareFactory factory)
+        public DoctorWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             this.factory = factory;
+            this.database = database;
             doctor = (Doctor)factory.User;
             Title = doctor.FirstName + " " + doctor.LastName;
 
@@ -34,7 +37,7 @@ namespace HealthCare_System.gui
 
             DisableComponents();
 
-            DelayedAppointmentNotificationWindow notificationWindow = new DelayedAppointmentNotificationWindow(factory);
+            DelayedAppointmentNotificationWindow notificationWindow = new(factory, database);
         }
 
         void InitializeAppointments()
@@ -323,7 +326,7 @@ namespace HealthCare_System.gui
         private void ChangeBtn_Click(object sender, RoutedEventArgs e)
         {
             Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
-            Window window = new ChangeAppointmentWindow(appointment, factory);
+            Window window = new ChangeAppointmentWindow(appointment, factory, database);
             window.Show();
         }
 
@@ -358,7 +361,7 @@ namespace HealthCare_System.gui
             appointment.Status = AppointmentStatus.FINISHED;
             factory.AppointmentController.Serialize();
 
-            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, factory);
+            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, factory, database);
             dynamicEquipmentWindow.Show();
 
             InitializeAppointments();
@@ -430,14 +433,14 @@ namespace HealthCare_System.gui
                 return;
             }
             Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
-            Window window = new PrescriptionWindow(patient, factory);
+            Window window = new PrescriptionWindow(patient, factory, database);
             window.Show();
         }
 
         private void ReferralBtn_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
-            Window window = new ReferralWindow(patient, factory);
+            Window window = new ReferralWindow(patient, factory, database);
             window.Show();
         }
 
@@ -446,7 +449,7 @@ namespace HealthCare_System.gui
             factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(factory,database);
                 main.Show();
             }
             else e.Cancel = true;

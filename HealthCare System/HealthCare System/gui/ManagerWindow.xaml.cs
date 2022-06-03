@@ -5,21 +5,24 @@ using System.Windows.Controls;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
 using System.ComponentModel;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
         Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
 
-        public ManagerWindow(HealthCareFactory factory)
+        public ManagerWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
+            this.database  =  database;
             InitializeComboBoxes();
             DisplayRooms(this.factory.RoomController.Rooms);
             DisplayDrugs(this.factory.DrugController.Drugs);
@@ -146,7 +149,7 @@ namespace HealthCare_System.gui
 
         private void newRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window newRoomWindow = new RoomWindow(true, factory);
+            Window newRoomWindow = new RoomWindow(true, factory, database);
             newRoomWindow.Show();
         }
 
@@ -211,7 +214,7 @@ namespace HealthCare_System.gui
 
         private void renovateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window renovationWindow = new RenovationWindow(factory);
+            Window renovationWindow = new RenovationWindow(factory, database);
             renovationWindow.Show();
         }
 
@@ -220,7 +223,7 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateForUpdate();
-                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
+                Window updateRoomWindow = new RoomWindow(false, factory, database, listedRooms[roomView.SelectedIndex]);
                 updateRoomWindow.Show();
             }
             catch (Exception excp)
@@ -232,7 +235,7 @@ namespace HealthCare_System.gui
 
         private void moveEquipementBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
+            Window moveEquipmentWindow = new EquipmentMoveWindow(factory, database);
             moveEquipmentWindow.Show();
         }
 
@@ -269,13 +272,13 @@ namespace HealthCare_System.gui
 
         private void newDrugBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window drugWindow = new DrugWindow(factory, true);
+            Window drugWindow = new DrugWindow(factory, true, database);
             drugWindow.Show();
         }
 
         private void rejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window rejectedDrugsWindow = new RejectedDrugsWindow(factory);
+            Window rejectedDrugsWindow = new RejectedDrugsWindow(factory, database);
             rejectedDrugsWindow.Show();
         }
 
@@ -284,7 +287,7 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateDrugForChange();
-                Window drugWindow = new DrugWindow(factory, false, listedDrugs[drugView.SelectedIndex]);
+                Window drugWindow = new DrugWindow(factory, false,  database, listedDrugs[drugView.SelectedIndex]);
                 drugWindow.Show();
             }
             catch (Exception exc)
@@ -347,7 +350,7 @@ namespace HealthCare_System.gui
                             
         private void newIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window ingredientWindow = new IngredientWindow(true, factory);
+            Window ingredientWindow = new IngredientWindow(true, factory, database);
             ingredientWindow.Show();
         }
 
@@ -356,7 +359,8 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateIngredientForChange();
-                Window ingredientWindow = new IngredientWindow(false, factory, listedIngredients[ingredientsView.SelectedIndex]);
+                Window ingredientWindow = new IngredientWindow(false, factory, database, 
+                    listedIngredients[ingredientsView.SelectedIndex]);
                 ingredientWindow.Show();
             }
             catch (Exception exc)
@@ -398,7 +402,7 @@ namespace HealthCare_System.gui
             factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(factory, database);
                 main.Show();
             }
             else

@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -25,6 +26,7 @@ namespace HealthCare_System.gui
     {
 
         HealthCareFactory factory;
+        HealthCareDatabase database;
         List<Patient> blockedPatients = new List<Patient>();
         bool showingBlocked;
         AddPatientWindow addPatientWin;
@@ -32,10 +34,11 @@ namespace HealthCare_System.gui
         Dictionary<Appointment, DateTime> replaceableAppointments;
 
 
-        public SecretaryWindow(HealthCareFactory factory)
+        public SecretaryWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
+            this.database  =  database;
             this.showingBlocked = false;
             SetEmergencyAppTab();
             SetReferralsTab();
@@ -247,13 +250,13 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Select patient You want to update!");
                 return;
             }
-            addPatientWin = new AddPatientWindow(factory, true, patient);
+            addPatientWin = new AddPatientWindow(factory, true, patient, database);
             addPatientWin.Show();
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            addPatientWin = new AddPatientWindow(factory, false, null);
+            addPatientWin = new AddPatientWindow(factory, false, null, database);
             addPatientWin.Show();
         }
 
@@ -529,7 +532,7 @@ namespace HealthCare_System.gui
             factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(factory, database);
                 main.Show();
             }
             else e.Cancel = true;

@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -18,13 +19,15 @@ namespace HealthCare_System.gui
     public partial class RenovationWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<int, Room> listedRoomsSimple = new Dictionary<int, Room>();
         Dictionary<int, Room> listedRoomsSplitting = new Dictionary<int, Room>();
         Dictionary<int, Room> listedFirstRoomsMerging = new Dictionary<int, Room>();
         Dictionary<int, Room> listedSecondRoomsMerging= new Dictionary<int, Room>();
-        public RenovationWindow(HealthCareFactory factory)
+        public RenovationWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             this.factory = factory;
+            this.database  =  database;
             InitializeComponent();
             InitializeComboBoxes(factory.RoomController.Rooms);
             simpleStartDp.SelectedDate = DateTime.Today;

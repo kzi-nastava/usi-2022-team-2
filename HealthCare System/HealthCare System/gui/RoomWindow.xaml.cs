@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using HealthCare_System.Model;
 using HealthCare_System.factory;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -11,13 +12,15 @@ namespace HealthCare_System.gui
         bool createNewRoom;
         Room room;
         HealthCareFactory factory;
+        HealthCareDatabase database;
 
-        public RoomWindow(bool createNewRoom, HealthCareFactory factory, Room room = null)
+        public RoomWindow(bool createNewRoom, HealthCareFactory factory, HealthCareDatabase database, Room room = null)
         {
             InitializeComponent();
             this.createNewRoom = createNewRoom;
             this.room = room;
             this.factory = factory;
+            this.database = database;
             InitializeTitle();
             InitializeFields();
         }

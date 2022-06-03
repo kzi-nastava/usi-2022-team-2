@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -12,13 +13,16 @@ namespace HealthCare_System.gui
     {
         bool isUpdate;
         HealthCareFactory factory;
+        HealthCareDatabase database;
+
         Patient patient;
 
-        public AddPatientWindow(HealthCareFactory factory, bool isUpdate, Patient patient)
+        public AddPatientWindow(HealthCareFactory factory, bool isUpdate, Patient patient, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
             this.isUpdate = isUpdate;
+            this.database = database;
 
             if(isUpdate)
             {

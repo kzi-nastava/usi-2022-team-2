@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -22,13 +23,15 @@ namespace HealthCare_System.gui
     public partial class IngredientWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         bool create;
         Ingredient ingredient;
-        public IngredientWindow(bool create, HealthCareFactory factory, Ingredient ingredient = null)
+        public IngredientWindow(bool create, HealthCareFactory factory, HealthCareDatabase database, Ingredient ingredient = null)
         {
             InitializeComponent();
             this.create = create;
             this.factory = factory;
+            this.database = database;
             this.ingredient = ingredient;
             InitializeTitle();
             InitializeFields();

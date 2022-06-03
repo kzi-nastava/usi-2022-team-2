@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -20,14 +21,16 @@ namespace HealthCare_System.gui
     public partial class DrugWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         bool create;
         Drug drug;
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
         List<int> selectedIndencies = new List<int>();
-        public DrugWindow(HealthCareFactory factory, bool create, Drug drug = null)
+        public DrugWindow(HealthCareFactory factory, bool create, HealthCareDatabase database, Drug drug = null)
         {
             InitializeComponent();
             this.factory = factory;
+            this.database = database;
             this.create = create;
             this.drug = drug;
             InitializeTitle();

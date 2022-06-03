@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -20,12 +21,14 @@ namespace HealthCare_System.gui
     public partial class RejectedDrugsWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         
-        public RejectedDrugsWindow(HealthCareFactory factory)
+        public RejectedDrugsWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
+            this.database  =  database;
             InitializeComboBox();
             if (listedDrugs.Count == 0)
             {
@@ -66,7 +69,8 @@ namespace HealthCare_System.gui
 
         private void correctBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window drugWindow = new DrugWindow(factory, false, listedDrugs[rejectedDrugsCb.SelectedIndex]);
+            Window drugWindow = new DrugWindow(factory, false, database, 
+                listedDrugs[rejectedDrugsCb.SelectedIndex]);
             drugWindow.Show();
             Close();
         }

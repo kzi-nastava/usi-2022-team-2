@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare_System.Database;
 
 namespace HealthCare_System.gui
 {
@@ -22,12 +23,14 @@ namespace HealthCare_System.gui
     public partial class DelayedAppointmentNotificationWindow : Window
     {
         HealthCareFactory factory;
-        Person user;        
-        public DelayedAppointmentNotificationWindow(HealthCareFactory factory)
+        Person user;
+        HealthCareDatabase database;
+        public DelayedAppointmentNotificationWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             InitializeComponent();
             this.factory = factory;
             this.user = factory.User;
+            this.database   =   database;
             Show();
             FillListBoxNotifications();
             
