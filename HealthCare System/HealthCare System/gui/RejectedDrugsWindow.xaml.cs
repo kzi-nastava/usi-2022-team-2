@@ -14,21 +14,25 @@ using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
 using HealthCare_System.Database;
+using HealthCare_System.Services.DrugServices;
 
 namespace HealthCare_System.gui
 {
     
     public partial class RejectedDrugsWindow : Window
     {
-        HealthCareFactory factory;
         HealthCareDatabase database;
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
+
+        DrugService drugService;
         
-        public RejectedDrugsWindow(HealthCareFactory factory, HealthCareDatabase database)
+        public RejectedDrugsWindow(HealthCareDatabase database)
         {
             InitializeComponent();
-            this.factory = factory;
             this.database  =  database;
+
+            drugService = new DrugService(database.DrugRepo, null);
+
             InitializeComboBox();
             if (listedDrugs.Count == 0)
             {
@@ -41,7 +45,7 @@ namespace HealthCare_System.gui
         {
             rejectedDrugsCb.Items.Clear();
             int index = 0;
-            foreach (Drug drug in factory.DrugController.Drugs)
+            foreach (Drug drug in database.DrugRepo.Drugs)
             {
                 if (drug.Status == DrugStatus.REJECTED)
                 {
@@ -69,7 +73,7 @@ namespace HealthCare_System.gui
 
         private void correctBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window drugWindow = new DrugWindow(factory, false, database, 
+            Window drugWindow = new DrugWindow(false, database, 
                 listedDrugs[rejectedDrugsCb.SelectedIndex]);
             drugWindow.Show();
             Close();

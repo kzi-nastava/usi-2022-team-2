@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthCare_System.Repository.DrugRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.PrescriptionServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.DrugServices
 {
@@ -24,26 +25,25 @@ namespace HealthCare_System.Services.DrugServices
             return drugRepo.Drugs;
         }
 
-        public void CreateNewDrug(string name, List<Ingredient> ingredients)
+        public void CreateNew(DrugDTO drugDTO)
         {
-            if (name.Length > 30 || name.Length < 5)
+            if (drugDTO.Name.Length > 30 || drugDTO.Name.Length < 5)
                 throw new Exception();
-            Drug drug = new Drug(drugRepo.GenerateId(), name, ingredients, DrugStatus.ON_HOLD, "");
+            Drug drug = new Drug(drugDTO);
             drugRepo.Add(drug);
         }
 
-        public void UpdateDrug(string name, List<Ingredient> ingredients, Drug drug)
+        public void Update(DrugDTO drugDTO, Drug drug)
         {
-            if (name.Length > 30 || name.Length < 5)
+            if (drugDTO.Name.Length > 30 || drugDTO.Name.Length < 5)
                 throw new Exception();
-            drug.Name = name;
-            drug.Ingredients = ingredients;
-            drug.Status = DrugStatus.ON_HOLD;
-            drug.Message = "";
+            drug.Name = drugDTO.Name;
+            drug.Ingredients = drugDTO.Ingredients;
+            drug.Status = drugDTO.Status;
+            drug.Message = drugDTO.Message;
             drugRepo.Serialize();
         }
 
-        //TODO: Move to DrugRequestService??
         public void RejectDrug(Drug drug, string message)
         {
             drug.Status = DrugStatus.REJECTED;
@@ -58,7 +58,7 @@ namespace HealthCare_System.Services.DrugServices
             drugRepo.Serialize();
         }
 
-        public void DeleteDrug(Drug drug)
+        public void Delete(Drug drug)
         {
             drugRepo.Delete(drug);
         }

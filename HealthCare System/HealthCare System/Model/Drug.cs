@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HealthCare_System.Model.Dto;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
@@ -49,6 +50,15 @@ namespace HealthCare_System.Model
             ingredients = drug.ingredients;
             status = drug.status;
             message = drug.message;
+        }
+
+        public Drug(DrugDTO drugDTO)
+        {
+            id = drugDTO.Id;
+            name = drugDTO.Name;
+            ingredients = drugDTO.Ingredients;
+            status = drugDTO.Status;
+            message = drugDTO.Message;
         }
 
         [JsonPropertyName("id")]

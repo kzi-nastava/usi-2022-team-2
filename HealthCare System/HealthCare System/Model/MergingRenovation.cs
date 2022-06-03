@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Model.Dto;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -46,6 +47,13 @@ namespace HealthCare_System.Model
             rooms = renovation.Rooms;
             newRoomName = renovation.newRoomName;
             newRoomType = renovation.newRoomType;
+        }
+
+        public MergingRenovation(MergingRenovationDTO renovationDTO) : base(renovationDTO)
+        {
+            rooms = renovationDTO.Rooms;
+            newRoomName = renovationDTO.NewRoomName;
+            newRoomType = renovationDTO.NewRoomType;
         }
 
         [JsonIgnore]

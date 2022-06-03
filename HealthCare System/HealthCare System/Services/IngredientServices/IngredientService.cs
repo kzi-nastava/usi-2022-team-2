@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthCare_System.Repository.IngredientRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.DrugServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.IngredientServices
 {
@@ -24,20 +25,26 @@ namespace HealthCare_System.Services.IngredientServices
             return ingredientRepo.Ingredients;
         }
 
-        public void Add(string name)
+        public void Create(IngredientDTO ingredientDTO)
         {
-            if (name.Length > 30 || name.Length < 5)
+            if (ingredientDTO.Name.Length > 30 || ingredientDTO.Name.Length < 5)
                 throw new Exception();
-            Ingredient ingredient = new Ingredient(ingredientRepo.GenerateId(), name);
+            Ingredient ingredient = new Ingredient(ingredientDTO);
             ingredientRepo.Add(ingredient);
         }
 
-        public void Update(string name, Ingredient ingredient)
+        public void Update(IngredientDTO ingredientDTO, Ingredient ingredient)
         {
-            if (name.Length > 30 || name.Length < 5)
+
+            if (ingredientDTO.Name.Length > 30 || ingredientDTO.Name.Length < 5)
                 throw new Exception();
-            ingredient.Name = name;
+            ingredient.Name = ingredientDTO.Name;
             ingredientRepo.Serialize();
+        }
+
+        public void Delete(Ingredient ingredient)
+        {
+            ingredientRepo.Delete(ingredient);
         }
 
         public bool IsIngredientAvailableForChange(Ingredient ingredient)

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using HealthCare_System.Model.Dto;
+using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
 {
@@ -19,6 +20,12 @@ namespace HealthCare_System.Model
         {
             id = ingredient.id;
             name = ingredient.name;
+        }
+
+        public Ingredient(IngredientDTO ingredientDTO)
+        {
+            id = ingredientDTO.Id;
+            name = ingredientDTO.Name;
         }
 
         [JsonPropertyName("id")]

@@ -4,6 +4,7 @@ using HealthCare_System.Repository.RenovationRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.RoomServices;
 using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RenovationServices
 {
@@ -30,11 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return simpleRenovationRepo.SimpleRenovations;
         }
 
-        public void BookRenovation(DateTime start, DateTime end, Room room,
-            string newRoomName, TypeOfRoom newRoomType)
+        public void BookRenovation(SimpleRenovationDTO simpleRenovationDTO)
         {
-            SimpleRenovation simpleRenovation = new SimpleRenovation(simpleRenovationRepo.GenerateId(), start, end,
-                RenovationStatus.BOOKED, room, newRoomName, newRoomType);
+            SimpleRenovation simpleRenovation = new SimpleRenovation(simpleRenovationDTO);
             simpleRenovationRepo.Add(simpleRenovation);
         }
 
@@ -49,7 +48,7 @@ namespace HealthCare_System.Services.RenovationServices
         public void FinishSimpleRenovation(SimpleRenovation simpleRenovation)
         {
             simpleRenovation.Status = RenovationStatus.FINISHED;
-            roomService.UpdateRoom(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
+            roomService.Update(simpleRenovation.Room, simpleRenovation.NewRoomName, simpleRenovation.NewRoomType);
             simpleRenovationRepo.Delete(simpleRenovation);
         }
 
