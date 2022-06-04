@@ -88,5 +88,16 @@ namespace HealthCare_System.Repository.DrugRepo
 
             return filtered;
         }
+
+        public List<Drug> FillterAccepted()
+        {
+            List<Drug> filtered = new List<Drug>();
+
+            foreach (Drug drug in drugs)
+                if (drug.Status == DrugStatus.ACCEPTED)
+                    filtered.Add(drug);
+
+            return filtered;
+        }
     }
 }

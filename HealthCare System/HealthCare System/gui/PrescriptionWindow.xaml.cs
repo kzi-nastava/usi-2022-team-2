@@ -39,7 +39,7 @@ namespace HealthCare_System.gui
         {
             drugCb.Items.Clear();
             drugsDisplay = new Dictionary<string, Drug>();
-            List<Drug> drugs = database.DrugRepo.Drugs;
+            List<Drug> drugs = database.DrugRepo.FillterAccepted();
             List<Drug> sortedDrugs = drugs.OrderBy(x => x.Id).ToList();
 
             foreach (Drug drug in sortedDrugs)
