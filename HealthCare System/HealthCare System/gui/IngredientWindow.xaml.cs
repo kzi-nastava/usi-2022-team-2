@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using HealthCare_System.factory;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
+using HealthCare_System.Model.Dto;
+using HealthCare_System.Database;
+using HealthCare_System.Services.IngredientServices;
 
 namespace HealthCare_System.gui
 {
-    /// <summary>
-    /// Interaction logic for IngredientWindow.xaml
-    /// </summary>
+    
     public partial class IngredientWindow : Window
     {
-        HealthCareFactory factory;
+        HealthCareDatabase database;
         bool create;
         Ingredient ingredient;
-        public IngredientWindow(bool create, HealthCareFactory factory, Ingredient ingredient = null)
+
+        IngredientService ingredientService;
+
+        public IngredientWindow(bool create, HealthCareDatabase database, Ingredient ingredient = null)
         {
             InitializeComponent();
             this.create = create;
-            this.factory = factory;
+            this.database = database;
             this.ingredient = ingredient;
+
+            InitializeServices();
             InitializeTitle();
             InitializeFields();
+        }
+
+        void InitializeServices()
+        {
+            ingredientService = new IngredientService(database.IngredientRepo, null);
         }
 
         void InitializeTitle()
@@ -54,7 +55,8 @@ namespace HealthCare_System.gui
         {
             try
             {
-                factory.IngredientController.CreateNewIngredient(nameTb.Text);
+                IngredientDto ingredientDto = new IngredientDto(database.IngredientRepo.GenerateId(), nameTb.Text);
+                ingredientService.Create(ingredientDto);
                 MessageBox.Show("Ingredient created sucessfully!");
                 Close();
             }
@@ -68,7 +70,8 @@ namespace HealthCare_System.gui
         {
             try
             {
-                factory.IngredientController.UpdateIngredient(nameTb.Text, ingredient);
+                IngredientDto ingredientDto = new IngredientDto(-1, nameTb.Text);
+                ingredientService.Update(ingredientDto, ingredient);
                 MessageBox.Show("Ingredient updated sucessfully!");
                 Close();
             }

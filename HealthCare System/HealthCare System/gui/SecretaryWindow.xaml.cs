@@ -1,5 +1,4 @@
-﻿using HealthCare_System.entities;
-using HealthCare_System.factory;
+﻿using HealthCare_System.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +8,17 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using HealthCare_System.Database;
+using HealthCare_System.Services.UserServices;
+using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Services.AppointmentServices;
+using HealthCare_System.Services.MedicalRecordServices;
+using HealthCare_System.Model.Dto;
+using HealthCare_System.Services.AnamnesisServices;
+using HealthCare_System.Services.ReferralServices;
+using HealthCare_System.Services.NotificationServices;
 
 namespace HealthCare_System.gui
 {
@@ -24,31 +28,71 @@ namespace HealthCare_System.gui
     public partial class SecretaryWindow : Window
     {
 
-        HealthCareFactory factory;
+        HealthCareDatabase database;
         List<Patient> blockedPatients = new List<Patient>();
-        bool showingBlocked;
-        AddPatientWindow addPatientWin;
-        bool isOperation;
         Dictionary<Appointment, DateTime> replaceableAppointments;
+        AddPatientWindow addPatientWin;
+        bool showingBlocked;
+        bool isOperation;
+
+        PatientService patientService; 
+        EquipmentService equipmentService;
+        EquipmentTransferService equipmentTransferService;
+        RoomService roomService; 
+        AppointmentRequestService appointmentRequestService;
+        UrgentSchedulingService urgentSchedulingService;
+        MedicalRecordService medicalRecordService;
+        SchedulingService schedulingService;
+        SupplyRequestService supplyRequestService;
+        DoctorService doctorService;
+        DelayedAppointmentNotificationService delayedAppointmentNotification;
 
 
-        public SecretaryWindow(HealthCareFactory factory)
+        public SecretaryWindow(HealthCareDatabase database)
         {
-            InitializeComponent();
-            this.factory = factory;
+            this.database = database;
             this.showingBlocked = false;
+
+            InitializeComponent();
+            InitializeServices();
+
             SetEmergencyAppTab();
             SetReferralsTab();
             SetEquipmentTab();
             SetRoomsTab();
         }
 
+        void InitializeServices()
+        {
+            patientService = new(database.PatientRepo, null, null, null, null);
+
+            roomService = new(null, null, null, null, null, database.RoomRepo);
+
+            equipmentService = new(database.EquipmentRepo, roomService);
+            equipmentTransferService = new(database.EquipmentTransferRepo, roomService);
+            supplyRequestService = new(database.SupplyRequestRepo, roomService, equipmentTransferService);
+
+            AppointmentService appointmentService = new(database.AppointmentRepo, null);
+            appointmentRequestService = new(database.AppointmentRequestRepo, appointmentService);
+
+            AnamnesisService anamnesisService = new AnamnesisService(database.AnamnesisRepo);
+            doctorService = new(database.DoctorRepo, null);
+            ReferralService referralService = new(database.ReferralRepo);
+
+            schedulingService = new(roomService, appointmentService, anamnesisService, doctorService, referralService);
+            appointmentService.SchedulingService = schedulingService;
+            urgentSchedulingService = new(appointmentService, schedulingService);
+            medicalRecordService = new(database.MedicalRecordRepo);
+            delayedAppointmentNotification = new(database.DelayedAppointmentNotificationRepo);
+        }
+
+        #region TabSetUp
         private void SetEmergencyAppTab()
         {
             this.isOperation = false;
             this.textBoxDuration.IsEnabled = false;
 
-            foreach (Patient patient in factory.PatientController.Patients)
+            foreach (Patient patient in patientService.Patients())
             {
                 cmbPatient.Items.Add(patient);
             }
@@ -64,7 +108,7 @@ namespace HealthCare_System.gui
 
         private void SetReferralsTab()
         {
-            foreach (Patient patient in factory.PatientController.Patients)
+            foreach (Patient patient in patientService.Patients())
             {
                 cmbPatientInReferrals.Items.Add(patient);
             }
@@ -75,7 +119,7 @@ namespace HealthCare_System.gui
 
         private void SetEquipmentTab()
         {
-            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            foreach (Equipment equipment in equipmentService.Equipment())
             {
                 if (equipment.Dynamic) cmbEquipment.Items.Add(equipment);
             }
@@ -90,26 +134,27 @@ namespace HealthCare_System.gui
 
         private void SetRoomsTab()
         {
-            foreach (Room room in factory.RoomController.Rooms)
+            foreach (Room room in roomService.Rooms())
             {
                 cmbRoom.Items.Add(room);
                 cmbRoomFrom.Items.Add(room);
                 cmbRoomTo.Items.Add(room);
             }
 
-            foreach (Equipment equipment in factory.EquipmentController.Equipment)
+            foreach (Equipment equipment in equipmentService.Equipment())
             {
                 if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
             }
         }
+        #endregion
 
-
+        #region ListBocFiller
         private void FillListBoxEquipment()
         {
             listBoxEquipment.Items.Clear();
             Dictionary<Equipment, int> dynamicEquipment = new Dictionary<Equipment, int>();
 
-            foreach (Room room in factory.RoomController.Rooms)
+            foreach (Room room in roomService.Rooms())
             {
                 foreach(Equipment currentEquipment in room.EquipmentAmount.Keys)
                 {
@@ -138,7 +183,7 @@ namespace HealthCare_System.gui
         private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
-            foreach (AppointmentRequest appRequest in factory.AppointmentRequestController.AppointmentRequests)
+            foreach (AppointmentRequest appRequest in appointmentRequestService.AppointmentRequests())
             {
                 if (appRequest.State == AppointmentState.WAITING)
                 {
@@ -150,7 +195,7 @@ namespace HealthCare_System.gui
         private void FillListBoxPatients()
         {
             listBoxPatients.Items.Clear();
-            foreach (Patient patient in factory.PatientController.Patients)
+            foreach (Patient patient in patientService.Patients())
             {
                 if (patient.Blocked == showingBlocked)
                 {
@@ -163,7 +208,7 @@ namespace HealthCare_System.gui
         private void FillListBoxAppointments(List<Doctor> doctors, int duration)
         {
             listBoxAppointments.Items.Clear();
-            replaceableAppointments = factory.AppointmentController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
+            replaceableAppointments = urgentSchedulingService.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
             foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
             {
                 listBoxAppointments.Items.Add(item.Key);
@@ -180,7 +225,7 @@ namespace HealthCare_System.gui
             }
             else
             {
-                foreach (MedicalRecord medicalRecord in factory.MedicalRecordController.MedicalRecords)
+                foreach (MedicalRecord medicalRecord in medicalRecordService.MedicalRecords())
                 {
                     if (medicalRecord.Patient == patient)
                     {
@@ -237,8 +282,11 @@ namespace HealthCare_System.gui
                 listBoxEquipmentNearEnd.Items.Add("There are enough amount of every equipment in this room.");
             }
         }
+        #endregion
 
 
+
+        #region PatientsTab
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)listBoxPatients.SelectedItem;
@@ -247,13 +295,13 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Select patient You want to update!");
                 return;
             }
-            addPatientWin = new AddPatientWindow(factory, true, patient);
+            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, true, patient, database);
             addPatientWin.Show();
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            addPatientWin = new AddPatientWindow(factory, false, null);
+            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, false, null, database);
             addPatientWin.Show();
         }
 
@@ -284,7 +332,7 @@ namespace HealthCare_System.gui
             {
                 try
                 {
-                    factory.DeletePatient(patient);
+                    patientService.DeletePatient(patient);
                 }
                 catch (Exception ex)
                 {
@@ -304,8 +352,7 @@ namespace HealthCare_System.gui
             }
             else
             {
-                patient.Blocked = !patient.Blocked;
-                factory.PatientController.Serialize();
+                patientService.BlockPatient(patient);
                 showBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
@@ -319,7 +366,10 @@ namespace HealthCare_System.gui
         {
             FillListBoxReferrals();
         }
+        #endregion
 
+
+        #region AppointmentRequestTab
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
@@ -329,7 +379,7 @@ namespace HealthCare_System.gui
             }
             else
             {
-                factory.AcceptRequest(request);
+                appointmentRequestService.AcceptRequest(request);
                 FillListBoxRequests();
                 MessageBox.Show("You succesefully accepted selected request.");
             }
@@ -344,7 +394,7 @@ namespace HealthCare_System.gui
             }
             else
             {
-                factory.RejectRequest(request);
+                appointmentRequestService.RejectRequest(request);
                 FillListBoxRequests();
                 MessageBox.Show("You succesefully rejected selected request.");
             }
@@ -363,7 +413,10 @@ namespace HealthCare_System.gui
                 requestDetailsWindow.Show();
             }
         }
+        #endregion
 
+
+        #region RoomsTab
         private void ShowRoomBtn_Click(object sender, RoutedEventArgs e)
         {
             Room room = (Room)cmbRoom.SelectedItem;
@@ -378,51 +431,82 @@ namespace HealthCare_System.gui
             }
         }
 
-        private void TransferBtn_Click(object sender, RoutedEventArgs e)
+        private TransferDto ValidateTransfer()
         {
-            Room roomFrom = (Room)cmbRoomFrom.SelectedItem;
-            Room roomTo = (Room)cmbRoomTo.SelectedItem;
+            Room fromRoom = (Room)cmbRoomFrom.SelectedItem;
+            Room toRoom = (Room)cmbRoomTo.SelectedItem;
             Equipment equipment = (Equipment)cmbEquipmentType.SelectedItem;
-            if (roomFrom is null || roomTo is null || equipment is null)
+            if (fromRoom is null || toRoom is null || equipment is null)
             {
                 MessageBox.Show("Select rooms and equipment type!");
-                return;
+                throw new Exception();
             }
-            int amount = Convert.ToInt32(textBoxEquipmentTransferQuantity.Text);
 
-            if (roomFrom.EquipmentAmount[equipment] < amount)
+            int amount = Convert.ToInt32(textBoxEquipmentTransferQuantity.Text);
+            if (fromRoom.EquipmentAmount[equipment] < amount)
             {
                 MessageBox.Show("The room has less selected equipment in stock than entered.");
-                return;
+                throw new Exception();
             }
 
-            Transfer transfer = new Transfer(factory.TransferController.GenerateId(), DateTime.Now, roomFrom, roomTo, equipment, amount);
-            factory.ExecuteTransfer(transfer);
+            return new TransferDto(0, DateTime.Now, amount, fromRoom, toRoom, equipment);
+        }
+
+        private void TransferBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            TransferDto transferDto = ValidateTransfer();
+            equipmentTransferService.ExecuteTransfer(transferDto);
 
             MessageBox.Show("You have successfully transfered equipment.");
         }
+        #endregion
 
+
+        #region EmergencyAppointmentTab
+        int getDuration()
+        {
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
+                }
+            }
+            return duration;
+        }
+
+        private UrgentAppointmentDto ValidateUrgentAppointment()
+        {
+            int duration = getDuration();
+            Specialization specialization = (Specialization)cmbSpecialization.SelectedItem;
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
+            Patient patient = (Patient)cmbPatient.SelectedItem;
+
+            return new UrgentAppointmentDto(doctors, patient, duration);
+        }
 
         private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
-            int duration = getDuration();
+            UrgentAppointmentDto urgentAppointmentDto = ValidateUrgentAppointment();
+            if (urgentAppointmentDto.Patient is null) return;
 
-            List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
-            Appointment bookedAppointment = factory.BookClosestEmergancyAppointment(doctors, (Patient)cmbPatient.SelectedItem, duration);
-
-            if (bookedAppointment == null)
+            try
             {
-                MessageBox.Show("There is no available appointment in next 2h. Select one booked to be replaced.");
-                FillListBoxAppointments(doctors, duration);
-            }
-            else
-            {
-                bookedAppointment.Patient = (Patient)cmbPatient.SelectedItem;
-                factory.AddAppointment(bookedAppointment);
+                urgentSchedulingService.BookClosestEmergancyAppointment(urgentAppointmentDto);
                 MessageBox.Show("You succesefully booked emergency appointment.");
             }
+            catch(Exception ex)
+            {
+                FillListBoxAppointments(urgentAppointmentDto.Doctors, urgentAppointmentDto.Duration);
+                MessageBox.Show(ex.Message);
+            }
         }
-
 
         private void rbOperation_Checked(object sender, RoutedEventArgs e)
         {
@@ -445,23 +529,21 @@ namespace HealthCare_System.gui
             }
             else
             {
-                int duration = getDuration();
-                Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End,
-                                                            Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
-                newAppointment.Doctor = toReplaceAppointment.Doctor;
-                newAppointment.Patient = (Patient)cmbPatient.SelectedItem;
+                UrgentAppointmentDto urgentAppointmentDto = new UrgentAppointmentDto(toReplaceAppointment.Doctor, (Patient)cmbPatient.SelectedItem, getDuration());
 
-                toReplaceAppointment.Start = replaceableAppointments[toReplaceAppointment];
-                toReplaceAppointment.End = replaceableAppointments[toReplaceAppointment].AddMinutes(duration);
+                urgentAppointmentDto.DelayedStart = replaceableAppointments[toReplaceAppointment];
+                urgentAppointmentDto.DelayedEnd = replaceableAppointments[toReplaceAppointment].AddMinutes(getDuration());
 
-                newAppointment = factory.AddAppointment(newAppointment);
-                factory.AddNotification(toReplaceAppointment, newAppointment.Start);
+                Appointment newAppointment = urgentSchedulingService.ReplaceAppointment(toReplaceAppointment, urgentAppointmentDto);
+                delayedAppointmentNotification.AddNotification(toReplaceAppointment, newAppointment.Start);
 
                 MessageBox.Show("Doctor and patient are informed about appointment delay.");
             }
         }
+        #endregion
 
 
+        #region ReferralsTab
         private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
         {
             Referral referral = (Referral)listBoxReferrals.SelectedItem;
@@ -471,11 +553,14 @@ namespace HealthCare_System.gui
             }
             else
             {
-                Appointment appointment = factory.BookAppointmentByReferral(referral);
+                Appointment appointment = schedulingService.BookAppointmentByReferral(referral);
                 MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
         }
+        #endregion
 
+
+        #region EquipmentTab
         private void orderBtn_Click(object sender, RoutedEventArgs e)
         {
             Equipment equipment = (Equipment)cmbEquipment.SelectedItem;
@@ -495,28 +580,13 @@ namespace HealthCare_System.gui
                     quantity = Convert.ToInt32(textBoxEquipmentQuantity.Text);
                 }
 
-                factory.AddSupplyRequest(equipment, quantity);
+                supplyRequestService.AddSupplyRequest(equipment, quantity);
 
                 MessageBox.Show("You have succesefully orderd new equipment.");
             }
         }
+        #endregion
 
-        int getDuration()
-        {
-            int duration = 15;
-            if (isOperation)
-            {
-                try
-                {
-                    duration = Convert.ToInt32(textBoxDuration.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
-                }
-            }
-            return duration;
-        }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
@@ -526,10 +596,9 @@ namespace HealthCare_System.gui
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             else e.Cancel = true;

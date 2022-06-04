@@ -33,5 +33,10 @@
     "id": 1007,
     "name": "Examination Room 003",
     "type": 1
+  },
+  {
+    "id": 1008,
+    "name": "Renovacija123",
+    "type": 4
   }
 ]

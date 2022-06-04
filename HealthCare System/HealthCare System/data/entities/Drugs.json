@@ -38,7 +38,19 @@
   {
     "id": 1007,
     "name": "Ospamox",
-    "status": 2,
-    "message": "etgawedryg"
+    "status": 0,
+    "message": ""
+  },
+  {
+    "id": 1008,
+    "name": "drugTestaaa",
+    "status": 0,
+    "message": ""
+  },
+  {
+    "id": 1009,
+    "name": "aaaaaa",
+    "status": 0,
+    "message": ""
   }
 ]

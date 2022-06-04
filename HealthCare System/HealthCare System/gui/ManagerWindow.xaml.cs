@@ -3,42 +3,92 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare_System.factory;
-using HealthCare_System.entities;
+using HealthCare_System.Model;
 using System.ComponentModel;
+using HealthCare_System.Database;
+using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.Services.RenovationServices;
+using HealthCare_System.Services.AppointmentServices;
+using HealthCare_System.Services.DrugServices;
+using HealthCare_System.Services.IngredientServices;
+using HealthCare_System.Services.PrescriptionServices;
 
 namespace HealthCare_System.gui
 {
     public partial class ManagerWindow : Window
     {
         HealthCareFactory factory;
+        HealthCareDatabase database;
         Dictionary<Equipment, int> equipmentAmount = new Dictionary<Equipment, int>();
         Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
 
-        public ManagerWindow(HealthCareFactory factory)
+        RoomService roomService;
+        EquipmentService equipmentService;
+        MergingRenovationService mergingRenovationService;
+        SimpleRenovationService simpleRenovationService;
+        SplittingRenovationService splittingRenovationService;
+        AppointmentService appointmentService;
+        EquipmentTransferService equipmentTransferService;
+
+        IngredientService ingredientService;
+        DrugService drugService;
+        PrescriptionService prescriptionService;
+
+
+        public ManagerWindow(HealthCareDatabase database)
         {
             InitializeComponent();
-            this.factory = factory;
+            this.database  =  database;
+
+            InitializeServices();
             InitializeComboBoxes();
-            DisplayRooms(this.factory.RoomController.Rooms);
-            DisplayDrugs(this.factory.DrugController.Drugs);
-            DisplayIngredients(this.factory.IngredientController.Ingredients);
-            DisplayEquipment(this.factory.RoomController.GetEquipmentFromAllRooms());   
+            DisplayRooms(database.RoomRepo.Rooms);
+            DisplayDrugs(database.DrugRepo.Drugs);
+            DisplayIngredients(database.IngredientRepo.Ingredients);
+            DisplayEquipment(equipmentService.GetEquipmentFromAllRooms());
+
+            
+        }
+
+        void InitializeServices()
+        {
+            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
+            equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
+            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
+                null, equipmentService);
+            simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService,
+                null, equipmentService);
+            splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService,
+                null, equipmentService);
+            appointmentService = new AppointmentService(database.AppointmentRepo, null);
+            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
+            roomService.MergingRenovationService = mergingRenovationService;
+            roomService.SplittingRenovationService = splittingRenovationService;
+            roomService.SimpleRenovationService = simpleRenovationService;
+            roomService.AppointmentService = appointmentService;
+            roomService.EquipmentTransferService = equipmentTransferService;
+
+            prescriptionService = new PrescriptionService(database.PrescriptionRepo, null);
+            drugService = new DrugService(database.DrugRepo, prescriptionService);
+            ingredientService = new IngredientService(database.IngredientRepo, drugService);
         }
 
         #region EquipmentFiltering
     
         private void ApplyEveryEquipmentFilter()
         {
+            
             if (roomTypeFilter.SelectedIndex != -1 && amountFilter.SelectedIndex != -1 && 
                 equipementTypeFilter.SelectedIndex != -1)
             {
-                equipmentAmount = factory.RoomController.GetEquipmentFromAllRooms();
+                equipmentAmount = equipmentService.GetEquipmentFromAllRooms();
                 string roomType = roomTypeFilter.SelectedItem.ToString();
                 string amount = amountFilter.SelectedItem.ToString();
                 string equipmentType = equipementTypeFilter.SelectedItem.ToString();
-                factory.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
+                equipmentService.ApplyEquipmentFilters(roomType, amount, equipmentType, equipmentAmount);
                 DisplayEquipment(equipmentAmount);
             }
         }
@@ -47,7 +97,7 @@ namespace HealthCare_System.gui
         {
             if (value.Length != 0)
             {
-                factory.EquipmentController.EquipmentQuery(value, equipmentAmount);
+                equipmentService.EquipmentQuery(value, equipmentAmount);
                 DisplayEquipment(equipmentAmount);
             }    
         }
@@ -146,7 +196,7 @@ namespace HealthCare_System.gui
 
         private void newRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window newRoomWindow = new RoomWindow(true, factory);
+            Window newRoomWindow = new RoomWindow(true, database);
             newRoomWindow.Show();
         }
 
@@ -157,12 +207,12 @@ namespace HealthCare_System.gui
                 throw new Exception("Cannot delete storage!");
             }
 
-            if (!factory.IsRoomAvailableRenovationsAtAll(listedRooms[roomView.SelectedIndex]))
+            if (!roomService.IsRoomAvailableRenovationsAtAll(listedRooms[roomView.SelectedIndex]))
             {
                 throw new Exception("Room is in process of renovation so it is not able to be deleted!");
             }
 
-            if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            if (!roomService.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
             {
                 throw new Exception("Room is already taken by an appointmet or transfer so it is not able to be deleted!");
             }
@@ -175,12 +225,12 @@ namespace HealthCare_System.gui
                 throw new Exception("Cannot update storage!");
             }
 
-            if (!factory.IsRoomAvailableRenovationsAtTime(listedRooms[roomView.SelectedIndex], DateTime.Now))
+            if (!roomService.IsRoomAvailableRenovationsAtTime(listedRooms[roomView.SelectedIndex], DateTime.Now))
             {
                 throw new Exception("Room is in process of renovation so it is not able to be updated!");
             }
 
-            if (!factory.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
+            if (!roomService.IsRoomAvailableForChange(listedRooms[roomView.SelectedIndex]))
             {
                 throw new Exception("Room is already taken by an appointmet or transfer so it is not able to be updated!");
             }
@@ -193,9 +243,9 @@ namespace HealthCare_System.gui
                 try
                 {
                     ValidateForDelete();
-                    factory.RemoveRoom(listedRooms[roomView.SelectedIndex]);
+                    roomService.RemoveRoom(listedRooms[roomView.SelectedIndex]);
                     MessageBox.Show("Room deleted sucessfully!");
-                    DisplayRooms(this.factory.RoomController.Rooms);
+                    DisplayRooms(database.RoomRepo.Rooms);
                 }
                 catch (Exception excp)
                 {
@@ -211,7 +261,7 @@ namespace HealthCare_System.gui
 
         private void renovateRoomBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window renovationWindow = new RenovationWindow(factory);
+            Window renovationWindow = new RenovationWindow(database);
             renovationWindow.Show();
         }
 
@@ -220,7 +270,7 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateForUpdate();
-                Window updateRoomWindow = new RoomWindow(false, factory, listedRooms[roomView.SelectedIndex]);
+                Window updateRoomWindow = new RoomWindow(false, database, listedRooms[roomView.SelectedIndex]);
                 updateRoomWindow.Show();
             }
             catch (Exception excp)
@@ -232,13 +282,13 @@ namespace HealthCare_System.gui
 
         private void moveEquipementBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window moveEquipmentWindow = new EquipmentMoveWindow(factory);
+            Window moveEquipmentWindow = new EquipmentMoveWindow(database);
             moveEquipmentWindow.Show();
         }
 
         private void refreshRoomsBtn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayRooms(factory.RoomController.Rooms);
+            DisplayRooms(database.RoomRepo.Rooms);
         }
         #endregion
 
@@ -261,7 +311,7 @@ namespace HealthCare_System.gui
 
         private void ValidateDrugForChange()
         {
-            if (!factory.IsDrugAvailableForChange(listedDrugs[drugView.SelectedIndex]))
+            if (!drugService.IsDrugAvailableForChange(listedDrugs[drugView.SelectedIndex]))
             {
                 throw new Exception("Drug exists in a prescription so it is not available for change");
             }
@@ -269,13 +319,13 @@ namespace HealthCare_System.gui
 
         private void newDrugBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window drugWindow = new DrugWindow(factory, true);
+            Window drugWindow = new DrugWindow(true, database);
             drugWindow.Show();
         }
 
         private void rejectedDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window rejectedDrugsWindow = new RejectedDrugsWindow(factory);
+            Window rejectedDrugsWindow = new RejectedDrugsWindow(database);
             rejectedDrugsWindow.Show();
         }
 
@@ -284,7 +334,7 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateDrugForChange();
-                Window drugWindow = new DrugWindow(factory, false, listedDrugs[drugView.SelectedIndex]);
+                Window drugWindow = new DrugWindow(false,  database, listedDrugs[drugView.SelectedIndex]);
                 drugWindow.Show();
             }
             catch (Exception exc)
@@ -301,9 +351,9 @@ namespace HealthCare_System.gui
                 try
                 {
                     ValidateDrugForChange();
-                    factory.DrugController.DeleteDrug(listedDrugs[drugView.SelectedIndex]);
+                    drugService.Delete(listedDrugs[drugView.SelectedIndex]);
                     MessageBox.Show("Drug deleted sucessfully!");
-                    DisplayDrugs(factory.DrugController.Drugs);
+                    DisplayDrugs(database.DrugRepo.Drugs);
                 }
                 catch (Exception exc)
                 {
@@ -318,7 +368,7 @@ namespace HealthCare_System.gui
 
         private void refreshDrugsBtn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayDrugs(factory.DrugController.Drugs);
+            DisplayDrugs(database.DrugRepo.Drugs);
         }
         #endregion
 
@@ -339,7 +389,7 @@ namespace HealthCare_System.gui
 
         private void ValidateIngredientForChange()
         {
-            if (!factory.IsIngredientAvailableForChange(listedIngredients[ingredientsView.SelectedIndex]))
+            if (!ingredientService.IsIngredientAvailableForChange(listedIngredients[ingredientsView.SelectedIndex]))
             {
                 throw new Exception("Ingredient exists in a drug so it is not available for change");
             }
@@ -347,7 +397,7 @@ namespace HealthCare_System.gui
                             
         private void newIngredientBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window ingredientWindow = new IngredientWindow(true, factory);
+            Window ingredientWindow = new IngredientWindow(true, database);
             ingredientWindow.Show();
         }
 
@@ -356,7 +406,8 @@ namespace HealthCare_System.gui
             try
             {
                 ValidateIngredientForChange();
-                Window ingredientWindow = new IngredientWindow(false, factory, listedIngredients[ingredientsView.SelectedIndex]);
+                Window ingredientWindow = new IngredientWindow(false, database, 
+                    listedIngredients[ingredientsView.SelectedIndex]);
                 ingredientWindow.Show();
             }
             catch (Exception exc)
@@ -372,9 +423,9 @@ namespace HealthCare_System.gui
                 try
                 {
                     ValidateIngredientForChange();
-                    factory.IngredientController.DeleteIngredient(listedIngredients[ingredientsView.SelectedIndex]);
+                    ingredientService.Delete(listedIngredients[ingredientsView.SelectedIndex]);
                     MessageBox.Show("Ingredient deleted sucessfully!");
-                    DisplayIngredients(factory.IngredientController.Ingredients);
+                    DisplayIngredients(database.IngredientRepo.Ingredients);
                 }
                 catch (Exception exc)
                 {
@@ -389,16 +440,15 @@ namespace HealthCare_System.gui
 
         private void refreshIngredientsBtn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayIngredients(factory.IngredientController.Ingredients);
+            DisplayIngredients(database.IngredientRepo.Ingredients);
         }
         #endregion
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             else

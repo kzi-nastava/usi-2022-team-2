@@ -1,21 +1,26 @@
-﻿using HealthCare_System.entities;
-using HealthCare_System.factory;
+﻿using HealthCare_System.Model;
 using System;
 using System.Windows;
+using HealthCare_System.Database;
+using HealthCare_System.Services.AppointmentServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.gui
 {
     public partial class ChangeAppointmentWindow : Window
     {
         Appointment appointment;
-        HealthCareFactory factory;
+        HealthCareDatabase database;
+        SchedulingService schedulingService;
 
-        public ChangeAppointmentWindow(Appointment appointment, HealthCareFactory factory)
+        public ChangeAppointmentWindow(Appointment appointment, HealthCareDatabase database)
         {
             this.appointment = appointment;
-            this.factory = factory;
+            this.database  = database;
 
             InitializeComponent();
+
+            schedulingService = new(null, new(database.AppointmentRepo, null), null, null, null);
 
             patientJmbgTb.Text = appointment.Patient.Jmbg.ToString();
             appointmentDate.SelectedDate = appointment.Start;
@@ -26,7 +31,7 @@ namespace HealthCare_System.gui
         {
             try
             {
-                Patient patient = factory.PatientController.FindByJmbg(patientJmbgTb.Text);     
+                Patient patient = database.PatientRepo.FindByJmbg(patientJmbgTb.Text);     
 
                 int id = appointment.Id;
                 int duration = (appointment.End - appointment.Start).Minutes;
@@ -35,10 +40,10 @@ namespace HealthCare_System.gui
                 if (start == default(DateTime))
                     return;
 
-                Appointment newAppointment = new(id, start, start.AddMinutes(duration), appointment.Doctor, patient,
+                AppointmentDto newAppointmentDto = new(id, start, start.AddMinutes(duration), appointment.Doctor, patient,
                     appointment.Room, appointment.Type, appointment.Status, appointment.Anamnesis, false,
                         appointment.Emergency);
-                factory.UpdateAppointment(newAppointment);
+                schedulingService.UpdateAppointment(newAppointmentDto);
 
                 MessageBox.Show("Appointment changed!");
             }
