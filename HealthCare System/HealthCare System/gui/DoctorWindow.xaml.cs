@@ -49,7 +49,7 @@ namespace HealthCare_System.gui
 
             DisableComponents();
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(new(), database);
+            DelayedAppointmentNotificationWindow notificationWindow = new(database, doctor);
         }
 
         void InitializeAppointments()
@@ -480,7 +480,7 @@ namespace HealthCare_System.gui
         {
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(new(), database);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             else e.Cancel = true;

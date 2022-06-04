@@ -594,15 +594,14 @@ namespace HealthCare_System.gui
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        /*private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(factory, database);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             else e.Cancel = true;
-        }*/
+        }
     }
 }

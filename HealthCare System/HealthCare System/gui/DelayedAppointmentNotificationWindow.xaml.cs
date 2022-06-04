@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare_System.Database;
+using HealthCare_System.Services.NotificationServices;
 
 namespace HealthCare_System.gui
 {
@@ -22,15 +23,15 @@ namespace HealthCare_System.gui
     /// </summary>
     public partial class DelayedAppointmentNotificationWindow : Window
     {
-        HealthCareFactory factory;
         Person user;
         HealthCareDatabase database;
-        public DelayedAppointmentNotificationWindow(HealthCareFactory factory, HealthCareDatabase database)
+        DelayedAppointmentNotificationService delayedAppointmentNotificationService;
+        public DelayedAppointmentNotificationWindow(HealthCareDatabase database, Person user)
         {
             InitializeComponent();
-            this.factory = factory;
-            this.user = factory.User;
+            this.user = user;
             this.database   =   database;
+            delayedAppointmentNotificationService = new(database.DelayedAppointmentNotificationRepo);
             Show();
             FillListBoxNotifications();
             
@@ -39,7 +40,7 @@ namespace HealthCare_System.gui
         private void FillListBoxNotifications()
         {
             int counter = 0;
-            foreach (DelayedAppointmentNotification notification in factory.DelayedAppointmentNotificationController.DelayedAppointmentNotifications)
+            foreach (DelayedAppointmentNotification notification in delayedAppointmentNotificationService.DelayedAppointmentNotifications())
             {
                 if ((notification.Appointment is not null) && (notification.Appointment.Doctor == user || notification.Appointment.Patient == user) &&
                     (notification.SeenByPatient == false || notification.SeenByDoctor == false))
@@ -73,7 +74,7 @@ namespace HealthCare_System.gui
                     notification.SeenByPatient = true;
                 }
             }
-            factory.DelayedAppointmentNotificationController.Serialize();
+            delayedAppointmentNotificationService.DelayedAppointmentNotificationRepo.Serialize();
         }
     }
 }

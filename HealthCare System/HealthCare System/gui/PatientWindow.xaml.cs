@@ -40,9 +40,9 @@ namespace HealthCare_System.gui
         DoctorSurveyService doctorSurveyService;
         HospitalSurveyService hospitalSurveyService;
 
-        public PatientWindow(HealthCareFactory factory, HealthCareDatabase database)
+        public PatientWindow(Person person, HealthCareDatabase database)
         {
-            Title = factory.User.FirstName + " " + factory.User.LastName;
+            Title = person.FirstName + " " + person.LastName;
             indexedAppointments = new Dictionary<int, Appointment>();
             indexedAppointmentsHistory = new Dictionary<int, Appointment>();
             indexedAnamneses= new Dictionary<int, Appointment>();
@@ -52,7 +52,7 @@ namespace HealthCare_System.gui
             notifications = new();
             indexedSearchedDoctors = new Dictionary<int, Doctor>();
             this.database =  database;
-            user =(Patient) factory.User;
+            user =(Patient) person;
 
             InitializeComponent();
             InitializeServices();
@@ -70,7 +70,7 @@ namespace HealthCare_System.gui
             reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
             minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(factory, database);
+            DelayedAppointmentNotificationWindow notificationWindow = new(database, person);
             
             
         }
@@ -489,7 +489,7 @@ namespace HealthCare_System.gui
             {
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MainWindow main = new MainWindow(null, database);
+                    MainWindow main = new MainWindow(database);
                     main.Show();
                 }
                 else e.Cancel = true;
@@ -497,7 +497,7 @@ namespace HealthCare_System.gui
             else
             {
                 MessageBox.Show("Account blocked. Contact secretary for more informations!");
-                MainWindow main = new MainWindow(null, database);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             

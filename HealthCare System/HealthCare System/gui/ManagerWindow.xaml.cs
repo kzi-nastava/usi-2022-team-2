@@ -448,7 +448,7 @@ namespace HealthCare_System.gui
         {
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(new(), database);
+                MainWindow main = new MainWindow(database);
                 main.Show();
             }
             else

@@ -46,7 +46,7 @@ namespace HealthCare_System.Services.EquipmentServices
             }
         }
 
-        public void Add(TransferDTO transferDTO)
+        public void Add(TransferDto transferDTO)
         {
             Transfer transfer = new Transfer(transferDTO);
             if (!CheckWithOthers(transfer))
@@ -80,6 +80,14 @@ namespace HealthCare_System.Services.EquipmentServices
         {
             MoveFromRoom(transferDto.FromRoom, transferDto.Equipment, transferDto.Amount);
             MoveToRoom(transferDto.ToRoom, transferDto.Equipment, transferDto.Amount);
+            roomService.RoomRepo.Serialize();
+        }
+
+        public void ExecuteTransfer(Transfer transfer)
+        {
+            MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
+            MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
+            equipmentTransferRepo.Delete(transfer);
             roomService.RoomRepo.Serialize();
         }
     }

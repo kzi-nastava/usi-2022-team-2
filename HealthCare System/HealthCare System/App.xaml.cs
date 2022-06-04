@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
 using HealthCare_System.Model;
-using HealthCare_System.factory;
 using HealthCare_System.Database;
 using HealthCare_System.Services.RoomServices;
 using HealthCare_System.Services.EquipmentServices;
@@ -12,7 +11,6 @@ namespace HealthCare_System
 {
     public partial class App : Application
     {
-        HealthCareFactory factory;
         HealthCareDatabase database;
 
         RoomService roomService;
@@ -20,7 +18,6 @@ namespace HealthCare_System
 
         void App_Startup(object sender, StartupEventArgs e)
         {
-            factory = new HealthCareFactory();
             database = new();
 
             roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
@@ -32,7 +29,7 @@ namespace HealthCare_System
             timer.Tick += timer_Tick;
             timer.Start();
 
-            Window mainWindow = new MainWindow(factory, database);
+            Window mainWindow = new MainWindow(database);
             mainWindow.Show();
             
         }

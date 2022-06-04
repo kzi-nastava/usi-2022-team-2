@@ -43,7 +43,7 @@ namespace HealthCare_System.Model
             amount = transfer.amount;
         }
 
-        public Transfer(TransferDTO transferDTO)
+        public Transfer(TransferDto transferDTO)
         {
             id = transferDTO.Id;
             momentOfTransfer = transferDTO.MomentOfTransfer;

@@ -122,7 +122,7 @@ namespace HealthCare_System.gui
         {
             try
             {
-                TransferDTO transferDTO = new TransferDTO(database.EquipmentTransferRepo.GenerateId(),
+                TransferDto transferDTO = new TransferDto(database.EquipmentTransferRepo.GenerateId(),
                   momentOfTransfer, amount, roomsFrom[moveFromView.SelectedIndex],
                 roomsTo[moveToView.SelectedIndex], equipment[equipmentCb.SelectedIndex]);
                 equipmentTransferService.Add(transferDTO);
