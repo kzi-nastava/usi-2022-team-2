@@ -1,4 +1,6 @@
-﻿using HealthCare_System.Repository.SurveyRepo;
+﻿using HealthCare_System.Model.Dto;
+using HealthCare_System.Model;
+using HealthCare_System.Repository.SurveyRepo;
 
 namespace HealthCare_System.Services.SurveyServices
 {
@@ -12,5 +14,11 @@ namespace HealthCare_System.Services.SurveyServices
         }
 
         public HospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo; }
+
+        public void Add (HospitalSurveyDto hospitalSurveyDto)
+        {
+            HospitalSurvey hospitalSurvey = new(hospitalSurveyDto);
+            hospitalSurveyRepo.Add(hospitalSurvey);
+        }
     }
 }

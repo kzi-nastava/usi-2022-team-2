@@ -41,12 +41,12 @@
   },
   {
     "blocked": false,
-    "minutesBeforeDrug": 78,
+    "minutesBeforeDrug": 30,
     "jmbg": "1009",
     "firstName": "Vukasin",
     "lastName": "Bogdanovic",
     "birthDate": "2001-04-11T00:00:00",
-    "mail": "v.bogdanovic@gmail.com",
-    "password": "vukasinbogdanovic"
+    "mail": "123",
+    "password": "123"
   }
 ]

@@ -4,6 +4,7 @@ using HealthCare_System.factory;
 using HealthCare_System.gui;
 using HealthCare_System.Database;
 using HealthCare_System.Services.UserServices;
+using HealthCare_System.Services.AppointmentServices;
 
 namespace HealthCare_System
 {
@@ -43,8 +44,8 @@ namespace HealthCare_System
             PatientService patientService = new(database.PatientRepo, null, null, null, null);
             ManagerService managerService = new(database.ManagerRepo);
             SecretaryService secretaryService = new(database.SecretaryRepo);
-
-            UserService userService = new(patientService, doctorService, managerService, secretaryService, null);
+            AppointmentRequestService appointmentRequestService = new(database.AppointmentRequestRepo, null);
+            UserService userService = new(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
 
             Person person = userService.Login(mail, password);
             if (person is null)
