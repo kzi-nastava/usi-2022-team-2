@@ -14,27 +14,36 @@ using System.Windows.Shapes;
 using HealthCare_System.factory;
 using HealthCare_System.Model;
 using HealthCare_System.Database;
+using HealthCare_System.Services.DrugServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.gui
 {
     
     public partial class DrugWindow : Window
     {
-        HealthCareFactory factory;
         HealthCareDatabase database;
         bool create;
         Drug drug;
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
         List<int> selectedIndencies = new List<int>();
-        public DrugWindow(HealthCareFactory factory, bool create, HealthCareDatabase database, Drug drug = null)
+
+        DrugService drugService;
+
+        public DrugWindow(bool create, HealthCareDatabase database, Drug drug = null)
         {
             InitializeComponent();
-            this.factory = factory;
             this.database = database;
             this.create = create;
             this.drug = drug;
+            InitializeServices();
             InitializeTitle();
             InitializeFields();
+        }
+
+        void InitializeServices()
+        {
+            drugService = new DrugService(database.DrugRepo, null);
         }
 
         void InitializeTitle()
@@ -47,7 +56,7 @@ namespace HealthCare_System.gui
 
         void InitializeFields()
         {
-            DisplayIngredients(factory.IngredientController.Ingredients);
+            DisplayIngredients(database.IngredientRepo.Ingredients);
             if (!create)
             {
                 nameTb.Text = drug.Name;
@@ -105,7 +114,9 @@ namespace HealthCare_System.gui
         {
             try
             {
-                factory.DrugController.CreateNewDrug(nameTb.Text, GetSelectedIngredients());
+                DrugDTO drugDTO = new DrugDTO(database.DrugRepo.GenerateId(), nameTb.Text, 
+                    GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
+                drugService.CreateNew(drugDTO);
                 MessageBox.Show("Drug created sucessfully!");
                 Close();
             }
@@ -119,7 +130,9 @@ namespace HealthCare_System.gui
         {
             try
             {
-                factory.DrugController.UpdateDrug(nameTb.Text, GetSelectedIngredients() ,drug);
+                DrugDTO drugDTO = new DrugDTO(-1, nameTb.Text,
+                   GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
+                drugService.Update(drugDTO ,drug);
                 MessageBox.Show("Drug updated sucessfully!");
                 Close();
             }

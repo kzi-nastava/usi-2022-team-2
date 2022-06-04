@@ -4,6 +4,9 @@ using HealthCare_System.factory;
 using HealthCare_System.gui;
 using HealthCare_System.Database;
 using HealthCare_System.Services.UserServices;
+using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Services.RenovationServices;
+using HealthCare_System.Services.EquipmentServices;
 using HealthCare_System.Services.AppointmentServices;
 
 namespace HealthCare_System
@@ -14,25 +17,66 @@ namespace HealthCare_System
         HealthCareDatabase database;
         SecretaryWindow sc;
 
+        RoomService roomService;
+        EquipmentService equipmentService;
+        MergingRenovationService mergingRenovationService;
+        SimpleRenovationService simpleRenovationService;
+        SplittingRenovationService splittingRenovationService;
+        AppointmentService appointmentService;
+        EquipmentTransferService equipmentTransferService;
+
         public MainWindow(HealthCareFactory factory, HealthCareDatabase database)
         {
             this.factory = factory;
             this.database = database;
+
+            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
+            equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
+            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
+            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            appointmentService = new AppointmentService(database.AppointmentRepo, null);
+            roomService.MergingRenovationService = mergingRenovationService;
+            roomService.SplittingRenovationService = splittingRenovationService;
+            roomService.SimpleRenovationService = simpleRenovationService;
+            roomService.AppointmentService = appointmentService;
+            roomService.EquipmentTransferService = equipmentTransferService;
+
             database.PrintContnent();
             InitializeComponent();
-            factory.TryToExecuteSimpleRenovations();
-            factory.TryToExecuteMergingRenovations();
-            factory.TryToExecuteSplittingRenovations();
+            simpleRenovationService.TryToExecuteSimpleRenovations();
+            mergingRenovationService.TryToExecuteMergingRenovations();
+            splittingRenovationService.TryToExecuteSplittingRenovations();
             factory.TryToExecuteSupplyRequest();
         }
         public MainWindow()
         {
             factory = new();
-            
+
+            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
+            equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
+            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
+            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService,
+                equipmentTransferService, equipmentService);
+            appointmentService = new AppointmentService(database.AppointmentRepo, null);
+            roomService.MergingRenovationService = mergingRenovationService;
+            roomService.SplittingRenovationService = splittingRenovationService;
+            roomService.SimpleRenovationService = simpleRenovationService;
+            roomService.AppointmentService = appointmentService;
+            roomService.EquipmentTransferService = equipmentTransferService;
+
             InitializeComponent();
-            factory.TryToExecuteSimpleRenovations();
-            factory.TryToExecuteMergingRenovations();
-            factory.TryToExecuteSplittingRenovations();
+            simpleRenovationService.TryToExecuteSimpleRenovations();
+            mergingRenovationService.TryToExecuteMergingRenovations();
+            splittingRenovationService.TryToExecuteSplittingRenovations();
             factory.TryToExecuteSupplyRequest();
         }
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
@@ -74,7 +118,7 @@ namespace HealthCare_System
             else if (person.GetType() == typeof(Manager)) 
             {
                 factory.User = person;
-                Window managerWindow = new ManagerWindow(factory, database);
+                Window managerWindow = new ManagerWindow(database);
                 managerWindow.Show();
                 Close();
             }

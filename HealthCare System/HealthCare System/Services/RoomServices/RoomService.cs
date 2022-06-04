@@ -5,6 +5,7 @@ using HealthCare_System.Repository.RoomRepo;
 using HealthCare_System.Services.EquipmentServices;
 using HealthCare_System.Services.RenovationServices;
 using HealthCare_System.Services.AppointmentServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RoomServices
 {
@@ -31,6 +32,11 @@ namespace HealthCare_System.Services.RoomServices
         }
 
         internal RoomRepo RoomRepo { get => roomRepo; }
+        internal MergingRenovationService MergingRenovationService { set => mergingRenovationService = value; }
+        internal SimpleRenovationService SimpleRenovationService { set => simpleRenovationService = value; }
+        internal EquipmentTransferService EquipmentTransferService { set => equipmentTransferService = value; }
+        internal SplittingRenovationService SplittingRenovationService { set => splittingRenovationService = value; }
+        internal AppointmentService AppointmentService { set => appointmentService = value; }
 
         public List<Room> Rooms()
         {
@@ -76,7 +82,7 @@ namespace HealthCare_System.Services.RoomServices
             return available;
         }
 
-        public void CreateNewRoom(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
+        public void Create(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
         {
             if (name.Length > 30 || name.Length < 5)
                 throw new Exception();
@@ -85,7 +91,16 @@ namespace HealthCare_System.Services.RoomServices
             roomRepo.Add(newRoom);
         }
 
-        public void UpdateRoom(Room room, string name, TypeOfRoom type)
+        public void Create(RoomDTO roomDTO)
+        {
+            if (roomDTO.Name.Length > 30 || roomDTO.Name.Length < 5)
+                throw new Exception();
+
+            Room newRoom = new Room(roomDTO);
+            roomRepo.Add(newRoom);
+        }
+
+        public void Update(Room room, string name, TypeOfRoom type)
         {
             if (name.Length > 30 || name.Length < 5)
                 throw new Exception();
@@ -94,7 +109,16 @@ namespace HealthCare_System.Services.RoomServices
             roomRepo.Serialize();
         }
 
-        public void DeleteRoom(Room room)
+        public void Update(Room room, RoomDTO roomDTO)
+        {
+            if (roomDTO.Name.Length > 30 || roomDTO.Name.Length < 5)
+                throw new Exception();
+            room.Name = roomDTO.Name;
+            room.Type = roomDTO.Type;
+            roomRepo.Serialize();
+        }
+
+        public void Delete(Room room)
         {
             equipmentTransferService.MoveEquipmentToStorage(room);
             roomRepo.Delete(room);
@@ -197,7 +221,7 @@ namespace HealthCare_System.Services.RoomServices
                     appointment.Room = null;
             }
             appointmentService.AppointmentRepo.Serialize();
-            DeleteRoom(room);
+            Delete(room);
         }
 
         public bool IsRoomAvailableAppointments(Room room)

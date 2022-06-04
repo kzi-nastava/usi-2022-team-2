@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Model.Dto;
+using System;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
@@ -40,6 +41,16 @@ namespace HealthCare_System.Model
             toRoom = transfer.toRoom;
             equipment = transfer.equipment;
             amount = transfer.amount;
+        }
+
+        public Transfer(TransferDTO transferDTO)
+        {
+            id = transferDTO.Id;
+            momentOfTransfer = transferDTO.MomentOfTransfer;
+            fromRoom = transferDTO.FromRoom;
+            toRoom = transferDTO.ToRoom;
+            equipment = transferDTO.Equipment;
+            amount = transferDTO.Amount;
         }
 
         [JsonPropertyName("id")]

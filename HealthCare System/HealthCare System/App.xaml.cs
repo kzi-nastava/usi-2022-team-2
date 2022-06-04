@@ -5,6 +5,8 @@ using System.Windows.Threading;
 using HealthCare_System.Model;
 using HealthCare_System.factory;
 using HealthCare_System.Database;
+using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Services.EquipmentServices;
 
 namespace HealthCare_System
 {
@@ -13,16 +15,26 @@ namespace HealthCare_System
         HealthCareFactory factory;
         HealthCareDatabase database;
 
+        RoomService roomService;
+        EquipmentTransferService equipmentTransferService;
+
         void App_Startup(object sender, StartupEventArgs e)
         {
             factory = new HealthCareFactory();
             database = new();
-            Window mainWindow = new MainWindow(factory, database);
-            mainWindow.Show();
+
+            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
+            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
+            roomService.EquipmentTransferService = equipmentTransferService;
+
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
+
+            Window mainWindow = new MainWindow(factory, database);
+            mainWindow.Show();
+            
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -32,10 +44,10 @@ namespace HealthCare_System
 
         public void DoTransfers()
         {
-            if (factory.TransferController.Transfers.Count > 0)
+            if (equipmentTransferService.Transfers().Count > 0)
             {
                 List<Transfer> copyTransfers = new List<Transfer>();
-                foreach (Transfer copyTransfer in factory.TransferController.Transfers)
+                foreach (Transfer copyTransfer in equipmentTransferService.Transfers())
                 {
                     copyTransfers.Add(copyTransfer);
                 }
@@ -43,7 +55,7 @@ namespace HealthCare_System
                 foreach (Transfer transfer in copyTransfers)
                 {
                     if (transfer.MomentOfTransfer < DateTime.Now)
-                        factory.ExecuteTransfer(transfer);
+                        equipmentTransferService.ExecuteTransfer(transfer);
                 }
             }
 
