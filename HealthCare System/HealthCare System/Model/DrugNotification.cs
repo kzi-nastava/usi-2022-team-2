@@ -53,5 +53,10 @@ namespace HealthCare_System.Model
             return "DrugNotification[" + "id: " + Id.ToString()+ ", message: " + Message 
                 + ", patient: " + patientInfo + ", appointment: " + drugInfo +", time: " + time.ToString() + ", seen: " + seen.ToString() + "]";
         }
+
+        public bool IsTimeToShow(int minutesBeforeShowing)
+        {
+            return DateTime.Now.AddMinutes(minutesBeforeShowing) > time.AddMinutes(-1) && DateTime.Now.AddMinutes(minutesBeforeShowing) < time.AddMinutes(1);
+        }
     }
 }

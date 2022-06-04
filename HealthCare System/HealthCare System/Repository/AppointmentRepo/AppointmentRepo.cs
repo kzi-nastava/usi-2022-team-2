@@ -89,7 +89,34 @@ namespace HealthCare_System.Repository.AppointmentRepo
             return results;
         }
 
-        
-        
+        public List<Appointment> FindPastAppointments(Patient patient)
+        {
+            List<Appointment> appointments = new();
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            return appointments;
+        }
+
+        public List<Appointment> FindUpcomingAppointments(Patient patient)
+        {
+            List<Appointment> appointments = new();
+            foreach (Appointment appointment in patient.MedicalRecord.Appointments)
+            {
+                if (DateTime.Now < appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            List<Appointment> sortedAppoinments = appointments.OrderBy(x => x.Start).ToList();
+            return sortedAppoinments;
+        }
+
+
+
     }
 }

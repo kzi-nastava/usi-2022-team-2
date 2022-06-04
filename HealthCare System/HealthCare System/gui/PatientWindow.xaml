@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HealthCare_System.gui"
         mc:Ignorable="d"
         Closing="DataWindow_Closing"
-        Title="PatientWindow" Height="450" Width="800">
+        Title="PatientWindow" Height="450" Width="900">
     <Grid>
         <TabControl x:Name="tabs" >
             <TabItem x:Name="bookTab" Header="Book" FontSize="20" FontWeight="Bold">
@@ -95,7 +95,7 @@
                     <ListBox x:Name="doctorsLb" Margin="349,22,10,10"/>
                     <ComboBox x:Name="doctorShowPriorityCb" HorizontalAlignment="Left" Margin="177,203,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorShowPriorityCb_SelectionChanged"/>
                     <ComboBox x:Name="sortDirectionDoctorCb" HorizontalAlignment="Left" Margin="177,257,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="sortDirectionDoctorCb_SelectionChanged"/>
-                    <Button x:Name="bookDoctorCb" Content="Button" HorizontalAlignment="Left" Margin="102,342,0,0" VerticalAlignment="Top" Height="36" Width="195" Click="bookDoctorCb_Click"/>
+                    <Button x:Name="bookDoctorCb" Content="Book" HorizontalAlignment="Left" Margin="102,312,0,0" VerticalAlignment="Top" Height="36" Width="195" Click="bookDoctorCb_Click"/>
                     <ComboBox x:Name="doctorSpecializationCb" HorizontalAlignment="Left" Margin="177,154,0,0" VerticalAlignment="Top" Width="120" Height="35" SelectionChanged="doctorSpecializationCb_SelectionChanged"/>
                 </Grid>
             </TabItem>

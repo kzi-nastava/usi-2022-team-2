@@ -14,6 +14,7 @@ using HealthCare_System.Database;
 using HealthCare_System.Services.UserServices;
 using HealthCare_System.Services.AppointmentServices;
 using HealthCare_System.Services.SurveyServices;
+using HealthCare_System.Services.NotificationServices;
 
 namespace HealthCare_System.gui
 {
@@ -29,6 +30,7 @@ namespace HealthCare_System.gui
         Dictionary<int,Appointment> indexedAppointmentsHistory;
         DispatcherTimer timer;
         List<DrugNotification> notifications;
+        DrugNotificationService drugNotificationService;
         Patient user;
         DoctorService doctorService;
         UserService userService;
@@ -61,7 +63,7 @@ namespace HealthCare_System.gui
             InitializeAnamnesesTab();
             UpdateUpcomingAppointments();
             UpdateAppointmentHistory();
-            StartTimer();
+            StartNotificationChecker();
             InitializeSurveys();
 
             recommendedDoctorCb.SelectedItem = indexedDoctors[0];
@@ -85,11 +87,12 @@ namespace HealthCare_System.gui
             patientService = new(database.PatientRepo, schedulingService, null, null, null);
             userService = new(patientService, doctorService, null, null, appointmentRequestService);
             appointmentRecomendationService = new(appointmentService, schedulingService, doctorService);
+            drugNotificationService = new(database.DrugNotificationRepo);
             
         }
-        void StartTimer()
+        void StartNotificationChecker()
         {
-            CreateNotifications();
+            notifications=drugNotificationService.CreateNotifications(user);
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMinutes(1);
             timer.Tick += timer_Tick;
@@ -97,36 +100,10 @@ namespace HealthCare_System.gui
         }
         void timer_Tick(object sender, EventArgs e)
         {
-            CheckNotifications();
+            drugNotificationService.CheckNotifications(notifications,user.MinutesBeforeDrug);
         }
-        void CheckNotifications()
-        {
-            foreach (DrugNotification notification in notifications)
-            {
-                if (DateTime.Now.AddMinutes(user.MinutesBeforeDrug) > notification.Time.AddMinutes(-1) && DateTime.Now.AddMinutes(user.MinutesBeforeDrug) < notification.Time.AddMinutes(1) && !notification.Seen)
-                {
-                    notification.Seen = true;
-                    MessageBox.Show(notification.Message);
-                }
-            }
-        }
-        void CreateNotifications()
-        {
-            foreach (Prescription prescription in user.MedicalRecord.Prescriptions)
-            {
-                if ((prescription.Start <= DateTime.Now && prescription.End >= DateTime.Now) || prescription.Start >= DateTime.Now)
-                {
-                    DateTime time = prescription.Start;
-                    while (time < prescription.End)
-                    {
-                        string message = "It's time to drink " + prescription.Drug.Name;
-                        notifications.Add(new DrugNotification(-1, message, user, prescription.Drug, time));
-                        time = time.AddHours(24 / prescription.Frequency);
-                    }
-                }
-            }
-        }
-
+        
+     
         public void UpdateAppointmentHistory()
         {
 
@@ -136,19 +113,16 @@ namespace HealthCare_System.gui
             List<Appointment> sortedAppoinments = user.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
             int iterationNum = 0;
 
-            foreach (Appointment appointment in user.MedicalRecord.Appointments)
+            List<Appointment> pastAppointments = appointmentService.AppointmentRepo.FindPastAppointments(user);
+            foreach (Appointment appointment in pastAppointments)
             {
                 indexedAppointmentsHistory.Add(iterationNum, appointment);
-
-                
-                if (DateTime.Now > appointment.Start && appointment.Status != AppointmentStatus.ON_HOLD)
-                {
-                    string appointmentSummary = appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", "
-                        + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
-                    appointmentHistoryLb.Items.Add(appointmentSummary);
-                }
+                string appointmentSummary = appointment.Start.ToString("dd/MM/yyyy HH:mm") + ", "
+                    + appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
+                appointmentHistoryLb.Items.Add(appointmentSummary);
                 iterationNum++;
             }
+
         }
 
         public void InitializeSurveys()
@@ -206,9 +180,7 @@ namespace HealthCare_System.gui
             foreach (Appointment appointment in appointments)
             {
                 indexedAnamneses.Add(iterationNum, appointment);
-
                 sortedAnamnesesLb.Items.Add(appointment.Anamnesis.Description);
-                
                 iterationNum++;
             }
 
@@ -217,9 +189,7 @@ namespace HealthCare_System.gui
         {
             indexedDoctorsEditTab.Clear();
             doctorEditCb.Items.Clear();
-
             List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(specialization);
-
             int index = 0;
             foreach (Doctor doctor in doctors)
             {
@@ -284,14 +254,12 @@ namespace HealthCare_System.gui
             indexedAppointments.Clear();
             myAppointmentsLb.Items.Clear();
 
-            List<Appointment> sortedAppoinments = user.MedicalRecord.Appointments.OrderBy(x => x.Start).ToList();
+            
 
-
+            List<Appointment> appointments = appointmentService.AppointmentRepo.FindUpcomingAppointments(user);
             int index = 0;
-            foreach (Appointment appointment in sortedAppoinments)
+            foreach (Appointment appointment in appointments)
             {
-                if (DateTime.Now < appointment.Start && appointment.Status!=AppointmentStatus.ON_HOLD)
-                {
                     string roomSummary = "";
                     if (appointment.Room != null)
                         roomSummary = ", room: " + appointment.Room.Name;
@@ -302,60 +270,60 @@ namespace HealthCare_System.gui
                 ", type: " + appointment.Type.ToString().ToLower() + roomSummary;
                     myAppointmentsLb.Items.Add(appointmentSummary);
                     index++;
-                }
             }
         }
 
         private void updateBtn_Click(object sender, RoutedEventArgs e)
         {
-            CheckAntiTroll();
-            if (user.Blocked)
-            {
-                Close();
-                return;
-            }
-            if (myAppointmentsLb.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select appointment");
-                return;
-            }
-            Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
-
-            if (doctorEditCb.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please choose doctor.");
-                return;
-            }
-            Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
-            DateTime date = datePickerEdit.SelectedDate.Value;
-            int[] time = ValidateTime(timeEditTb.Text);
-            if (time == null)
-            {
-                return;
-            }
-
-            DateTime start = CombineDateTime(date, time);
-            DateTime end = start.AddMinutes((appointment.End - appointment.Start).TotalMinutes);
-
-            bool needConfirmation = false;
-            if (start <= DateTime.Now.AddDays(1))
-            {
-                MessageBox.Show("You cannot update appointment less than 24 hours before start.");
-                return;
-            }
-            else if (start <= DateTime.Now.AddDays(2))
-            {
-                needConfirmation = true;
-            }
-            if (doctorEditCb.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please choose doctor.");
-                return;
-            }
-            
-            Appointment requestedAppointment = null;
             try
             {
+                CheckAntiTroll();
+                if (user.Blocked)
+                {
+                    Close();
+                    return;
+                }
+                if (myAppointmentsLb.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select appointment");
+                    return;
+                }
+                Appointment appointment = indexedAppointments[myAppointmentsLb.SelectedIndex];
+
+                if (doctorEditCb.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please choose doctor.");
+                    return;
+                }
+                Doctor doctor = indexedDoctors[doctorEditCb.SelectedIndex];
+                DateTime date = datePickerEdit.SelectedDate.Value;
+                int[] time = ValidateTime(timeEditTb.Text);
+                if (time == null)
+                {
+                    return;
+                }
+
+                DateTime start = CombineDateTime(date, time);
+                DateTime end = start.AddMinutes((appointment.End - appointment.Start).TotalMinutes);
+
+                bool needConfirmation = false;
+                if (start <= DateTime.Now.AddDays(1))
+                {
+                    MessageBox.Show("You cannot update appointment less than 24 hours before start.");
+                    return;
+                }
+                else if (start <= DateTime.Now.AddDays(2))
+                {
+                    needConfirmation = true;
+                }
+                if (doctorEditCb.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please choose doctor.");
+                    return;
+                }
+            
+                Appointment requestedAppointment = null;
+            
                 AppointmentState state = AppointmentState.ACCEPTED;
                 AppointmentDto newAppointment = new(appointment.Id, start, end, appointment.Doctor,
                         user, appointment.Room, appointment.Type, appointment.Status, appointment.Anamnesis, false,
@@ -485,7 +453,7 @@ namespace HealthCare_System.gui
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (!((Patient) user).Blocked)
+            if (!user.Blocked)
             {
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
@@ -510,40 +478,27 @@ namespace HealthCare_System.gui
         private void anamnesesSearchTb_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-            sortedAnamnesesLb.Items.Clear();
-            if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
-            {
-                List<Appointment> sortedAppointments = appointmentService.SortAnamneses(user, anamnesesSearchTb.Text,
-                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
-                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-
-
-                UpdateAnamneses(sortedAppointments);
-            }
+            UpdateSearchListAnamneses();
         }
 
         private void sortCriteriumCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            sortedAnamnesesLb.Items.Clear();
-            if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
-            {
-                List<Appointment> sortedAppointments = appointmentService.SortAnamneses(user, anamnesesSearchTb.Text,
-                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
-                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
-
-
-                UpdateAnamneses(sortedAppointments);
-            }
+            UpdateSearchListAnamneses();
         }
 
         private void sortingDirectionCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSearchListAnamneses();   
+        }
+        
+        void UpdateSearchListAnamneses()
         {
             sortedAnamnesesLb.Items.Clear();
             if (anamnesesSearchTb.Text.Length >= 3 && sortCriteriumCb.SelectedIndex != -1 && sortingDirectionCb.SelectedIndex != -1)
             {
                 List<Appointment> sortedAppointments = appointmentService.SortAnamneses(user, anamnesesSearchTb.Text,
-                   (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
-                   (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
+                  (AnamnesesSortCriterium)Enum.Parse(typeof(AnamnesesSortCriterium), sortCriteriumCb.SelectedItem.ToString()),
+                  (SortDirection)Enum.Parse(typeof(SortDirection), sortingDirectionCb.SelectedItem.ToString()));
 
 
                 UpdateAnamneses(sortedAppointments);
@@ -627,8 +582,6 @@ namespace HealthCare_System.gui
 
         }
 
-
-
         void updateSearchListDoctors()
         {
            
@@ -685,7 +638,7 @@ namespace HealthCare_System.gui
             user.MinutesBeforeDrug = (int)minutesBeforeDrugSl.Value;
             patientService.PatientRepo.Serialize();
             notifications.Clear();
-            CreateNotifications();
+            drugNotificationService.CreateNotifications(user);
         }
             
         private void bookDoctorCb_Click(object sender, RoutedEventArgs e)
@@ -731,8 +684,10 @@ namespace HealthCare_System.gui
             }    
             int id = doctorSurveyService.DoctorSurveyRepo.GenerateId();
             Doctor doctor = indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Doctor;
+
             DoctorSurveyDto survey = new DoctorSurveyDto(id,doctor, doctorServiceQualityCb.SelectedIndex + 1, doctorRecommendCb.SelectedIndex + 1, doctorCommentTb.Text);
             indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Graded = true;
+
             doctorSurveyService.Add(survey);
             appointmentService.AppointmentRepo.Serialize();
             doctorServiceQualityCb.SelectedIndex = -1;
@@ -752,6 +707,7 @@ namespace HealthCare_System.gui
 
             HospitalSurveyDto survey = new HospitalSurveyDto(id, hospitalServiceQualityCb.SelectedIndex+1,hospitalHygieneCb.SelectedIndex+1,
                 hospitalSatisfactionCb.SelectedIndex+1,hospitalRecommendCb.SelectedIndex+1,hospitalCommentTb.Text);
+
             hospitalSurveyService.Add(survey);
             hospitalServiceQualityCb.SelectedIndex = -1;
             hospitalHygieneCb.SelectedIndex = -1;
