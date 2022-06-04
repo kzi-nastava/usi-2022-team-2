@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    class UrgentAppointmentDto
+    public class UrgentAppointmentDto
     {
         List<Doctor> doctors;
         Doctor doctor;

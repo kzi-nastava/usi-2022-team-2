@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using HealthCare_System.Database;
 using HealthCare_System.Services.UserServices;
 using HealthCare_System.Model.Dto;
+using HealthCare_System.Services.IngredientServices;
+using HealthCare_System.Services.MedicalRecordServices;
 
 namespace HealthCare_System.gui
 {
@@ -17,13 +19,18 @@ namespace HealthCare_System.gui
         HealthCareDatabase database;
         Patient patient;
         PatientService patientService;
+        IngredientService ingredientService;
+        MedicalRecordService medicalRecordService;
 
-        public AddPatientWindow(PatientService patientService, bool isUpdate, Patient patient, HealthCareDatabase database)
+        public AddPatientWindow(PatientService patientService, MedicalRecordService medicalRecordService,  bool isUpdate, Patient patient, HealthCareDatabase database)
         {
             InitializeComponent();
             this.patientService = patientService;
+            this.medicalRecordService = medicalRecordService;
             this.isUpdate = isUpdate;
             this.database = database;
+
+            this.ingredientService = new(database.IngredientRepo, null);
 
             if(isUpdate)
             {
@@ -86,7 +93,7 @@ namespace HealthCare_System.gui
             List<Ingredient> ingredients = new List<Ingredient>();
             foreach (string name in ingredientNames)
             {
-                foreach (Ingredient ingredient in factory.IngredientController.Ingredients)
+                foreach (Ingredient ingredient in ingredientService.Ingredients())
                 {
                     if (ingredient.Name.ToLower() == name.ToLower())
                     {
@@ -157,7 +164,7 @@ namespace HealthCare_System.gui
             PersonDto personDto = new(textBoxJmbg.Text, textBoxFirstName.Text, textBoxLastName.Text, textBoxEmail.Text, birthDatePicker.SelectedDate.Value, passwordBox.Password);
 
             List<Ingredient> ingredients = GetIngredients();
-            MedicalRecord medRecord = factory.MedicalRecordController.Add(Convert.ToDouble(textBoxHeight.Text), Convert.ToDouble(textBoxWeight.Text), textBoxHistory.Text, ingredients);
+            MedicalRecord medRecord = medicalRecordService.Add(Convert.ToDouble(textBoxHeight.Text), Convert.ToDouble(textBoxWeight.Text), textBoxHistory.Text, ingredients);
 
             patientService.AddPatient(personDto, medRecord);
 

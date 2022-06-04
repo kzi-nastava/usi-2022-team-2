@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    class PersonDto
+    public class PersonDto
     {
         string jmbg;
         string firstName;

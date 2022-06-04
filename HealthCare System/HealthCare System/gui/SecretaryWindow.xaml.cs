@@ -294,13 +294,13 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Select patient You want to update!");
                 return;
             }
-            addPatientWin = new AddPatientWindow(patientService, true, patient, database);
+            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, true, patient, database);
             addPatientWin.Show();
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            addPatientWin = new AddPatientWindow(patientService, false, null, database);
+            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, false, null, database);
             addPatientWin.Show();
         }
 
