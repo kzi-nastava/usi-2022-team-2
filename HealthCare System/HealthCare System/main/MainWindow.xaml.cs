@@ -81,7 +81,7 @@ namespace HealthCare_System
             {
                 factory.User = person;
                 MessageBox.Show("Logged in as " + person.FirstName + " " + person.LastName);
-                SecretaryWindow secretaryWindow = new SecretaryWindow(factory, database);
+                SecretaryWindow secretaryWindow = new SecretaryWindow(database);
                 secretaryWindow.Show();
                 Close();
             }

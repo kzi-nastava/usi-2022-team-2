@@ -1,5 +1,4 @@
 ﻿using HealthCare_System.Model;
-using HealthCare_System.factory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using HealthCare_System.Database;
 using HealthCare_System.Services.UserServices;
 using HealthCare_System.Services.EquipmentServices;
@@ -24,6 +18,7 @@ using HealthCare_System.Services.MedicalRecordServices;
 using HealthCare_System.Model.Dto;
 using HealthCare_System.Services.AnamnesisServices;
 using HealthCare_System.Services.ReferralServices;
+using HealthCare_System.Services.NotificationServices;
 
 namespace HealthCare_System.gui
 {
@@ -33,7 +28,6 @@ namespace HealthCare_System.gui
     public partial class SecretaryWindow : Window
     {
 
-        HealthCareFactory factory;
         HealthCareDatabase database;
         List<Patient> blockedPatients = new List<Patient>();
         Dictionary<Appointment, DateTime> replaceableAppointments;
@@ -50,11 +44,12 @@ namespace HealthCare_System.gui
         MedicalRecordService medicalRecordService;
         SchedulingService schedulingService;
         SupplyRequestService supplyRequestService;
+        DoctorService doctorService;
+        DelayedAppointmentNotificationService delayedAppointmentNotification;
 
 
-        public SecretaryWindow(HealthCareFactory factory, HealthCareDatabase database)
+        public SecretaryWindow(HealthCareDatabase database)
         {
-            this.factory = factory;
             this.database = database;
             this.showingBlocked = false;
 
@@ -81,13 +76,14 @@ namespace HealthCare_System.gui
             appointmentRequestService = new(database.AppointmentRequestRepo, appointmentService);
 
             AnamnesisService anamnesisService = new AnamnesisService(database.AnamnesisRepo);
-            DoctorService doctorService = new(database.DoctorRepo, null);
+            doctorService = new(database.DoctorRepo, null);
             ReferralService referralService = new(database.ReferralRepo);
 
             schedulingService = new(roomService, appointmentService, anamnesisService, doctorService, referralService);
             appointmentService.SchedulingService = schedulingService;
             urgentSchedulingService = new(appointmentService, schedulingService);
             medicalRecordService = new(database.MedicalRecordRepo);
+            delayedAppointmentNotification = new(database.DelayedAppointmentNotificationRepo);
         }
 
         #region TabSetUp
@@ -489,7 +485,7 @@ namespace HealthCare_System.gui
         {
             int duration = getDuration();
             Specialization specialization = (Specialization)cmbSpecialization.SelectedItem;
-            List<Doctor> doctors = factory.DoctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
+            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
             Patient patient = (Patient)cmbPatient.SelectedItem;
 
             return new UrgentAppointmentDto(doctors, patient, duration);
@@ -539,7 +535,7 @@ namespace HealthCare_System.gui
                 urgentAppointmentDto.DelayedEnd = replaceableAppointments[toReplaceAppointment].AddMinutes(getDuration());
 
                 Appointment newAppointment = urgentSchedulingService.ReplaceAppointment(toReplaceAppointment, urgentAppointmentDto);
-                factory.AddNotification(toReplaceAppointment, newAppointment.Start);
+                delayedAppointmentNotification.AddNotification(toReplaceAppointment, newAppointment.Start);
 
                 MessageBox.Show("Doctor and patient are informed about appointment delay.");
             }
@@ -598,7 +594,7 @@ namespace HealthCare_System.gui
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        /*private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             factory.User = null;
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -607,6 +603,6 @@ namespace HealthCare_System.gui
                 main.Show();
             }
             else e.Cancel = true;
-        }
+        }*/
     }
 }
