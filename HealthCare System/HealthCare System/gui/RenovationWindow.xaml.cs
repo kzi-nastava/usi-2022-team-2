@@ -158,11 +158,11 @@ namespace HealthCare_System.gui
                 MessageBox.Show(exeption.Message);
                 return;
             }
-            SimpleRenovationDTO simpleRenovationDTO = new SimpleRenovationDTO(database.SimpleRenovationRepo.GenerateId(),
+            SimpleRenovationDto simpleRenovationDto = new SimpleRenovationDto(database.SimpleRenovationRepo.GenerateId(),
                 beginningDate, endingDate, RenovationStatus.BOOKED,
                 listedRoomsSimple[roomsForSimpleCb.SelectedIndex], newRoomName,
                 (TypeOfRoom)newRoomTypeSimpleCb.SelectedItem);
-            simpleRenovationService.BookRenovation(simpleRenovationDTO);
+            simpleRenovationService.BookRenovation(simpleRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
             InitializeComboBoxes(database.RoomRepo.Rooms);
         }
@@ -248,10 +248,10 @@ namespace HealthCare_System.gui
             }
             List<Room> rooms = new List<Room> { listedFirstRoomsMerging[firstRoomsForMergingCb.SelectedIndex],
                 listedSecondRoomsMerging[secondRoomsForMergingCb.SelectedIndex] };
-            MergingRenovationDTO mergingRenovationDTO = new MergingRenovationDTO(database.MergingRenovationRepo.GenerateId(),
+            MergingRenovationDto mergingRenovationDto = new MergingRenovationDto(database.MergingRenovationRepo.GenerateId(),
                 beginningDate, endingDate, rooms, RenovationStatus.BOOKED, newRoomName,
                 (TypeOfRoom)newRoomTypeMergingCb.SelectedItem);
-            mergingRenovationService.BookRenovation(mergingRenovationDTO);
+            mergingRenovationService.BookRenovation(mergingRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
             InitializeComboBoxes(database.RoomRepo.Rooms);
         }
@@ -306,12 +306,12 @@ namespace HealthCare_System.gui
                 MessageBox.Show(exeption.Message);
                 return;
             }
-            SplittingRenovationDTO splittingRenovationDTO = new SplittingRenovationDTO(database.SplittingRenovationRepo.GenerateId(),
+            SplittingRenovationDto splittingRenovationDto = new SplittingRenovationDto(database.SplittingRenovationRepo.GenerateId(),
                 beginningDate, endingDate, RenovationStatus.BOOKED,
                 listedRoomsSplitting[roomsForSplittingCb.SelectedIndex], firstNewRoomName,
                 (TypeOfRoom)firstNewRoomTypeSplittingCb.SelectedItem, secondNewRoomName,
                 (TypeOfRoom)secondNewRoomTypeSplittingCb.SelectedItem);
-            splittingRenovationService.BookRenovation(splittingRenovationDTO);
+            splittingRenovationService.BookRenovation(splittingRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
             InitializeComboBoxes(database.RoomRepo.Rooms);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class DrugDTO
+    public class DrugDto
     {
         int id;
         string name;
@@ -14,7 +14,7 @@ namespace HealthCare_System.Model.Dto
         DrugStatus status;
         string message;
 
-        public DrugDTO(int id, string name, List<Ingredient> ingredients, DrugStatus status, string message)
+        public DrugDto(int id, string name, List<Ingredient> ingredients, DrugStatus status, string message)
         {
             this.id = id;
             this.name = name;

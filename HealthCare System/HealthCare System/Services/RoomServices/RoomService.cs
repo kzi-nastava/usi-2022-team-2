@@ -91,12 +91,12 @@ namespace HealthCare_System.Services.RoomServices
             roomRepo.Add(newRoom);
         }
 
-        public void Create(RoomDTO roomDTO)
+        public void Create(RoomDto roomDto)
         {
-            if (roomDTO.Name.Length > 30 || roomDTO.Name.Length < 5)
+            if (roomDto.Name.Length > 30 || roomDto.Name.Length < 5)
                 throw new Exception();
 
-            Room newRoom = new Room(roomDTO);
+            Room newRoom = new Room(roomDto);
             roomRepo.Add(newRoom);
         }
 
@@ -109,12 +109,12 @@ namespace HealthCare_System.Services.RoomServices
             roomRepo.Serialize();
         }
 
-        public void Update(Room room, RoomDTO roomDTO)
+        public void Update(Room room, RoomDto roomDto)
         {
-            if (roomDTO.Name.Length > 30 || roomDTO.Name.Length < 5)
+            if (roomDto.Name.Length > 30 || roomDto.Name.Length < 5)
                 throw new Exception();
-            room.Name = roomDTO.Name;
-            room.Type = roomDTO.Type;
+            room.Name = roomDto.Name;
+            room.Type = roomDto.Type;
             roomRepo.Serialize();
         }
 

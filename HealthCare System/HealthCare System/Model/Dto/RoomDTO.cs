@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class RoomDTO
+    public class RoomDto
     {
         int id;
         string name;
         TypeOfRoom type;
         Dictionary<Equipment, int> equipmentAmount;
 
-        public RoomDTO(int id, string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
+        public RoomDto(int id, string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount)
         {
             this.id = id;
             this.name = name;

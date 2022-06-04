@@ -57,13 +57,13 @@ namespace HealthCare_System.Model
             secondNewRoomType = renovation.secondNewRoomType;
         }
 
-        public SplittingRenovation(SplittingRenovationDTO renovationDTO) : base(renovationDTO)
+        public SplittingRenovation(SplittingRenovationDto renovationDto) : base(renovationDto)
         {
-            room = renovationDTO.Room;
-            firstNewRoomName = renovationDTO.FirstNewRoomName;
-            firstNewRoomType = renovationDTO.FirstNewRoomType;
-            secondNewRoomName = renovationDTO.SecondNewRoomName;
-            secondNewRoomType = renovationDTO.SecondNewRoomType;
+            room = renovationDto.Room;
+            firstNewRoomName = renovationDto.FirstNewRoomName;
+            firstNewRoomType = renovationDto.FirstNewRoomType;
+            secondNewRoomName = renovationDto.SecondNewRoomName;
+            secondNewRoomType = renovationDto.SecondNewRoomType;
         }
 
         [JsonIgnore]

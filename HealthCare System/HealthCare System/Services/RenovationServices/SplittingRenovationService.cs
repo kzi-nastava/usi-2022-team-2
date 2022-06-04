@@ -31,9 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return splittingRenovationRepo.SplittingRenovations;
         }
 
-        public void BookRenovation(SplittingRenovationDTO splittingRenovationDTO)
+        public void BookRenovation(SplittingRenovationDto splittingRenovationDto)
         {
-            SplittingRenovation splittingRenovation = new SplittingRenovation(splittingRenovationDTO);
+            SplittingRenovation splittingRenovation = new SplittingRenovation(splittingRenovationDto);
             splittingRenovationRepo.Add(splittingRenovation);
         }
 

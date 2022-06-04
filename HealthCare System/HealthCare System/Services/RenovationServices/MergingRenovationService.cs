@@ -31,9 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return mergingRenovationRepo.MergingRenovations;
         }
 
-        public void BookRenovation(MergingRenovationDTO mergingRenovationDTO)
+        public void BookRenovation(MergingRenovationDto mergingRenovationDto)
         {
-            MergingRenovation mergingRenovation = new MergingRenovation(mergingRenovationDTO);
+            MergingRenovation mergingRenovation = new MergingRenovation(mergingRenovationDto);
             mergingRenovationRepo.Add(mergingRenovation);
         }
 

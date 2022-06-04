@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class IngredientDTO
+    public class IngredientDto
     {
         int id;
         string name;
 
-        public IngredientDTO(int id, string name)
+        public IngredientDto(int id, string name)
         {
             this.id = id;
             this.name = name;

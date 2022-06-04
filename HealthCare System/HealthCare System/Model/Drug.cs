@@ -52,13 +52,13 @@ namespace HealthCare_System.Model
             message = drug.message;
         }
 
-        public Drug(DrugDTO drugDTO)
+        public Drug(DrugDto drugDto)
         {
-            id = drugDTO.Id;
-            name = drugDTO.Name;
-            ingredients = drugDTO.Ingredients;
-            status = drugDTO.Status;
-            message = drugDTO.Message;
+            id = drugDto.Id;
+            name = drugDto.Name;
+            ingredients = drugDto.Ingredients;
+            status = drugDto.Status;
+            message = drugDto.Message;
         }
 
         [JsonPropertyName("id")]

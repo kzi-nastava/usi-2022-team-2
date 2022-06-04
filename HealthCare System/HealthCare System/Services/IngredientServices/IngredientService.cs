@@ -25,20 +25,20 @@ namespace HealthCare_System.Services.IngredientServices
             return ingredientRepo.Ingredients;
         }
 
-        public void Create(IngredientDTO ingredientDTO)
+        public void Create(IngredientDto ingredientDto)
         {
-            if (ingredientDTO.Name.Length > 30 || ingredientDTO.Name.Length < 5)
+            if (ingredientDto.Name.Length > 30 || ingredientDto.Name.Length < 5)
                 throw new Exception();
-            Ingredient ingredient = new Ingredient(ingredientDTO);
+            Ingredient ingredient = new Ingredient(ingredientDto);
             ingredientRepo.Add(ingredient);
         }
 
-        public void Update(IngredientDTO ingredientDTO, Ingredient ingredient)
+        public void Update(IngredientDto ingredientDto, Ingredient ingredient)
         {
 
-            if (ingredientDTO.Name.Length > 30 || ingredientDTO.Name.Length < 5)
+            if (ingredientDto.Name.Length > 30 || ingredientDto.Name.Length < 5)
                 throw new Exception();
-            ingredient.Name = ingredientDTO.Name;
+            ingredient.Name = ingredientDto.Name;
             ingredientRepo.Serialize();
         }
 

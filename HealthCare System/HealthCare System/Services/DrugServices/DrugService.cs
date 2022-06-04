@@ -25,7 +25,7 @@ namespace HealthCare_System.Services.DrugServices
             return drugRepo.Drugs;
         }
 
-        public void CreateNew(DrugDTO drugDTO)
+        public void CreateNew(DrugDto drugDTO)
         {
             if (drugDTO.Name.Length > 30 || drugDTO.Name.Length < 5)
                 throw new Exception();
@@ -33,14 +33,14 @@ namespace HealthCare_System.Services.DrugServices
             drugRepo.Add(drug);
         }
 
-        public void Update(DrugDTO drugDTO, Drug drug)
+        public void Update(DrugDto drugDto, Drug drug)
         {
-            if (drugDTO.Name.Length > 30 || drugDTO.Name.Length < 5)
+            if (drugDto.Name.Length > 30 || drugDto.Name.Length < 5)
                 throw new Exception();
-            drug.Name = drugDTO.Name;
-            drug.Ingredients = drugDTO.Ingredients;
-            drug.Status = drugDTO.Status;
-            drug.Message = drugDTO.Message;
+            drug.Name = drugDto.Name;
+            drug.Ingredients = drugDto.Ingredients;
+            drug.Status = drugDto.Status;
+            drug.Message = drugDto.Message;
             drugRepo.Serialize();
         }
 

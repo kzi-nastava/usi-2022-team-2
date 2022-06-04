@@ -114,9 +114,9 @@ namespace HealthCare_System.gui
         {
             try
             {
-                DrugDTO drugDTO = new DrugDTO(database.DrugRepo.GenerateId(), nameTb.Text, 
+                DrugDto drugDto = new DrugDto(database.DrugRepo.GenerateId(), nameTb.Text, 
                     GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
-                drugService.CreateNew(drugDTO);
+                drugService.CreateNew(drugDto);
                 MessageBox.Show("Drug created sucessfully!");
                 Close();
             }
@@ -130,9 +130,9 @@ namespace HealthCare_System.gui
         {
             try
             {
-                DrugDTO drugDTO = new DrugDTO(-1, nameTb.Text,
+                DrugDto drugDto = new DrugDto(-1, nameTb.Text,
                    GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
-                drugService.Update(drugDTO ,drug);
+                drugService.Update(drugDto ,drug);
                 MessageBox.Show("Drug updated sucessfully!");
                 Close();
             }

@@ -22,10 +22,10 @@ namespace HealthCare_System.Model
             name = ingredient.name;
         }
 
-        public Ingredient(IngredientDTO ingredientDTO)
+        public Ingredient(IngredientDto ingredientDto)
         {
-            id = ingredientDTO.Id;
-            name = ingredientDTO.Name;
+            id = ingredientDto.Id;
+            name = ingredientDto.Name;
         }
 
         [JsonPropertyName("id")]

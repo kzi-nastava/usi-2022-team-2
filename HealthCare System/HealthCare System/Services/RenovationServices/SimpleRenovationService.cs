@@ -31,9 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return simpleRenovationRepo.SimpleRenovations;
         }
 
-        public void BookRenovation(SimpleRenovationDTO simpleRenovationDTO)
+        public void BookRenovation(SimpleRenovationDto simpleRenovationDto)
         {
-            SimpleRenovation simpleRenovation = new SimpleRenovation(simpleRenovationDTO);
+            SimpleRenovation simpleRenovation = new SimpleRenovation(simpleRenovationDto);
             simpleRenovationRepo.Add(simpleRenovation);
         }
 

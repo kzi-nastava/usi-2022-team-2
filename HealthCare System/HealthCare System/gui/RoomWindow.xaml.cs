@@ -67,9 +67,9 @@ namespace HealthCare_System.gui
             Dictionary<Equipment, int> equipmentAmount = equipmentService.InitalizeEquipment();
             try
             {
-                RoomDTO roomDTO = new RoomDTO(database.RoomRepo.GenerateId(), nameTb.Text, 
+                RoomDto roomDto = new RoomDto(database.RoomRepo.GenerateId(), nameTb.Text, 
                     (TypeOfRoom)typeCb.SelectedItem, equipmentAmount);
-                roomService.Create(roomDTO);
+                roomService.Create(roomDto);
                 MessageBox.Show("Room created sucessfully!");
                 Close();
             }
@@ -83,9 +83,9 @@ namespace HealthCare_System.gui
         {
             try
             {
-                RoomDTO roomDTO = new RoomDTO(-1, nameTb.Text,
+                RoomDto roomDto = new RoomDto(-1, nameTb.Text,
                     (TypeOfRoom)typeCb.SelectedItem, new());
-                roomService.Update(room, roomDTO);
+                roomService.Update(room, roomDto);
                 MessageBox.Show("Room updated sucessfully!");
                 Close();
             }

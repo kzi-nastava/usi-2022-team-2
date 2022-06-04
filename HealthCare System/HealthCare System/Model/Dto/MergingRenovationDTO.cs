@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class MergingRenovationDTO : Renovation
+    public class MergingRenovationDto : Renovation
     {
         List<Room> rooms;
         string newRoomName;
         TypeOfRoom newRoomType;
 
-        public MergingRenovationDTO(int id, DateTime beginningDate, DateTime endingDate, List<Room> rooms,
+        public MergingRenovationDto(int id, DateTime beginningDate, DateTime endingDate, List<Room> rooms,
             RenovationStatus status, string newRoomName, TypeOfRoom newRoomType)
             : base(id, beginningDate, endingDate, status)
         {

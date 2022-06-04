@@ -55,8 +55,8 @@ namespace HealthCare_System.gui
         {
             try
             {
-                IngredientDTO ingredientDTO = new IngredientDTO(database.IngredientRepo.GenerateId(), nameTb.Text);
-                ingredientService.Create(ingredientDTO);
+                IngredientDto ingredientDto = new IngredientDto(database.IngredientRepo.GenerateId(), nameTb.Text);
+                ingredientService.Create(ingredientDto);
                 MessageBox.Show("Ingredient created sucessfully!");
                 Close();
             }
@@ -70,8 +70,8 @@ namespace HealthCare_System.gui
         {
             try
             {
-                IngredientDTO ingredientDTO = new IngredientDTO(-1, nameTb.Text);
-                ingredientService.Update(ingredientDTO, ingredient);
+                IngredientDto ingredientDto = new IngredientDto(-1, nameTb.Text);
+                ingredientService.Update(ingredientDto, ingredient);
                 MessageBox.Show("Ingredient updated sucessfully!");
                 Close();
             }

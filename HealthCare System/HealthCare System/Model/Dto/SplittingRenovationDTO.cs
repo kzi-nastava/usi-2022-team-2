@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class SplittingRenovationDTO : Renovation
+    public class SplittingRenovationDto : Renovation
     {
         Room room;
         string firstNewRoomName;
@@ -14,7 +14,7 @@ namespace HealthCare_System.Model.Dto
         string secondNewRoomName;
         TypeOfRoom secondNewRoomType;
 
-        public SplittingRenovationDTO(int id, DateTime beginningDate, DateTime endingDate, RenovationStatus status,
+        public SplittingRenovationDto(int id, DateTime beginningDate, DateTime endingDate, RenovationStatus status,
             Room room, string firstNewRoomName, TypeOfRoom firstNewRoomType, string secondNewRoomName,
             TypeOfRoom secondNewRoomType)
             : base(id, beginningDate, endingDate, status)

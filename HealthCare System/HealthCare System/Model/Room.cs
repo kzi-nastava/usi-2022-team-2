@@ -49,12 +49,12 @@ namespace HealthCare_System.Model
             equipmentAmount = room.equipmentAmount;
         }
 
-        public Room(RoomDTO roomDTO)
+        public Room(RoomDto roomDto)
         {
-            id = roomDTO.Id;
-            name = roomDTO.Name;
-            type = roomDTO.Type;
-            equipmentAmount = roomDTO.EquipmentAmount;
+            id = roomDto.Id;
+            name = roomDto.Name;
+            type = roomDto.Type;
+            equipmentAmount = roomDto.EquipmentAmount;
         }
 
         [JsonPropertyName("id")]

@@ -49,11 +49,11 @@ namespace HealthCare_System.Model
             newRoomType = renovation.newRoomType;
         }
 
-        public MergingRenovation(MergingRenovationDTO renovationDTO) : base(renovationDTO)
+        public MergingRenovation(MergingRenovationDto renovationDto) : base(renovationDto)
         {
-            rooms = renovationDTO.Rooms;
-            newRoomName = renovationDTO.NewRoomName;
-            newRoomType = renovationDTO.NewRoomType;
+            rooms = renovationDto.Rooms;
+            newRoomName = renovationDto.NewRoomName;
+            newRoomType = renovationDto.NewRoomType;
         }
 
         [JsonIgnore]
