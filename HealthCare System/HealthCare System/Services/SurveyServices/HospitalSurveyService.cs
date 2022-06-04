@@ -4,7 +4,7 @@ using HealthCare_System.Repository.SurveyRepo;
 
 namespace HealthCare_System.Services.SurveyServices
 {
-    class HospitalSurveyService
+    public class HospitalSurveyService
     {
         HospitalSurveyRepo hospitalSurveyRepo;
 

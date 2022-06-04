@@ -6,7 +6,7 @@ using HealthCare_System.Services.RoomServices;
 
 namespace HealthCare_System.Services.EquipmentServices
 {
-    class EquipmentService
+    public class EquipmentService
     {
         EquipmentRepo equipmentRepo;
         RoomService roomService;

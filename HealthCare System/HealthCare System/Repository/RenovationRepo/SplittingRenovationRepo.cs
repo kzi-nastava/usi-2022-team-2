@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.RenovationRepo
 {
-    class SplittingRenovationRepo
+    public class SplittingRenovationRepo
     {
         List<SplittingRenovation> splittingRenovations;
         string path;

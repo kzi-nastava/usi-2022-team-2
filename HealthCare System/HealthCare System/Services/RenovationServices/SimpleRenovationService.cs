@@ -8,7 +8,7 @@ using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RenovationServices
 {
-    class SimpleRenovationService
+    public class SimpleRenovationService
     {
         SimpleRenovationRepo simpleRenovationRepo;
         RoomService roomService;

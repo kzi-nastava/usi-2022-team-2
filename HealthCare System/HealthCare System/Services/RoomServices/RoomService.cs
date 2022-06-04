@@ -9,7 +9,7 @@ using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RoomServices
 {
-    class RoomService
+    public class RoomService
     {
         MergingRenovationService mergingRenovationService;
         SimpleRenovationService simpleRenovationService;

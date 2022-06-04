@@ -5,10 +5,11 @@ using HealthCare_System.Services.AppointmentServices;
 using HealthCare_System.Services.PrescriptionServices;
 using HealthCare_System.Services.MedicalRecordServices;
 using HealthCare_System.Services.IngredientServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.UserServices
 {
-    class PatientService
+    public class PatientService
     {
         PatientRepo patientRepo;
         SchedulingService schedulingService;
@@ -51,8 +52,15 @@ namespace HealthCare_System.Services.UserServices
             patientRepo.Delete(patient);
 
         }
-        public void AddPatient(Patient patient, MedicalRecord medRecord)
+        public void AddPatient(PersonDto personDto, MedicalRecord medRecord)
         {
+            Patient patient = new();
+            patient.Jmbg = personDto.Jmbg;
+            patient.FirstName = personDto.FirstName;
+            patient.LastName = personDto.LastName;
+            patient.Mail = personDto.Mail;
+            patient.BirthDate = personDto.BirthDate;
+            patient.Password = personDto.Password;
             patientRepo.Add(patient);
 
             patient.MedicalRecord = medRecord;
@@ -64,6 +72,12 @@ namespace HealthCare_System.Services.UserServices
         {
             patientRepo.Serialize();
             medicalRecordService.MedicalRecordRepo.Serialize();
+        }
+
+        public void BlockPatient(Patient patient)
+        {
+            patient.Blocked = !patient.Blocked;
+            patientRepo.Serialize();
         }
     }
 }

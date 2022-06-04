@@ -4,7 +4,7 @@ using HealthCare_System.Repository.UserRepo;
 
 namespace HealthCare_System.Services.UserServices
 {
-    class ManagerService
+    public class ManagerService
     {
         ManagerRepo managerRepo;
 

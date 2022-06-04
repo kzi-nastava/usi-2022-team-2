@@ -16,6 +16,10 @@ namespace HealthCare_System.Model.Dto
         bool graded;
         bool emergency;
 
+        public AppointmentDto()
+        {
+        }
+
         public AppointmentDto(int id, DateTime start, DateTime end, Doctor doctor, Patient patient, Room room, 
             AppointmentType type, AppointmentStatus status, Anamnesis anamnesis, bool graded, bool emergency)
         {

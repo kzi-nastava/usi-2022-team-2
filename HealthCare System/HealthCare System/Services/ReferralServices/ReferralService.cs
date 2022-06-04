@@ -9,7 +9,7 @@ using HealthCare_System.Repository.ReferralRepo;
 
 namespace HealthCare_System.Services.ReferralServices
 {
-    class ReferralService
+    public class ReferralService
     {
         ReferralRepo referralRepo;
 

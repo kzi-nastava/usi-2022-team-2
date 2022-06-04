@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.AnamnesisRepo
 {
-    class AnamnesisRepo
+    public class AnamnesisRepo
     {
         List<Anamnesis> anamneses;
         string path;

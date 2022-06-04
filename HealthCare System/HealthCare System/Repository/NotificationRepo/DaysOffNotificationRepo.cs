@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.NotificationRepo
 {
-    class DaysOffNotificationRepo
+    public class DaysOffNotificationRepo
     {
         List<DaysOffNotification> daysOffNotifications;
         string path;

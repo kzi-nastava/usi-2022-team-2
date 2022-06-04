@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.UserRepo
 {
-    class DoctorRepo
+    public class DoctorRepo
     {
         List<Doctor> doctors;
         string path;

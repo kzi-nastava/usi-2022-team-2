@@ -7,7 +7,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Repository.NotificationRepo
 {
-    class DrugNotificationRepo
+    public class DrugNotificationRepo
     {
         List<DrugNotification> drugNotifications;
 

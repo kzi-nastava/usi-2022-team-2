@@ -7,7 +7,7 @@ using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.IngredientServices
 {
-    class IngredientService
+    public class IngredientService
     {
         IngredientRepo ingredientRepo;
         DrugService drugService;

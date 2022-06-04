@@ -6,7 +6,7 @@ using HealthCare_System.Services.SurveyServices;
 
 namespace HealthCare_System.Services.UserServices
 {
-    class DoctorService
+    public class DoctorService
     {
         DoctorRepo doctorRepo;
         DoctorSurveyService surveyService;

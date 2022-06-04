@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.IngredientRepo
 {
-    class IngredientRepo
+    public class IngredientRepo
     {
         List<Ingredient> ingredients;
         string path;

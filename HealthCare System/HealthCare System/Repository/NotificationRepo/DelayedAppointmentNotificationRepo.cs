@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.NotificationRepo
 {
-    class DelayedAppointmentNotificationRepo
+    public class DelayedAppointmentNotificationRepo
     {
         List<DelayedAppointmentNotification> delayedAppointmentNotifications;
         string path;

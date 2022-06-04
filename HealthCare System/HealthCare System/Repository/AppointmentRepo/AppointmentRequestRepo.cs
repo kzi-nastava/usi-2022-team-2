@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Repository.AppointmentRepo
 {
-    class AppointmentRequestRepo
+    public class AppointmentRequestRepo
     {
         List<AppointmentRequest> appointmentRequests;
         string path;
