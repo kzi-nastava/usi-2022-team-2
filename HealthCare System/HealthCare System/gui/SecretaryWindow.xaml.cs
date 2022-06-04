@@ -90,6 +90,7 @@ namespace HealthCare_System.gui
             medicalRecordService = new(database.MedicalRecordRepo);
         }
 
+        #region TabSetUp
         private void SetEmergencyAppTab()
         {
             this.isOperation = false;
@@ -149,8 +150,9 @@ namespace HealthCare_System.gui
                 if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
             }
         }
+        #endregion
 
-
+        #region ListBocFiller
         private void FillListBoxEquipment()
         {
             listBoxEquipment.Items.Clear();
@@ -284,8 +286,11 @@ namespace HealthCare_System.gui
                 listBoxEquipmentNearEnd.Items.Add("There are enough amount of every equipment in this room.");
             }
         }
+        #endregion
 
 
+
+        #region PatientsTab
         private void UpdatePatientBtn_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)listBoxPatients.SelectedItem;
@@ -365,7 +370,10 @@ namespace HealthCare_System.gui
         {
             FillListBoxReferrals();
         }
+        #endregion
 
+
+        #region AppointmentRequestTab
         private void AcceptRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             AppointmentRequest request = (AppointmentRequest)listBoxRequests.SelectedItem;
@@ -409,7 +417,10 @@ namespace HealthCare_System.gui
                 requestDetailsWindow.Show();
             }
         }
+        #endregion
 
+
+        #region RoomsTab
         private void ShowRoomBtn_Click(object sender, RoutedEventArgs e)
         {
             Room room = (Room)cmbRoom.SelectedItem;
@@ -453,6 +464,26 @@ namespace HealthCare_System.gui
 
             MessageBox.Show("You have successfully transfered equipment.");
         }
+        #endregion
+
+
+        #region EmergencyAppointmentTab
+        int getDuration()
+        {
+            int duration = 15;
+            if (isOperation)
+            {
+                try
+                {
+                    duration = Convert.ToInt32(textBoxDuration.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
+                }
+            }
+            return duration;
+        }
 
         private UrgentAppointmentDto ValidateUrgentAppointment()
         {
@@ -463,7 +494,6 @@ namespace HealthCare_System.gui
 
             return new UrgentAppointmentDto(doctors, patient, duration);
         }
-
 
         private void BookClosestAppointment(object sender, RoutedEventArgs e)
         {
@@ -481,7 +511,6 @@ namespace HealthCare_System.gui
                 MessageBox.Show(ex.Message);
             }
         }
-
 
         private void rbOperation_Checked(object sender, RoutedEventArgs e)
         {
@@ -504,12 +533,6 @@ namespace HealthCare_System.gui
             }
             else
             {
-                /*int duration = getDuration();
-                Appointment newAppointment = new Appointment(factory.AppointmentController.GenerateId(), toReplaceAppointment.Start, toReplaceAppointment.End,
-                                                            Appointment.getTypeByDuration(duration), AppointmentStatus.BOOKED, false, true);
-                newAppointment.Doctor = toReplaceAppointment.Doctor;
-                newAppointment.Patient = (Patient)cmbPatient.SelectedItem;*/
-
                 UrgentAppointmentDto urgentAppointmentDto = new UrgentAppointmentDto(toReplaceAppointment.Doctor, (Patient)cmbPatient.SelectedItem, getDuration());
 
                 urgentAppointmentDto.DelayedStart = replaceableAppointments[toReplaceAppointment];
@@ -521,8 +544,10 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Doctor and patient are informed about appointment delay.");
             }
         }
+        #endregion
 
 
+        #region ReferralsTab
         private void bookByReferralBtn_Click(object sender, RoutedEventArgs e)
         {
             Referral referral = (Referral)listBoxReferrals.SelectedItem;
@@ -536,7 +561,10 @@ namespace HealthCare_System.gui
                 MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
         }
+        #endregion
 
+
+        #region EquipmentTab
         private void orderBtn_Click(object sender, RoutedEventArgs e)
         {
             Equipment equipment = (Equipment)cmbEquipment.SelectedItem;
@@ -561,23 +589,8 @@ namespace HealthCare_System.gui
                 MessageBox.Show("You have succesefully orderd new equipment.");
             }
         }
+        #endregion
 
-        int getDuration()
-        {
-            int duration = 15;
-            if (isOperation)
-            {
-                try
-                {
-                    duration = Convert.ToInt32(textBoxDuration.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Duration is in the wrong format. It is automatically set to 15 minutes.");
-                }
-            }
-            return duration;
-        }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
