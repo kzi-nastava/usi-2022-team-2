@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using HealthCare_System.Repository.PrescriptionRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.MedicalRecordServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.PrescriptionServices
 {
@@ -36,8 +37,9 @@ namespace HealthCare_System.Services.PrescriptionServices
             prescriptionRepo.Serialize();
         }
 
-        public void AddPrescrition(Prescription prescription)
+        public void AddPrescrition(PrescriptionDto prescriptionDto)
         {
+            Prescription prescription = new(prescriptionDto);
             MedicalRecord medicalRecord = medicalRecordService.FindById(prescription.MedicalRecord.Id);
             medicalRecord.ValidatePrescription(prescription);
             medicalRecord.Prescriptions.Add(prescription);

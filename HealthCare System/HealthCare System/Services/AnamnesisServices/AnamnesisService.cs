@@ -19,5 +19,10 @@ namespace HealthCare_System.Services.AnamnesisServices
         {
             return anamnesisRepo.Anamneses;
         }
+
+        public void Update(int id, string description)
+        {
+            anamnesisRepo.Update(id, description);
+        }
     }
 }

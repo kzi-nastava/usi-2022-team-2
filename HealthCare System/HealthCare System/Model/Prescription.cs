@@ -1,9 +1,11 @@
-﻿using System;
+﻿using HealthCare_System.Model.Dto;
+using System;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
 {
     public enum DrugConsumption{BEFORE_MEAL, DURING_MEAL, AFTER_MEAL, UNIMPORTANT}
+
     public class Prescription
     {
         int id;
@@ -42,6 +44,16 @@ namespace HealthCare_System.Model
             end = prescription.end;
             frequency = prescription.frequency;
             drug = prescription.drug;
+        }
+
+        public Prescription(PrescriptionDto prescriptionDto)
+        {
+            id = prescriptionDto.Id;
+            medicalRecord = prescriptionDto.MedicalRecord;
+            start = prescriptionDto.Start;
+            end = prescriptionDto.End;
+            frequency = prescriptionDto.Frequency;
+            drug = prescriptionDto.Drug;
         }
 
         [JsonPropertyName("id")]

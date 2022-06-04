@@ -88,8 +88,8 @@ namespace HealthCare_System
             PatientService patientService = new(database.PatientRepo, null, null, null, null);
             ManagerService managerService = new(database.ManagerRepo);
             SecretaryService secretaryService = new(database.SecretaryRepo);
-
-            UserService userService = new(patientService, doctorService, managerService, secretaryService, null);
+            AppointmentRequestService appointmentRequestService = new(database.AppointmentRequestRepo, null);
+            UserService userService = new(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
 
             Person person = userService.Login(mail, password);
             if (person is null)
@@ -100,7 +100,7 @@ namespace HealthCare_System
             else if (person.GetType() == typeof(Doctor))
             {
                 factory.User = person;
-                Window doctorWindow = new DoctorWindow(factory,database);
+                Window doctorWindow = new DoctorWindow((Doctor)person, database);
                 doctorWindow.Show();
                 Close();
             }

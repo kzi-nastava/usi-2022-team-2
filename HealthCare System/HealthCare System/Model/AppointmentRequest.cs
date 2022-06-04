@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Model.Dto;
+using System;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
@@ -47,6 +48,17 @@ namespace HealthCare_System.Model
             newAppointment = request.newAppointment;
             type = request.type;
             requestCreated = request.requestCreated;
+        }
+
+        public AppointmentRequest(AppointmentRequestDto request)
+        {
+            id = request.Id;
+            state = request.State;
+            patient = request.Patient;
+            oldAppointment = request.OldAppointment;
+            newAppointment = request.NewAppointment;
+            type = request.Type;
+            requestCreated = request.RequestCreated;
         }
 
         [JsonPropertyName("id")]

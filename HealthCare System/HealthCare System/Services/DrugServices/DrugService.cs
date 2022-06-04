@@ -63,17 +63,6 @@ namespace HealthCare_System.Services.DrugServices
             drugRepo.Delete(drug);
         }
 
-        public List<Drug> FillterOnHold()
-        {
-            List<Drug> filtered = new List<Drug>();
-
-            foreach (Drug drug in drugRepo.Drugs)
-                if (drug.Status == DrugStatus.ON_HOLD)
-                    filtered.Add(drug);
-
-            return filtered;
-        }
-
         public bool IsDrugAvailableForChange(Drug drug)
         {
             bool available = true;

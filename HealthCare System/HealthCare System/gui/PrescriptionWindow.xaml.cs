@@ -8,25 +8,28 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using HealthCare_System.Database;
+using HealthCare_System.Services.PrescriptionServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.gui
 {
     public partial class PrescriptionWindow : Window
     {
-        HealthCareFactory factory;
         HealthCareDatabase database;
         Patient patient;
         Dictionary<string, Drug> drugsDisplay;
+        PrescriptionService prescriptionService;
 
-        public PrescriptionWindow(Patient patient, HealthCareFactory factory, HealthCareDatabase database)
+        public PrescriptionWindow(Patient patient, HealthCareDatabase database)
         {
-            this.factory = factory;
             this.patient = patient;
             this.database  =  database;
 
             InitializeComponent();
 
             InitializeDrugs();
+
+            prescriptionService = new(database.PrescriptionRepo, new(database.MedicalRecordRepo));
 
             startDate.DisplayDateStart = DateTime.Now;
             endDate.DisplayDateStart = DateTime.Now;
@@ -36,7 +39,7 @@ namespace HealthCare_System.gui
         {
             drugCb.Items.Clear();
             drugsDisplay = new Dictionary<string, Drug>();
-            List<Drug> drugs = factory.DrugController.Drugs;
+            List<Drug> drugs = database.DrugRepo.Drugs;
             List<Drug> sortedDrugs = drugs.OrderBy(x => x.Id).ToList();
 
             foreach (Drug drug in sortedDrugs)
@@ -75,7 +78,7 @@ namespace HealthCare_System.gui
             return drug;
         }
 
-        private Prescription ValidatePrescription()
+        private PrescriptionDto ValidatePrescription()
         {
             MedicalRecord medicalRecord = patient.MedicalRecord;
 
@@ -95,7 +98,7 @@ namespace HealthCare_System.gui
             if (frequency == -1)
                 return null;
 
-            int id = factory.PrescriptionController.GenerateId();
+            int id = database.PrescriptionRepo.GenerateId();
             return new(id, medicalRecord, start, end, frequency, drug);
         }
 
@@ -103,10 +106,10 @@ namespace HealthCare_System.gui
         {
             try
             {
-                Prescription prescription = ValidatePrescription();
-                if (prescription is null) return;
+                PrescriptionDto prescriptionDto = ValidatePrescription();
+                if (prescriptionDto is null) return;
 
-                factory.AddPrescrition(prescription);
+                prescriptionService.AddPrescrition(prescriptionDto);
                 MessageBox.Show("Drug prescribed");
             }
             catch(Exception ex)

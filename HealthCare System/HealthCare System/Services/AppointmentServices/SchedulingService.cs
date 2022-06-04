@@ -5,6 +5,7 @@ using HealthCare_System.Services.RoomServices;
 using HealthCare_System.Services.UserServices;
 using HealthCare_System.Services.AnamnesisServices;
 using HealthCare_System.Services.ReferralServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
@@ -30,7 +31,7 @@ namespace HealthCare_System.Services.AppointmentServices
         {
             List<Room> rooms = new List<Room>();
 
-            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type))
+            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type)) 
                 if (roomService.IsRoomAvailableRenovationsAtTime(room, start))
                     rooms.Add(room);
 
@@ -52,8 +53,9 @@ namespace HealthCare_System.Services.AppointmentServices
             return rooms[0];
         }
 
-        public Appointment AddAppointment(Appointment appointment)
+        public Appointment AddAppointment(AppointmentDto appointmentDto)
         {
+            Appointment appointment = new(appointmentDto);
             int anamnesisId = anamnesisService.AnamnesisRepo.GenerateId();
             Anamnesis anamnesis = new(anamnesisId, "");
             appointment.Anamnesis = anamnesis;
@@ -74,8 +76,9 @@ namespace HealthCare_System.Services.AppointmentServices
 
         }
 
-        public void UpdateAppointment(Appointment newAppointment)
+        public void UpdateAppointment(AppointmentDto newAppointmentDto)
         {
+            Appointment newAppointment = new(newAppointmentDto);
             newAppointment.Validate();
             Appointment appointment = appointmentService.AppointmentRepo.FindById(newAppointment.Id);
 
@@ -104,7 +107,7 @@ namespace HealthCare_System.Services.AppointmentServices
 
         public Appointment BookAppointmentByReferral(Referral referral)
         {
-            Doctor doctor = referral.Doctor;
+            /*Doctor doctor = referral.Doctor;
             if (doctor is null)
             {
                 doctor = doctorService.DoctorRepo.FindBySpecialization(referral.Specialization)[0];
@@ -118,7 +121,8 @@ namespace HealthCare_System.Services.AppointmentServices
             int id = appointmentService.AppointmentRepo.GenerateId();
             Appointment appointment = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
                 referral.MedicalRecord.Patient, null, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
-            return AddAppointment(appointment);
+            return AddAppointment(appointment);*/
+            return null;
 
         }
 

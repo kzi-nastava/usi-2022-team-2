@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Model;
+using HealthCare_System.Model.Dto;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -89,8 +90,9 @@ namespace HealthCare_System.controllers
         {
             return appointmentRequests[^1].Id + 1;
         }
-        public void Add(AppointmentRequest request)
+        public void Add(AppointmentRequestDto requestDto)
         {
+            AppointmentRequest request = new(requestDto);
             appointmentRequests.Add(request);
             Serialize();
         }

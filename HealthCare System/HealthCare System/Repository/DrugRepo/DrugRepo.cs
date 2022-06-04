@@ -77,5 +77,16 @@ namespace HealthCare_System.Repository.DrugRepo
             drugs.Remove(drug);
             Serialize();
         }
+
+        public List<Drug> FillterOnHold()
+        {
+            List<Drug> filtered = new List<Drug>();
+
+            foreach (Drug drug in drugs)
+                if (drug.Status == DrugStatus.ON_HOLD)
+                    filtered.Add(drug);
+
+            return filtered;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HealthCare_System.Model;
+using HealthCare_System.Model.Dto;
 using HealthCare_System.Repository.AppointmentRepo;
 
 namespace HealthCare_System.Services.AppointmentServices
@@ -45,6 +46,11 @@ namespace HealthCare_System.Services.AppointmentServices
                 appointmentService.AppointmentRepo.Serialize();
             }
             appointmentRequestRepo.Serialize();
+        }
+        public void Add(AppointmentRequestDto requestDto)
+        {
+            AppointmentRequest request = new(requestDto);
+            appointmentRequestRepo.Add(request);
         }
     }
 }

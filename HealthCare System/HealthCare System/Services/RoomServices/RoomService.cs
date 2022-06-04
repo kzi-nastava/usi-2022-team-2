@@ -140,7 +140,7 @@ namespace HealthCare_System.Services.RoomServices
 
         public bool IsRoomAvailableAtTimeSimple(Room room, DateTime time)
         {
-            bool available = true;
+            bool available = true; 
             foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room && time.AddMinutes(15) >= simpleRenovation.BeginningDate)
