@@ -43,9 +43,21 @@ namespace HealthCare_System.gui
             InitializeComponent();
             this.database  =  database;
 
+            InitializeServices();
+            InitializeComboBoxes();
+            DisplayRooms(database.RoomRepo.Rooms);
+            DisplayDrugs(database.DrugRepo.Drugs);
+            DisplayIngredients(database.IngredientRepo.Ingredients);
+            DisplayEquipment(equipmentService.GetEquipmentFromAllRooms());
+
+            
+        }
+
+        void InitializeServices()
+        {
             roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
             equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
-            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService, 
+            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
                 null, equipmentService);
             simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService,
                 null, equipmentService);
@@ -62,14 +74,6 @@ namespace HealthCare_System.gui
             prescriptionService = new PrescriptionService(database.PrescriptionRepo, null);
             drugService = new DrugService(database.DrugRepo, prescriptionService);
             ingredientService = new IngredientService(database.IngredientRepo, drugService);
-
-            InitializeComboBoxes();
-            DisplayRooms(database.RoomRepo.Rooms);
-            DisplayDrugs(database.DrugRepo.Drugs);
-            DisplayIngredients(database.IngredientRepo.Ingredients);
-            DisplayEquipment(equipmentService.GetEquipmentFromAllRooms());
-
-            
         }
 
         #region EquipmentFiltering

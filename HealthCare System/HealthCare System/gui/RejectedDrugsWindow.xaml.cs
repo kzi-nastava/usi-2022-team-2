@@ -31,14 +31,18 @@ namespace HealthCare_System.gui
             InitializeComponent();
             this.database  =  database;
 
-            drugService = new DrugService(database.DrugRepo, null);
-
+            InitializeServices();
             InitializeComboBox();
             if (listedDrugs.Count == 0)
             {
                 titleLbl.Content = "THere are no rejected drugs";
                 correctBtn.IsEnabled = false;
             }
+        }
+
+        void InitializeServices()
+        {
+            drugService = new DrugService(database.DrugRepo, null);
         }
 
         void InitializeComboBox()

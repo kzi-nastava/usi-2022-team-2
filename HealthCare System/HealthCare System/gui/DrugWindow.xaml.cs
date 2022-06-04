@@ -36,11 +36,14 @@ namespace HealthCare_System.gui
             this.database = database;
             this.create = create;
             this.drug = drug;
-
-            drugService = new DrugService(database.DrugRepo, null);
-
+            InitializeServices();
             InitializeTitle();
             InitializeFields();
+        }
+
+        void InitializeServices()
+        {
+            drugService = new DrugService(database.DrugRepo, null);
         }
 
         void InitializeTitle()

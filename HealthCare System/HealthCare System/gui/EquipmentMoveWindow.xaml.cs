@@ -24,10 +24,14 @@ namespace HealthCare_System.gui
             InitializeComponent();
             this.database = database;
 
-            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, null);
-
+            InitializeServices();
             InitializeComboBox();
             InitializeDatePicker();
+        }
+
+        void InitializeServices()
+        {
+            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, null);
         }
 
         private void InitializeDatePicker()

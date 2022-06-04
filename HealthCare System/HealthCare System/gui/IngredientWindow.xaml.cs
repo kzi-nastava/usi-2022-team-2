@@ -25,10 +25,14 @@ namespace HealthCare_System.gui
             this.database = database;
             this.ingredient = ingredient;
 
-            ingredientService = new IngredientService(database.IngredientRepo, null);
-
+            InitializeServices();
             InitializeTitle();
             InitializeFields();
+        }
+
+        void InitializeServices()
+        {
+            ingredientService = new IngredientService(database.IngredientRepo, null);
         }
 
         void InitializeTitle()

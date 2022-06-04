@@ -38,6 +38,19 @@ namespace HealthCare_System.gui
         {
             this.database  =  database;
 
+            InitializeServices();
+            InitializeComponent();
+            InitializeComboBoxes(database.RoomRepo.Rooms);
+            simpleStartDp.SelectedDate = DateTime.Today;
+            simpleEndDp.SelectedDate = DateTime.Today;
+            mergingStartDp.SelectedDate = DateTime.Today;
+            mergingEndDp.SelectedDate = DateTime.Today;
+            splittingStartDp.SelectedDate = DateTime.Today;
+            splittingEndDp.SelectedDate = DateTime.Today;
+        }
+
+        void InitializeServices()
+        {
             roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
             mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
                 null, null);
@@ -52,15 +65,6 @@ namespace HealthCare_System.gui
             roomService.SimpleRenovationService = simpleRenovationService;
             roomService.AppointmentService = appointmentService;
             roomService.EquipmentTransferService = equipmentTransferService;
-
-            InitializeComponent();
-            InitializeComboBoxes(database.RoomRepo.Rooms);
-            simpleStartDp.SelectedDate = DateTime.Today;
-            simpleEndDp.SelectedDate = DateTime.Today;
-            mergingStartDp.SelectedDate = DateTime.Today;
-            mergingEndDp.SelectedDate = DateTime.Today;
-            splittingStartDp.SelectedDate = DateTime.Today;
-            splittingEndDp.SelectedDate = DateTime.Today;
         }
 
         public void InitializeComboBoxes(List<Room> rooms)

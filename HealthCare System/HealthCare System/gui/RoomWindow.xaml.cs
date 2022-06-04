@@ -25,11 +25,15 @@ namespace HealthCare_System.gui
             this.room = room;
             this.database = database;
 
-            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
-            equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
-
+            InitializeServices();
             InitializeTitle();
             InitializeFields();
+        }
+
+        void InitializeServices()
+        {
+            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
+            equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
         }
 
         void InitializeTitle()
