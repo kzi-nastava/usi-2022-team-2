@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HealthCare_System.Model.Dto;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Model
@@ -46,6 +47,14 @@ namespace HealthCare_System.Model
             name = room.name;
             type = room.type;
             equipmentAmount = room.equipmentAmount;
+        }
+
+        public Room(RoomDTO roomDTO)
+        {
+            id = roomDTO.Id;
+            name = roomDTO.Name;
+            type = roomDTO.Type;
+            equipmentAmount = roomDTO.EquipmentAmount;
         }
 
         [JsonPropertyName("id")]

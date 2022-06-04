@@ -4,6 +4,7 @@ using HealthCare_System.Repository.RenovationRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.RoomServices;
 using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RenovationServices
 {
@@ -30,12 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return mergingRenovationRepo.MergingRenovations;
         }
 
-        public void BookRenovation(DateTime start, DateTime end, Room firstRoom,
-            Room secondRoom, string newRoomName, TypeOfRoom newRoomType)
+        public void BookRenovation(MergingRenovationDTO mergingRenovationDTO)
         {
-            List<Room> rooms = new List<Room> { firstRoom, secondRoom };
-            MergingRenovation mergingRenovation = new MergingRenovation(mergingRenovationRepo.GenerateId(), start, end, rooms,
-                RenovationStatus.BOOKED, newRoomName, newRoomType);
+            MergingRenovation mergingRenovation = new MergingRenovation(mergingRenovationDTO);
             mergingRenovationRepo.Add(mergingRenovation);
         }
 
@@ -58,7 +56,7 @@ namespace HealthCare_System.Services.RenovationServices
                 roomService.RemoveRoom(room);
             }
             Dictionary<Equipment, int> equipmentAmount = equipmentService.InitalizeEquipment();
-            roomService.CreateNewRoom(mergingRenovation.NewRoomName, mergingRenovation.NewRoomType, equipmentAmount);
+            roomService.Create(mergingRenovation.NewRoomName, mergingRenovation.NewRoomType, equipmentAmount);
             mergingRenovationRepo.Delete(mergingRenovation);
         }
 

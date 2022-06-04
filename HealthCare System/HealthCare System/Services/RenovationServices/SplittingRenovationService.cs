@@ -4,6 +4,7 @@ using HealthCare_System.Repository.RenovationRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.RoomServices;
 using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.RenovationServices
 {
@@ -30,13 +31,9 @@ namespace HealthCare_System.Services.RenovationServices
             return splittingRenovationRepo.SplittingRenovations;
         }
 
-        public void BookRenovation(DateTime start, DateTime end, Room room,
-            string firstNewRoomName, TypeOfRoom firstNewRoomType, string secondNewRoomName,
-            TypeOfRoom secondNewRoomType)
+        public void BookRenovation(SplittingRenovationDTO splittingRenovationDTO)
         {
-            SplittingRenovation splittingRenovation = new SplittingRenovation(splittingRenovationRepo.GenerateId(), start, end,
-                RenovationStatus.BOOKED, room, firstNewRoomName, firstNewRoomType,
-                secondNewRoomName, secondNewRoomType);
+            SplittingRenovation splittingRenovation = new SplittingRenovation(splittingRenovationDTO);
             splittingRenovationRepo.Add(splittingRenovation);
         }
 
@@ -53,10 +50,10 @@ namespace HealthCare_System.Services.RenovationServices
             splittingRenovation.Status = RenovationStatus.FINISHED;
             roomService.RemoveRoom(splittingRenovation.Room);
             Dictionary<Equipment, int> firstRoomEquipmentAmount = equipmentService.InitalizeEquipment();
-            roomService.CreateNewRoom(splittingRenovation.FirstNewRoomName, splittingRenovation.FirstNewRoomType,
+            roomService.Create(splittingRenovation.FirstNewRoomName, splittingRenovation.FirstNewRoomType,
                 firstRoomEquipmentAmount);
             Dictionary<Equipment, int> secondRoomEquipmentAmount = equipmentService.InitalizeEquipment();
-            roomService.CreateNewRoom(splittingRenovation.SecondNewRoomName, splittingRenovation.SecondNewRoomType,
+            roomService.Create(splittingRenovation.SecondNewRoomName, splittingRenovation.SecondNewRoomType,
                 secondRoomEquipmentAmount);
             splittingRenovationRepo.Delete(splittingRenovation);
         }

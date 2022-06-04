@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthCare_System.Repository.EquipmentRepo;
 using HealthCare_System.Model;
 using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.EquipmentServices
 {
@@ -45,11 +46,9 @@ namespace HealthCare_System.Services.EquipmentServices
             }
         }
 
-        public void Add(DateTime momentOfTransfer, Room fromRoom, Room toRoom,
-            Equipment equipment, int amount)
+        public void Add(TransferDTO transferDTO)
         {
-            int id = equipmentTransferRepo.GenerateId();
-            Transfer transfer = new Transfer(id, momentOfTransfer, fromRoom, toRoom, equipment, amount);
+            Transfer transfer = new Transfer(transferDTO);
             if (!CheckWithOthers(transfer))
                 throw new Exception("Entered amount to be moved is larger than amount availabel " +
                     "in the room after all the transfers are finished.");

@@ -1,1 +1,12 @@
-﻿[]
+[
+  {
+    "firstNewRoomName": "dadadada",
+    "firstNewRoomType": 2,
+    "secondNewRoomName": "gdfgdghdfgdfgd",
+    "secondNewRoomType": 2,
+    "id": 1001,
+    "beginningDate": "2022-06-15T00:00:00",
+    "endingDate": "2022-06-23T00:00:00",
+    "status": 0
+  }
+]
