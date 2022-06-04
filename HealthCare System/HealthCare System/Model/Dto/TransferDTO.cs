@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Model.Dto
 {
-    public class TransferDTO
+    public class TransferDto
     {
         int id;
         DateTime momentOfTransfer;
@@ -15,7 +15,7 @@ namespace HealthCare_System.Model.Dto
         Room toRoom;
         Equipment equipment;
 
-        public TransferDTO(int id, DateTime momentOfTransfer, int amount, Room fromRoom, Room toRoom, Equipment equipment)
+        public TransferDto(int id, DateTime momentOfTransfer, int amount, Room fromRoom, Room toRoom, Equipment equipment)
         {
             this.id = id;
             this.momentOfTransfer = momentOfTransfer;
