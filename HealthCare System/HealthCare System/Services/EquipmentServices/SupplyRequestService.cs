@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Services.EquipmentServices
 {
-    class SupplyRequestService
+    public class SupplyRequestService
     {
         SupplyRequestRepo supplyRequestRepo;
         RoomService roomService;

@@ -7,7 +7,7 @@ using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.EquipmentServices
 {
-    class EquipmentTransferService
+    public class EquipmentTransferService
     {
         EquipmentTransferRepo equipmentTransferRepo;
         RoomService roomService;

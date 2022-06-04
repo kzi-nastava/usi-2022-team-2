@@ -7,7 +7,7 @@ using HealthCare_System.Services.EquipmentServices;
 
 namespace HealthCare_System.Services.RenovationServices
 {
-    class SimpleRenovationService
+    public class SimpleRenovationService
     {
         SimpleRenovationRepo simpleRenovationRepo;
         RoomService roomService;

@@ -5,7 +5,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.NotificationServices
 {
-    class DelayedAppointmentNotificationService
+    public class DelayedAppointmentNotificationService
     {
         DelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
 

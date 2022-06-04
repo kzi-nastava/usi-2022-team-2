@@ -4,7 +4,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.MedicalRecordServices
 {
-    class MedicalRecordService
+    public class MedicalRecordService
     {
         MedicalRecordRepo medicalRecordRepo;
 

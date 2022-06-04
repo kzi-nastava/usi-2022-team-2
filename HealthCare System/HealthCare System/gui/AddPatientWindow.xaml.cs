@@ -6,52 +6,57 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare_System.Database;
+using HealthCare_System.Services.UserServices;
+using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.gui
 {
     public partial class AddPatientWindow : Window
     {
         bool isUpdate;
-        HealthCareFactory factory;
         HealthCareDatabase database;
-
         Patient patient;
+        PatientService patientService;
 
-        public AddPatientWindow(HealthCareFactory factory, bool isUpdate, Patient patient, HealthCareDatabase database)
+        public AddPatientWindow(PatientService patientService, bool isUpdate, Patient patient, HealthCareDatabase database)
         {
             InitializeComponent();
-            this.factory = factory;
+            this.patientService = patientService;
             this.isUpdate = isUpdate;
             this.database = database;
 
             if(isUpdate)
             {
                 this.patient = patient;
-                passwordBox.Password = patient.Password;
-                passwordBox.IsEnabled = false;
-                textBoxJmbg.Text = patient.Jmbg;
-                textBoxLastName.Text = patient.LastName;
-                textBoxFirstName.Text = patient.FirstName;
-                textBoxEmail.Text = patient.Mail;
-                birthDatePicker.SelectedDate = patient.BirthDate;
-                textBoxHeight.Text = patient.MedicalRecord.Height.ToString();
-                textBoxWeight.Text = patient.MedicalRecord.Weight.ToString();
-                textBoxHistory.Text = patient.MedicalRecord.DiseaseHistory.ToString();
-
-                string allergies = "";
-                foreach (Ingredient ingredient in patient.MedicalRecord.Allergens)
-                {
-                    allergies += ", " + ingredient.Name;
-                }
-                textBoxAlergies.Text = allergies;
-                textBoxAlergies.IsEnabled = false;
-
+                InitializeWinForUpdate();
             }
             else
             {
                 this.patient = new Patient();
                 textBoxAlergies.Text = "example1, example2";
             }
+        }
+
+        private void InitializeWinForUpdate()
+        {
+            passwordBox.Password = patient.Password;
+            passwordBox.IsEnabled = false;
+            textBoxJmbg.Text = patient.Jmbg;
+            textBoxLastName.Text = patient.LastName;
+            textBoxFirstName.Text = patient.FirstName;
+            textBoxEmail.Text = patient.Mail;
+            birthDatePicker.SelectedDate = patient.BirthDate;
+            textBoxHeight.Text = patient.MedicalRecord.Height.ToString();
+            textBoxWeight.Text = patient.MedicalRecord.Weight.ToString();
+            textBoxHistory.Text = patient.MedicalRecord.DiseaseHistory.ToString();
+
+            string allergies = "";
+            foreach (Ingredient ingredient in patient.MedicalRecord.Allergens)
+            {
+                allergies += ", " + ingredient.Name;
+            }
+            textBoxAlergies.Text = allergies;
+            textBoxAlergies.IsEnabled = false;
         }
 
         private void CancleBtn_Click(object sender, RoutedEventArgs e)
@@ -131,25 +136,30 @@ namespace HealthCare_System.gui
             return true;
         }
 
-        private void UpdatePatient(double height, double weight, string history)
+        private void UpdatePatient()
         {
-            patient.MedicalRecord.Height = height;
-            patient.MedicalRecord.Weight = weight;
-            patient.MedicalRecord.DiseaseHistory = history;
+            patient.Jmbg = textBoxJmbg.Text;
+            patient.FirstName = textBoxFirstName.Text;
+            patient.LastName = textBoxLastName.Text;
+            patient.Mail = textBoxEmail.Text;
+            patient.BirthDate = birthDatePicker.SelectedDate.Value;
+            patient.MedicalRecord.Height = Convert.ToDouble(textBoxHeight.Text);
+            patient.MedicalRecord.Weight = Convert.ToDouble(textBoxWeight.Text);
+            patient.MedicalRecord.DiseaseHistory = textBoxHistory.Text;
 
-            factory.UpdatePatient();
+            patientService.UpdatePatient();
 
             MessageBox.Show("You succesefully updated patient.");
         }
 
-        private void CreatePatient(double height, double weight, string history)
+        private void CreatePatient()
         {
-            patient.Password = passwordBox.Password;
+            PersonDto personDto = new(textBoxJmbg.Text, textBoxFirstName.Text, textBoxLastName.Text, textBoxEmail.Text, birthDatePicker.SelectedDate.Value, passwordBox.Password);
 
             List<Ingredient> ingredients = GetIngredients();
-            MedicalRecord medRecord = factory.MedicalRecordController.Add(height, weight, history, ingredients);
+            MedicalRecord medRecord = factory.MedicalRecordController.Add(Convert.ToDouble(textBoxHeight.Text), Convert.ToDouble(textBoxWeight.Text), textBoxHistory.Text, ingredients);
 
-            factory.AddPatient(patient, medRecord);
+            patientService.AddPatient(personDto, medRecord);
 
             MessageBox.Show("You succesefully registred new patient.");
         }
@@ -158,23 +168,14 @@ namespace HealthCare_System.gui
         {
             if(!ValidateInput()) { return; }
 
-            patient.Jmbg = textBoxJmbg.Text;
-            patient.FirstName = textBoxFirstName.Text;
-            patient.LastName = textBoxLastName.Text;
-            patient.Mail = textBoxEmail.Text;
-            patient.BirthDate = birthDatePicker.SelectedDate.Value;
-            double height = Convert.ToDouble(textBoxHeight.Text);
-            double weight = Convert.ToDouble(textBoxWeight.Text);
-            string history = textBoxHistory.Text;
-
             if (isUpdate)
             {
 
-                UpdatePatient(height, weight, history);
+                UpdatePatient();
             }
             else
             {
-                CreatePatient(height, weight, history);
+                CreatePatient();
             }
             Close();
         }

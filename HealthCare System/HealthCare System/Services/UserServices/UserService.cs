@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace HealthCare_System.Services.UserServices
 {
-    class UserService
+    public class UserService
     {
         PatientService patientService;
         DoctorService doctorService;

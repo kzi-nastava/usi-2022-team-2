@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
-    class UrgentSchedulingService
+    public class UrgentSchedulingService
     {
         AppointmentService appointmentService;
         SchedulingService schedulingService;

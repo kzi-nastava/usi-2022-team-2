@@ -4,7 +4,7 @@ using HealthCare_System.Repository.AppointmentRepo;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
-    class AppointmentRequestService
+    public class AppointmentRequestService
     {
         AppointmentRequestRepo appointmentRequestRepo;
         AppointmentService appointmentService;

@@ -5,7 +5,7 @@ using HealthCare_System.Services.UserServices;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
-    class AppointmentRecomendationService
+    public class AppointmentRecomendationService
     {
         AppointmentService appointmentService;
         SchedulingService schedulingService;

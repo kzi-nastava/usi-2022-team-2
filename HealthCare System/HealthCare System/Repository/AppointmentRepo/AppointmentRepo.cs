@@ -15,8 +15,8 @@ namespace HealthCare_System
 }
 namespace HealthCare_System.Repository.AppointmentRepo
 {
-    
-    class AppointmentRepo
+
+    public class AppointmentRepo
     {
         List<Appointment> appointments;
         string path;

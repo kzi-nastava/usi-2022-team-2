@@ -6,7 +6,7 @@ using HealthCare_System.Services.DrugServices;
 
 namespace HealthCare_System.Services.IngredientServices
 {
-    class IngredientService
+    public class IngredientService
     {
         IngredientRepo ingredientRepo;
         DrugService drugService;

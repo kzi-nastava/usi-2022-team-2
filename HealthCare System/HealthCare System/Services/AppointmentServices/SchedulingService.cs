@@ -9,7 +9,7 @@ using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
-    class SchedulingService
+    public class SchedulingService
     {
         RoomService roomService;
         AppointmentService appointmentService;

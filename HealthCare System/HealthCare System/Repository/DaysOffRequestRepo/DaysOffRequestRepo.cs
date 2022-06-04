@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Repository.DaysOffRequestRepo
 {
-    class DaysOffRequestRepo
+    public class DaysOffRequestRepo
     {
         List<DaysOffRequest> daysOffRequests;
         string path;

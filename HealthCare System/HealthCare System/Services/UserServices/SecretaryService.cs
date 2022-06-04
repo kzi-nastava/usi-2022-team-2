@@ -4,7 +4,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Services.UserServices
 {
-    class SecretaryService
+    public class SecretaryService
     {
         SecretaryRepo secretaryRepo;
 

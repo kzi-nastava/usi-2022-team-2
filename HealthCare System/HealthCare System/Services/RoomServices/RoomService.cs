@@ -8,7 +8,7 @@ using HealthCare_System.Services.AppointmentServices;
 
 namespace HealthCare_System.Services.RoomServices
 {
-    class RoomService
+    public class RoomService
     {
         MergingRenovationService mergingRenovationService;
         SimpleRenovationService simpleRenovationService;

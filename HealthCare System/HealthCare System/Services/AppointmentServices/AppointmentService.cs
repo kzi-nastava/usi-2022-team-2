@@ -6,7 +6,7 @@ using HealthCare_System.Repository.AppointmentRepo;
 
 namespace HealthCare_System.Services.AppointmentServices
 {
-    class AppointmentService
+    public class AppointmentService
     {
         AppointmentRepo appointmentRepo;
         SchedulingService schedulingService;
