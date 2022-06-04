@@ -19,8 +19,6 @@ namespace HealthCare_System.gui
 {
     public partial class PatientWindow : Window
     {
-        
-        HealthCareFactory factory;
         HealthCareDatabase database;
         Dictionary<int,Doctor> indexedDoctors;
         Dictionary<int,Doctor> indexedSearchedDoctors;
@@ -53,7 +51,6 @@ namespace HealthCare_System.gui
             indexedDoctors = new Dictionary<int, Doctor>();
             notifications = new();
             indexedSearchedDoctors = new Dictionary<int, Doctor>();
-            this.factory = factory;
             this.database =  database;
             user =(Patient) factory.User;
 
@@ -459,7 +456,7 @@ namespace HealthCare_System.gui
                 AppointmentState state = AppointmentState.ACCEPTED;
                 if (!needConfirmation)
                 {
-                    factory.DeleteAppointment(appointment.Id);
+                    schedulingService.DeleteAppointment(appointment.Id);
                 }
                 else
                 {
@@ -469,7 +466,7 @@ namespace HealthCare_System.gui
 
                 AppointmentRequestDto request = new AppointmentRequestDto(appointmentRequestService.AppointmentRequestRepo.GenerateId(),
                     state, user, appointment, null, RequestType.DELETE, DateTime.Now);
-                factory.AppointmentRequestController.Add(request);
+                appointmentRequestService.Add(request);
                 UpdateUpcomingAppointments();
                 if (needConfirmation)
                 {
@@ -490,19 +487,17 @@ namespace HealthCare_System.gui
         {
             if (!((Patient) user).Blocked)
             {
-                factory.User = null;
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MainWindow main = new MainWindow(factory, database);
+                    MainWindow main = new MainWindow(null, database);
                     main.Show();
                 }
                 else e.Cancel = true;
             }
             else
             {
-                factory.User = null;
                 MessageBox.Show("Account blocked. Contact secretary for more informations!");
-                MainWindow main = new MainWindow(factory, database);
+                MainWindow main = new MainWindow(null, database);
                 main.Show();
             }
             
@@ -688,7 +683,7 @@ namespace HealthCare_System.gui
         private void saveUserDrugReminderBtn_Click(object sender, RoutedEventArgs e)
         {
             user.MinutesBeforeDrug = (int)minutesBeforeDrugSl.Value;
-            factory.PatientController.Serialize();
+            patientService.PatientRepo.Serialize();
             notifications.Clear();
             CreateNotifications();
         }
@@ -734,7 +729,7 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Appointment Is Already Graded");
                 return;
             }    
-            int id = factory.DoctorSurveyController.GenerateId();
+            int id = doctorSurveyService.DoctorSurveyRepo.GenerateId();
             Doctor doctor = indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Doctor;
             DoctorSurveyDto survey = new DoctorSurveyDto(id,doctor, doctorServiceQualityCb.SelectedIndex + 1, doctorRecommendCb.SelectedIndex + 1, doctorCommentTb.Text);
             indexedAppointmentsHistory[appointmentHistoryLb.SelectedIndex].Graded = true;
@@ -753,7 +748,7 @@ namespace HealthCare_System.gui
                 MessageBox.Show("Please Fill All Fields");
                 return;
             }
-            int id = factory.HospitalSurveyController.GenerateId();
+            int id = hospitalSurveyService.HospitalSurveyRepo.GenerateId();
 
             HospitalSurveyDto survey = new HospitalSurveyDto(id, hospitalServiceQualityCb.SelectedIndex+1,hospitalHygieneCb.SelectedIndex+1,
                 hospitalSatisfactionCb.SelectedIndex+1,hospitalRecommendCb.SelectedIndex+1,hospitalCommentTb.Text);
@@ -764,5 +759,6 @@ namespace HealthCare_System.gui
             hospitalRecommendCb.SelectedIndex = -1;
             hospitalCommentTb.Clear();
         }
+        
     }
 }
