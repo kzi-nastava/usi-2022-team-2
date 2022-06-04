@@ -29,7 +29,6 @@ namespace HealthCare_System
             this.database = database;
             InitializeServices();
 
-            database.PrintContnent();
             InitializeComponent();
             simpleRenovationService.TryToExecuteSimpleRenovations();
             mergingRenovationService.TryToExecuteMergingRenovations();

@@ -1,130 +1,130 @@
- public void PrintContnent()
+public void PrintContnent()
         {
             Console.WriteLine("Anamneses:");
-            foreach (Anamnesis anamnesis in anamnesisController.Anamneses)
+            foreach (Anamnesis anamnesis in anamnesisRepo.Anamneses)
                 Console.WriteLine(anamnesis.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Appointments:");
-            foreach (Appointment appointment in appointmentController.Appointments)
+            foreach (Appointment appointment in appointmentRepo.Appointments)
                 Console.WriteLine(appointment.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("AppointmentRequests:");
-            foreach (AppointmentRequest appointmentRequest in appointmentRequestController.AppointmentRequests)
+            foreach (AppointmentRequest appointmentRequest in appointmentRequestRepo.AppointmentRequests)
                 Console.WriteLine(appointmentRequest.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("DaysOffNotifications:");
-            foreach (DaysOffNotification daysOffNotification in daysOffNotificationController.DaysOffNotifications)
+            foreach (DaysOffNotification daysOffNotification in daysOffNotificationRepo.DaysOffNotifications)
                 Console.WriteLine(daysOffNotification.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("DaysOffRequests:");
-            foreach (DaysOffRequest daysOffRequest in daysOffRequestController.DaysOffRequests)
+            foreach (DaysOffRequest daysOffRequest in daysOffRequestRepo.DaysOffRequests)
                 Console.WriteLine(daysOffRequest.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("DelayedAppointmentNotification:");
-            foreach (DelayedAppointmentNotification delayedAppointmentNotification in 
-                delayedAppointmentNotificationController.DelayedAppointmentNotifications)
+            foreach (DelayedAppointmentNotification delayedAppointmentNotification in
+                delayedAppointmentNotificationRepo.DelayedAppointmentNotifications)
                 Console.WriteLine(delayedAppointmentNotification.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Doctors:");
-            foreach (Doctor doctor in doctorController.Doctors)
+            foreach (Doctor doctor in doctorRepo.Doctors)
                 Console.WriteLine(doctor.ToString() + " appointments:" + doctor.Appointments.Count);
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("DoctorSurvey:");
-            foreach (DoctorSurvey doctorSurvey in doctorSurveyController.DoctorSurveys)
+            foreach (DoctorSurvey doctorSurvey in doctorSurveyRepo.DoctorSurveys)
                 Console.WriteLine(doctorSurvey.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Drug:");
-            foreach (Drug drug in drugController.Drugs)
+            foreach (Drug drug in drugRepo.Drugs)
                 Console.WriteLine(drug.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("DrugNotification:");
-            foreach (DrugNotification drugNotification in drugNotificationController.DrugNotifications)
+            foreach (DrugNotification drugNotification in drugNotificationRepo.DrugNotifications)
                 Console.WriteLine(drugNotification.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Equipment:");
-            foreach (Equipment equipment in equipmentController.Equipment)
+            foreach (Equipment equipment in equipmentRepo.Equipment)
                 Console.WriteLine(equipment.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("HospitalSurvey:");
-            foreach (HospitalSurvey hospitalSurvey in hospitalSurveyController.HospitalSurveys)
+            foreach (HospitalSurvey hospitalSurvey in hospitalSurveyRepo.HospitalSurveys)
                 Console.WriteLine(hospitalSurvey.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Ingredient:");
-            foreach (Ingredient ingredient in ingredientController.Ingredients)
+            foreach (Ingredient ingredient in ingredientRepo.Ingredients)
                 Console.WriteLine(ingredient.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Manager:");
-            foreach (Manager manager in managerController.Managers)
+            foreach (Manager manager in managerRepo.Managers)
                 Console.WriteLine(manager.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("MedicalRecord:");
-            foreach (MedicalRecord medicalRecord in medicalRecordController.MedicalRecords)
+            foreach (MedicalRecord medicalRecord in medicalRecordRepo.MedicalRecords)
                 Console.WriteLine(medicalRecord.ToString() + " appointments: " + medicalRecord.Appointments.Count);
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("MergintRenovations:");
-            foreach (MergingRenovation mergingRenovation in mergingRenovationController.MergingRenovations)
+            foreach (MergingRenovation mergingRenovation in mergingRenovationRepo.MergingRenovations)
                 Console.WriteLine(mergingRenovation.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Patient:");
-            foreach (Patient patient in patientController.Patients)
+            foreach (Patient patient in patientRepo.Patients)
                 Console.WriteLine(patient.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Prescription:");
-            foreach (Prescription prescription in prescriptionController.Prescriptions)
+            foreach (Prescription prescription in prescriptionRepo.Prescriptions)
                 Console.WriteLine(prescription.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Refferal:");
-            foreach (Referral referral in referralController.Referrals)
+            foreach (Referral referral in referralRepo.Referrals)
                 Console.WriteLine(referral.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Room:");
-            foreach (Room room in roomController.Rooms)
+            foreach (Room room in roomRepo.Rooms)
                 Console.WriteLine(room.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("SimpleRenovation:");
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationController.SimpleRenovations)
+            foreach (SimpleRenovation simpleRenovation in simpleRenovationRepo.SimpleRenovations)
                 Console.WriteLine(simpleRenovation.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("SplittingRenovation:");
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationController.SplittingRenovations)
+            foreach (SplittingRenovation splittingRenovation in splittingRenovationRepo.SplittingRenovations)
                 Console.WriteLine(splittingRenovation.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("SupplyRequest:");
-            foreach (SupplyRequest supplyRequest in supplyRequestController.SupplyRequests)
+            foreach (SupplyRequest supplyRequest in supplyRequestRepo.SupplyRequests)
                 Console.WriteLine(supplyRequest.ToString());
             Console.WriteLine("-------------------------------------------");
 
             Console.WriteLine("Transfer:");
-            if (transferController.Transfers.Count == 0)
+            if (equipmentTransferRepo.Transfers.Count == 0)
             {
                 Console.WriteLine("No transfers");
             }
             else
             {
-                foreach (Transfer transfer in transferController.Transfers)
+                foreach (Transfer transfer in equipmentTransferRepo.Transfers)
                     Console.WriteLine(transfer.ToString());
                 Console.WriteLine("-------------------------------------------");
-            }    
+            }
         }
