@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare_System.Core.AppotinmentRequests.Repository
 {
-    public class AppointmentRequestRepo
+    public class AppointmentRequestRepo : IAppointmentRequestRepo
     {
         List<AppointmentRequest> appointmentRequests;
         string path;
@@ -65,7 +65,7 @@ namespace HealthCare_System.Core.AppotinmentRequests.Repository
             File.WriteAllText(linkPath, csv);
         }
 
-        
+
 
         public int GenerateId()
         {

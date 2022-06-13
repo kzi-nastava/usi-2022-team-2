@@ -13,7 +13,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Core.Appointments
 {
-    public class SchedulingService
+    public class SchedulingService : ISchedulingService
     {
         RoomService roomService;
         AppointmentService appointmentService;
@@ -21,7 +21,7 @@ namespace HealthCare_System.Core.Appointments
         DoctorService doctorService;
         ReferralService referralService;
 
-        public SchedulingService(RoomService roomService, AppointmentService appointmentService, 
+        public SchedulingService(RoomService roomService, AppointmentService appointmentService,
             AnamnesisService anamnesisService, DoctorService doctorService, ReferralService referralService)
         {
             this.roomService = roomService;
@@ -30,12 +30,12 @@ namespace HealthCare_System.Core.Appointments
             this.doctorService = doctorService;
             this.referralService = referralService;
         }
-        
+
         public Room AvailableRoom(AppointmentType type, DateTime start, DateTime end)
         {
             List<Room> rooms = new List<Room>();
 
-            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type)) 
+            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type))
                 if (roomService.IsRoomAvailableRenovationsAtTime(room, start))
                     rooms.Add(room);
 

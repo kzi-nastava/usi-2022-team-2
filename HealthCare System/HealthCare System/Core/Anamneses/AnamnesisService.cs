@@ -5,7 +5,7 @@ using HealthCare_System.Core.Anamneses.Model;
 
 namespace HealthCare_System.Core.Anamneses
 {
-    public class AnamnesisService
+    public class AnamnesisService : IAnamnesisService
     {
         AnamnesisRepo anamnesisRepo;
 

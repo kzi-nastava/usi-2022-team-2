@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace HealthCare_System.Core.Appointments.Repository
 {
 
-    public class AppointmentRepo
+    public class AppointmentRepo : IAppointmentRepo
     {
         List<Appointment> appointments;
         string path;

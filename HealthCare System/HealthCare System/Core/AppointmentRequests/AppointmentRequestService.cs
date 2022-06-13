@@ -6,7 +6,7 @@ using HealthCare_System.Model;
 
 namespace HealthCare_System.Core.AppotinmentRequests
 {
-    public class AppointmentRequestService
+    public class AppointmentRequestService : IAppointmentRequestService
     {
         AppointmentRequestRepo appointmentRequestRepo;
         AppointmentService appointmentService;

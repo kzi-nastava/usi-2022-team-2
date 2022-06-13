@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Appointments
 {
-    public class UrgentSchedulingService
+    public class UrgentSchedulingService : IUrgentSchedulingService
     {
         AppointmentService appointmentService;
         SchedulingService schedulingService;
@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Appointments
         {
             AppointmentType type = Appointment.getTypeByDuration(urgentAppointmentDto.Duration);
             int id = appointmentService.AppointmentRepo.GenerateId();
-            AppointmentDto appointmentDto = new AppointmentDto(id, toReplaceAppointment.Start, toReplaceAppointment.End, urgentAppointmentDto.Doctor, 
+            AppointmentDto appointmentDto = new AppointmentDto(id, toReplaceAppointment.Start, toReplaceAppointment.End, urgentAppointmentDto.Doctor,
                 urgentAppointmentDto.Patient, null, type, AppointmentStatus.BOOKED, null, false, true);
 
             toReplaceAppointment.Start = urgentAppointmentDto.DelayedStart;
@@ -61,7 +61,7 @@ namespace HealthCare_System.Core.Appointments
             Appointment _ = schedulingService.AddAppointment(appointmentDto);
         }
 
-        public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration, 
+        public Dictionary<Appointment, DateTime> GetReplaceableAppointments(List<Doctor> doctors, int duration,
             Patient patient)
         {
 

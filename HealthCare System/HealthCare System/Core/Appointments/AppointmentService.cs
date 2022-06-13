@@ -8,7 +8,7 @@ using HealthCare_System.Core.Users.Model;
 
 namespace HealthCare_System.Core.Appointments
 {
-    public class AppointmentService
+    public class AppointmentService : IAppointmentService
     {
         AppointmentRepo appointmentRepo;
         SchedulingService schedulingService;
@@ -54,7 +54,7 @@ namespace HealthCare_System.Core.Appointments
 
         }
 
-        public List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium, 
+        public List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium,
             SortDirection direction)
         {
             List<Appointment> unsortedAnamneses = appointmentRepo.FindByWord(patient, word);
@@ -87,7 +87,7 @@ namespace HealthCare_System.Core.Appointments
             }
         }
 
-        
+
 
 
     }

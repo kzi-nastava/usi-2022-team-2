@@ -8,7 +8,7 @@ using HealthCare_System;
 
 namespace HealthCare_System.Core.Appointments
 {
-    public class AppointmentRecomendationService
+    public class AppointmentRecomendationService : IAppointmentRecomendationService
     {
         AppointmentService appointmentService;
         SchedulingService schedulingService;
@@ -168,7 +168,7 @@ namespace HealthCare_System.Core.Appointments
 
         }
 
-        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor, 
+        public List<Appointment> RecommendAppointment(DateTime end, int[] from, int[] to, Doctor doctor,
             bool priorityDoctor, Patient patient)
         {
             List<Appointment> appointments = SearchDoubleCriterium(end, from, to, doctor, patient);
