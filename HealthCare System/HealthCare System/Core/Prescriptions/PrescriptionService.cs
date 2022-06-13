@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Prescriptions
 {
-    public class PrescriptionService
+    public class PrescriptionService : IPrescriptionService
     {
         PrescriptionRepo prescriptionRepo;
         MedicalRecordService medicalRecordService;
@@ -17,7 +17,7 @@ namespace HealthCare_System.Core.Prescriptions
             this.medicalRecordService = medicalRecordService;
         }
 
-        public PrescriptionRepo PrescriptionRepo { get => prescriptionRepo;}
+        public PrescriptionRepo PrescriptionRepo { get => prescriptionRepo; }
 
         public List<Prescription> Prescriptions()
         {

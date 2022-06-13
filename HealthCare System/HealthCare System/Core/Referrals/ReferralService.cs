@@ -3,7 +3,7 @@ using HealthCare_System.Core.Referrals.Repository;
 
 namespace HealthCare_System.Core.Referrals
 {
-    public class ReferralService
+    public class ReferralService : IReferralService
     {
         ReferralRepo referralRepo;
 
@@ -12,7 +12,7 @@ namespace HealthCare_System.Core.Referrals
             this.referralRepo = referralRepo;
         }
 
-        public ReferralRepo ReferralRepo { get => referralRepo;}
+        public ReferralRepo ReferralRepo { get => referralRepo; }
 
         public void Add(ReferralDto referralDto)
         {

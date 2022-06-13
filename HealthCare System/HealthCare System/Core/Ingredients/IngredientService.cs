@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Ingredients
 {
-    public class IngredientService
+    public class IngredientService : IIngredientService
     {
         IngredientRepo ingredientRepo;
         DrugService drugService;

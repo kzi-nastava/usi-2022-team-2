@@ -5,7 +5,7 @@ using HealthCare_System.Core.MedicalRecords.Repository;
 
 namespace HealthCare_System.Core.MedicalRecords
 {
-    public class MedicalRecordService
+    public class MedicalRecordService : IMedicalRecordService
     {
         MedicalRecordRepo medicalRecordRepo;
 

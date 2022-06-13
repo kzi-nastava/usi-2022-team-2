@@ -6,7 +6,7 @@ using HealthCare_System.Core.Notifications.Model;
 
 namespace HealthCare_System.Core.Notifications.Repository
 {
-    public class DelayedAppointmentNotificationRepo
+    public class DelayedAppointmentNotificationRepo : IDelayedAppointmentNotificationRepo
     {
         List<DelayedAppointmentNotification> delayedAppointmentNotifications;
         string path;

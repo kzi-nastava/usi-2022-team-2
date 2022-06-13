@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Prescriptions.Repository
 {
-    public class PrescriptionRepo
+    public class PrescriptionRepo : IPrescriptionRepo
     {
         List<Prescription> prescriptions;
         string path;

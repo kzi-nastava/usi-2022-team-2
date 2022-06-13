@@ -8,7 +8,7 @@ using HealthCare_System.Core.Referrals.Model;
 
 namespace HealthCare_System.Core.MedicalRecords.Repository
 {
-    public class MedicalRecordRepo
+    public class MedicalRecordRepo : IMedicalRecordRepo
     {
         List<MedicalRecord> medicalRecords;
         string path;

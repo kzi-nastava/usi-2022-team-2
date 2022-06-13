@@ -8,7 +8,7 @@ using HealthCare_System.Core.Prescriptions.Model;
 
 namespace HealthCare_System.Core.Notifications
 {
-    public class DrugNotificationService
+    public class DrugNotificationService : IDrugNotificationService
     {
         DrugNotificationRepo drugNotificationRepo;
 

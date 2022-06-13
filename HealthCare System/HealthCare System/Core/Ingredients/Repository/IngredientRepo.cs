@@ -7,7 +7,7 @@ using HealthCare_System.Core.Ingredients.Model;
 
 namespace HealthCare_System.Core.Ingredients.Repository
 {
-    public class IngredientRepo
+    public class IngredientRepo : IIngredientRepo
     {
         List<Ingredient> ingredients;
         string path;

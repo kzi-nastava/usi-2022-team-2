@@ -6,7 +6,7 @@ using HealthCare_System.Core.Notifications.Repository;
 
 namespace HealthCare_System.Core.Notifications
 {
-    public class DelayedAppointmentNotificationService
+    public class DelayedAppointmentNotificationService : IDelayedAppointmentNotificationService
     {
         DelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
 
@@ -20,8 +20,8 @@ namespace HealthCare_System.Core.Notifications
             return delayedAppointmentNotificationRepo.DelayedAppointmentNotifications;
         }
 
-        public DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo 
-            { get => delayedAppointmentNotificationRepo; }
+        public DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo
+        { get => delayedAppointmentNotificationRepo; }
 
         public void AddNotification(Appointment appointment, DateTime oldStart)
         {
