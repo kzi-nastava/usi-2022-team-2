@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Users
 {
-    public class ManagerService
+    public class ManagerService : IManagerService
     {
         ManagerRepo managerRepo;
 
@@ -13,7 +13,7 @@ namespace HealthCare_System.Core.Users
             this.managerRepo = managerRepo;
         }
 
-        public ManagerRepo ManagerRepo { get => managerRepo;}
+        public ManagerRepo ManagerRepo { get => managerRepo; }
 
         public List<Manager> Managers()
         {

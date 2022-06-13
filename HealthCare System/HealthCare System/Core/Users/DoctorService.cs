@@ -1,12 +1,12 @@
 ﻿using HealthCare_System.Core.DoctorSurveys;
 using HealthCare_System.Core.Users.Model;
-using HealthCare_SystemCore.Core.Users.Repository;
+using HealthCare_System.Core.Users.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HealthCare_System.Core.Users
 {
-    public class DoctorService
+    public class DoctorService : IDoctorService
     {
         DoctorRepo doctorRepo;
         DoctorSurveyService surveyService;
@@ -29,7 +29,7 @@ namespace HealthCare_System.Core.Users
             List<Doctor> filterFirstName = doctorRepo.Doctors;
             List<Doctor> filterLastName = doctorRepo.Doctors;
             List<Doctor> filterSpecialization = doctorRepo.Doctors;
-            
+
             if (firstName.Length >= 3)
                 filterFirstName = DoctorRepo.FindByFirstName(firstName);
             if (lastName.Length >= 3)

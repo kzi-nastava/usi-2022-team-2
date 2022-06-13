@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Users
 {
-    public class PatientService
+    public class PatientService : IPatientService
     {
         PatientRepo patientRepo;
         SchedulingService schedulingService;
@@ -17,8 +17,8 @@ namespace HealthCare_System.Core.Users
         MedicalRecordService medicalRecordService;
         IngredientService ingredientService;
 
-        public PatientService(PatientRepo patientRepo, SchedulingService schedulingService, 
-            PrescriptionService prescriptionService, MedicalRecordService medicalRecordService, 
+        public PatientService(PatientRepo patientRepo, SchedulingService schedulingService,
+            PrescriptionService prescriptionService, MedicalRecordService medicalRecordService,
             IngredientService ingredientService)
         {
             this.patientRepo = patientRepo;
@@ -28,7 +28,7 @@ namespace HealthCare_System.Core.Users
             this.ingredientService = ingredientService;
         }
 
-        public PatientRepo PatientRepo { get => patientRepo;}
+        public PatientRepo PatientRepo { get => patientRepo; }
 
         public List<Patient> Patients()
         {

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Rooms
 {
-    public class RoomService
+    public class RoomService : IRoomService
     {
         MergingRenovationService mergingRenovationService;
         SimpleRenovationService simpleRenovationService;
@@ -23,8 +23,8 @@ namespace HealthCare_System.Core.Rooms
 
         RoomRepo roomRepo;
 
-        public RoomService(MergingRenovationService mergingRenovationService, SimpleRenovationService simpleRenovationService, 
-            EquipmentTransferService equipmentTransferService, SplittingRenovationService splittingRenovationService, 
+        public RoomService(MergingRenovationService mergingRenovationService, SimpleRenovationService simpleRenovationService,
+            EquipmentTransferService equipmentTransferService, SplittingRenovationService splittingRenovationService,
             AppointmentService appointmentService, RoomRepo roomRepo)
         {
             this.mergingRenovationService = mergingRenovationService;
@@ -144,7 +144,7 @@ namespace HealthCare_System.Core.Rooms
 
         public bool IsRoomAvailableAtTimeSimple(Room room, DateTime time)
         {
-            bool available = true; 
+            bool available = true;
             foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room && time.AddMinutes(15) >= simpleRenovation.BeginningDate)
@@ -288,6 +288,6 @@ namespace HealthCare_System.Core.Rooms
             return available;
         }
     }
-    
+
 
 }

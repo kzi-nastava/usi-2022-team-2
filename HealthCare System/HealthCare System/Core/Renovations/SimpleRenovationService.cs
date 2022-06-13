@@ -8,14 +8,14 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Renovations
 {
-    public class SimpleRenovationService
+    public class SimpleRenovationService : ISimpleRenovationService
     {
         SimpleRenovationRepo simpleRenovationRepo;
         RoomService roomService;
         EquipmentTransferService equipmentTransferService;
         EquipmentService equipmentService;
 
-        public SimpleRenovationService(SimpleRenovationRepo simpleRenovationRepo, RoomService roomService, 
+        public SimpleRenovationService(SimpleRenovationRepo simpleRenovationRepo, RoomService roomService,
             EquipmentTransferService equipmentTransferService, EquipmentService equipmentService)
         {
             this.simpleRenovationRepo = simpleRenovationRepo;
@@ -24,7 +24,7 @@ namespace HealthCare_System.Core.Renovations
             this.equipmentService = equipmentService;
         }
 
-        public SimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo;}
+        public SimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo; }
 
         public List<SimpleRenovation> SimpleRenovations()
         {

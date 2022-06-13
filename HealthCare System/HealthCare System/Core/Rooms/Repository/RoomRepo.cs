@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Rooms.Repository
 {
-    public class RoomRepo
+    public class RoomRepo : IRoomRepo
     {
         List<Room> rooms;
         string path;
@@ -27,7 +27,7 @@ namespace HealthCare_System.Core.Rooms.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             rooms = JsonSerializer.Deserialize<List<Room>>(File.ReadAllText(path));
         }
@@ -104,6 +104,6 @@ namespace HealthCare_System.Core.Rooms.Repository
         {
             rooms.Remove(room);
             Serialize();
-        }    
+        }
     }
 }

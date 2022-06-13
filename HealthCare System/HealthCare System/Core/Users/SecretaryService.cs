@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Users
 {
-    public class SecretaryService
+    public class SecretaryService : ISecretaryService
     {
         SecretaryRepo secretaryRepo;
 
@@ -13,7 +13,7 @@ namespace HealthCare_System.Core.Users
             this.secretaryRepo = secretaryRepo;
         }
 
-        public SecretaryRepo SecretaryRepo { get => secretaryRepo;}
+        public SecretaryRepo SecretaryRepo { get => secretaryRepo; }
 
         public List<Secretary> Secretaries()
         {
