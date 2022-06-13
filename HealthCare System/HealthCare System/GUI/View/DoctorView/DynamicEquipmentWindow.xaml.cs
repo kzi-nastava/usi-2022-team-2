@@ -1,13 +1,14 @@
-﻿using HealthCare_System.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.EquipmentServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.DoctorView
 {
     
     public partial class DynamicEquipmentWindow : Window

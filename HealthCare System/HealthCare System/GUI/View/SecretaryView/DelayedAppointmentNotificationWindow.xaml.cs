@@ -1,21 +1,10 @@
-﻿using HealthCare_System.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using HealthCare_System.Core.Notifications;
+using HealthCare_System.Core.Notifications.Model;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.NotificationServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.SecretaryView
 {
     /// <summary>
     /// Interaction logic for DelayedAppointmentNotificationWindow.xaml

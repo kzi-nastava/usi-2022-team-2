@@ -1,16 +1,16 @@
-﻿using HealthCare_System.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
+using HealthCare_System.Core.Ingredients;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.MedicalRecords;
+using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Users;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.UserServices;
-using HealthCare_System.Model.Dto;
-using HealthCare_System.Services.IngredientServices;
-using HealthCare_System.Services.MedicalRecordServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.SecretaryView
 {
     public partial class AddPatientWindow : Window
     {

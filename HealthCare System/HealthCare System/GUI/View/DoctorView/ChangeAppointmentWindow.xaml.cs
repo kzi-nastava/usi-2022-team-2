@@ -1,11 +1,11 @@
-﻿using HealthCare_System.Model;
-using System;
+﻿using System;
 using System.Windows;
 using HealthCare_System.Database;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Model.Dto;
+using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.Users.Model;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.DoctorView
 {
     public partial class ChangeAppointmentWindow : Window
     {

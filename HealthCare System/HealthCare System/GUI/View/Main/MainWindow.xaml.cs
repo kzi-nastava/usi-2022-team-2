@@ -1,14 +1,18 @@
 ﻿using System.Windows;
-using HealthCare_System.Model;
 using HealthCare_System.gui;
 using HealthCare_System.Database;
-using HealthCare_System.Services.UserServices;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.RenovationServices;
-using HealthCare_System.Services.EquipmentServices;
-using HealthCare_System.Services.AppointmentServices;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Equipments;
+using HealthCare_System.Core.Renovations;
+using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.SupplyRequests;
+using HealthCare_System.Core.Users;
+using HealthCare_System.Core.AppotinmentRequests;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.GUI.DoctorView;
 
-namespace HealthCare_System
+namespace HealthCare_System.GUI.Main
 {
     public partial class MainWindow : Window
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
+using HealthCare_System.Core.Equipments;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.EquipmentServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.ManagerView
 {
     public partial class RoomWindow : Window
     {

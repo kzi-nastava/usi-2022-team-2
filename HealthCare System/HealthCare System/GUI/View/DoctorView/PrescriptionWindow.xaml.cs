@@ -1,16 +1,19 @@
-﻿using HealthCare_System.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Prescriptions;
+using HealthCare_System.Core.Prescriptions.Model;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.PrescriptionServices;
-using HealthCare_System.Model.Dto;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.DoctorView
 {
     public partial class PrescriptionWindow : Window
     {

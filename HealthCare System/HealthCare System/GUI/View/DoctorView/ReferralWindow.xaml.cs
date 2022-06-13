@@ -1,12 +1,12 @@
-﻿using HealthCare_System.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using HealthCare_System.Core.Referrals;
+using HealthCare_System.Core.Referrals.Model;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.ReferralServices;
-using HealthCare_System.Model.Dto;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.DoctorView
 {
     public partial class ReferralWindow : Window
     {

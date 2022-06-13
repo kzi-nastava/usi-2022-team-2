@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.EquipmentTransfers.Model;
+using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.EquipmentServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.ManagerView
 {
     public partial class EquipmentMoveWindow : Window
     {

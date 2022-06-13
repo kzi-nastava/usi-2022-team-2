@@ -1,7 +1,4 @@
-﻿using HealthCare_System.controllers;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,12 +7,22 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Input;
 using HealthCare_System.Database;
-using HealthCare_System.Services.UserServices;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Services.SurveyServices;
-using HealthCare_System.Services.NotificationServices;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Notifications.Model;
+using HealthCare_System.Core.Notifications;
+using HealthCare_System.Core.Users;
+using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.AppotinmentRequests;
+using HealthCare_System.Core.DoctorSurveys;
+using HealthCare_System.Core.HospitalSurveys;
+using HealthCare_System.GUI.SecretaryView;
+using HealthCare_System.Core.AppointmentRequests.Model;
+using HealthCare_System.GUI.Main;
+using HealthCare_System.Core.DoctorSurveys.Model;
+using HealthCare_System.Core.HospitalSurveys.Model;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.PatientView
 {
     public partial class PatientWindow : Window
     {

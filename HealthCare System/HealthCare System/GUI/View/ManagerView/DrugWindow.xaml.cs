@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using HealthCare_System.Model;
+using HealthCare_System.Core.Drugs;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.DrugServices;
-using HealthCare_System.Model.Dto;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class DrugWindow : Window

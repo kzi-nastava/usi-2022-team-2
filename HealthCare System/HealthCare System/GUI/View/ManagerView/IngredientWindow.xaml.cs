@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
+﻿using System.Windows;
+using HealthCare_System.Core.Ingredients;
+using HealthCare_System.Core.Ingredients.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.IngredientServices;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class IngredientWindow : Window

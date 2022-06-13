@@ -1,20 +1,26 @@
-﻿using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare_System.Core.Anamneses;
+using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Drugs;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.MedicalRecords;
+using HealthCare_System.Core.Prescriptions.Model;
+using HealthCare_System.Core.Renovations;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Rooms.Model;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Services.AnamnesisServices;
-using HealthCare_System.Services.MedicalRecordServices;
-using HealthCare_System.Services.DrugServices;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.RenovationServices;
+using HealthCare_System.GUI.Main;
+using HealthCare_System.GUI.SecretaryView;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.DoctorView
 {
     public partial class DoctorWindow : Window
     {

@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using HealthCare_System.Model;
 using System.ComponentModel;
 using HealthCare_System.Database;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.EquipmentServices;
-using HealthCare_System.Services.RenovationServices;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Services.DrugServices;
-using HealthCare_System.Services.IngredientServices;
-using HealthCare_System.Services.PrescriptionServices;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.Rooms.Model;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Equipments;
+using HealthCare_System.Core.Renovations;
+using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Ingredients;
+using HealthCare_System.Core.Drugs;
+using HealthCare_System.Core.Prescriptions;
+using HealthCare_System.GUI.Main;
 
-namespace HealthCare_System.gui
+namespace HealthCare_System.GUI.ManagerView
 {
     public partial class ManagerWindow : Window
     {

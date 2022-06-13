@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare_System.Core.AppotinmentRequests.Model
+namespace HealthCare_System.Core.AppointmentRequests.Model
 {
     public class AppointmentRequestDto
     {
