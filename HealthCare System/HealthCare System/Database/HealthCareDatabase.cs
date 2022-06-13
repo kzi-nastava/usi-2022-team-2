@@ -17,6 +17,16 @@ using HealthCare_System.Repository.RoomRepo;
 using HealthCare_System.Repository.SurveyRepo;
 using HealthCare_System.Repository.UserRepo;
 
+namespace HealthCare_System
+{
+    public enum AnamnesesSortCriterium { DATE, DOCTOR, SPECIALIZATION };
+    public enum SortDirection { ASCENDING, DESCENDING };
+    public enum DoctorSortPriority { RATINGS, FIRST_NAME, LAST_NAME, SPECIALIZATION };
+
+    public enum AppointmentType { EXAMINATION, OPERATION }
+
+    public enum AppointmentStatus { BOOKED, FINISHED, ON_HOLD }
+}
 namespace HealthCare_System.Database
 {
     public class HealthCareDatabase
