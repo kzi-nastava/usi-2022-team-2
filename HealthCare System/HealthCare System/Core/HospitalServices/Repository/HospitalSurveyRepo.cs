@@ -5,7 +5,7 @@ using HealthCare_System.Core.HospitalSurveys.Model;
 
 namespace HealthCare_System.Core.HospitalSurveys.Repository
 {
-    public class HospitalSurveyRepo
+    public class HospitalSurveyRepo : IHospitalSurveyRepo
     {
         List<HospitalSurvey> hospitalSurveys;
         string path;

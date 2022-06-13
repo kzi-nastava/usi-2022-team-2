@@ -7,7 +7,7 @@ using HealthCare_System.Core.DoctorSurveys.Model;
 
 namespace HealthCare_System.Core.DoctorSurveys
 {
-    public class DoctorSurveyService
+    public class DoctorSurveyService : IDoctorSurveyService
     {
         DoctorSurveyRepo doctorSurveyRepo;
 
@@ -16,7 +16,7 @@ namespace HealthCare_System.Core.DoctorSurveys
             this.doctorSurveyRepo = doctorSurveyRepo;
         }
 
-        public DoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo;}
+        public DoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo; }
 
         public double FindAverageRatingForDoctor(Doctor doctor)
         {

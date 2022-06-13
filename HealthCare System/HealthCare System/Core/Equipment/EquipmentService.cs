@@ -7,7 +7,7 @@ using HealthCare_System.Core.Rooms.Model;
 
 namespace HealthCare_System.Core.Equipments
 {
-    public class EquipmentService
+    public class EquipmentService : IEquipmentService
     {
         EquipmentRepo equipmentRepo;
         RoomService roomService;

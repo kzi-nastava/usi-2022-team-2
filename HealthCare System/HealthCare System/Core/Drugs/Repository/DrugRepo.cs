@@ -11,7 +11,7 @@ using HealthCare_System.Core.Ingredients.Model;
 
 namespace HealthCare_System.Core.Drugs.Repository
 {
-    public class DrugRepo
+    public class DrugRepo : IDrugRepo
     {
         List<Drug> drugs;
         string path;

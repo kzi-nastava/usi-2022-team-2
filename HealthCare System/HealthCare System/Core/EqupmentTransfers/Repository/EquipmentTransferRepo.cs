@@ -5,7 +5,7 @@ using HealthCare_System.Core.EquipmentTransfers.Model;
 
 namespace HealthCare_System.Core.EquipmentTransfers.Repository
 {
-    public class EquipmentTransferRepo
+    public class EquipmentTransferRepo : IEquipmentTransferRepo
     {
         List<Transfer> transfers = new List<Transfer>();
         string path;
@@ -71,6 +71,6 @@ namespace HealthCare_System.Core.EquipmentTransfers.Repository
             Serialize();
         }
 
-        
+
     }
 }

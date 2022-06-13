@@ -5,7 +5,7 @@ using HealthCare_System.Core.Equipments.Model;
 
 namespace HealthCare_System.Core.Equipments.Repository
 {
-    public class EquipmentRepo
+    public class EquipmentRepo : IEquipmentRepo
     {
         List<Equipment> equipment;
         string path;

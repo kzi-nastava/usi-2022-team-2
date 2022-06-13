@@ -3,7 +3,7 @@ using HealthCare_System.Core.HospitalSurveys.Repository;
 
 namespace HealthCare_System.Core.HospitalSurveys
 {
-    public class HospitalSurveyService
+    public class HospitalSurveyService : IHospitalSurveyService
     {
         HospitalSurveyRepo hospitalSurveyRepo;
 
@@ -14,7 +14,7 @@ namespace HealthCare_System.Core.HospitalSurveys
 
         public HospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo; }
 
-        public void Add (HospitalSurveyDto hospitalSurveyDto)
+        public void Add(HospitalSurveyDto hospitalSurveyDto)
         {
             HospitalSurvey hospitalSurvey = new(hospitalSurveyDto);
             hospitalSurveyRepo.Add(hospitalSurvey);

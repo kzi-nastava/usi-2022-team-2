@@ -7,7 +7,7 @@ using HealthCare_System.Core.Prescriptions.Model;
 
 namespace HealthCare_System.Core.Drugs
 {
-    public class DrugService
+    public class DrugService : IDrugService
     {
         DrugRepo drugRepo;
         PrescriptionService prescriptionService;

@@ -8,7 +8,7 @@ using HealthCare_System.Core.Rooms.Model;
 
 namespace HealthCare_System.Core.EquipmentTransfers
 {
-    public class EquipmentTransferService
+    public class EquipmentTransferService : IEquipmentTransferService
     {
         EquipmentTransferRepo equipmentTransferRepo;
         RoomService roomService;
@@ -28,7 +28,7 @@ namespace HealthCare_System.Core.EquipmentTransfers
 
         public void MoveToRoom(Room room, Equipment equipmnet, int amount)
         {
-            room.EquipmentAmount[equipmnet] += amount;            
+            room.EquipmentAmount[equipmnet] += amount;
         }
 
         public void MoveFromRoom(Room room, Equipment equipmnet, int amount)

@@ -10,7 +10,7 @@ using HealthCare_System.Core.DoctorSurveys.Model;
 
 namespace HealthCare_System.Core.DoctorSurveys.Repository
 {
-    public class DoctorSurveyRepo
+    public class DoctorSurveyRepo : IDoctorSurveyRepo
     {
         List<DoctorSurvey> doctorSurveys;
         string path;
@@ -48,7 +48,7 @@ namespace HealthCare_System.Core.DoctorSurveys.Repository
             return doctorSurveys[^1].Id + 1;
         }
 
-        
+
 
         public void Add(DoctorSurvey survey)
         {
