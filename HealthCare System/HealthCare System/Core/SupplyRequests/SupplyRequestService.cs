@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.Core.SupplyRequests
 {
-    public class SupplyRequestService
+    public class SupplyRequestService : ISupplyRequestService
     {
         SupplyRequestRepo supplyRequestRepo;
         RoomService roomService;

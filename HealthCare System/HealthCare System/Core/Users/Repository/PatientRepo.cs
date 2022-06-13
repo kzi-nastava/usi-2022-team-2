@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.Users.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             patients = JsonSerializer.Deserialize<List<Patient>>(File.ReadAllText(path));
         }

@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Users.Repository
 {
-    public class SecretaryRepo
+    public class SecretaryRepo : ISecretaryRepo
     {
         List<Secretary> secretaries;
         string path;
@@ -27,7 +27,7 @@ namespace HealthCare_System.Core.Users.Repository
         internal List<Secretary> Secretaries { get => secretaries; set => secretaries = value; }
 
 
-        void Load()
+        public void Load()
         {
             secretaries = JsonSerializer.Deserialize<List<Secretary>>(File.ReadAllText(this.path));
         }

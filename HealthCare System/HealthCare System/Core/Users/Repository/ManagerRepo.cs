@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Users.Repository
 {
-    public class ManagerRepo
+    public class ManagerRepo : IManagerRepo
     {
                 List<Manager> managers;
         string path;
@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.Users.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             managers = JsonSerializer.Deserialize<List<Manager>>(File.ReadAllText(path));
         }

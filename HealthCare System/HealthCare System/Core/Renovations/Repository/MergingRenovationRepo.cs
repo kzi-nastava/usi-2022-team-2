@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Renovations.Repository
 {
-    public class MergingRenovationRepo
+    public class MergingRenovationRepo : IMergingRenovationRepo
     {
         List<MergingRenovation> mergingRenovations;
         string path;
@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.Renovations.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             mergingRenovations = JsonSerializer.Deserialize<List<MergingRenovation>>(File.ReadAllText(path));
         }

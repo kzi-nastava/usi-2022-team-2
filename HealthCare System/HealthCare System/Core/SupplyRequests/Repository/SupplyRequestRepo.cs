@@ -5,7 +5,7 @@ using HealthCare_System.Core.SupplyRequests.Model;
 
 namespace HealthCare_System.Core.SupplyRequests.Repository
 {
-    public class SupplyRequestRepo
+    public class SupplyRequestRepo : ISupplyRequestRepo
     {
         List<SupplyRequest> supplyRequests;
         string path;
@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.SupplyRequests.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             supplyRequests = JsonSerializer.Deserialize<List<SupplyRequest>>(File.ReadAllText(path));
         }

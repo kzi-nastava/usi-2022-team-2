@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace HealthCare_System.Core.Users
 {
-    public class UserService
+    public class UserService : IUserService
     {
         PatientService patientService;
         DoctorService doctorService;
@@ -14,8 +14,8 @@ namespace HealthCare_System.Core.Users
         SecretaryService secretaryService;
         AppointmentRequestService appointmentRequestService;
 
-        public UserService(PatientService patientService, DoctorService doctorService, 
-            ManagerService managerService, SecretaryService secretaryService, 
+        public UserService(PatientService patientService, DoctorService doctorService,
+            ManagerService managerService, SecretaryService secretaryService,
             AppointmentRequestService appointmentRequestService)
         {
             this.patientService = patientService;

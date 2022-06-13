@@ -9,14 +9,14 @@ using HealthCare_System.Core.Rooms;
 
 namespace HealthCare_System.Core.Renovations
 {
-    public class SplittingRenovationService
+    public class SplittingRenovationService : ISplittingRenovationService
     {
         SplittingRenovationRepo splittingRenovationRepo;
         RoomService roomService;
         EquipmentTransferService equipmentTransferService;
         EquipmentService equipmentService;
 
-        public SplittingRenovationService(SplittingRenovationRepo splittingRenovationRepo, RoomService roomService, 
+        public SplittingRenovationService(SplittingRenovationRepo splittingRenovationRepo, RoomService roomService,
             EquipmentTransferService equipmentTransferService, EquipmentService equipmentService)
         {
             this.splittingRenovationRepo = splittingRenovationRepo;
@@ -25,7 +25,7 @@ namespace HealthCare_System.Core.Renovations
             this.equipmentService = equipmentService;
         }
 
-        public SplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo;}
+        public SplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo; }
 
         public List<SplittingRenovation> SplittingRenovations()
         {

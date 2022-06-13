@@ -3,9 +3,9 @@ using System.IO;
 using System.Text.Json;
 using HealthCare_System.Core.Users.Model;
 
-namespace HealthCare_SystemCore.Core.Users.Repository
+namespace HealthCare_System.Core.Users.Repository
 {
-    public class DoctorRepo
+    public class DoctorRepo : IDoctorRepo
     {
         List<Doctor> doctors;
         string path;
@@ -26,7 +26,7 @@ namespace HealthCare_SystemCore.Core.Users.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             doctors = JsonSerializer.Deserialize<List<Doctor>>(File.ReadAllText(path));
         }
