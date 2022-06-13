@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using HealthCare_System.gui;
 using HealthCare_System.Database;
 using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Equipments;
@@ -11,6 +10,9 @@ using HealthCare_System.Core.Users;
 using HealthCare_System.Core.AppotinmentRequests;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.GUI.DoctorView;
+using HealthCare_System.GUI.SecretaryView;
+using HealthCare_System.GUI.PatientView;
+using HealthCare_System.GUI.ManagerView;
 
 namespace HealthCare_System.GUI.Main
 {

@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Referrals.Repository
 {
-    public class ReferralRepo
+    public class ReferralRepo : IReferralRepo
     {
         List<Referral> referrals;
         string path;
@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.Referrals.Repository
 
         public string Path { get => path; set => path = value; }
 
-        void Load()
+        public void Load()
         {
             referrals = JsonSerializer.Deserialize<List<Referral>>(File.ReadAllText(path));
         }

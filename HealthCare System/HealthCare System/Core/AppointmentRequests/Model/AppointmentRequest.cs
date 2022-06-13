@@ -1,6 +1,5 @@
 ﻿
 using HealthCare_System.Core.Appointments.Model;
-using HealthCare_System.Core.AppotinmentRequests.Model;
 using HealthCare_System.Core.Users.Model;
 using System;
 using System.Text.Json.Serialization;

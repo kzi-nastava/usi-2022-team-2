@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using HealthCare_System.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.EquipmentTransfers.Model;
+using HealthCare_System.Core.Rooms;
 using HealthCare_System.Database;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.EquipmentServices;
+using HealthCare_System.GUI.Main;
 
 namespace HealthCare_System
 {
