@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HealthCare_System.Core.Rooms.Model;
+using System;
 
 namespace HealthCare_System.Core.Renovations.Model
 {

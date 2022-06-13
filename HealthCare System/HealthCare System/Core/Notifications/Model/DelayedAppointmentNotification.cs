@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
+﻿using HealthCare_System.Core.Appointments.Model;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Core.Notifications.Model

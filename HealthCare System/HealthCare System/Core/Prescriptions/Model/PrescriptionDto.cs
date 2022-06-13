@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.MedicalRecords.Model;
+using System;
 
 namespace HealthCare_System.Core.Prescriptions.Model
 {

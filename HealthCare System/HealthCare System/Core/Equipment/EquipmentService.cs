@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using HealthCare_System.Repository.EquipmentRepo;
-using HealthCare_System.Model;
 using System.Reflection;
-using HealthCare_System.Services.RoomServices;
+using HealthCare_System.Core.Equipments.Repository;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.Rooms.Model;
 
-namespace HealthCare_System.Core.Equipment
+namespace HealthCare_System.Core.Equipments
 {
     public class EquipmentService
     {

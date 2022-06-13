@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.NotificationRepo;
-using HealthCare_System.Model;
+using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Notifications.Model;
+using HealthCare_System.Core.Notifications.Repository;
 
 namespace HealthCare_System.Core.Notifications
 {

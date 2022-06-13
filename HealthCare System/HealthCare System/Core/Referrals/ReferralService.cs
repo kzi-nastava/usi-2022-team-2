@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
-using HealthCare_System.Repository.ReferralRepo;
+﻿using HealthCare_System.Core.Referrals.Model;
+using HealthCare_System.Core.Referrals.Repository;
 
 namespace HealthCare_System.Core.Referrals
 {

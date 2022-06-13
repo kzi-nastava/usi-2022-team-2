@@ -1,4 +1,5 @@
-﻿using HealthCare_System.Model.Dto;
+﻿using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.Rooms.Model;
 using System;
 using System.Text.Json.Serialization;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Core.Appointments.Model;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

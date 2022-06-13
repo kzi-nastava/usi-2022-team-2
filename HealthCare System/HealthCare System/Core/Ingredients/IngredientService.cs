@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HealthCare_System.Core.Drugs;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.Ingredients.Repository;
+using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.IngredientRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.DrugServices;
-using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Core.Ingredients
 {

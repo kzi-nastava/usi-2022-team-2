@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HealthCare_System.Core.Equipments;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Renovations.Model;
+using HealthCare_System.Core.Renovations.Repository;
+using HealthCare_System.Core.Rooms;
+using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.RenovationRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.RoomServices;
-using HealthCare_System.Services.EquipmentServices;
-using HealthCare_System.Model.Dto;
 
 namespace HealthCare_System.Core.Renovations
 {

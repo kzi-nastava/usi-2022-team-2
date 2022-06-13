@@ -1,4 +1,9 @@
-﻿using System;
+﻿using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.Prescriptions.Model;
+using HealthCare_System.Core.Referrals.Model;
+using HealthCare_System.Core.Users.Model;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

@@ -1,5 +1,4 @@
-﻿using HealthCare_System.Model.Dto;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Core.Ingredients.Model
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Core.Users.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using HealthCare_System.Core.DoctorSurveys;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_SystemCore.Core.Users.Repository;
+using System.Collections.Generic;
 using System.Linq;
-using HealthCare_System.Repository.UserRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.SurveyServices;
 
 namespace HealthCare_System.Core.Users
 {

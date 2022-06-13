@@ -1,7 +1,7 @@
-﻿using System;
-using HealthCare_System.Repository.UserRepo;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Model;
+﻿using HealthCare_System.Core.AppointmentRequests.Model;
+using HealthCare_System.Core.AppotinmentRequests;
+using HealthCare_System.Core.Users.Model;
+using System;
 using System.Windows;
 
 namespace HealthCare_System.Core.Users

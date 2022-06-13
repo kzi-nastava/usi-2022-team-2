@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using HealthCare_System.Core.Users.Model;
+using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Core.Notifications.Model
 {

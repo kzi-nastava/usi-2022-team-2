@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using HealthCare_System.Repository.UserRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Services.PrescriptionServices;
-using HealthCare_System.Services.MedicalRecordServices;
-using HealthCare_System.Services.IngredientServices;
-using HealthCare_System.Model.Dto;
+﻿using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.Ingredients;
+using HealthCare_System.Core.MedicalRecords;
+using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Prescriptions;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.Core.Users.Repository;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Users
 {

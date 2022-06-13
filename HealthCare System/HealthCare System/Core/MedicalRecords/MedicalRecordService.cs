@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using HealthCare_System.Repository.MedicalRecordRepo;
-using HealthCare_System.Model;
+using HealthCare_System.Core.Ingredients.Model;
+using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.MedicalRecords.Repository;
 
 namespace HealthCare_System.Core.MedicalRecords
 {

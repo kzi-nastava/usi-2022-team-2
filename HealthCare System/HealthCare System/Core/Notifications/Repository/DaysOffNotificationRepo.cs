@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare_System.Model;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using HealthCare_System.Core.Notifications.Model;
 
 namespace HealthCare_System.Core.Notifications.Repository
 {

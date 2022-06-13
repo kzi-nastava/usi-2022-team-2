@@ -1,4 +1,5 @@
-﻿using HealthCare_System.Model.Dto;
+﻿using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Users.Model;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Core.Referrals.Model

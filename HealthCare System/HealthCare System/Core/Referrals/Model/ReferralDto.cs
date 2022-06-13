@@ -1,4 +1,7 @@
-﻿namespace HealthCare_System.Core.Referrals.Model
+﻿using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Users.Model;
+
+namespace HealthCare_System.Core.Referrals.Model
 {
     public class ReferralDto
     {

@@ -1,6 +1,5 @@
-﻿using HealthCare_System.Model.Dto;
-using HealthCare_System.Model;
-using HealthCare_System.Repository.SurveyRepo;
+﻿using HealthCare_System.Core.HospitalSurveys.Model;
+using HealthCare_System.Core.HospitalSurveys.Repository;
 
 namespace HealthCare_System.Core.HospitalSurveys
 {

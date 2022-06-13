@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare_System.Core.Users.Model;
+using System;
 using System.Text.Json.Serialization;
 
 namespace HealthCare_System.Core.DaysOffRequests.Model

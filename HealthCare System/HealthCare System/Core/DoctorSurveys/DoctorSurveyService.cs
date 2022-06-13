@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HealthCare_System.Repository.SurveyRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Model.Dto;
+using HealthCare_System.Core.DoctorSurveys.Repository;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.Core.DoctorSurveys.Model;
 
 namespace HealthCare_System.Core.DoctorSurveys
 {

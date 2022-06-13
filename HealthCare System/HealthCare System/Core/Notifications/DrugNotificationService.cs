@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
-using HealthCare_System.Repository.NotificationRepo;
-using HealthCare_System.Model;
 using System;
 using System.Windows;
+using HealthCare_System.Core.Notifications.Repository;
+using HealthCare_System.Core.Notifications.Model;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.Core.Prescriptions.Model;
 
 namespace HealthCare_System.Core.Notifications
 {

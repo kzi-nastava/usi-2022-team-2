@@ -1,4 +1,4 @@
-﻿using HealthCare_System.Model.Dto;
+﻿using HealthCare_System.Core.Ingredients.Model;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

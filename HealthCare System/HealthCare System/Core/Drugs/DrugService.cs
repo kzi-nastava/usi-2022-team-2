@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.DrugRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.PrescriptionServices;
-using HealthCare_System.Model.Dto;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Drugs.Repository;
+using HealthCare_System.Core.Prescriptions;
+using HealthCare_System.Core.Prescriptions.Model;
 
 namespace HealthCare_System.Core.Drugs
 {

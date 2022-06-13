@@ -1,11 +1,15 @@
-﻿using HealthCare_System.Model;
+﻿using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.EquipmentTransfers.Model;
+using HealthCare_System.Core.Renovations;
+using HealthCare_System.Core.Renovations.Model;
+using HealthCare_System.Core.Rooms.Model;
+using HealthCare_System.Core.Rooms.Repository;
 using System;
 using System.Collections.Generic;
-using HealthCare_System.Repository.RoomRepo;
-using HealthCare_System.Services.EquipmentServices;
-using HealthCare_System.Services.RenovationServices;
-using HealthCare_System.Services.AppointmentServices;
-using HealthCare_System.Model.Dto;
+
 
 namespace HealthCare_System.Core.Rooms
 {

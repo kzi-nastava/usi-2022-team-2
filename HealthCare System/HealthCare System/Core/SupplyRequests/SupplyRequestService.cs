@@ -1,6 +1,9 @@
-﻿using HealthCare_System.Repository.EquipmentRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.RoomServices;
+﻿using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Rooms;
+using HealthCare_System.Core.Rooms.Model;
+using HealthCare_System.Core.SupplyRequests.Model;
+using HealthCare_System.Core.SupplyRequests.Repository;
 using System;
 using System.Collections.Generic;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HealthCare_System.Core.Equipment.Model
+namespace HealthCare_System.Core.Equipments.Model
 {
     public enum TypeOfEquipment
     {

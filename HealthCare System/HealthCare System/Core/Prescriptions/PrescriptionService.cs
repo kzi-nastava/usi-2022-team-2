@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using HealthCare_System.Repository.PrescriptionRepo;
-using HealthCare_System.Model;
-using HealthCare_System.Services.MedicalRecordServices;
-using HealthCare_System.Model.Dto;
+﻿using HealthCare_System.Core.MedicalRecords;
+using HealthCare_System.Core.MedicalRecords.Model;
+using HealthCare_System.Core.Prescriptions.Model;
+using HealthCare_System.Core.Prescriptions.Repository;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Prescriptions
 {

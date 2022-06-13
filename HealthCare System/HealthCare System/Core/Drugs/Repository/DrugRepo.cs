@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using HealthCare_System.Model;
 using System.IO;
 using System.Text.Json;
+using HealthCare_System.Core.Drugs.Model;
+using HealthCare_System.Core.Ingredients.Model;
 
 namespace HealthCare_System.Core.Drugs.Repository
 {
