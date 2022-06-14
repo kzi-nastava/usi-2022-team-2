@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Renovations.Repository
             Load();
         }
 
-        internal List<MergingRenovation> MergingRenovations { get => mergingRenovations; set => mergingRenovations = value; }
+        public List<MergingRenovation> MergingRenovations { get => mergingRenovations; set => mergingRenovations = value; }
 
         public string Path { get => path; set => path = value; }
 

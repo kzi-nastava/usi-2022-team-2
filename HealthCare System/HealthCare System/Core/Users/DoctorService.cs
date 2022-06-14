@@ -8,16 +8,16 @@ namespace HealthCare_System.Core.Users
 {
     public class DoctorService : IDoctorService
     {
-        DoctorRepo doctorRepo;
-        DoctorSurveyService surveyService;
+        IDoctorRepo doctorRepo;
+        IDoctorSurveyService surveyService;
 
-        public DoctorService(DoctorRepo doctorRepo, DoctorSurveyService surveyService)
+        public DoctorService(IDoctorRepo doctorRepo, IDoctorSurveyService surveyService)
         {
             this.doctorRepo = doctorRepo;
             this.surveyService = surveyService;
         }
 
-        public DoctorRepo DoctorRepo { get => doctorRepo; }
+        public IDoctorRepo DoctorRepo { get => doctorRepo; }
 
         public List<Doctor> Doctors()
         {

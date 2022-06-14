@@ -10,9 +10,9 @@ namespace HealthCare_System.Core.Notifications
 {
     public class DrugNotificationService : IDrugNotificationService
     {
-        DrugNotificationRepo drugNotificationRepo;
+        IDrugNotificationRepo drugNotificationRepo;
 
-        public DrugNotificationService(DrugNotificationRepo drugNotificationRepo)
+        public DrugNotificationService(IDrugNotificationRepo drugNotificationRepo)
         {
             this.drugNotificationRepo = drugNotificationRepo;
         }
@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Notifications
             return drugNotificationRepo.DrugNotifications;
         }
 
-        public DrugNotificationRepo DrugNotificationRepo { get => drugNotificationRepo; }
+        public IDrugNotificationRepo DrugNotificationRepo { get => drugNotificationRepo; }
 
         public void CheckNotifications(List<DrugNotification> notifications, int minutesBeforeShowing)
         {

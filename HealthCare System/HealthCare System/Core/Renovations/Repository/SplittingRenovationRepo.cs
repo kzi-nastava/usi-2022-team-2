@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Renovations.Repository
             Load();
         }
 
-        internal List<SplittingRenovation> SplittingRenovations
+        public List<SplittingRenovation> SplittingRenovations
         {
             get => splittingRenovations;
             set => splittingRenovations = value;

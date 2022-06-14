@@ -9,16 +9,16 @@ namespace HealthCare_System.Core.Ingredients
 {
     public class IngredientService : IIngredientService
     {
-        IngredientRepo ingredientRepo;
-        DrugService drugService;
+        IIngredientRepo ingredientRepo;
+        IDrugService drugService;
 
-        public IngredientService(IngredientRepo ingredientRepo, DrugService drugService)
+        public IngredientService(IIngredientRepo ingredientRepo, IDrugService drugService)
         {
             this.ingredientRepo = ingredientRepo;
             this.drugService = drugService;
         }
 
-        public IngredientRepo IngredientRepo { get => ingredientRepo; }
+        public IIngredientRepo IngredientRepo { get => ingredientRepo; }
 
         public List<Ingredient> Ingredients()
         {

@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Users.Repository
             Load();
         }
 
-        internal List<Doctor> Doctors { get => doctors; set => doctors = value; }
+        public List<Doctor> Doctors { get => doctors; set => doctors = value; }
 
         public string Path { get => path; set => path = value; }
 

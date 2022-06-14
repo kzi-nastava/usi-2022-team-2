@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Renovations.Repository
             Load();
         }
 
-        internal List<SimpleRenovation> SimpleRenovations { get => simpleRenovations; set => simpleRenovations = value; }
+        public List<SimpleRenovation> SimpleRenovations { get => simpleRenovations; set => simpleRenovations = value; }
 
         public string Path { get => path; set => path = value; }
 

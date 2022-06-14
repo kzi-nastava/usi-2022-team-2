@@ -12,13 +12,13 @@ namespace HealthCare_System.Core.Renovations
 {
     public class MergingRenovationService : IMergingRenovationService
     {
-        MergingRenovationRepo mergingRenovationRepo;
-        RoomService roomService;
-        EquipmentTransferService equipmentTransferService;
-        EquipmentService equipmentService;
+        IMergingRenovationRepo mergingRenovationRepo;
+        IRoomService roomService;
+        IEquipmentTransferService equipmentTransferService;
+        IEquipmentService equipmentService;
 
-        public MergingRenovationService(MergingRenovationRepo mergingRenovationRepo, RoomService roomService,
-            EquipmentTransferService equipmentTransferService, EquipmentService equipmentService)
+        public MergingRenovationService(IMergingRenovationRepo mergingRenovationRepo, IRoomService roomService,
+            IEquipmentTransferService equipmentTransferService, IEquipmentService equipmentService)
         {
             this.mergingRenovationRepo = mergingRenovationRepo;
             this.roomService = roomService;
@@ -26,7 +26,7 @@ namespace HealthCare_System.Core.Renovations
             this.equipmentService = equipmentService;
         }
 
-        public MergingRenovationRepo MergingRenovationRepo { get => mergingRenovationRepo; }
+        public IMergingRenovationRepo MergingRenovationRepo { get => mergingRenovationRepo; }
 
         public List<MergingRenovation> MergingRenovations()
         {

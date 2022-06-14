@@ -10,13 +10,13 @@ namespace HealthCare_System.Core.Renovations
 {
     public class SimpleRenovationService : ISimpleRenovationService
     {
-        SimpleRenovationRepo simpleRenovationRepo;
-        RoomService roomService;
-        EquipmentTransferService equipmentTransferService;
-        EquipmentService equipmentService;
+        ISimpleRenovationRepo simpleRenovationRepo;
+        IRoomService roomService;
+        IEquipmentTransferService equipmentTransferService;
+        IEquipmentService equipmentService;
 
-        public SimpleRenovationService(SimpleRenovationRepo simpleRenovationRepo, RoomService roomService,
-            EquipmentTransferService equipmentTransferService, EquipmentService equipmentService)
+        public SimpleRenovationService(ISimpleRenovationRepo simpleRenovationRepo, IRoomService roomService,
+            IEquipmentTransferService equipmentTransferService, IEquipmentService equipmentService)
         {
             this.simpleRenovationRepo = simpleRenovationRepo;
             this.roomService = roomService;
@@ -24,7 +24,7 @@ namespace HealthCare_System.Core.Renovations
             this.equipmentService = equipmentService;
         }
 
-        public SimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo; }
+        public ISimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo; }
 
         public List<SimpleRenovation> SimpleRenovations()
         {

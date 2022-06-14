@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Referrals.Repository
             Load();
         }
 
-        internal List<Referral> Referrals { get => referrals; set => referrals = value; }
+        public List<Referral> Referrals { get => referrals; set => referrals = value; }
 
         public string Path { get => path; set => path = value; }
 

@@ -7,7 +7,7 @@ namespace HealthCare_System.Core.MedicalRecords
 {
     public interface IMedicalRecordService
     {
-        MedicalRecordRepo MedicalRecordRepo { get; }
+        IMedicalRecordRepo MedicalRecordRepo { get; }
 
         MedicalRecord Add(double height, double weight, string diseaseHistory, List<Ingredient> allergens);
         void Delete(MedicalRecord medicalRecord);
