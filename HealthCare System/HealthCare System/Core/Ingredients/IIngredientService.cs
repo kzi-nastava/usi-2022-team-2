@@ -9,9 +9,19 @@ namespace HealthCare_System.Core.Ingredients
         IIngredientRepo IngredientRepo { get; }
 
         void Create(IngredientDto ingredientDto);
+
         void Delete(Ingredient ingredient);
+
         List<Ingredient> Ingredients();
+
         bool IsIngredientAvailableForChange(Ingredient ingredient);
+
         void Update(IngredientDto ingredientDto, Ingredient ingredient);
+
+        Ingredient FindById(int id);
+
+        int GenerateId();
+
+        void Serialize();
     }
 }

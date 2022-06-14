@@ -41,10 +41,10 @@ namespace HealthCare_System.Core.Ingredients.Repository
             return null;
         }
 
-        public Ingredient add(string name)
+        public Ingredient Add(string name)
         {
-            Ingredient ingredient = new Ingredient(this.GenerateId(), name);
-            this.ingredients.Add(ingredient);
+            Ingredient ingredient = new Ingredient(GenerateId(), name);
+            ingredients.Add(ingredient);
             return ingredient;
         }
 

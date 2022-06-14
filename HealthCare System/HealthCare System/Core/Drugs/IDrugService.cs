@@ -7,6 +7,7 @@ namespace HealthCare_System.Core.Drugs
     public interface IDrugService
     {
         IDrugRepo DrugRepo { get; }
+
         void AcceptDrug(Drug drug);
 
         void CreateNew(DrugDto drugDTO);
@@ -20,5 +21,15 @@ namespace HealthCare_System.Core.Drugs
         void RejectDrug(Drug drug, string message);
 
         void Update(DrugDto drugDto, Drug drug);
+
+        Drug FindById(int id);
+
+        int GenerateId();
+
+        void Serialize();
+
+        List<Drug> FillterOnHold();
+
+        List<Drug> FillterAccepted();
     }
 }

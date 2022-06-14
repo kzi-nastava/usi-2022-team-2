@@ -1,5 +1,6 @@
 ﻿using HealthCare_System.Core.HospitalSurveys.Model;
 using HealthCare_System.Core.HospitalSurveys.Repository;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.HospitalSurveys
 {
@@ -18,6 +19,26 @@ namespace HealthCare_System.Core.HospitalSurveys
         {
             HospitalSurvey hospitalSurvey = new(hospitalSurveyDto);
             hospitalSurveyRepo.Add(hospitalSurvey);
+        }
+
+        public List<HospitalSurvey> HospitalSurveys()
+        {
+            return hospitalSurveyRepo.HospitalSurveys;
+        }
+
+        public int GenerateId()
+        {
+            return hospitalSurveyRepo.GenerateId();
+        }
+
+        public HospitalSurvey FindById(int id)
+        {
+            return hospitalSurveyRepo.FindById(id);
+        }
+
+        public void Serialize()
+        {
+            hospitalSurveyRepo.Serialize();   
         }
     }
 }

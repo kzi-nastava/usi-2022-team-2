@@ -10,10 +10,15 @@ namespace HealthCare_System.Core.Ingredients.Repository
         List<Ingredient> Ingredients { get; set; }
 
         void Add(Ingredient ingredient);
-        Ingredient add(string name);
+
+        Ingredient Add(string name);
+
         void Delete(Ingredient ingredient);
+
         Ingredient FindById(int id);
+
         int GenerateId();
+
         void Serialize();
     }
 }

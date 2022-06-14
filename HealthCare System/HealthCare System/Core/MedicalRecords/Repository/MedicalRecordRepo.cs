@@ -59,6 +59,7 @@ namespace HealthCare_System.Core.MedicalRecords.Repository
             medicalRecords.Add(medRecord);
             Serialize();
         }
+
         public void Delete(MedicalRecord medicalRecord)
         {
             MedicalRecords.Remove(medicalRecord);

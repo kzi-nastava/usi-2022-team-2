@@ -8,6 +8,7 @@ namespace HealthCare_System.Core.Drugs.Repository
         string Path { get; set; }
 
         List<Drug> Drugs { get; set; }
+
         void Add(Drug drug);
 
         void Delete(Drug drug);

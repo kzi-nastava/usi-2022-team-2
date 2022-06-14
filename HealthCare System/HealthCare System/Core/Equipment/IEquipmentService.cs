@@ -23,5 +23,9 @@ namespace HealthCare_System.Core.Equipments
         Dictionary<Equipment, int> InitalizeEquipment();
 
         void RoomTypeFilter(string roomType, Dictionary<Equipment, int> equipmentAmount);
+
+        public Equipment FindById(int id);
+
+        public void Serialize();
     }
 }

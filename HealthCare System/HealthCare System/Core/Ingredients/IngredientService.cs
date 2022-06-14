@@ -39,7 +39,7 @@ namespace HealthCare_System.Core.Ingredients
             if (ingredientDto.Name.Length > 30 || ingredientDto.Name.Length < 5)
                 throw new Exception();
             ingredient.Name = ingredientDto.Name;
-            ingredientRepo.Serialize();
+            Serialize();
         }
 
         public void Delete(Ingredient ingredient)
@@ -61,6 +61,21 @@ namespace HealthCare_System.Core.Ingredients
             }
 
             return available;
+        }
+
+        public Ingredient FindById(int id)
+        {
+            return ingredientRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return ingredientRepo.GenerateId();
+        }
+
+        public void Serialize()
+        {
+            ingredientRepo.Serialize();
         }
     }
 }

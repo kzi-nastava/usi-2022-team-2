@@ -70,7 +70,5 @@ namespace HealthCare_System.Core.EquipmentTransfers.Repository
             transfers.Remove(transfer);
             Serialize();
         }
-
-
     }
 }

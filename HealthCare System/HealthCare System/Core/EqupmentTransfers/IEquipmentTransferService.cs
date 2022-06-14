@@ -25,5 +25,13 @@ namespace HealthCare_System.Core.EquipmentTransfers
         void MoveToRoom(Room room, Equipment equipmnet, int amount);
 
         List<Transfer> Transfers();
+
+        public Transfer FindById(int id);
+
+        public void Serialize();
+
+        public int GenerateId();
+
+        public void Delete(Transfer transfer);
     }
 }

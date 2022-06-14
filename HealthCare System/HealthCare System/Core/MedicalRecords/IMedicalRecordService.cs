@@ -10,9 +10,17 @@ namespace HealthCare_System.Core.MedicalRecords
         IMedicalRecordRepo MedicalRecordRepo { get; }
 
         MedicalRecord Add(double height, double weight, string diseaseHistory, List<Ingredient> allergens);
+
         void Delete(MedicalRecord medicalRecord);
+
         MedicalRecord FindById(int id);
+
         List<MedicalRecord> MedicalRecords();
+
         void Update(int id, double height, double weight, string diseaseHistory);
+
+        int GenerateId();
+
+        void Serialize();
     }
 }

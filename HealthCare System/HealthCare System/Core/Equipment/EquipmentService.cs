@@ -151,5 +151,15 @@ namespace HealthCare_System.Core.Equipments
             }
             return equipmentAmount;
         }
+
+        public Equipment FindById(int id)
+        {
+            return equipmentRepo.FindById(id);
+        }
+
+        public void Serialize()
+        {
+            equipmentRepo.Serialize();
+        }
     }
 }

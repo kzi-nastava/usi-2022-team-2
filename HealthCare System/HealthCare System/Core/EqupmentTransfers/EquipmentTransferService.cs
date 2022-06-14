@@ -81,7 +81,7 @@ namespace HealthCare_System.Core.EquipmentTransfers
         {
             MoveFromRoom(transferDto.FromRoom, transferDto.Equipment, transferDto.Amount);
             MoveToRoom(transferDto.ToRoom, transferDto.Equipment, transferDto.Amount);
-            roomService.RoomRepo.Serialize();
+            roomService.Serialize();
         }
 
         public void ExecuteTransfer(Transfer transfer)
@@ -89,7 +89,27 @@ namespace HealthCare_System.Core.EquipmentTransfers
             MoveFromRoom(transfer.FromRoom, transfer.Equipment, transfer.Amount);
             MoveToRoom(transfer.ToRoom, transfer.Equipment, transfer.Amount);
             equipmentTransferRepo.Delete(transfer);
-            roomService.RoomRepo.Serialize();
+            roomService.Serialize();
+        }
+
+        public Transfer FindById(int id)
+        {
+            return equipmentTransferRepo.FindById(id);
+        }
+
+        public void Serialize()
+        {
+            equipmentTransferRepo.Serialize();
+        }
+
+        public int GenerateId()
+        {
+            return equipmentTransferRepo.GenerateId();
+        }
+
+        public void Delete(Transfer transfer)
+        {
+            equipmentTransferRepo.Delete(transfer);
         }
     }
 }

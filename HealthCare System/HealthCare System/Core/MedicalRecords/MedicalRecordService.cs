@@ -39,12 +39,22 @@ namespace HealthCare_System.Core.MedicalRecords
             medicalRecord.Height = height;
             medicalRecord.Weight = weight;
             medicalRecord.DiseaseHistory = diseaseHistory;
-            medicalRecordRepo.Serialize();
+            Serialize();
         }
 
         public void Delete(MedicalRecord medicalRecord)
         {
             medicalRecordRepo.Delete(medicalRecord);
+        }
+
+        public int GenerateId()
+        {
+            return medicalRecordRepo.GenerateId();
+        }
+
+        public void Serialize()
+        {
+            medicalRecordRepo.Serialize();
         }
     }
 }

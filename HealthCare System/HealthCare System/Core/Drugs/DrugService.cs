@@ -41,21 +41,21 @@ namespace HealthCare_System.Core.Drugs
             drug.Ingredients = drugDto.Ingredients;
             drug.Status = drugDto.Status;
             drug.Message = drugDto.Message;
-            drugRepo.Serialize();
+            Serialize();
         }
 
         public void RejectDrug(Drug drug, string message)
         {
             drug.Status = DrugStatus.REJECTED;
             drug.Message = message;
-            drugRepo.Serialize();
+            Serialize();
         }
 
         public void AcceptDrug(Drug drug)
         {
             drug.Status = DrugStatus.ACCEPTED;
             drug.Message = "";
-            drugRepo.Serialize();
+            Serialize();
         }
 
         public void Delete(Drug drug)
@@ -77,6 +77,31 @@ namespace HealthCare_System.Core.Drugs
             }
 
             return available;
+        }
+
+        public Drug FindById(int id)
+        {
+            return drugRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return drugRepo.GenerateId();
+        }
+
+        public void Serialize()
+        {
+            drugRepo.Serialize();
+        }
+
+        public List<Drug> FillterOnHold()
+        {
+            return drugRepo.FillterOnHold();
+        }
+
+        public List<Drug> FillterAccepted()
+        {
+            return drugRepo.FillterAccepted();
         }
     }
 }
