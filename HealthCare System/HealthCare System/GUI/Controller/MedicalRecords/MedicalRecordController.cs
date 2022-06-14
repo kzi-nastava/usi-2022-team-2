@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.GUI.Controller.MedicalRecords
 {
-    class MedicalRecordController
+    public class MedicalRecordController
     {
         private readonly IMedicalRecordService medicalRecorService;
 

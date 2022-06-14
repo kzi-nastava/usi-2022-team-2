@@ -3,6 +3,7 @@ using HealthCare_System.Core.Notifications;
 using HealthCare_System.Core.Notifications.Model;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Notifications;
 
 namespace HealthCare_System.GUI.SecretaryView
 {
@@ -13,13 +14,13 @@ namespace HealthCare_System.GUI.SecretaryView
     {
         Person user;
         HealthCareDatabase database;
-        DelayedAppointmentNotificationService delayedAppointmentNotificationService;
-        public DelayedAppointmentNotificationWindow(HealthCareDatabase database, Person user)
+        DelayedAppointmentNotificationController delayedAppointmentNotificationController;
+        public DelayedAppointmentNotificationWindow(DelayedAppointmentNotificationController delayedAppointmentNotificationController, Person user)
         {
             InitializeComponent();
             this.user = user;
             this.database   =   database;
-            delayedAppointmentNotificationService = new(database.DelayedAppointmentNotificationRepo);
+            this.delayedAppointmentNotificationController = delayedAppointmentNotificationController;
             Show();
             FillListBoxNotifications();
             
@@ -28,7 +29,7 @@ namespace HealthCare_System.GUI.SecretaryView
         private void FillListBoxNotifications()
         {
             int counter = 0;
-            foreach (DelayedAppointmentNotification notification in delayedAppointmentNotificationService.DelayedAppointmentNotifications())
+            foreach (DelayedAppointmentNotification notification in delayedAppointmentNotificationController.DelayedAppointmentNotifications())
             {
                 if ((notification.Appointment is not null) && (notification.Appointment.Doctor == user || notification.Appointment.Patient == user) &&
                     (notification.SeenByPatient == false || notification.SeenByDoctor == false))
@@ -62,7 +63,7 @@ namespace HealthCare_System.GUI.SecretaryView
                     notification.SeenByPatient = true;
                 }
             }
-            delayedAppointmentNotificationService.DelayedAppointmentNotificationRepo.Serialize();
+            delayedAppointmentNotificationController.Serialize();
         }
     }
 }

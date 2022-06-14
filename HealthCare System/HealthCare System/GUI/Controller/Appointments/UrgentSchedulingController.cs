@@ -12,9 +12,9 @@ namespace HealthCare_System.GUI.Controller.Appointments
 {
     class UrgentSchedulingController
     {
-        private readonly UrgentSchedulingService urgentSchedulingService;
+        private readonly IUrgentSchedulingService urgentSchedulingService;
 
-        public UrgentSchedulingController(UrgentSchedulingService urgentSchedulingService)
+        public UrgentSchedulingController(IUrgentSchedulingService urgentSchedulingService)
         {
             this.urgentSchedulingService = urgentSchedulingService;
         }

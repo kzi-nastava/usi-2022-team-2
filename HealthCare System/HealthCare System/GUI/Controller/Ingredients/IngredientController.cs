@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.GUI.Controller.Ingredients
 {
-    class IngredientController
+    public class IngredientController
     {
         private readonly IIngredientService ingredientService;
 

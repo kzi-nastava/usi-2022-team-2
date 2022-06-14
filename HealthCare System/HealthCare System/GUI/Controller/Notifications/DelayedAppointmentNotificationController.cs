@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.GUI.Controller.Notifications
 {
-    class DelayedAppointmentNotificationController
+    public class DelayedAppointmentNotificationController
     {
         private readonly IDelayedAppointmentNotificationService delayedAppointmentNotificationService;
 
