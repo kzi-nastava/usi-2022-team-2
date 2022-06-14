@@ -23,7 +23,7 @@ namespace HealthCare_System.Core.Rooms.Repository
             Load();
         }
 
-        internal List<Room> Rooms { get => rooms; set => rooms = value; }
+        public List<Room> Rooms { get => rooms; set => rooms = value; }
 
         public string Path { get => path; set => path = value; }
 

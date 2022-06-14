@@ -15,17 +15,17 @@ namespace HealthCare_System.Core.Rooms
 {
     public class RoomService : IRoomService
     {
-        MergingRenovationService mergingRenovationService;
-        SimpleRenovationService simpleRenovationService;
-        EquipmentTransferService equipmentTransferService;
-        SplittingRenovationService splittingRenovationService;
-        AppointmentService appointmentService;
+        IMergingRenovationService mergingRenovationService;
+        ISimpleRenovationService simpleRenovationService;
+        IEquipmentTransferService equipmentTransferService;
+        ISplittingRenovationService splittingRenovationService;
+        IAppointmentService appointmentService;
 
-        RoomRepo roomRepo;
+        IRoomRepo roomRepo;
 
-        public RoomService(MergingRenovationService mergingRenovationService, SimpleRenovationService simpleRenovationService,
-            EquipmentTransferService equipmentTransferService, SplittingRenovationService splittingRenovationService,
-            AppointmentService appointmentService, RoomRepo roomRepo)
+        public RoomService(IMergingRenovationService mergingRenovationService, ISimpleRenovationService simpleRenovationService,
+            IEquipmentTransferService equipmentTransferService, ISplittingRenovationService splittingRenovationService,
+            IAppointmentService appointmentService, IRoomRepo roomRepo)
         {
             this.mergingRenovationService = mergingRenovationService;
             this.simpleRenovationService = simpleRenovationService;
@@ -35,13 +35,8 @@ namespace HealthCare_System.Core.Rooms
             this.roomRepo = roomRepo;
         }
 
-        internal RoomRepo RoomRepo { get => roomRepo; }
-        internal MergingRenovationService MergingRenovationService { set => mergingRenovationService = value; }
-        internal SimpleRenovationService SimpleRenovationService { set => simpleRenovationService = value; }
-        internal EquipmentTransferService EquipmentTransferService { set => equipmentTransferService = value; }
-        internal SplittingRenovationService SplittingRenovationService { set => splittingRenovationService = value; }
-        internal AppointmentService AppointmentService { set => appointmentService = value; }
-
+        public IRoomRepo RoomRepo { get => roomRepo; }
+       
         public List<Room> Rooms()
         {
             return roomRepo.Rooms;

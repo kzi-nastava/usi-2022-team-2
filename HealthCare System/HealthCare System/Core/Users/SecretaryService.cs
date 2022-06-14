@@ -6,14 +6,14 @@ namespace HealthCare_System.Core.Users
 {
     public class SecretaryService : ISecretaryService
     {
-        SecretaryRepo secretaryRepo;
+        ISecretaryRepo secretaryRepo;
 
-        public SecretaryService(SecretaryRepo secretaryRepo)
+        public SecretaryService(ISecretaryRepo secretaryRepo)
         {
             this.secretaryRepo = secretaryRepo;
         }
 
-        public SecretaryRepo SecretaryRepo { get => secretaryRepo; }
+        public ISecretaryRepo SecretaryRepo { get => secretaryRepo; }
 
         public List<Secretary> Secretaries()
         {

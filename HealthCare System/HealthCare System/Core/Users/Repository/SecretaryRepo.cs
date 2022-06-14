@@ -24,7 +24,7 @@ namespace HealthCare_System.Core.Users.Repository
 
         public string Path { get => path; set => path = value; }
 
-        internal List<Secretary> Secretaries { get => secretaries; set => secretaries = value; }
+        public List<Secretary> Secretaries { get => secretaries; set => secretaries = value; }
 
 
         public void Load()

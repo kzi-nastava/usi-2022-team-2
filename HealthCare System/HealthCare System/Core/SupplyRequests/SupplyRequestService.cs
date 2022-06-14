@@ -11,18 +11,18 @@ namespace HealthCare_System.Core.SupplyRequests
 {
     public class SupplyRequestService : ISupplyRequestService
     {
-        SupplyRequestRepo supplyRequestRepo;
-        RoomService roomService;
-        EquipmentTransferService equipmentTransferService;
+        ISupplyRequestRepo supplyRequestRepo;
+        IRoomService roomService;
+        IEquipmentTransferService equipmentTransferService;
 
-        public SupplyRequestService(SupplyRequestRepo supplyRequestRepo, RoomService roomService, EquipmentTransferService equipmentTransferService)
+        public SupplyRequestService(ISupplyRequestRepo supplyRequestRepo, IRoomService roomService, IEquipmentTransferService equipmentTransferService)
         {
             this.supplyRequestRepo = supplyRequestRepo;
             this.roomService = roomService;
             this.equipmentTransferService = equipmentTransferService;
         }
 
-        public SupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo; }
+        public ISupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo; }
 
         public List<SupplyRequest> SupplyRequests()
         {

@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.SupplyRequests.Repository
             Load();
         }
 
-        internal List<SupplyRequest> SupplyRequests { get => supplyRequests; set => supplyRequests = value; }
+        public List<SupplyRequest> SupplyRequests { get => supplyRequests; set => supplyRequests = value; }
 
         public string Path { get => path; set => path = value; }
 

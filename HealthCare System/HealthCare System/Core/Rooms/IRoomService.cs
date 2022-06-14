@@ -1,5 +1,9 @@
-﻿using HealthCare_System.Core.Equipments.Model;
+﻿using HealthCare_System.Core.Appointments;
+using HealthCare_System.Core.Equipments.Model;
+using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Renovations;
 using HealthCare_System.Core.Rooms.Model;
+using HealthCare_System.Core.Rooms.Repository;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +11,8 @@ namespace HealthCare_System.Core.Rooms
 {
     public interface IRoomService
     {
+        IRoomRepo RoomRepo { get ; }
+        
         void Create(RoomDto roomDto);
         void Create(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount);
         void Delete(Room room);
