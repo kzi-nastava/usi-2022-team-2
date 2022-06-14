@@ -219,7 +219,7 @@ namespace HealthCare_System.Core.Rooms
                 if (appointment.Room == room)
                     appointment.Room = null;
             }
-            appointmentService.AppointmentRepo.Serialize();
+            appointmentService.Serialize();
             Delete(room);
         }
 
@@ -281,6 +281,27 @@ namespace HealthCare_System.Core.Rooms
                 return available;
             }
             return available;
+        }
+
+        public Room FindById(int id)
+        {
+            return RoomRepo.FindById(id);
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/Room_equipment.csv")
+        {
+            roomRepo.Serialize(linkPath);
+        }
+
+        public int GenerateId()
+        {
+            return roomRepo.GenerateId();
+        }
+
+        //TODO: CHANGE TO FIND NOT GET
+        public List<Room> GetRoomsByType(AppointmentType type)
+        {
+            return roomRepo.GetRoomsByType(type);
         }
     }
 

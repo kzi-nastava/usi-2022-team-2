@@ -19,5 +19,10 @@ namespace HealthCare_System.Core.Users
         {
             return secretaryRepo.Secretaries;
         }
+
+        public void Serialize()
+        {
+            secretaryRepo.Serialize();
+        }
     }
 }

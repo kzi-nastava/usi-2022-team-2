@@ -19,5 +19,18 @@ namespace HealthCare_System.Core.Users
         List<Doctor> SortDoctorsByLastName(List<Doctor> unsortedDoctors, SortDirection direction);
 
         List<Doctor> SortDoctorsBySpecialization(List<Doctor> unsortedDoctors, SortDirection direction);
+
+        public Doctor FindByMail(string mail);
+
+        public Doctor FindByJmbg(string jmbg);
+
+        public List<Doctor> FindBySpecialization(Specialization specialization);
+
+        public List<Doctor> FindByFirstName(string firstName);
+
+        public List<Doctor> FindByLastName(string lastName);
+
+        public void Serialize();
+
     }
 }
