@@ -56,7 +56,7 @@ namespace HealthCare_System.Core.Appointments
         public List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium,
             SortDirection direction)
         {
-            List<Appointment> unsortedAnamneses = appointmentRepo.FindByWord(patient, word);
+            List<Appointment> unsortedAnamneses = FindByWord(patient, word);
             if (criterium == AnamnesesSortCriterium.DATE)
             {
                 return SortByDate(unsortedAnamneses, direction);
@@ -71,23 +71,51 @@ namespace HealthCare_System.Core.Appointments
             }
         }
 
-        private void DeleteAppointmens(Patient patient)
+        public void DeleteAppointmens(Patient patient)
         {
-            for (int i = AppointmentRepo.Appointments.Count - 1; i >= 0; i--)
+            for (int i = Appointments().Count - 1; i >= 0; i--)
             {
-                if (AppointmentRepo.Appointments[i].Patient == patient)
+                if (Appointments()[i].Patient == patient)
                 {
-                    if (AppointmentRepo.Appointments[i].Start > DateTime.Now)
+                    if (Appointments()[i].Start > DateTime.Now)
                     {
                         throw new Exception("Can't delete selected patient, because of it's future appointments.");
                     }
-                    schedulingService.DeleteAppointment(AppointmentRepo.Appointments[i].Id);
+                    schedulingService.DeleteAppointment(Appointments()[i].Id);
                 }
             }
         }
+        public Appointment FindById(int id)
+        {
+            return appointmentRepo.FindById(id);
+        }
 
+        public int GenerateId()
+        {
+            return appointmentRepo.GenerateId();
+        }
 
+        public void Serialize(string linkPath = "../../../data/links/AppointmentLinker.csv")
+        {
+            appointmentRepo.Serialize(linkPath);
+        }
+        public List<Appointment> FindByWord(Patient patient, string word)
+        {
+            return appointmentRepo.FindByWord(patient, word);
+        }
 
+        public List<Appointment> FindPastAppointments(Patient patient)
+        {
+            return appointmentRepo.FindPastAppointments(patient);
+        }
 
+        public List<Appointment> FindUpcomingAppointments(Patient patient)
+        {
+            return appointmentRepo.FindUpcomingAppointments(patient);
+        }
+        public void Add(Appointment appointment)
+        {
+            appointmentRepo.Add(appointment);
+        }
     }
 }

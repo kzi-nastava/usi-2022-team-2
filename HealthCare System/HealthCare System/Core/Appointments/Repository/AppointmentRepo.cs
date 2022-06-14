@@ -72,8 +72,6 @@ namespace HealthCare_System.Core.Appointments.Repository
             }
             File.WriteAllText(linkPath, csv);
         }
-
-        //TODO: Move somewhere?
         public List<Appointment> FindByWord(Patient patient, string word)
         {
             List<Appointment> results = new();
@@ -110,6 +108,11 @@ namespace HealthCare_System.Core.Appointments.Repository
             }
             List<Appointment> sortedAppoinments = appointments.OrderBy(x => x.Start).ToList();
             return sortedAppoinments;
+        }
+        public void Add(Appointment appointment)
+        {
+            appointments.Add(appointment);
+            Serialize();
         }
 
 

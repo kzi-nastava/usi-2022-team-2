@@ -12,5 +12,7 @@ namespace HealthCare_System.Core.Anamneses.Repository
         int GenerateId();
         void Serialize();
         void Update(int id, string description);
+
+        public void Add(Anamnesis anamnesis);
     }
 }

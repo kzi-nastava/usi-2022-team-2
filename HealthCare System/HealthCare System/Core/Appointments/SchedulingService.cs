@@ -35,11 +35,11 @@ namespace HealthCare_System.Core.Appointments
         {
             List<Room> rooms = new List<Room>();
 
-            foreach (Room room in roomService.RoomRepo.GetRoomsByType(type))
+            foreach (Room room in roomService.GetRoomsByType(type))
                 if (roomService.IsRoomAvailableRenovationsAtTime(room, start))
                     rooms.Add(room);
 
-            foreach (Appointment appointment in appointmentService.AppointmentRepo.Appointments)
+            foreach (Appointment appointment in appointmentService.Appointments())
             {
 
                 if (rooms.Contains(appointment.Room) && ((appointment.Start <= start && appointment.End >= start) ||
@@ -60,7 +60,7 @@ namespace HealthCare_System.Core.Appointments
         public Appointment AddAppointment(AppointmentDto appointmentDto)
         {
             Appointment appointment = new(appointmentDto);
-            int anamnesisId = anamnesisService.AnamnesisRepo.GenerateId();
+            int anamnesisId = anamnesisService.GenerateId();
             Anamnesis anamnesis = new(anamnesisId, "");
             appointment.Anamnesis = anamnesis;
 
@@ -69,12 +69,10 @@ namespace HealthCare_System.Core.Appointments
 
             appointment.Validate();
 
-            appointmentService.AppointmentRepo.Appointments.Add(appointment);
+            appointmentService.Add(appointment);
             appointment.Doctor.Appointments.Add(appointment);
             appointment.Patient.MedicalRecord.Appointments.Add(appointment);
-            anamnesisService.AnamnesisRepo.Anamneses.Add(appointment.Anamnesis);
-            appointmentService.AppointmentRepo.Serialize();
-            anamnesisService.AnamnesisRepo.Serialize();
+            anamnesisService.Add(appointment.Anamnesis);
 
             return appointment;
 
@@ -84,29 +82,29 @@ namespace HealthCare_System.Core.Appointments
         {
             Appointment newAppointment = new(newAppointmentDto);
             newAppointment.Validate();
-            Appointment appointment = appointmentService.AppointmentRepo.FindById(newAppointment.Id);
+            Appointment appointment = appointmentService.FindById(newAppointment.Id);
 
             appointment.Start = newAppointment.Start;
             appointment.End = newAppointment.End;
             appointment.Doctor = newAppointment.Doctor;
             appointment.Patient = newAppointment.Patient;
             appointment.Status = newAppointment.Status;
-            appointmentService.AppointmentRepo.Serialize();
+            appointmentService.Serialize();
         }
 
         public void DeleteAppointment(int id)
         {
-            Appointment appointment = appointmentService.AppointmentRepo.FindById(id);
+            Appointment appointment = appointmentService.FindById(id);
             if (appointment is null)
             {
                 throw new Exception("Appointment is not found!");
             }
-            appointmentService.AppointmentRepo.Appointments.Remove(appointment);
+            appointmentService.Appointments().Remove(appointment);
             appointment.Doctor.Appointments.Remove(appointment);
             appointment.Patient.MedicalRecord.Appointments.Remove(appointment);
-            anamnesisService.AnamnesisRepo.Anamneses.Remove(appointment.Anamnesis);
-            appointmentService.AppointmentRepo.Serialize();
-            anamnesisService.AnamnesisRepo.Serialize();
+            anamnesisService.Anamneses().Remove(appointment.Anamnesis);
+            appointmentService.Serialize();
+            anamnesisService.Serialize();
         }
 
         public Appointment BookAppointmentByReferral(Referral referral)
@@ -114,15 +112,15 @@ namespace HealthCare_System.Core.Appointments
             Doctor doctor = referral.Doctor;
             if (doctor is null)
             {
-                doctor = doctorService.DoctorRepo.FindBySpecialization(referral.Specialization)[0];
+                doctor = doctorService.FindBySpecialization(referral.Specialization)[0];
             }
 
             DateTime closestTimeForDoctor = doctor.getClosestFreeAppointment(15, referral.MedicalRecord.Patient);
 
             referral.Used = true;
-            referralService.ReferralRepo.Serialize();
+            referralService.Serialize();
 
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
             AppointmentDto appointmentDto = new(id, closestTimeForDoctor, closestTimeForDoctor.AddMinutes(15), doctor,
                 referral.MedicalRecord.Patient, null, AppointmentType.EXAMINATION, AppointmentStatus.BOOKED, null, false, false);
             return AddAppointment(appointmentDto);
@@ -130,17 +128,18 @@ namespace HealthCare_System.Core.Appointments
 
         public void DeleteAppointmens(Patient patient)
         {
-            for (int i = appointmentService.AppointmentRepo.Appointments.Count - 1; i >= 0; i--)
+            for (int i = appointmentService.Appointments().Count - 1; i >= 0; i--)
             {
-                if (appointmentService.AppointmentRepo.Appointments[i].Patient == patient)
+                if (appointmentService.Appointments()[i].Patient == patient)
                 {
-                    if (appointmentService.AppointmentRepo.Appointments[i].Start > DateTime.Now)
+                    if (appointmentService.Appointments()[i].Start > DateTime.Now)
                     {
                         throw new Exception("Can't delete selected patient, because of it's future appointments.");
                     }
-                    DeleteAppointment(appointmentService.AppointmentRepo.Appointments[i].Id);
+                    DeleteAppointment(appointmentService.Appointments()[i].Id);
                 }
             }
         }
+        
     }
 }

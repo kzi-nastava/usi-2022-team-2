@@ -11,5 +11,9 @@ namespace HealthCare_System.Core.AppotinmentRequests
         void Add(AppointmentRequestDto requestDto);
         List<AppointmentRequest> AppointmentRequests();
         void RejectRequest(AppointmentRequest request);
+        public AppointmentRequest FindById(int id);
+
+        public void Serialize(string linkPath = "../../../data/links/AppointmentRequestLinker.csv");
+        public int GenerateId();
     }
 }

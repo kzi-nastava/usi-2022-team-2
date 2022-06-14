@@ -17,5 +17,6 @@ namespace HealthCare_System.Core.Anamneses
         public IAnamnesisRepo AnamnesisRepo { get; }
 
         void Update(int id, string description);
+        void Add(Anamnesis anamnesis);
     }
 }

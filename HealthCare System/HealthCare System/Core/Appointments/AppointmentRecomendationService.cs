@@ -29,7 +29,7 @@ namespace HealthCare_System.Core.Appointments
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
 
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
@@ -68,7 +68,7 @@ namespace HealthCare_System.Core.Appointments
             DateTime todayStart = DateTime.Now.Date;
             DateTime date = todayStart;
 
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
             if (DateTime.Now > todayStart)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
 
@@ -99,13 +99,13 @@ namespace HealthCare_System.Core.Appointments
             DateTime todayEnd = DateTime.Now.Date.AddHours(to[0]).AddMinutes(to[1]);
             DateTime date = todayStart;
 
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
 
             if (DateTime.Now > todayStart && DateTime.Now < todayEnd)
                 date = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute + 10);
             else if (DateTime.Now > todayEnd)
                 date = date.AddDays(1);
-            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(Specialization.GENERAL);
+            List<Doctor> doctors = doctorService.FindBySpecialization(Specialization.GENERAL);
 
             foreach (Doctor doctor in doctors)
             {
@@ -139,8 +139,8 @@ namespace HealthCare_System.Core.Appointments
         {
             DateTime todayStart = end.AddDays(1);
             DateTime date = todayStart;
-            int id = appointmentService.AppointmentRepo.GenerateId();
-            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization(Specialization.GENERAL);
+            int id = appointmentService.GenerateId();
+            List<Doctor> doctors = doctorService.FindBySpecialization(Specialization.GENERAL);
             List<Appointment> appointments = new();
             while (true)
             {

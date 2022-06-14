@@ -40,5 +40,9 @@ namespace HealthCare_System.Core.Anamneses
         {
             anamnesisRepo.Update(id, description);
         }
+        public void Add(Anamnesis anamnesis)
+        {
+            anamnesisRepo.Add(anamnesis);
+        }
     }
 }

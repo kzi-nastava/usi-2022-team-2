@@ -27,7 +27,7 @@ namespace HealthCare_System.Core.AppotinmentRequests.Repository
             Load();
         }
 
-        internal List<AppointmentRequest> AppointmentRequests { get => appointmentRequests; set => appointmentRequests = value; }
+        public List<AppointmentRequest> AppointmentRequests { get => appointmentRequests; set => appointmentRequests = value; }
 
         public string Path { get => path; set => path = value; }
 

@@ -14,5 +14,13 @@ namespace HealthCare_System.Core.DoctorSurveys
         double FindAverageRatingForDoctor(Doctor doctor);
 
         List<Doctor> SortDoctorsByRatings(List<Doctor> doctors, SortDirection direction);
+
+        public List<DoctorSurvey> DoctorSurveys();
+
+        public DoctorSurvey FindById(int id);
+
+        public int GenerateId();
+
+        public void Serialize(string linkPath = "../../../data/links/Doctor_DoctorSurvey.csv");
     }
 }

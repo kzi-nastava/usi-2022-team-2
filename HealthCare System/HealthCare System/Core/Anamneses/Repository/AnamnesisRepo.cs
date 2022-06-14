@@ -56,5 +56,10 @@ namespace HealthCare_System.Core.Anamneses.Repository
             anamnesis.Description = description;
             Serialize();
         }
+        public void Add(Anamnesis anamnesis)
+        {
+            anamneses.Add(anamnesis);
+            Serialize();
+        }
     }
 }
