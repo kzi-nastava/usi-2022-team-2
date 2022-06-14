@@ -21,6 +21,21 @@ namespace HealthCare_System.Core.Anamneses
             return anamnesisRepo.Anamneses;
         }
 
+        public Anamnesis FindById(int id)
+        {
+            return anamnesisRepo.FindById(id);
+        }
+
+        public void Serialize()
+        {
+            anamnesisRepo.Serialize();
+        }
+
+        public int GenerateId()
+        {
+            return anamnesisRepo.GenerateId();
+        }
+
         public void Update(int id, string description)
         {
             anamnesisRepo.Update(id, description);

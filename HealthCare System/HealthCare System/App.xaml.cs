@@ -13,17 +13,15 @@ namespace HealthCare_System
     public partial class App : Application
     {
         HealthCareDatabase database;
-
-        RoomService roomService;
-        EquipmentTransferService equipmentTransferService;
+        ServiceBuilder serviceBuilder;
+        IEquipmentTransferService equipmentTransferService;
 
         void App_Startup(object sender, StartupEventArgs e)
         {
             database = new();
+            serviceBuilder = new(database);
 
-            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
-            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
-            roomService.EquipmentTransferService = equipmentTransferService;
+            equipmentTransferService = serviceBuilder.EquipmentTransferService;
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

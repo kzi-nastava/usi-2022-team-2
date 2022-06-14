@@ -33,7 +33,6 @@ using HealthCare_System.Core.SupplyRequests.Model;
 using HealthCare_System.Core.SupplyRequests.Repository;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Core.Users.Repository;
-using HealthCare_SystemCore.Core.Users.Repository;
 using System;
 using System.IO;
 

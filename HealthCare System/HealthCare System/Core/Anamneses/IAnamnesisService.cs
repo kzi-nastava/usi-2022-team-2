@@ -8,6 +8,12 @@ namespace HealthCare_System.Core.Anamneses
     {
         List<Anamnesis> Anamneses();
 
+        public Anamnesis FindById(int id);
+
+        public void Serialize();
+
+        public int GenerateId();
+
         public IAnamnesisRepo AnamnesisRepo { get; }
 
         void Update(int id, string description);

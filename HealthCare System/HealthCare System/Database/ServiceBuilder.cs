@@ -26,18 +26,21 @@ namespace HealthCare_System.Database
     public class ServiceBuilder
     {
         IAnamnesisService anamnesisService;
+
         IAppointmentRequestService appointmentRequestService;
         IAppointmentRecomendationService appointmentRecomendationService;
         IAppointmentService appointmentService;
         ISchedulingService schedulingService;
         IUrgentSchedulingService urgentSchedulingService;
         IDoctorSurveyService doctorSurveyService;
+
         IDrugService drugService;
         IEquipmentService equipmentService;
         IEquipmentTransferService equipmentTransferService;
         IHospitalSurveyService hospitalSurveyService;
         IIngredientService ingredientService;
         IMedicalRecordService medicalRecordService;
+
         IDelayedAppointmentNotificationService delayedAppointmentNotificationService;
         IDrugNotificationService drugNotificationService;
         IPrescriptionService prescriptionService;
@@ -45,6 +48,7 @@ namespace HealthCare_System.Database
         IMergingRenovationService mergingRenovationService;
         ISimpleRenovationService simpleRenovationService;
         ISplittingRenovationService splittingRenovationService;
+
         IRoomService roomService;
         ISupplyRequestService supplyRequestService;
         IDoctorService doctorService;
@@ -74,7 +78,7 @@ namespace HealthCare_System.Database
             mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService, equipmentTransferService, equipmentService);
             simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService, equipmentTransferService, equipmentService);
             splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService, equipmentTransferService, equipmentService);
-            roomService = new RoomService(mergingRenovationService, simpleRenovationService, equipmentService, splittingRenovationService, appointmentService, database.RoomRepo);
+            roomService = new RoomService(mergingRenovationService, simpleRenovationService, equipmentTransferService, splittingRenovationService, appointmentService, database.RoomRepo);
             doctorService = new DoctorService(database.DoctorRepo, doctorSurveyService);
             managerService = new ManagerService(database.ManagerRepo);
             patientService = new PatientService(database.PatientRepo, schedulingService, prescriptionService, medicalRecordService, ingredientService);

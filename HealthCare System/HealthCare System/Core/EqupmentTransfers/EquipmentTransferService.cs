@@ -13,7 +13,7 @@ namespace HealthCare_System.Core.EquipmentTransfers
         IEquipmentTransferRepo equipmentTransferRepo;
         IRoomService roomService;
 
-        public EquipmentTransferService(EquipmentTransferRepo equipmentTransferRepo, RoomService roomService)
+        public EquipmentTransferService(IEquipmentTransferRepo equipmentTransferRepo, IRoomService roomService)
         {
             this.equipmentTransferRepo = equipmentTransferRepo;
             this.roomService = roomService;

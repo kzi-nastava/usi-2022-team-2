@@ -8,15 +8,15 @@ namespace HealthCare_System.Core.Users
 {
     public class UserService : IUserService
     {
-        PatientService patientService;
-        DoctorService doctorService;
-        ManagerService managerService;
-        SecretaryService secretaryService;
-        AppointmentRequestService appointmentRequestService;
+        IPatientService patientService;
+        IDoctorService doctorService;
+        IManagerService managerService;
+        ISecretaryService secretaryService;
+        IAppointmentRequestService appointmentRequestService;
 
-        public UserService(PatientService patientService, DoctorService doctorService,
-            ManagerService managerService, SecretaryService secretaryService,
-            AppointmentRequestService appointmentRequestService)
+        public UserService(IPatientService patientService, IDoctorService doctorService,
+            IManagerService managerService, ISecretaryService secretaryService,
+            IAppointmentRequestService appointmentRequestService)
         {
             this.patientService = patientService;
             this.doctorService = doctorService;
