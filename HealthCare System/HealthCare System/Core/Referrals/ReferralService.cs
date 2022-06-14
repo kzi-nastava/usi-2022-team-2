@@ -5,14 +5,14 @@ namespace HealthCare_System.Core.Referrals
 {
     public class ReferralService : IReferralService
     {
-        ReferralRepo referralRepo;
+        IReferralRepo referralRepo;
 
-        public ReferralService(ReferralRepo referralRepo)
+        public ReferralService(IReferralRepo referralRepo)
         {
             this.referralRepo = referralRepo;
         }
 
-        public ReferralRepo ReferralRepo { get => referralRepo; }
+        public IReferralRepo ReferralRepo { get => referralRepo; }
 
         public void Add(ReferralDto referralDto)
         {

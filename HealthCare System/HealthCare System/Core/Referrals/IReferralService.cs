@@ -5,7 +5,7 @@ namespace HealthCare_System.Core.Referrals
 {
     public interface IReferralService
     {
-        ReferralRepo ReferralRepo { get; }
+        IReferralRepo ReferralRepo { get; }
 
         void Add(ReferralDto referralDto);
     }

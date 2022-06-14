@@ -11,13 +11,13 @@ namespace HealthCare_System.Core.Renovations
 {
     public class SplittingRenovationService : ISplittingRenovationService
     {
-        SplittingRenovationRepo splittingRenovationRepo;
-        RoomService roomService;
-        EquipmentTransferService equipmentTransferService;
-        EquipmentService equipmentService;
+        ISplittingRenovationRepo splittingRenovationRepo;
+        IRoomService roomService;
+        IEquipmentTransferService equipmentTransferService;
+        IEquipmentService equipmentService;
 
-        public SplittingRenovationService(SplittingRenovationRepo splittingRenovationRepo, RoomService roomService,
-            EquipmentTransferService equipmentTransferService, EquipmentService equipmentService)
+        public SplittingRenovationService(ISplittingRenovationRepo splittingRenovationRepo, IRoomService roomService,
+            IEquipmentTransferService equipmentTransferService, IEquipmentService equipmentService)
         {
             this.splittingRenovationRepo = splittingRenovationRepo;
             this.roomService = roomService;
@@ -25,7 +25,7 @@ namespace HealthCare_System.Core.Renovations
             this.equipmentService = equipmentService;
         }
 
-        public SplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo; }
+        public ISplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo; }
 
         public List<SplittingRenovation> SplittingRenovations()
         {
