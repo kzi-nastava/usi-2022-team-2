@@ -10,5 +10,7 @@ namespace HealthCare_System.Core.Users
 
         ISecretaryRepo SecretaryRepo { get ; }
 
+        public void Serialize();
+
     }
 }

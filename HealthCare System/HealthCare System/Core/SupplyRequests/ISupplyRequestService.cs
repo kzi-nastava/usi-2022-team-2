@@ -12,5 +12,14 @@ namespace HealthCare_System.Core.SupplyRequests
         void AddSupplyRequest(Equipment equipment, int quantity);
         List<SupplyRequest> SupplyRequests();
         void TryToExecuteSupplyRequest();
+
+        public SupplyRequest FindById(int id);
+
+        public int GenerateId();
+
+        public void Serialize();
+
+        public void Delete(SupplyRequest supplyRequest);
+        
     }
 }

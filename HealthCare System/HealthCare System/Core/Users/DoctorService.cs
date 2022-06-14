@@ -78,5 +78,32 @@ namespace HealthCare_System.Core.Users
                 sortedDoctors = SortDoctorsBySpecialization(doctors, direction);
             return sortedDoctors;
         }
+
+        public Doctor FindByMail(string mail)
+        {
+            return doctorRepo.FindByMail(mail);
+        }
+        public Doctor FindByJmbg(string jmbg)
+        {
+            return doctorRepo.FindByJmbg(jmbg);
+        }
+
+        public List<Doctor> FindBySpecialization(Specialization specialization)
+        {
+            return doctorRepo.FindBySpecialization(specialization);
+        }
+        public List<Doctor> FindByFirstName(string firstName)
+        {
+            return doctorRepo.FindByFirstName(firstName);
+        }
+        public List<Doctor> FindByLastName(string lastName)
+        {
+            return doctorRepo.FindByLastName(lastName);
+        }
+
+        public void Serialize()
+        {
+            doctorRepo.Serialize();
+        }
     }
 }

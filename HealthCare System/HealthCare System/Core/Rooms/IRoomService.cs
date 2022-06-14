@@ -32,5 +32,13 @@ namespace HealthCare_System.Core.Rooms
         Room Storage();
         void Update(Room room, RoomDto roomDto);
         void Update(Room room, string name, TypeOfRoom type);
+
+        public Room FindById(int id);
+
+        public void Serialize(string linkPath = "../../../data/links/Room_equipment.csv");
+
+        public int GenerateId();
+
+        public List<Room> GetRoomsByType(AppointmentType type);       
     }
 }
