@@ -24,7 +24,7 @@ namespace HealthCare_System.Core.Ingredients.Repository
             Load();
         }
 
-        internal List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
+        public List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
 
         public string Path { get => path; set => path = value; }
 

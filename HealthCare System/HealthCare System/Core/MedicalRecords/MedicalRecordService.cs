@@ -7,14 +7,14 @@ namespace HealthCare_System.Core.MedicalRecords
 {
     public class MedicalRecordService : IMedicalRecordService
     {
-        MedicalRecordRepo medicalRecordRepo;
+        IMedicalRecordRepo medicalRecordRepo;
 
-        public MedicalRecordService(MedicalRecordRepo medicalRecordRepo)
+        public MedicalRecordService(IMedicalRecordRepo medicalRecordRepo)
         {
             this.medicalRecordRepo = medicalRecordRepo;
         }
 
-        public MedicalRecordRepo MedicalRecordRepo { get => medicalRecordRepo; }
+        public IMedicalRecordRepo MedicalRecordRepo { get => medicalRecordRepo; }
 
         public List<MedicalRecord> MedicalRecords()
         {

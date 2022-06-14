@@ -6,7 +6,7 @@ namespace HealthCare_System.Core.Ingredients
 {
     public interface IIngredientService
     {
-        IngredientRepo IngredientRepo { get; }
+        IIngredientRepo IngredientRepo { get; }
 
         void Create(IngredientDto ingredientDto);
         void Delete(Ingredient ingredient);
