@@ -1,12 +1,7 @@
 ﻿using HealthCare_System.Core.Users;
 using HealthCare_System.Core.Users.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.GUI.Controller
+namespace HealthCare_System.GUI.Controller.Users
 {
     class UserController
     {

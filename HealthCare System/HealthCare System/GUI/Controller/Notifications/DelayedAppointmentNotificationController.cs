@@ -3,11 +3,8 @@ using HealthCare_System.Core.Notifications;
 using HealthCare_System.Core.Notifications.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.Notifications
 {
     class DelayedAppointmentNotificationController
     {

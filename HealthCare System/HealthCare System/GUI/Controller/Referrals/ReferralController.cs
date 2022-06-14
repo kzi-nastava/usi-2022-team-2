@@ -1,12 +1,8 @@
 ﻿using HealthCare_System.Core.Referrals;
 using HealthCare_System.Core.Referrals.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.Referrals
 {
     class ReferralController
     {

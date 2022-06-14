@@ -1,13 +1,9 @@
 ﻿using HealthCare_System.Core.Equipments.Model;
 using HealthCare_System.Core.SupplyRequests;
 using HealthCare_System.Core.SupplyRequests.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.GUI.Controller
+namespace HealthCare_System.GUI.Controller.SupplyRequests
 {
     class SupplyRequestController
     {

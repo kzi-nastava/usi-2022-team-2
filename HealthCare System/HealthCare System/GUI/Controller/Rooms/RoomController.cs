@@ -3,11 +3,8 @@ using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Rooms.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.GUI.Controller
+namespace HealthCare_System.GUI.Controller.Rooms
 {
     class RoomController
     {

@@ -3,7 +3,7 @@ using HealthCare_System.Core.MedicalRecords;
 using HealthCare_System.Core.MedicalRecords.Model;
 using System.Collections.Generic;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.MedicalRecords
 {
     class MedicalRecordController
     {

@@ -1,13 +1,9 @@
 ﻿using HealthCare_System.Core.MedicalRecords.Model;
 using HealthCare_System.Core.Prescriptions;
 using HealthCare_System.Core.Prescriptions.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.Prescriptions
 {
     class PrescriptionController
     {
