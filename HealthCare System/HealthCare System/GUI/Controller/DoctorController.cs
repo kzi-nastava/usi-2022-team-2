@@ -10,7 +10,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class DoctorController
     {
-        IDoctorService doctorService;
+        private readonly IDoctorService doctorService;
 
         public DoctorController(IDoctorService doctorService)
         {

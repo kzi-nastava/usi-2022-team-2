@@ -11,7 +11,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class SupplyRequestController
     {
-        ISupplyRequestService supplyRequestService;
+        private readonly ISupplyRequestService supplyRequestService;
 
         public SupplyRequestController(ISupplyRequestService supplyRequestService)
         {

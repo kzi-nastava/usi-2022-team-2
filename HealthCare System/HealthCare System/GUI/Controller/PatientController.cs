@@ -11,7 +11,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class PatientController
     {
-        IPatientService patientService;
+        private readonly IPatientService patientService;
 
         public PatientController(IPatientService patientService)
         {

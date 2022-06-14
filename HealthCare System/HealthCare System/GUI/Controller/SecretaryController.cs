@@ -10,7 +10,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class SecretaryController
     {
-        ISecretaryService secretaryService;
+        private readonly ISecretaryService secretaryService;
 
         public SecretaryController(ISecretaryService secretaryService)
         {

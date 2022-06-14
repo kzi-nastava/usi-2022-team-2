@@ -10,7 +10,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class UserController
     {
-        IUserService userService;
+        private readonly IUserService userService;
 
         public UserController(IUserService userService)
         {

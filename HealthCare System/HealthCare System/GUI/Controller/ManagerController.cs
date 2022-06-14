@@ -10,7 +10,7 @@ namespace HealthCare_System.GUI.Controller
 {
     class ManagerController
     {
-        IManagerService managerService;
+        private readonly IManagerService managerService;
 
         public ManagerController(IManagerService managerService)
         {
