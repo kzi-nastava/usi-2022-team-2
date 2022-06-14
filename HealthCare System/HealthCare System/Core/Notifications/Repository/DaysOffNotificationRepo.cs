@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Notifications.Repository
             Load();
         }
 
-        internal List<DaysOffNotification> DaysOffNotifications { get => daysOffNotifications; set => daysOffNotifications = value; }
+        public List<DaysOffNotification> DaysOffNotifications { get => daysOffNotifications; set => daysOffNotifications = value; }
 
         public string Path { get => path; set => path = value; }
 

@@ -8,9 +8,9 @@ namespace HealthCare_System.Core.Notifications
 {
     public class DelayedAppointmentNotificationService : IDelayedAppointmentNotificationService
     {
-        DelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
+        IDelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
 
-        public DelayedAppointmentNotificationService(DelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo)
+        public DelayedAppointmentNotificationService(IDelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo)
         {
             this.delayedAppointmentNotificationRepo = delayedAppointmentNotificationRepo;
         }
@@ -20,7 +20,7 @@ namespace HealthCare_System.Core.Notifications
             return delayedAppointmentNotificationRepo.DelayedAppointmentNotifications;
         }
 
-        public DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo
+        public IDelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo
         { get => delayedAppointmentNotificationRepo; }
 
         public void AddNotification(Appointment appointment, DateTime oldStart)

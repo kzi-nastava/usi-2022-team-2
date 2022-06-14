@@ -7,7 +7,7 @@ namespace HealthCare_System.Core.Notifications
 {
     public interface IDrugNotificationService
     {
-        DrugNotificationRepo DrugNotificationRepo { get; }
+        IDrugNotificationRepo DrugNotificationRepo { get; }
 
         void CheckNotifications(List<DrugNotification> notifications, int minutesBeforeShowing);
         List<DrugNotification> CreateNotifications(Patient patient);

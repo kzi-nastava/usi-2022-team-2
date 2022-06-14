@@ -8,16 +8,16 @@ namespace HealthCare_System.Core.Prescriptions
 {
     public class PrescriptionService : IPrescriptionService
     {
-        PrescriptionRepo prescriptionRepo;
-        MedicalRecordService medicalRecordService;
+        IPrescriptionRepo prescriptionRepo;
+        IMedicalRecordService medicalRecordService;
 
-        public PrescriptionService(PrescriptionRepo prescriptionRepo, MedicalRecordService medicalRecordService)
+        public PrescriptionService(IPrescriptionRepo prescriptionRepo, IMedicalRecordService medicalRecordService)
         {
             this.prescriptionRepo = prescriptionRepo;
             this.medicalRecordService = medicalRecordService;
         }
 
-        public PrescriptionRepo PrescriptionRepo { get => prescriptionRepo; }
+        public IPrescriptionRepo PrescriptionRepo { get => prescriptionRepo; }
 
         public List<Prescription> Prescriptions()
         {

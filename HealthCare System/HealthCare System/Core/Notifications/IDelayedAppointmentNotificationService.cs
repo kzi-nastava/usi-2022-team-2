@@ -8,7 +8,7 @@ namespace HealthCare_System.Core.Notifications
 {
     public interface IDelayedAppointmentNotificationService
     {
-        DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo { get; }
+        IDelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo { get; }
 
         void AddNotification(Appointment appointment, DateTime oldStart);
         List<DelayedAppointmentNotification> DelayedAppointmentNotifications();
