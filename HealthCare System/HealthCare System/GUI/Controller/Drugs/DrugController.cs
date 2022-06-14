@@ -2,7 +2,7 @@
 using HealthCare_System.Core.Drugs.Model;
 using System.Collections.Generic;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.Drugs
 {
     class DrugController
     {
