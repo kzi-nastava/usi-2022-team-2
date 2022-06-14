@@ -17,5 +17,12 @@ namespace HealthCare_System.Core.Renovations
         void StartSimpleRenovation(SimpleRenovation simpleRenovation);
 
         void TryToExecuteSimpleRenovations();
+
+        SimpleRenovation FindById(int id);
+
+        int GenerateId();
+
+        void Serialize(string linkPath = "../../../data/links/SimpleRenovation_Room.csv");
+        
     }
 }

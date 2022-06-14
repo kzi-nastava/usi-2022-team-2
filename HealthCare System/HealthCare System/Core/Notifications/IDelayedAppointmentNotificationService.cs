@@ -12,5 +12,14 @@ namespace HealthCare_System.Core.Notifications
 
         void AddNotification(Appointment appointment, DateTime oldStart);
         List<DelayedAppointmentNotification> DelayedAppointmentNotifications();
+
+        DelayedAppointmentNotification FindById(int id);
+
+        int GenerateId();
+
+        void Serialize();
+
+
+
     }
 }

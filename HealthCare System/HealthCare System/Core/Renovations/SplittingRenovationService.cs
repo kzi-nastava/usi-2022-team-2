@@ -41,9 +41,9 @@ namespace HealthCare_System.Core.Renovations
         public void StartSplittingRenovation(SplittingRenovation splittingRenovation)
         {
             splittingRenovation.Status = RenovationStatus.ACTIVE;
-            splittingRenovationRepo.Serialize();
+            Serialize();
             equipmentTransferService.MoveEquipmentToStorage(splittingRenovation.Room);
-            roomService.RoomRepo.Serialize();
+            roomService.Serialize();
         }
 
         public void FinishSplittingRenovation(SplittingRenovation splittingRenovation)
@@ -61,9 +61,9 @@ namespace HealthCare_System.Core.Renovations
 
         public void TryToExecuteSplittingRenovations()
         {
-            if (splittingRenovationRepo.SplittingRenovations.Count > 0)
+            if (SplittingRenovations().Count > 0)
             {
-                foreach (SplittingRenovation splittingRenovation in splittingRenovationRepo.SplittingRenovations)
+                foreach (SplittingRenovation splittingRenovation in SplittingRenovations())
                 {
                     if (DateTime.Now >= splittingRenovation.EndingDate)
                     {
@@ -81,5 +81,21 @@ namespace HealthCare_System.Core.Renovations
             }
 
         }
+
+        public SplittingRenovation FindById(int id)
+        {
+            return splittingRenovationRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return splittingRenovationRepo.GenerateId();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/SplittingRenovation_Room.csv")
+        {
+            splittingRenovationRepo.Serialize();
+        }
+
     }
 }

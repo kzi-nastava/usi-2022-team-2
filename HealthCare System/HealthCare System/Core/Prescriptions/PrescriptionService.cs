@@ -26,14 +26,14 @@ namespace HealthCare_System.Core.Prescriptions
 
         public void DeletePrescriptions(MedicalRecord medicalRecord)
         {
-            for (int i = prescriptionRepo.Prescriptions.Count - 1; i >= 0; i--)
+            for (int i = Prescriptions().Count - 1; i >= 0; i--)
             {
                 if (prescriptionRepo.Prescriptions[i].MedicalRecord == medicalRecord)
                 {
                     prescriptionRepo.Prescriptions.RemoveAt(i);
                 }
             }
-            prescriptionRepo.Serialize();
+            Serialize();
         }
 
         public void AddPrescrition(PrescriptionDto prescriptionDto)
@@ -44,6 +44,21 @@ namespace HealthCare_System.Core.Prescriptions
             medicalRecord.Prescriptions.Add(prescription);
 
             prescriptionRepo.Add(prescription);
+        }
+
+        public Prescription FindById(int id)
+        {
+            return prescriptionRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return prescriptionRepo.GenerateId();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/PrescriptionLinker.csv")
+        {
+            prescriptionRepo.Serialize();
         }
     }
 }

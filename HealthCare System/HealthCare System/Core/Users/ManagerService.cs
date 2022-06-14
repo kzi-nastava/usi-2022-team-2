@@ -19,5 +19,15 @@ namespace HealthCare_System.Core.Users
         {
             return managerRepo.Managers;
         }
+
+        public Manager FindByMail(string mail)
+        {
+            return managerRepo.FindByMail(mail);
+        }
+
+        public void Serialize()
+        {
+            managerRepo.Serialize();
+        }
     }
 }

@@ -51,5 +51,24 @@ namespace HealthCare_System.Core.SupplyRequests
             SupplyRequest supplyRequest = new SupplyRequest(supplyRequestRepo.GenerateId(), equipment, quantity);
             supplyRequestRepo.Add(supplyRequest);
         }
+
+        public SupplyRequest FindById(int id)
+        {
+            return supplyRequestRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return supplyRequestRepo.GenerateId();
+        }
+        public void Serialize()
+        {
+            supplyRequestRepo.Serialize();
+        }
+
+        public void Delete(SupplyRequest supplyRequest)
+        {
+            supplyRequestRepo.Delete(supplyRequest);
+        }
     }
 }

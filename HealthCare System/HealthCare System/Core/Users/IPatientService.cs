@@ -13,5 +13,10 @@ namespace HealthCare_System.Core.Users
         void DeletePatient(Patient patient);
         List<Patient> Patients();
         void UpdatePatient();
+        public Patient FindByMail(string mail);
+
+        public Patient FindByJmbg(string jmbg);
+
+        public void Serialize();
     }
 }

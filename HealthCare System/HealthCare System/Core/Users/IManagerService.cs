@@ -9,5 +9,8 @@ namespace HealthCare_System.Core.Users
 
         IManagerRepo ManagerRepo { get; }
         List<Manager> Managers();
+        public Manager FindByMail(string mail);
+
+        public void Serialize();
     }
 }
