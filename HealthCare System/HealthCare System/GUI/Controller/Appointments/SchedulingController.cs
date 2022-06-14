@@ -13,9 +13,9 @@ namespace HealthCare_System.GUI.Controller.Appointments
 {
     class SchedulingController
     {
-        private readonly SchedulingService schedulingService;
+        private readonly ISchedulingService schedulingService;
 
-        public SchedulingController(SchedulingService schedulingService)
+        public SchedulingController(ISchedulingService schedulingService)
         {
             this.schedulingService = schedulingService;
         }
