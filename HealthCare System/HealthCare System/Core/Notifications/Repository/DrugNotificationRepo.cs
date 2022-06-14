@@ -12,7 +12,7 @@ namespace HealthCare_System.Core.Notifications.Repository
             drugNotifications = new();
         }
 
-        internal List<DrugNotification> DrugNotifications { get => drugNotifications; set => drugNotifications = value; }
+        public List<DrugNotification> DrugNotifications { get => drugNotifications; set => drugNotifications = value; }
 
 
         public int GenerateId()

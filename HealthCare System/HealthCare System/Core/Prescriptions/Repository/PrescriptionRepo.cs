@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Prescriptions.Repository
             Load();
         }
 
-        internal List<Prescription> Prescriptions { get => prescriptions; set => prescriptions = value; }
+        public List<Prescription> Prescriptions { get => prescriptions; set => prescriptions = value; }
 
         public string Path { get => path; set => path = value; }
 

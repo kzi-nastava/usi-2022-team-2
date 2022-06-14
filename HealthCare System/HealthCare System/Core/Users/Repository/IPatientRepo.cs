@@ -9,6 +9,7 @@ namespace HealthCare_System.Core.Users.Repository
 {
     public interface IPatientRepo
     {
+        List<Patient> Patients { get; set; }
         void Load();
 
         public Patient FindByMail(string mail);

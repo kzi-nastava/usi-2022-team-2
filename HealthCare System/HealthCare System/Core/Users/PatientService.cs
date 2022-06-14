@@ -11,15 +11,15 @@ namespace HealthCare_System.Core.Users
 {
     public class PatientService : IPatientService
     {
-        PatientRepo patientRepo;
-        SchedulingService schedulingService;
-        PrescriptionService prescriptionService;
-        MedicalRecordService medicalRecordService;
-        IngredientService ingredientService;
+        IPatientRepo patientRepo;
+        ISchedulingService schedulingService;
+        IPrescriptionService prescriptionService;
+        IMedicalRecordService medicalRecordService;
+        IIngredientService ingredientService;
 
-        public PatientService(PatientRepo patientRepo, SchedulingService schedulingService,
-            PrescriptionService prescriptionService, MedicalRecordService medicalRecordService,
-            IngredientService ingredientService)
+        public PatientService(IPatientRepo patientRepo, ISchedulingService schedulingService,
+            IPrescriptionService prescriptionService, IMedicalRecordService medicalRecordService,
+            IIngredientService ingredientService)
         {
             this.patientRepo = patientRepo;
             this.schedulingService = schedulingService;
@@ -28,7 +28,7 @@ namespace HealthCare_System.Core.Users
             this.ingredientService = ingredientService;
         }
 
-        public PatientRepo PatientRepo { get => patientRepo; }
+        public IPatientRepo PatientRepo { get => patientRepo; }
 
         public List<Patient> Patients()
         {

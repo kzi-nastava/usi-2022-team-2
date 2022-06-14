@@ -24,7 +24,7 @@ namespace HealthCare_System.Core.Notifications.Repository
             Load();
         }
 
-        internal List<DelayedAppointmentNotification> DelayedAppointmentNotifications
+        public List<DelayedAppointmentNotification> DelayedAppointmentNotifications
         { get => delayedAppointmentNotifications; set => delayedAppointmentNotifications = value; }
 
         public string Path { get => path; set => path = value; }

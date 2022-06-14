@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Core.Notifications.Model;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Notifications.Repository
 {
@@ -6,6 +7,7 @@ namespace HealthCare_System.Core.Notifications.Repository
     {
         string Path { get; set; }
 
+        List<DaysOffNotification> DaysOffNotifications { get; set; }
         DaysOffNotification FindById(int id);
         void Serialize();
     }

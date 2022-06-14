@@ -7,7 +7,7 @@ namespace HealthCare_System.Core.Prescriptions
 {
     public interface IPrescriptionService
     {
-        PrescriptionRepo PrescriptionRepo { get; }
+        IPrescriptionRepo PrescriptionRepo { get; }
 
         void AddPrescrition(PrescriptionDto prescriptionDto);
         void DeletePrescriptions(MedicalRecord medicalRecord);
