@@ -10,7 +10,7 @@ namespace HealthCare_System.GUI.Controller.Anamneses
 {
     class AnamnesisController
     {
-        IAnamnesisService anamnesisService;
+        private readonly IAnamnesisService anamnesisService;
 
         public AnamnesisController(IAnamnesisService anamnesisService)
         {

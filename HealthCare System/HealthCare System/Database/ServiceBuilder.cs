@@ -57,8 +57,9 @@ namespace HealthCare_System.Database
         ISecretaryService secretaryService;
         IUserService userService;
 
-        public ServiceBuilder(HealthCareDatabase database)
+        public ServiceBuilder()
         {
+            HealthCareDatabase database = new();
             anamnesisService = new AnamnesisService(database.AnamnesisRepo);
             hospitalSurveyService = new HospitalSurveyService(database.HospitalSurveyRepo);
             referralService = new ReferralService(database.ReferralRepo);

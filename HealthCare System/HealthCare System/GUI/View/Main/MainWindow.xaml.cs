@@ -13,6 +13,8 @@ using HealthCare_System.GUI.DoctorView;
 using HealthCare_System.GUI.SecretaryView;
 using HealthCare_System.GUI.PatientView;
 using HealthCare_System.GUI.ManagerView;
+using HealthCare_System.GUI.Controller.Renovations;
+using HealthCare_System.GUI.Controller.SupplyRequests;
 
 namespace HealthCare_System.GUI.Main
 {
@@ -21,34 +23,39 @@ namespace HealthCare_System.GUI.Main
         ServiceBuilder serviceBuilder;
         SecretaryWindow sc;
 
-        RoomService roomService;
-        EquipmentService equipmentService;
-        MergingRenovationService mergingRenovationService;
-        SimpleRenovationService simpleRenovationService;
-        SplittingRenovationService splittingRenovationService;
-        AppointmentService appointmentService;
-        EquipmentTransferService equipmentTransferService;
-        SupplyRequestService supplyRequestService;
+        
+        MergingRenovationController mergingRenovationController;
+        SimpleRenovationController simpleRenovationController;
+        SplittingRenovationController splittingRenovationController;
+        SupplyRequestController supplyRequestController;
 
         public MainWindow(ServiceBuilder serviceBuilder)
         {
             this.serviceBuilder = serviceBuilder;
             InitializeComponent();
-            simpleRenovationService.TryToExecuteSimpleRenovations();
-            mergingRenovationService.TryToExecuteMergingRenovations();
-            splittingRenovationService.TryToExecuteSplittingRenovations();
-            supplyRequestService.TryToExecuteSupplyRequest();
+            InitializeControllers();
+            simpleRenovationController.TryToExecuteSimpleRenovations();
+            mergingRenovationController.TryToExecuteMergingRenovations();
+            splittingRenovationController.TryToExecuteSplittingRenovations();
+            supplyRequestController.TryToExecuteSupplyRequest();
         }
         public MainWindow()
         {
             InitializeComponent();
-            simpleRenovationService.TryToExecuteSimpleRenovations();
-            mergingRenovationService.TryToExecuteMergingRenovations();
-            splittingRenovationService.TryToExecuteSplittingRenovations();
-            supplyRequestService.TryToExecuteSupplyRequest();
+            InitializeControllers();
+            simpleRenovationController.TryToExecuteSimpleRenovations();
+            mergingRenovationController.TryToExecuteMergingRenovations();
+            splittingRenovationController.TryToExecuteSplittingRenovations();
+            supplyRequestController.TryToExecuteSupplyRequest();
         }
 
-        
+        void InitializeControllers()
+        {
+            mergingRenovationController = new(serviceBuilder.MergingRenovationService);
+            simpleRenovationController = new(serviceBuilder.SimpleRenovationService);
+            splittingRenovationController = new(serviceBuilder.SplittingRenovationService);
+            supplyRequestController = new(serviceBuilder.SupplyRequestService);
+        }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
