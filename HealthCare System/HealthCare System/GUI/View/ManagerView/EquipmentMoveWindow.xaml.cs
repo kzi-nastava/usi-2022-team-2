@@ -7,31 +7,38 @@ using HealthCare_System.Core.EquipmentTransfers;
 using HealthCare_System.Core.EquipmentTransfers.Model;
 using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Equipments;
+using HealthCare_System.GUI.Controller.EquipmentTransfers;
+using HealthCare_System.GUI.Controller.Rooms;
 
 namespace HealthCare_System.GUI.ManagerView
 {
     public partial class EquipmentMoveWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         Dictionary<int, Room> roomsFrom = new Dictionary<int, Room>();
         Dictionary<int, Room> roomsTo = new Dictionary<int, Room>();
         Dictionary<int, Equipment> equipment = new Dictionary<int, Equipment>();
 
-        EquipmentTransferService equipmentTransferService;
+        EquipmentTransferController equipmentTransferController;
+        RoomController roomController;
+        EquipmentController equipmentController;
 
-        public EquipmentMoveWindow(HealthCareDatabase database)
+        public EquipmentMoveWindow(ServiceBuilder serviceBuilder)
         {
             InitializeComponent();
-            this.database = database;
+            this.serviceBuilder = serviceBuilder;
 
-            InitializeServices();
+            InitializeControllers();
             InitializeComboBox();
             InitializeDatePicker();
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, null);
+            equipmentTransferController = new(serviceBuilder.EquipmentTransferService);
+            roomController = new(serviceBuilder.RoomService);
+            equipmentController = new(serviceBuilder.EquipmentService);
         }
 
         private void InitializeDatePicker()
@@ -43,7 +50,7 @@ namespace HealthCare_System.GUI.ManagerView
         {
             moveFromView.Items.Clear();
             int index = 0;
-            foreach (Room room in database.RoomRepo.Rooms)
+            foreach (Room room in roomController.Rooms())
             {
                 moveFromView.Items.Add("Id: " + room.Id + ", Name: " + room.Name + ", Amount: "+ room.EquipmentAmount[equipment[equipmentCb.SelectedIndex]].ToString());
                 roomsFrom[index] = room;
@@ -56,7 +63,7 @@ namespace HealthCare_System.GUI.ManagerView
         {
             moveToView.Items.Clear();
             int index = 0;
-            foreach (Room room in database.RoomRepo.Rooms)
+            foreach (Room room in roomController.Rooms())
             {
                 if (room != roomsFrom[moveFromView.SelectedIndex]) 
                 {
@@ -71,7 +78,7 @@ namespace HealthCare_System.GUI.ManagerView
         void InitializeComboBox()
         {
             int index = 0;
-            foreach (Equipment equipment in database.EquipmentRepo.Equipment) 
+            foreach (Equipment equipment in equipmentController.Equipment()) 
             {
                 equipmentCb.Items.Add(equipment.Name);
                 this.equipment[index] = equipment;
@@ -122,10 +129,10 @@ namespace HealthCare_System.GUI.ManagerView
         {
             try
             {
-                TransferDto transferDTO = new TransferDto(database.EquipmentTransferRepo.GenerateId(),
+                TransferDto transferDTO = new TransferDto(equipmentTransferController.GenerateId(),
                   momentOfTransfer, amount, roomsFrom[moveFromView.SelectedIndex],
                 roomsTo[moveToView.SelectedIndex], equipment[equipmentCb.SelectedIndex]);
-                equipmentTransferService.Add(transferDTO);
+                equipmentTransferController.Add(transferDTO);
                 MessageBox.Show("Transfer succsessfully added.");
             }
             catch (Exception excp)

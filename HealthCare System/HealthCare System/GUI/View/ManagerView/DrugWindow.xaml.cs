@@ -4,34 +4,39 @@ using HealthCare_System.Core.Drugs;
 using HealthCare_System.Core.Drugs.Model;
 using HealthCare_System.Core.Ingredients.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Drugs;
+using HealthCare_System.GUI.Controller.Ingredients;
 
 namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class DrugWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         bool create;
         Drug drug;
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
         List<int> selectedIndencies = new List<int>();
 
-        DrugService drugService;
+        DrugController drugController;
+        IngredientController ingredientController;
 
-        public DrugWindow(bool create, HealthCareDatabase database, Drug drug = null)
+        public DrugWindow(bool create, ServiceBuilder serviceBuilder, Drug drug = null)
         {
             InitializeComponent();
-            this.database = database;
+            this.serviceBuilder = serviceBuilder;
+
+            InitializeControllers();
             this.create = create;
             this.drug = drug;
-            InitializeServices();
             InitializeTitle();
             InitializeFields();
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            drugService = new DrugService(database.DrugRepo, null);
+            drugController = new(serviceBuilder.DrugService);
+            ingredientController = new(serviceBuilder.IngredientService);
         }
 
         void InitializeTitle()
@@ -44,7 +49,7 @@ namespace HealthCare_System.GUI.ManagerView
 
         void InitializeFields()
         {
-            DisplayIngredients(database.IngredientRepo.Ingredients);
+            DisplayIngredients(ingredientController.Ingredients());
             if (!create)
             {
                 nameTb.Text = drug.Name;
@@ -102,9 +107,9 @@ namespace HealthCare_System.GUI.ManagerView
         {
             try
             {
-                DrugDto drugDto = new DrugDto(database.DrugRepo.GenerateId(), nameTb.Text, 
+                DrugDto drugDto = new DrugDto(drugController.GenerateId(), nameTb.Text, 
                     GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
-                drugService.CreateNew(drugDto);
+                drugController.CreateNew(drugDto);
                 MessageBox.Show("Drug created sucessfully!");
                 Close();
             }
@@ -120,7 +125,7 @@ namespace HealthCare_System.GUI.ManagerView
             {
                 DrugDto drugDto = new DrugDto(-1, nameTb.Text,
                    GetSelectedIngredients(), DrugStatus.ON_HOLD, "");
-                drugService.Update(drugDto ,drug);
+                drugController.Update(drugDto ,drug);
                 MessageBox.Show("Drug updated sucessfully!");
                 Close();
             }

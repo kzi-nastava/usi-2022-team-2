@@ -4,23 +4,24 @@ using System.Windows.Controls;
 using HealthCare_System.Core.Drugs;
 using HealthCare_System.Core.Drugs.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Drugs;
 
 namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class RejectedDrugsWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
 
-        DrugService drugService;
+        DrugController drugController;
         
-        public RejectedDrugsWindow(HealthCareDatabase database)
+        public RejectedDrugsWindow(ServiceBuilder serviceBuilder)
         {
             InitializeComponent();
-            this.database  =  database;
+            this.serviceBuilder  =  serviceBuilder;
 
-            InitializeServices();
+            InitializeControllers();
             InitializeComboBox();
             if (listedDrugs.Count == 0)
             {
@@ -29,16 +30,16 @@ namespace HealthCare_System.GUI.ManagerView
             }
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            drugService = new DrugService(database.DrugRepo, null);
+            drugController = new(serviceBuilder.DrugService);
         }
 
         void InitializeComboBox()
         {
             rejectedDrugsCb.Items.Clear();
             int index = 0;
-            foreach (Drug drug in database.DrugRepo.Drugs)
+            foreach (Drug drug in drugController.Drugs())
             {
                 if (drug.Status == DrugStatus.REJECTED)
                 {
@@ -66,7 +67,7 @@ namespace HealthCare_System.GUI.ManagerView
 
         private void correctBtn_Click(object sender, RoutedEventArgs e)
         {
-            Window drugWindow = new DrugWindow(false, database, 
+            Window drugWindow = new DrugWindow(false, serviceBuilder, 
                 listedDrugs[rejectedDrugsCb.SelectedIndex]);
             drugWindow.Show();
             Close();
