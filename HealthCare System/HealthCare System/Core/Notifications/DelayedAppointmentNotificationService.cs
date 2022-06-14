@@ -15,13 +15,13 @@ namespace HealthCare_System.Core.Notifications
             this.delayedAppointmentNotificationRepo = delayedAppointmentNotificationRepo;
         }
 
+        public IDelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo
+        { get => delayedAppointmentNotificationRepo; }
+
         public List<DelayedAppointmentNotification> DelayedAppointmentNotifications()
         {
             return delayedAppointmentNotificationRepo.DelayedAppointmentNotifications;
         }
-
-        public IDelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo
-        { get => delayedAppointmentNotificationRepo; }
 
         public void AddNotification(Appointment appointment, DateTime oldStart)
         {
@@ -29,6 +29,22 @@ namespace HealthCare_System.Core.Notifications
             DelayedAppointmentNotification newNotification = delayedAppointmentNotificationRepo.Add(appointment, text);
             delayedAppointmentNotificationRepo.Serialize();// proveriti da li vam ova metoda treba ovde ili u add poso ja nisam radio
 
+        }
+
+        public DelayedAppointmentNotification FindById(int id)
+        {
+            return delayedAppointmentNotificationRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return delayedAppointmentNotificationRepo.GenerateId();
+        }
+
+        
+        public void Serialize()
+        {
+            delayedAppointmentNotificationRepo.Serialize();
         }
     }
 }

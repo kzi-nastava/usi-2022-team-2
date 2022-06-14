@@ -17,5 +17,12 @@ namespace HealthCare_System.Core.Renovations
         void StartMergingRenovation(MergingRenovation mergingRenovation);
 
         void TryToExecuteMergingRenovations();
+
+        MergingRenovation FindById(int id);
+
+        int GenerateId();
+
+        void Serialize(string linkPath = "../../../data/links/MergingRenovation_Room.csv");
+        
     }
 }

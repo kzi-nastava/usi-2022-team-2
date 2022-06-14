@@ -40,9 +40,9 @@ namespace HealthCare_System.Core.Renovations
         public void StartSimpleRenovation(SimpleRenovation simpleRenovation)
         {
             simpleRenovation.Status = RenovationStatus.ACTIVE;
-            simpleRenovationRepo.Serialize();
+            Serialize();
             equipmentTransferService.MoveEquipmentToStorage(simpleRenovation.Room);
-            roomService.RoomRepo.Serialize();
+            roomService.Serialize();
         }
 
         public void FinishSimpleRenovation(SimpleRenovation simpleRenovation)
@@ -54,9 +54,9 @@ namespace HealthCare_System.Core.Renovations
 
         public void TryToExecuteSimpleRenovations()
         {
-            if (simpleRenovationRepo.SimpleRenovations.Count > 0)
+            if (SimpleRenovations().Count > 0)
             {
-                foreach (SimpleRenovation simpleRenovation in simpleRenovationRepo.SimpleRenovations)
+                foreach (SimpleRenovation simpleRenovation in SimpleRenovations())
                 {
                     if (DateTime.Now >= simpleRenovation.EndingDate)
                     {
@@ -73,6 +73,21 @@ namespace HealthCare_System.Core.Renovations
                 }
             }
 
+        }
+
+        public SimpleRenovation FindById(int id)
+        {
+            return simpleRenovationRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return simpleRenovationRepo.GenerateId();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/SimpleRenovation_Room.csv")
+        {
+            simpleRenovationRepo.Serialize();
         }
     }
 }

@@ -17,12 +17,12 @@ namespace HealthCare_System.Core.Notifications
             this.drugNotificationRepo = drugNotificationRepo;
         }
 
+        public IDrugNotificationRepo DrugNotificationRepo { get => drugNotificationRepo; }
+
         public List<DrugNotification> DrugNotifications()
         {
             return drugNotificationRepo.DrugNotifications;
         }
-
-        public IDrugNotificationRepo DrugNotificationRepo { get => drugNotificationRepo; }
 
         public void CheckNotifications(List<DrugNotification> notifications, int minutesBeforeShowing)
         {
@@ -35,6 +35,7 @@ namespace HealthCare_System.Core.Notifications
                 }
             }
         }
+
         public List<DrugNotification> CreateNotifications(Patient patient)
         {
             List<DrugNotification> notifications = new();
@@ -52,6 +53,16 @@ namespace HealthCare_System.Core.Notifications
                 }
             }
             return notifications;
+        }
+
+        public int GenerateId()
+        {
+            return drugNotificationRepo.GenerateId();
+        }
+
+        public DrugNotification FindById(int id)
+        {
+            return drugNotificationRepo.FindById(id);
         }
     }
 }
