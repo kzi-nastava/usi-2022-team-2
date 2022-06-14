@@ -27,7 +27,7 @@ namespace HealthCare_System.Core.DoctorSurveys.Repository
             Load();
         }
 
-        internal List<DoctorSurvey> DoctorSurveys { get => doctorSurveys; set => doctorSurveys = value; }
+        public List<DoctorSurvey> DoctorSurveys { get => doctorSurveys; set => doctorSurveys = value; }
 
         public string Path { get => path; set => path = value; }
 

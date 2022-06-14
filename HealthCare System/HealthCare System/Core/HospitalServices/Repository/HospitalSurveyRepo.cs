@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Repository
             Load();
         }
 
-        internal List<HospitalSurvey> HospitalSurveys { get => hospitalSurveys; set => hospitalSurveys = value; }
+        public List<HospitalSurvey> HospitalSurveys { get => hospitalSurveys; set => hospitalSurveys = value; }
 
         public string Path { get => path; set => path = value; }
 

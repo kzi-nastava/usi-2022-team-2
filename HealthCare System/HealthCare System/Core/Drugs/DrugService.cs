@@ -9,16 +9,16 @@ namespace HealthCare_System.Core.Drugs
 {
     public class DrugService : IDrugService
     {
-        DrugRepo drugRepo;
-        PrescriptionService prescriptionService;
+        IDrugRepo drugRepo;
+        IPrescriptionService prescriptionService;
 
-        public DrugService(DrugRepo drugRepo, PrescriptionService prescriptionService)
+        public DrugService(IDrugRepo drugRepo, IPrescriptionService prescriptionService)
         {
             this.drugRepo = drugRepo;
             this.prescriptionService = prescriptionService;
         }
 
-        internal DrugRepo DrugRepo { get => drugRepo; }
+        public IDrugRepo DrugRepo { get => drugRepo; }
 
         public List<Drug> Drugs()
         {

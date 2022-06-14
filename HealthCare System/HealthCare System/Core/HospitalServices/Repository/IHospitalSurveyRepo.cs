@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Core.HospitalSurveys.Model;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.HospitalSurveys.Repository
 {
@@ -6,6 +7,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Repository
     {
         string Path { get; set; }
 
+        List<HospitalSurvey> HospitalSurveys { get; set; }
         void Add(HospitalSurvey survey);
 
         HospitalSurvey FindById(int id);

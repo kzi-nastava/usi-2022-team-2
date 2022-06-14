@@ -28,7 +28,7 @@ namespace HealthCare_System.Core.Drugs.Repository
             Load();
         }
 
-        internal List<Drug> Drugs { get => drugs; set => drugs = value; }
+        public List<Drug> Drugs { get => drugs; set => drugs = value; }
 
         public string Path { get => path; set => path = value; }
 

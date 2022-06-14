@@ -6,7 +6,7 @@ namespace HealthCare_System.Core.Equipments
 {
     public interface IEquipmentService
     {
-        EquipmentRepo EquipmentRepo { get; }
+        IEquipmentRepo EquipmentRepo { get; }
 
         void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount);
 

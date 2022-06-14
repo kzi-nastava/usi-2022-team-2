@@ -8,16 +8,16 @@ namespace HealthCare_System.Core.AppotinmentRequests
 {
     public class AppointmentRequestService : IAppointmentRequestService
     {
-        AppointmentRequestRepo appointmentRequestRepo;
-        AppointmentService appointmentService;
+        IAppointmentRequestRepo appointmentRequestRepo;
+        IAppointmentService appointmentService;
 
-        public AppointmentRequestService(AppointmentRequestRepo appointmentRequestRepo, AppointmentService appointmentService)
+        public AppointmentRequestService(IAppointmentRequestRepo appointmentRequestRepo, IAppointmentService appointmentService)
         {
             this.appointmentRequestRepo = appointmentRequestRepo;
             this.appointmentService = appointmentService;
         }
 
-        internal AppointmentRequestRepo AppointmentRequestRepo { get => appointmentRequestRepo; }
+        public IAppointmentRequestRepo AppointmentRequestRepo { get => appointmentRequestRepo; }
 
         public List<AppointmentRequest> AppointmentRequests()
         {

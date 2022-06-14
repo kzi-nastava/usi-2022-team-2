@@ -7,7 +7,7 @@ namespace HealthCare_System.Core.DoctorSurveys
 {
     public interface IDoctorSurveyService
     {
-        DoctorSurveyRepo DoctorSurveyRepo { get; }
+        IDoctorSurveyRepo DoctorSurveyRepo { get; }
 
         void Add(DoctorSurveyDto doctorSurveyDto);
 

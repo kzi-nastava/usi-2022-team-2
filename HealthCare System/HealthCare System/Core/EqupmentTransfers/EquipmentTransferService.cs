@@ -10,8 +10,8 @@ namespace HealthCare_System.Core.EquipmentTransfers
 {
     public class EquipmentTransferService : IEquipmentTransferService
     {
-        EquipmentTransferRepo equipmentTransferRepo;
-        RoomService roomService;
+        IEquipmentTransferRepo equipmentTransferRepo;
+        IRoomService roomService;
 
         public EquipmentTransferService(EquipmentTransferRepo equipmentTransferRepo, RoomService roomService)
         {
@@ -19,7 +19,7 @@ namespace HealthCare_System.Core.EquipmentTransfers
             this.roomService = roomService;
         }
 
-        public EquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo; }
+        public IEquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo; }
 
         public List<Transfer> Transfers()
         {

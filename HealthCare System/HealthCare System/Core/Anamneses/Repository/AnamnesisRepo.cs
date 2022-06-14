@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Anamneses.Repository
             Load();
         }
 
-        internal List<Anamnesis> Anamneses { get => anamneses; set => anamneses = value; }
+        public List<Anamnesis> Anamneses { get => anamneses; set => anamneses = value; }
 
         public string Path { get => path; set => path = value; }
 

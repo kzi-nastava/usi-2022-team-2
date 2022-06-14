@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.DaysOffRequests.Repository
             Load();
         }
 
-        internal List<DaysOffRequest> DaysOffRequests { get => daysOffRequests; set => daysOffRequests = value; }
+        public List<DaysOffRequest> DaysOffRequests { get => daysOffRequests; set => daysOffRequests = value; }
 
         public string Path { get => path; set => path = value; }
 

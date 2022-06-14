@@ -19,6 +19,7 @@ namespace HealthCare_System.GUI.Main
     public partial class MainWindow : Window
     {
         HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         SecretaryWindow sc;
 
         RoomService roomService;

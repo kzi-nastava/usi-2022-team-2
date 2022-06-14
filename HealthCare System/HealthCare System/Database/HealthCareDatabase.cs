@@ -51,117 +51,85 @@ namespace HealthCare_System.Database
 {
     public class HealthCareDatabase
     {
-        AnamnesisRepo anamnesisRepo;
-        AppointmentRepo appointmentRepo;
-        AppointmentRequestRepo appointmentRequestRepo;
-        DaysOffNotificationRepo daysOffNotificationRepo;
-        DaysOffRequestRepo daysOffRequestRepo;
-        DelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
-        DoctorRepo doctorRepo;
-        DoctorSurveyRepo doctorSurveyRepo;
-        DrugRepo drugRepo;
-        DrugNotificationRepo drugNotificationRepo;
-        EquipmentRepo equipmentRepo;
-        HospitalSurveyRepo hospitalSurveyRepo;
-        IngredientRepo ingredientRepo;
-        ManagerRepo managerRepo;
-        MedicalRecordRepo medicalRecordRepo;
-        MergingRenovationRepo mergingRenovationRepo;
-        PatientRepo patientRepo;
-        PrescriptionRepo prescriptionRepo;
-        ReferralRepo referralRepo;
-        RoomRepo roomRepo;
-        SimpleRenovationRepo simpleRenovationRepo;
-        SplittingRenovationRepo splittingRenovationRepo;
-        SupplyRequestRepo supplyRequestRepo;
-        SecretaryRepo secretaryRepo;
-        EquipmentTransferRepo equipmentTransferRepo;
+        IAnamnesisRepo anamnesisRepo;
+        IAppointmentRepo appointmentRepo;
+        IAppointmentRequestRepo appointmentRequestRepo;
+        IDaysOffNotificationRepo daysOffNotificationRepo;
+        IDaysOffRequestRepo daysOffRequestRepo;
+        IDelayedAppointmentNotificationRepo delayedAppointmentNotificationRepo;
+        IDoctorRepo doctorRepo;
+        IDoctorSurveyRepo doctorSurveyRepo;
+        IDrugRepo drugRepo;
+        IDrugNotificationRepo drugNotificationRepo;
+        IEquipmentRepo equipmentRepo;
+        IHospitalSurveyRepo hospitalSurveyRepo;
+        IIngredientRepo ingredientRepo;
+        IManagerRepo managerRepo;
+        IMedicalRecordRepo medicalRecordRepo;
+        IMergingRenovationRepo mergingRenovationRepo;
+        IPatientRepo patientRepo;
+        IPrescriptionRepo prescriptionRepo;
+        IReferralRepo referralRepo;
+        IRoomRepo roomRepo;
+        ISimpleRenovationRepo simpleRenovationRepo;
+        ISplittingRenovationRepo splittingRenovationRepo;
+        ISupplyRequestRepo supplyRequestRepo;
+        ISecretaryRepo secretaryRepo;
+        IEquipmentTransferRepo equipmentTransferRepo;
 
-        internal AnamnesisRepo AnamnesisRepo { get => anamnesisRepo; set => anamnesisRepo = value; }
-
-        internal AppointmentRepo AppointmentRepo { get => appointmentRepo; set => appointmentRepo = value; }
-
-        internal AppointmentRequestRepo AppointmentRequestRepo 
-            { get => appointmentRequestRepo; set => appointmentRequestRepo = value; }
-
-        internal DaysOffNotificationRepo DaysOffNotificationRepo 
-            { get => daysOffNotificationRepo; set => daysOffNotificationRepo = value; }
-
-        internal DaysOffRequestRepo DaysOffRequestRepo { get => daysOffRequestRepo; set => daysOffRequestRepo = value; }
-
-        internal DelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo 
-            { get => delayedAppointmentNotificationRepo; set => delayedAppointmentNotificationRepo = value; }
-
-        internal DoctorRepo DoctorRepo { get => doctorRepo; set => doctorRepo = value; }
-
-        internal DoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo; set => doctorSurveyRepo = value; }
-
-        internal DrugRepo DrugRepo { get => drugRepo; set => drugRepo = value; }
-
-        internal DrugNotificationRepo DrugNotificationRepo 
-            { get => drugNotificationRepo; set => drugNotificationRepo = value; }
-
-        internal EquipmentRepo EquipmentRepo { get => equipmentRepo; set => equipmentRepo = value; }
-
-        internal HospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo; set => hospitalSurveyRepo = value; }
-
-        internal IngredientRepo IngredientRepo { get => ingredientRepo; set => ingredientRepo = value; }
-
-        internal ManagerRepo ManagerRepo { get => managerRepo; set => managerRepo = value; }
-
-        internal MedicalRecordRepo MedicalRecordRepo { get => medicalRecordRepo; set => medicalRecordRepo = value; }
-
-        internal MergingRenovationRepo MergingRenovationRepo 
-            { get => mergingRenovationRepo; set => mergingRenovationRepo = value; }
-
-        internal PatientRepo PatientRepo { get => patientRepo; set => patientRepo = value; }
-
-        internal PrescriptionRepo PrescriptionRepo { get => prescriptionRepo; set => prescriptionRepo = value; }
-
-        internal ReferralRepo ReferralRepo { get => referralRepo; set => referralRepo = value; }
-
-        internal RoomRepo RoomRepo { get => roomRepo; set => roomRepo = value; }
-
-        internal SimpleRenovationRepo SimpleRenovationRepo 
-            { get => simpleRenovationRepo; set => simpleRenovationRepo = value; }
-
-        internal SplittingRenovationRepo SplittingRenovationRepo 
-            { get => splittingRenovationRepo; set => splittingRenovationRepo = value; }
-
-        internal SupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo; set => supplyRequestRepo = value; }
-
-        internal SecretaryRepo SecretaryRepo { get => secretaryRepo; set => secretaryRepo = value; }
-
-        internal EquipmentTransferRepo EquipmentTransferRepo 
-            { get => equipmentTransferRepo; set => equipmentTransferRepo = value; }
+        public IAnamnesisRepo AnamnesisRepo { get => anamnesisRepo;}
+        public IAppointmentRepo AppointmentRepo { get => appointmentRepo;}
+        public IAppointmentRequestRepo AppointmentRequestRepo { get => appointmentRequestRepo;}
+        public IDaysOffNotificationRepo DaysOffNotificationRepo { get => daysOffNotificationRepo;}
+        public IDaysOffRequestRepo DaysOffRequestRepo { get => daysOffRequestRepo;}
+        public IDelayedAppointmentNotificationRepo DelayedAppointmentNotificationRepo { get => delayedAppointmentNotificationRepo;}
+        public IDoctorRepo DoctorRepo { get => doctorRepo;}
+        public IDoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo;}
+        public IDrugRepo DrugRepo { get => drugRepo;}
+        public IDrugNotificationRepo DrugNotificationRepo { get => drugNotificationRepo;}
+        public IEquipmentRepo EquipmentRepo { get => equipmentRepo;}
+        public IHospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo;}
+        public IIngredientRepo IngredientRepo { get => ingredientRepo;}
+        public IManagerRepo ManagerRepo { get => managerRepo;}
+        public IMedicalRecordRepo MedicalRecordRepo { get => medicalRecordRepo;}
+        public IMergingRenovationRepo MergingRenovationRepo { get => mergingRenovationRepo;}
+        public IPatientRepo PatientRepo { get => patientRepo;}
+        public IPrescriptionRepo PrescriptionRepo { get => prescriptionRepo;}
+        public IReferralRepo ReferralRepo { get => referralRepo;}
+        public IRoomRepo RoomRepo { get => roomRepo;}
+        public ISimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo;}
+        public ISplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo;}
+        public ISupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo;}
+        public ISecretaryRepo SecretaryRepo { get => secretaryRepo;}
+        public IEquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo;}
 
         public HealthCareDatabase()
         {
-            anamnesisRepo = new();
-            appointmentRepo = new();
-            appointmentRequestRepo = new();
-            daysOffNotificationRepo = new();
-            daysOffRequestRepo = new();
-            delayedAppointmentNotificationRepo = new();
-            doctorRepo = new();
-            doctorSurveyRepo = new();
-            drugRepo = new();
-            drugNotificationRepo = new();
-            equipmentRepo = new();
-            hospitalSurveyRepo = new();
-            ingredientRepo = new();
-            managerRepo = new();
-            medicalRecordRepo = new();
-            mergingRenovationRepo = new();
-            patientRepo = new();
-            prescriptionRepo = new();
-            referralRepo = new();
-            roomRepo = new();
-            simpleRenovationRepo = new();
-            splittingRenovationRepo = new();
-            supplyRequestRepo = new();
-            secretaryRepo = new();
-            equipmentTransferRepo = new();
+            anamnesisRepo = new AnamnesisRepo();
+            appointmentRepo = new AppointmentRepo();
+            appointmentRequestRepo = new AppointmentRequestRepo();
+            daysOffNotificationRepo = new DaysOffNotificationRepo();
+            daysOffRequestRepo = new DaysOffRequestRepo();
+            delayedAppointmentNotificationRepo = new DelayedAppointmentNotificationRepo();
+            doctorRepo = new DoctorRepo();
+            doctorSurveyRepo = new DoctorSurveyRepo();
+            drugRepo = new DrugRepo();
+            drugNotificationRepo = new DrugNotificationRepo();
+            equipmentRepo = new EquipmentRepo();
+            hospitalSurveyRepo = new HospitalSurveyRepo();
+            ingredientRepo = new IngredientRepo();
+            managerRepo = new ManagerRepo();
+            medicalRecordRepo = new MedicalRecordRepo();
+            mergingRenovationRepo = new MergingRenovationRepo();
+            patientRepo = new PatientRepo();
+            prescriptionRepo = new PrescriptionRepo();
+            referralRepo = new ReferralRepo();
+            roomRepo = new RoomRepo();
+            simpleRenovationRepo = new SimpleRenovationRepo();
+            splittingRenovationRepo = new SplittingRenovationRepo();
+            supplyRequestRepo = new SupplyRequestRepo();
+            secretaryRepo = new SecretaryRepo();
+            equipmentTransferRepo = new EquipmentTransferRepo();
 
             LinkDrugIngredient();
             LinkAppointmentRequest();

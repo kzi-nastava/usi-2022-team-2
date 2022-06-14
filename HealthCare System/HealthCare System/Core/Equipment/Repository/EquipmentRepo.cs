@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.Equipments.Repository
             Load();
         }
 
-        internal List<Equipment> Equipment { get => equipment; set => equipment = value; }
+        public List<Equipment> Equipment { get => equipment; set => equipment = value; }
 
         public string Path { get => path; set => path = value; }
 

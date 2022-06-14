@@ -8,6 +8,8 @@ namespace HealthCare_System.Core.Appointments.Repository
     {
         string Path { get; set; }
 
+        List<Appointment> Appointments { get; set; }
+
         Appointment FindById(int id);
         List<Appointment> FindByWord(Patient patient, string word);
         List<Appointment> FindPastAppointments(Patient patient);

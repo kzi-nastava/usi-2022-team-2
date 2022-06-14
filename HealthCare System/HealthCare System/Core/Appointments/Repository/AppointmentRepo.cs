@@ -34,7 +34,7 @@ namespace HealthCare_System.Core.Appointments.Repository
             appointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText(path));
         }
 
-        internal List<Appointment> Appointments { get => appointments; set => appointments = value; }
+        public List<Appointment> Appointments { get => appointments; set => appointments = value; }
 
         public string Path { get => path; set => path = value; }
 

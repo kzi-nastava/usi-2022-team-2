@@ -5,14 +5,14 @@ namespace HealthCare_System.Core.HospitalSurveys
 {
     public class HospitalSurveyService : IHospitalSurveyService
     {
-        HospitalSurveyRepo hospitalSurveyRepo;
+        IHospitalSurveyRepo hospitalSurveyRepo;
 
-        public HospitalSurveyService(HospitalSurveyRepo hospitalSurveyRepo)
+        public HospitalSurveyService(IHospitalSurveyRepo hospitalSurveyRepo)
         {
             this.hospitalSurveyRepo = hospitalSurveyRepo;
         }
 
-        public HospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo; }
+        public IHospitalSurveyRepo HospitalSurveyRepo { get => hospitalSurveyRepo; }
 
         public void Add(HospitalSurveyDto hospitalSurveyDto)
         {

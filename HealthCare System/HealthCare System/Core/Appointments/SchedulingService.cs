@@ -15,14 +15,14 @@ namespace HealthCare_System.Core.Appointments
 {
     public class SchedulingService : ISchedulingService
     {
-        RoomService roomService;
-        AppointmentService appointmentService;
-        AnamnesisService anamnesisService;
-        DoctorService doctorService;
-        ReferralService referralService;
+        IRoomService roomService;
+        IAppointmentService appointmentService;
+        IAnamnesisService anamnesisService;
+        IDoctorService doctorService;
+        IReferralService referralService;
 
-        public SchedulingService(RoomService roomService, AppointmentService appointmentService,
-            AnamnesisService anamnesisService, DoctorService doctorService, ReferralService referralService)
+        public SchedulingService(IRoomService roomService, IAppointmentService appointmentService,
+            IAnamnesisService anamnesisService, IDoctorService doctorService, IReferralService referralService)
         {
             this.roomService = roomService;
             this.appointmentService = appointmentService;

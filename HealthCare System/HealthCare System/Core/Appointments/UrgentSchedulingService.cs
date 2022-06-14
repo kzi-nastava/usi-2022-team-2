@@ -9,10 +9,10 @@ namespace HealthCare_System.Core.Appointments
 {
     public class UrgentSchedulingService : IUrgentSchedulingService
     {
-        AppointmentService appointmentService;
-        SchedulingService schedulingService;
+        IAppointmentService appointmentService;
+        ISchedulingService schedulingService;
 
-        public UrgentSchedulingService(AppointmentService appointmentService, SchedulingService schedulingService)
+        public UrgentSchedulingService(IAppointmentService appointmentService, ISchedulingService schedulingService)
         {
             this.appointmentService = appointmentService;
             this.schedulingService = schedulingService;

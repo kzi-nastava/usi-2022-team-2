@@ -9,14 +9,14 @@ namespace HealthCare_System.Core.DoctorSurveys
 {
     public class DoctorSurveyService : IDoctorSurveyService
     {
-        DoctorSurveyRepo doctorSurveyRepo;
+        IDoctorSurveyRepo doctorSurveyRepo;
 
-        public DoctorSurveyService(DoctorSurveyRepo doctorSurveyRepo)
+        public DoctorSurveyService(IDoctorSurveyRepo doctorSurveyRepo)
         {
             this.doctorSurveyRepo = doctorSurveyRepo;
         }
 
-        public DoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo; }
+        public IDoctorSurveyRepo DoctorSurveyRepo { get => doctorSurveyRepo; }
 
         public double FindAverageRatingForDoctor(Doctor doctor)
         {

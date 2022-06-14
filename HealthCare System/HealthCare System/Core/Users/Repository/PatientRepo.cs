@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace HealthCare_System.Core.Users.Repository
 {
-    public class PatientRepo
+    public class PatientRepo : IPatientRepo
     {
         List<Patient> patients;
         string path;

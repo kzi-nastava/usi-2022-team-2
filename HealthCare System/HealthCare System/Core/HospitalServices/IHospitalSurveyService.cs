@@ -5,7 +5,7 @@ namespace HealthCare_System.Core.HospitalSurveys
 {
     public interface IHospitalSurveyService
     {
-        HospitalSurveyRepo HospitalSurveyRepo { get; }
+        IHospitalSurveyRepo HospitalSurveyRepo { get; }
 
         void Add(HospitalSurveyDto hospitalSurveyDto);
     }

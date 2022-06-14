@@ -7,14 +7,14 @@ namespace HealthCare_System.Core.Anamneses
 {
     public class AnamnesisService : IAnamnesisService
     {
-        AnamnesisRepo anamnesisRepo;
+        private readonly IAnamnesisRepo anamnesisRepo;
 
-        public AnamnesisService(AnamnesisRepo anamnesisRepo)
+        public AnamnesisService(IAnamnesisRepo anamnesisRepo)
         {
             this.anamnesisRepo = anamnesisRepo;
         }
 
-        internal AnamnesisRepo AnamnesisRepo { get => anamnesisRepo; }
+        public IAnamnesisRepo AnamnesisRepo { get => anamnesisRepo; }
 
         public List<Anamnesis> Anamneses()
         {

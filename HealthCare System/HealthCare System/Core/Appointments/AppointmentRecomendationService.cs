@@ -10,12 +10,12 @@ namespace HealthCare_System.Core.Appointments
 {
     public class AppointmentRecomendationService : IAppointmentRecomendationService
     {
-        AppointmentService appointmentService;
-        SchedulingService schedulingService;
-        DoctorService doctorService;
+        IAppointmentService appointmentService;
+        ISchedulingService schedulingService;
+        IDoctorService doctorService;
 
-        public AppointmentRecomendationService(AppointmentService appointmentService, SchedulingService schedulingService,
-            DoctorService doctorService)
+        public AppointmentRecomendationService(IAppointmentService appointmentService, ISchedulingService schedulingService,
+            IDoctorService doctorService)
         {
             this.appointmentService = appointmentService;
             this.schedulingService = schedulingService;

@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Core.Anamneses.Model;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Anamneses.Repository
 {
@@ -6,6 +7,7 @@ namespace HealthCare_System.Core.Anamneses.Repository
     {
         string Path { get; set; }
 
+        List<Anamnesis> Anamneses { get; set; }
         Anamnesis FindById(int id);
         int GenerateId();
         void Serialize();

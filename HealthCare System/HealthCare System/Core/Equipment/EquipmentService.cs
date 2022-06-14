@@ -9,10 +9,10 @@ namespace HealthCare_System.Core.Equipments
 {
     public class EquipmentService : IEquipmentService
     {
-        EquipmentRepo equipmentRepo;
-        RoomService roomService;
+        IEquipmentRepo equipmentRepo;
+        IRoomService roomService;
 
-        public EquipmentService(EquipmentRepo equipmentRepo, RoomService roomService)
+        public EquipmentService(IEquipmentRepo equipmentRepo, IRoomService roomService)
         {
             this.equipmentRepo = equipmentRepo;
             this.roomService = roomService;
@@ -23,7 +23,7 @@ namespace HealthCare_System.Core.Equipments
             return equipmentRepo.Equipment;
         }
 
-        public EquipmentRepo EquipmentRepo { get => equipmentRepo; }
+        public IEquipmentRepo EquipmentRepo { get => equipmentRepo; }
 
         public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
         {

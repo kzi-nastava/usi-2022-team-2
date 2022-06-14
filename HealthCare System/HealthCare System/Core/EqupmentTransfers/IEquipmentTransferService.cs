@@ -8,7 +8,7 @@ namespace HealthCare_System.Core.EquipmentTransfers
 {
     public interface IEquipmentTransferService
     {
-        EquipmentTransferRepo EquipmentTransferRepo { get; }
+        IEquipmentTransferRepo EquipmentTransferRepo { get; }
 
         void Add(TransferDto transferDTO);
 
