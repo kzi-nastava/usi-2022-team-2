@@ -6,14 +6,14 @@ namespace HealthCare_System.Core.Users
 {
     public class ManagerService : IManagerService
     {
-        ManagerRepo managerRepo;
+        IManagerRepo managerRepo;
 
-        public ManagerService(ManagerRepo managerRepo)
+        public ManagerService(IManagerRepo managerRepo)
         {
             this.managerRepo = managerRepo;
         }
 
-        public ManagerRepo ManagerRepo { get => managerRepo; }
+        public IManagerRepo ManagerRepo { get => managerRepo; }
 
         public List<Manager> Managers()
         {

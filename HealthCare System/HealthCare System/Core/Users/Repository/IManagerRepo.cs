@@ -11,6 +11,8 @@ namespace HealthCare_System.Core.Users.Repository
     {
         void Load();
 
+        List<Manager> Managers { get; set; }
+
         public Manager FindByMail(string mail);
 
         public void Serialize();

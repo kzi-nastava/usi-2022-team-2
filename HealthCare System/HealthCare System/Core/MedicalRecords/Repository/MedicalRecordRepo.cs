@@ -37,7 +37,7 @@ namespace HealthCare_System.Core.MedicalRecords.Repository
             Load();
         }
 
-        internal List<MedicalRecord> MedicalRecords { get => medicalRecords; set => medicalRecords = value; }
+        public List<MedicalRecord> MedicalRecords { get => medicalRecords; set => medicalRecords = value; }
 
         public string Path { get => path; set => path = value; }
 
