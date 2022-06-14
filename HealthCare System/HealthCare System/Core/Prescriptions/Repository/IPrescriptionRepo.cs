@@ -1,4 +1,5 @@
 ﻿using HealthCare_System.Core.Prescriptions.Model;
+using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Prescriptions.Repository
 {

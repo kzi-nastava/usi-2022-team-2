@@ -65,18 +65,33 @@ namespace HealthCare_System.Core.Users
 
             patient.MedicalRecord = medRecord;
             medRecord.Patient = patient;
-            medicalRecordService.MedicalRecordRepo.Serialize();
-            ingredientService.IngredientRepo.Serialize();
+            medicalRecordService.Serialize();
+            ingredientService.Serialize();
         }
         public void UpdatePatient()
         {
             patientRepo.Serialize();
-            medicalRecordService.MedicalRecordRepo.Serialize();
+            medicalRecordService.Serialize();
         }
 
         public void BlockPatient(Patient patient)
         {
             patient.Blocked = !patient.Blocked;
+            patientRepo.Serialize();
+        }
+
+        public Patient FindByMail(string mail)
+        {
+            return patientRepo.FindByMail(mail);
+        }
+
+        public Patient FindByJmbg(string jmbg)
+        {
+            return patientRepo.FindByJmbg(jmbg);
+        }
+
+        public void Serialize()
+        {
             patientRepo.Serialize();
         }
     }

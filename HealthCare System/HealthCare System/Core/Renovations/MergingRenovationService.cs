@@ -42,12 +42,12 @@ namespace HealthCare_System.Core.Renovations
         public void StartMergingRenovation(MergingRenovation mergingRenovation)
         {
             mergingRenovation.Status = RenovationStatus.ACTIVE;
-            mergingRenovationRepo.Serialize();
+            Serialize();
             foreach (Room room in mergingRenovation.Rooms)
             {
                 equipmentTransferService.MoveEquipmentToStorage(room);
             }
-            roomService.RoomRepo.Serialize();
+            roomService.Serialize();
         }
 
         public void FinishMergingRenovation(MergingRenovation mergingRenovation)
@@ -64,9 +64,9 @@ namespace HealthCare_System.Core.Renovations
 
         public void TryToExecuteMergingRenovations()
         {
-            if (mergingRenovationRepo.MergingRenovations.Count > 0)
+            if (MergingRenovations().Count > 0)
             {
-                foreach (MergingRenovation mergingRenovation in mergingRenovationRepo.MergingRenovations)
+                foreach (MergingRenovation mergingRenovation in MergingRenovations())
                 {
                     if (DateTime.Now >= mergingRenovation.EndingDate)
                     {
@@ -83,6 +83,21 @@ namespace HealthCare_System.Core.Renovations
                 }
             }
 
+        }
+
+        public MergingRenovation FindById(int id)
+        {
+            return mergingRenovationRepo.FindById(id);
+        }
+
+        public int GenerateId()
+        {
+            return mergingRenovationRepo.GenerateId();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/MergingRenovation_Room.csv")
+        {
+            mergingRenovationRepo.Serialize();
         }
     }
 }

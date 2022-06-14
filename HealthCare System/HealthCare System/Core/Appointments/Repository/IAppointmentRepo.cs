@@ -16,5 +16,6 @@ namespace HealthCare_System.Core.Appointments.Repository
         List<Appointment> FindUpcomingAppointments(Patient patient);
         int GenerateId();
         void Serialize(string linkPath = "../../../data/links/AppointmentLinker.csv");
+        public void Add(Appointment appointment);
     }
 }

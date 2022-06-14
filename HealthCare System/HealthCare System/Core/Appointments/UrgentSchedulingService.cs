@@ -21,7 +21,7 @@ namespace HealthCare_System.Core.Appointments
         public Appointment ReplaceAppointment(Appointment toReplaceAppointment, UrgentAppointmentDto urgentAppointmentDto)
         {
             AppointmentType type = Appointment.getTypeByDuration(urgentAppointmentDto.Duration);
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
             AppointmentDto appointmentDto = new AppointmentDto(id, toReplaceAppointment.Start, toReplaceAppointment.End, urgentAppointmentDto.Doctor,
                 urgentAppointmentDto.Patient, null, type, AppointmentStatus.BOOKED, null, false, true);
 
@@ -54,7 +54,7 @@ namespace HealthCare_System.Core.Appointments
             }
 
             AppointmentType type = Appointment.getTypeByDuration(urgentAppointmentDto.Duration);
-            int id = appointmentService.AppointmentRepo.GenerateId();
+            int id = appointmentService.GenerateId();
             AppointmentDto appointmentDto = new AppointmentDto(id, start, start.AddMinutes(urgentAppointmentDto.Duration), doctor, urgentAppointmentDto.Patient, null,
                 type, AppointmentStatus.BOOKED, null, false, true);
 
@@ -69,7 +69,7 @@ namespace HealthCare_System.Core.Appointments
             DateTime currentTime = DateTime.Now;
             Appointment currentAppointment;
 
-            foreach (Appointment appointment in appointmentService.AppointmentRepo.Appointments)
+            foreach (Appointment appointment in appointmentService.Appointments())
             {
                 if (doctors.Contains(appointment.Doctor) && appointment.Start > currentTime && appointment.Start <= currentTime.AddHours(2))
                 {

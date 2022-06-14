@@ -17,5 +17,12 @@ namespace HealthCare_System.Core.Renovations
         void StartSplittingRenovation(SplittingRenovation splittingRenovation);
 
         void TryToExecuteSplittingRenovations();
+
+        SplittingRenovation FindById(int id);
+
+        int GenerateId();
+
+        void Serialize(string linkPath = "../../../data/links/SplittingRenovation_Room.csv");
+        
     }
 }

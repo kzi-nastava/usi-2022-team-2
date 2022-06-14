@@ -34,8 +34,8 @@ namespace HealthCare_System.Core.AppotinmentRequests
             appointmentService.Appointments().Remove(request.OldAppointment);
             request.OldAppointment = null;
             request.State = AppointmentState.ACCEPTED;
-            appointmentService.AppointmentRepo.Serialize();
-            appointmentRequestRepo.Serialize();
+            appointmentService.Serialize();
+            Serialize();
         }
         public void RejectRequest(AppointmentRequest request)
         {
@@ -44,14 +44,28 @@ namespace HealthCare_System.Core.AppotinmentRequests
             {
                 appointmentService.Appointments().Remove(request.NewAppointment);
                 request.NewAppointment = null;
-                appointmentService.AppointmentRepo.Serialize();
+                appointmentService.Serialize();
             }
-            appointmentRequestRepo.Serialize();
+            Serialize();
         }
         public void Add(AppointmentRequestDto requestDto)
         {
             AppointmentRequest request = new(requestDto);
             appointmentRequestRepo.Add(request);
+        }
+
+        public AppointmentRequest FindById(int id)
+        {
+            return appointmentRequestRepo.FindById(id);
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/AppointmentRequestLinker.csv")
+        {
+            appointmentRequestRepo.Serialize(linkPath);
+        }
+        public int GenerateId()
+        {
+            return appointmentRequestRepo.GenerateId();
         }
     }
 }

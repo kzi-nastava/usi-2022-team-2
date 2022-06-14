@@ -48,13 +48,7 @@ namespace HealthCare_System.Core.DoctorSurveys.Repository
             return doctorSurveys[^1].Id + 1;
         }
 
-
-
-        public void Add(DoctorSurvey survey)
-        {
-            doctorSurveys.Add(survey);
-            Serialize();
-        }
+        
 
         public void Serialize(string linkPath = "../../../data/links/Doctor_DoctorSurvey.csv")
         {
@@ -68,6 +62,12 @@ namespace HealthCare_System.Core.DoctorSurveys.Repository
                 csv += survey.Doctor.Jmbg.ToString() + ";" + survey.Id.ToString() + "\n";
             }
             File.WriteAllText(linkPath, csv);
+        }
+
+        public void Add(DoctorSurvey survey)
+        {
+            doctorSurveys.Add(survey);
+            Serialize();
         }
     }
 }

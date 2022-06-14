@@ -22,7 +22,7 @@ namespace HealthCare_System.Core.DoctorSurveys
         {
             int sumOfRatings = 0;
             int numberOfRatings = 0;
-            foreach (DoctorSurvey survey in doctorSurveyRepo.DoctorSurveys)
+            foreach (DoctorSurvey survey in DoctorSurveys())
             {
                 if (survey.Doctor == doctor)
                 {
@@ -60,6 +60,24 @@ namespace HealthCare_System.Core.DoctorSurveys
         {
             DoctorSurvey survey = new(doctorSurveyDto);
             doctorSurveyRepo.Add(survey);
+        }
+
+        public List<DoctorSurvey> DoctorSurveys()
+        {
+            return doctorSurveyRepo.DoctorSurveys;
+        }
+        public DoctorSurvey FindById(int id)
+        {
+            return doctorSurveyRepo.FindById(id);
+        }
+        public int GenerateId()
+        {
+            return doctorSurveyRepo.GenerateId();
+        }
+
+        public void Serialize(string linkPath = "../../../data/links/Doctor_DoctorSurvey.csv")
+        {
+            doctorSurveyRepo.Serialize();
         }
     }
 }
