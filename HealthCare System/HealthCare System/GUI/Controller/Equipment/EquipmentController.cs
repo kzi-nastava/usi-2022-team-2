@@ -2,7 +2,7 @@
 using HealthCare_System.Core.Equipments.Model;
 using System.Collections.Generic;
 
-namespace HealthCare_System.gui.Controller
+namespace HealthCare_System.GUI.Controller.Equipments
 {
     class EquipmentController
     {
