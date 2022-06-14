@@ -5,33 +5,35 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HealthCare_System.Core.Drugs;
 using HealthCare_System.Core.Drugs.Model;
 using HealthCare_System.Core.Ingredients.Model;
 using HealthCare_System.Core.MedicalRecords.Model;
 using HealthCare_System.Core.Prescriptions;
 using HealthCare_System.Core.Prescriptions.Model;
 using HealthCare_System.Core.Users.Model;
-using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Drugs;
+using HealthCare_System.GUI.Controller.Prescriptions;
 
 namespace HealthCare_System.GUI.DoctorView
 {
     public partial class PrescriptionWindow : Window
     {
-        HealthCareDatabase database;
         Patient patient;
         Dictionary<string, Drug> drugsDisplay;
-        PrescriptionService prescriptionService;
+        PrescriptionController prescriptionController;
+        DrugController drugController;
 
-        public PrescriptionWindow(Patient patient, HealthCareDatabase database)
+        public PrescriptionWindow(Patient patient, IPrescriptionService prescriptionService, IDrugService drugService)
         {
             this.patient = patient;
-            this.database  =  database;
 
             InitializeComponent();
 
             InitializeDrugs();
 
-            prescriptionService = new(database.PrescriptionRepo, new(database.MedicalRecordRepo));
+            prescriptionController = new(prescriptionService);
+            drugController = new(drugService);
 
             startDate.DisplayDateStart = DateTime.Now;
             endDate.DisplayDateStart = DateTime.Now;
@@ -41,7 +43,7 @@ namespace HealthCare_System.GUI.DoctorView
         {
             drugCb.Items.Clear();
             drugsDisplay = new Dictionary<string, Drug>();
-            List<Drug> drugs = database.DrugRepo.FillterAccepted();
+            List<Drug> drugs = drugController.FillterAccepted();
             List<Drug> sortedDrugs = drugs.OrderBy(x => x.Id).ToList();
 
             foreach (Drug drug in sortedDrugs)
@@ -100,7 +102,7 @@ namespace HealthCare_System.GUI.DoctorView
             if (frequency == -1)
                 return null;
 
-            int id = database.PrescriptionRepo.GenerateId();
+            int id = prescriptionController.GenerateId();
             return new(id, medicalRecord, start, end, frequency, drug);
         }
 
@@ -111,7 +113,7 @@ namespace HealthCare_System.GUI.DoctorView
                 PrescriptionDto prescriptionDto = ValidatePrescription();
                 if (prescriptionDto is null) return;
 
-                prescriptionService.AddPrescrition(prescriptionDto);
+                prescriptionController.AddPrescrition(prescriptionDto);
                 MessageBox.Show("Drug prescribed");
             }
             catch(Exception ex)

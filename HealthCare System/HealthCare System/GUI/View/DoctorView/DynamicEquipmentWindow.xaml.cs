@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using HealthCare_System.Core.Equipments.Model;
 using HealthCare_System.Core.EquipmentTransfers;
+using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Rooms.Model;
-using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.EquipmentTransfers;
+using HealthCare_System.GUI.Controller.Rooms;
 
 namespace HealthCare_System.GUI.DoctorView
 {
@@ -14,20 +16,20 @@ namespace HealthCare_System.GUI.DoctorView
     public partial class DynamicEquipmentWindow : Window
     {
         Room room;
-        HealthCareDatabase database;
         Dictionary<string, KeyValuePair<Equipment, int>> dynamicEquipmentDisplay;
-        EquipmentTransferService equpmentTransferService;
+        EquipmentTransferController equpmentTransferController;
+        RoomController roomController;
 
-        public DynamicEquipmentWindow(Room room, HealthCareDatabase database)
+        public DynamicEquipmentWindow(Room room, IEquipmentTransferService equipmentTransferService, IRoomService roomService)
         {
             this.room = room;
-            this.database =  database;
 
             InitializeComponent();
 
             InitializeEquipment();
 
-            equpmentTransferService = new(database.EquipmentTransferRepo, null);
+            equpmentTransferController = new(equipmentTransferService);
+            roomController = new(roomService);
 
             roomNameLbl.Content = room.Name;
             nameTb.IsReadOnly = true;
@@ -69,8 +71,8 @@ namespace HealthCare_System.GUI.DoctorView
                 return;
             }
 
-            equpmentTransferService.MoveFromRoom(room, equipment.Key, spentAmount);
-            database.RoomRepo.Serialize();
+            equpmentTransferController.MoveFromRoom(room, equipment.Key, spentAmount);
+            roomController.Serialize();
             InitializeEquipment();
             MessageBox.Show("Equipment updated!");
         }
