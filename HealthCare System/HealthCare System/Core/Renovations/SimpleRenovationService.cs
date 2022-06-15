@@ -26,6 +26,12 @@ namespace HealthCare_System.Core.Renovations
 
         public ISimpleRenovationRepo SimpleRenovationRepo { get => simpleRenovationRepo; }
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+
+        public IEquipmentTransferService EquipmentTransferService { get => equipmentTransferService; set => equipmentTransferService = value; }
+
+        public IEquipmentService EquipmentService { get => equipmentService; set => equipmentService = value; }
+
         public List<SimpleRenovation> SimpleRenovations()
         {
             return simpleRenovationRepo.SimpleRenovations;

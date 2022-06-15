@@ -19,6 +19,8 @@ namespace HealthCare_System.Core.Prescriptions
 
         public IPrescriptionRepo PrescriptionRepo { get => prescriptionRepo; }
 
+        public IMedicalRecordService MedicalRecordService { get => medicalRecordService; set => medicalRecordService = value; }
+
         public List<Prescription> Prescriptions()
         {
             return prescriptionRepo.Prescriptions;
