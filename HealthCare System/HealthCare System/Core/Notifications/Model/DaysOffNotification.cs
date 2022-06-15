@@ -36,7 +36,7 @@ namespace HealthCare_System.Core.Notifications.Model
             if (doctor is null) doctorInfo = "null";
             else doctorInfo = doctor.Jmbg;
 
-            return "DrugNotification[" + "id: " + Id.ToString() +
+            return "DaysOffNotification[" + "id: " + Id.ToString() +
                 ", message: " + Message + ", doctor: " + doctorInfo + "]";
         }
     }
