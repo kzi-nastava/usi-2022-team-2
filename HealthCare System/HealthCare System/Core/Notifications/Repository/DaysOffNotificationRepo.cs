@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using HealthCare_System.Core.Notifications.Model;
+using HealthCare_System.Core.Users.Model;
 
 namespace HealthCare_System.Core.Notifications.Repository
 {
@@ -32,6 +33,12 @@ namespace HealthCare_System.Core.Notifications.Repository
             daysOffNotifications = JsonSerializer.Deserialize<List<DaysOffNotification>>(File.ReadAllText(path));
         }
 
+        public void Add(Doctor doctor, string message)
+        {
+            DaysOffNotification daysOffNotification = new(GenerateId(), message, doctor);
+            Serialize();
+        }
+
         public DaysOffNotification FindById(int id)
         {
             foreach (DaysOffNotification daysOffNotification in daysOffNotifications)
@@ -45,6 +52,11 @@ namespace HealthCare_System.Core.Notifications.Repository
             string daysOffNotificationsJson = JsonSerializer.Serialize(daysOffNotifications,
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, daysOffNotificationsJson);
+        }
+
+        public int GenerateId()
+        {
+            return daysOffNotifications[^1].Id + 1;
         }
     }
 }

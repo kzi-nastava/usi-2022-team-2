@@ -1,12 +1,15 @@
 ﻿using HealthCare_System.Core.DaysOffRequests.Model;
+using HealthCare_System.Core.Notifications;
 using HealthCare_System.Core.Users.Model;
 using System.Collections.Generic;
 
 namespace HealthCare_System.Core.DaysOffRequests
 {
-    interface IDaysOffRequestService
+    public interface IDaysOffRequestService
     {
         List<DaysOffRequest> DaysOffRequests();
+
+        public IDaysOffNotificationService DaysOffNotificationService { get ; set ; }
 
         DaysOffRequest FindById(int id);
 
@@ -19,5 +22,9 @@ namespace HealthCare_System.Core.DaysOffRequests
         void Request(DaysOffRequestDto daysOffRequestDto);
 
         void UrgentRequest(DaysOffRequestDto daysOffRequestDto);
+
+        public void AcceptDaysOffRequest(DaysOffRequest daysOffRequest);
+
+        public void RejectDaysOffRequest(DaysOffRequest daysOffRequest, string message);
     }
 }

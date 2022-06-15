@@ -37,6 +37,7 @@ using HealthCare_System.GUI.Controller.Rooms;
 using HealthCare_System.GUI.Controller.SupplyRequests;
 using HealthCare_System.GUI.Controller.Users;
 using HealthCare_System.GUI.Main;
+using HealthCare_System.GUI.View.SecretaryView;
 using HealthCare_System.Model.Core.Appointments.Model;
 
 namespace HealthCare_System.GUI.SecretaryView
@@ -622,12 +623,31 @@ namespace HealthCare_System.GUI.SecretaryView
 
         private void acceptDaysOffRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            DaysOffRequest daysOffRequest = (DaysOffRequest)listBoxDaysOffRequests.SelectedItem;
+            if (daysOffRequest is null)
+            {
+                MessageBox.Show("Select request!");
+            }
+            else
+            {
+                daysOffRequestController.AcceptDaysOffRequest(daysOffRequest);
+                MessageBox.Show("Doctor is informed about request acceptance!");
+            }
         }
 
         private void rejectDaysOffRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            DaysOffRequest daysOffRequest = (DaysOffRequest)listBoxDaysOffRequests.SelectedItem;
+            if (daysOffRequest is null)
+            {
+                MessageBox.Show("Select request!");
+            }
+            else
+            {
+                string message = "";
+                DaysOffRejectionMessage daysOffRejectionMessage = new DaysOffRejectionMessage(daysOffRequestController, daysOffRequest, message);
+                daysOffRejectionMessage.Show();
+            }
         }
         #endregion
 

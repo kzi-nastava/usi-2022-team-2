@@ -1,5 +1,6 @@
 ﻿using HealthCare_System.Core.DaysOffRequests.Model;
 using HealthCare_System.Core.DaysOffRequests.Repository;
+using HealthCare_System.Core.Notifications;
 using HealthCare_System.Core.Users;
 using HealthCare_System.Core.Users.Model;
 using System;
@@ -11,6 +12,16 @@ namespace HealthCare_System.Core.DaysOffRequests
     {
         IDaysOffRequestRepo daysOffRequestRepo;
         IDoctorService doctorService;
+        IDaysOffNotificationService  daysOffNotificationService;
+
+        public IDaysOffNotificationService DaysOffNotificationService { get => daysOffNotificationService; set => daysOffNotificationService = value; }
+
+        public DaysOffRequestService(IDaysOffRequestRepo daysOffRequestRepo, IDoctorService doctorService, IDaysOffNotificationService daysOffNotificationService)
+        {
+            this.daysOffRequestRepo = daysOffRequestRepo;
+            this.doctorService = doctorService;
+            this.DaysOffNotificationService = daysOffNotificationService;
+        }
 
         public DaysOffRequestService(IDaysOffRequestRepo daysOffRequestRepo, IDoctorService doctorService)
         {
@@ -84,6 +95,21 @@ namespace HealthCare_System.Core.DaysOffRequests
             doctor.FreeDates.Add(daysOffRequest.End);
 
             doctorService.Serialize();
+        }
+
+        
+        public void AcceptDaysOffRequest(DaysOffRequest daysOffRequest)
+        {
+            daysOffRequest.State = DaysOffRequestState.ACCEPTED;
+            daysOffRequestRepo.Serialize();
+        }
+
+        public void RejectDaysOffRequest(DaysOffRequest daysOffRequest, string message)
+        {
+            daysOffRequest.State = DaysOffRequestState.DENIED;
+            daysOffRequestRepo.Serialize();
+
+            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, message);
         }
     }
 }

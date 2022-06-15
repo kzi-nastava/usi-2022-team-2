@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace HealthCare_System.GUI.Controller.DaysOffRequests
 {
-    class DaysOffRequestController
+    public class DaysOffRequestController
     {
         IDaysOffRequestService daysOffRequestService;
 
@@ -49,5 +49,14 @@ namespace HealthCare_System.GUI.Controller.DaysOffRequests
             daysOffRequestService.UrgentRequest(daysOffRequestDto);
         }
 
+        public void AcceptDaysOffRequest(DaysOffRequest daysOffRequest)
+        {
+            daysOffRequestService.AcceptDaysOffRequest(daysOffRequest);
+        }
+
+        public void RejectDaysOffRequest(DaysOffRequest daysOffRequest, string message)
+        {
+            daysOffRequestService.RejectDaysOffRequest(daysOffRequest, message);
+        }
     }
 }
