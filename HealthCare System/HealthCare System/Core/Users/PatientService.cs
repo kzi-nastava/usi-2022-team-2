@@ -22,13 +22,17 @@ namespace HealthCare_System.Core.Users
             IIngredientService ingredientService)
         {
             this.patientRepo = patientRepo;
-            this.schedulingService = schedulingService;
-            this.prescriptionService = prescriptionService;
-            this.medicalRecordService = medicalRecordService;
-            this.ingredientService = ingredientService;
+            this.SchedulingService = schedulingService;
+            this.PrescriptionService = prescriptionService;
+            this.MedicalRecordService = medicalRecordService;
+            this.IngredientService = ingredientService;
         }
 
         public IPatientRepo PatientRepo { get => patientRepo; }
+        public ISchedulingService SchedulingService { get => schedulingService; set => schedulingService = value; }
+        public IPrescriptionService PrescriptionService { get => prescriptionService; set => prescriptionService = value; }
+        public IMedicalRecordService MedicalRecordService { get => medicalRecordService; set => medicalRecordService = value; }
+        public IIngredientService IngredientService { get => ingredientService; set => ingredientService = value; }
 
         public List<Patient> Patients()
         {
@@ -40,15 +44,15 @@ namespace HealthCare_System.Core.Users
             MedicalRecord medicalRecord = patient.MedicalRecord;
             try
             {
-                schedulingService.DeleteAppointmens(patient);
+                SchedulingService.DeleteAppointmens(patient);
             }
             catch
             {
                 throw;
             }
-            prescriptionService.DeletePrescriptions(medicalRecord);
+            PrescriptionService.DeletePrescriptions(medicalRecord);
 
-            medicalRecordService.Delete(medicalRecord);
+            MedicalRecordService.Delete(medicalRecord);
             patientRepo.Delete(patient);
 
         }
@@ -65,13 +69,13 @@ namespace HealthCare_System.Core.Users
 
             patient.MedicalRecord = medRecord;
             medRecord.Patient = patient;
-            medicalRecordService.Serialize();
-            ingredientService.Serialize();
+            MedicalRecordService.Serialize();
+            IngredientService.Serialize();
         }
         public void UpdatePatient()
         {
             patientRepo.Serialize();
-            medicalRecordService.Serialize();
+            MedicalRecordService.Serialize();
         }
 
         public void BlockPatient(Patient patient)

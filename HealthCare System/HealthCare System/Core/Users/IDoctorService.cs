@@ -1,4 +1,5 @@
-﻿using HealthCare_System.Core.Users.Model;
+﻿using HealthCare_System.Core.DoctorSurveys;
+using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Core.Users.Repository;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace HealthCare_System.Core.Users
     public interface IDoctorService
     {
         IDoctorRepo DoctorRepo { get; }
+        public IDoctorSurveyService SurveyService { get ; set ; }
 
         List<Doctor> Doctors();
 

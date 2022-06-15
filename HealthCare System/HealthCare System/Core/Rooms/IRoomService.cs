@@ -12,7 +12,12 @@ namespace HealthCare_System.Core.Rooms
     public interface IRoomService
     {
         IRoomRepo RoomRepo { get ; }
-        
+        public IMergingRenovationService MergingRenovationService { get ; set ; }
+        public ISimpleRenovationService SimpleRenovationService { get ; set ; }
+        public IEquipmentTransferService EquipmentTransferService { get ; set ; }
+        public ISplittingRenovationService SplittingRenovationService { get ; set ; }
+        public IAppointmentService AppointmentService { get ; set ; }
+
         void Create(RoomDto roomDto);
         void Create(string name, TypeOfRoom type, Dictionary<Equipment, int> equipmentAmount);
         void Delete(Room room);

@@ -18,11 +18,13 @@ namespace HealthCare_System.Core.SupplyRequests
         public SupplyRequestService(ISupplyRequestRepo supplyRequestRepo, IRoomService roomService, IEquipmentTransferService equipmentTransferService)
         {
             this.supplyRequestRepo = supplyRequestRepo;
-            this.roomService = roomService;
-            this.equipmentTransferService = equipmentTransferService;
+            this.RoomService = roomService;
+            this.EquipmentTransferService = equipmentTransferService;
         }
 
         public ISupplyRequestRepo SupplyRequestRepo { get => supplyRequestRepo; }
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+        public IEquipmentTransferService EquipmentTransferService { get => equipmentTransferService; set => equipmentTransferService = value; }
 
         public List<SupplyRequest> SupplyRequests()
         {
@@ -31,14 +33,14 @@ namespace HealthCare_System.Core.SupplyRequests
 
         public void TryToExecuteSupplyRequest()
         {
-            Room storage = roomService.Storage();
+            Room storage = RoomService.Storage();
             foreach (SupplyRequest supplyRequest in supplyRequestRepo.SupplyRequests)
             {
                 if (supplyRequest.Finished == false && DateTime.Now < supplyRequest.RequestCreated.AddDays(1))
                 {
                     foreach (Equipment equipment in supplyRequest.OrderDetails.Keys)
                     {
-                        equipmentTransferService.MoveToRoom(storage, equipment, supplyRequest.OrderDetails[equipment]);
+                        EquipmentTransferService.MoveToRoom(storage, equipment, supplyRequest.OrderDetails[equipment]);
                     }
                     supplyRequest.Finished = true;
                 }

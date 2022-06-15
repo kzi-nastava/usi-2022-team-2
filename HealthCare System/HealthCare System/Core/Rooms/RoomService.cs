@@ -27,16 +27,21 @@ namespace HealthCare_System.Core.Rooms
             IEquipmentTransferService equipmentTransferService, ISplittingRenovationService splittingRenovationService,
             IAppointmentService appointmentService, IRoomRepo roomRepo)
         {
-            this.mergingRenovationService = mergingRenovationService;
-            this.simpleRenovationService = simpleRenovationService;
-            this.equipmentTransferService = equipmentTransferService;
-            this.splittingRenovationService = splittingRenovationService;
-            this.appointmentService = appointmentService;
+            this.MergingRenovationService = mergingRenovationService;
+            this.SimpleRenovationService = simpleRenovationService;
+            this.EquipmentTransferService = equipmentTransferService;
+            this.SplittingRenovationService = splittingRenovationService;
+            this.AppointmentService = appointmentService;
             this.roomRepo = roomRepo;
         }
 
         public IRoomRepo RoomRepo { get => roomRepo; }
-       
+        public IMergingRenovationService MergingRenovationService { get => mergingRenovationService; set => mergingRenovationService = value; }
+        public ISimpleRenovationService SimpleRenovationService { get => simpleRenovationService; set => simpleRenovationService = value; }
+        public IEquipmentTransferService EquipmentTransferService { get => equipmentTransferService; set => equipmentTransferService = value; }
+        public ISplittingRenovationService SplittingRenovationService { get => splittingRenovationService; set => splittingRenovationService = value; }
+        public IAppointmentService AppointmentService { get => appointmentService; set => appointmentService = value; }
+
         public List<Room> Rooms()
         {
             return roomRepo.Rooms;
@@ -50,7 +55,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailableAtAllMerging(Room room)
         {
             bool available = true;
-            foreach (MergingRenovation mergingRenovation in mergingRenovationService.MergingRenovations())
+            foreach (MergingRenovation mergingRenovation in MergingRenovationService.MergingRenovations())
             {
                 foreach (Room roomInMerging in mergingRenovation.Rooms)
                 {
@@ -67,7 +72,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailableAtTimeMerging(Room room, DateTime time)
         {
             bool available = true;
-            foreach (MergingRenovation mergingRenovation in mergingRenovationService.MergingRenovations())
+            foreach (MergingRenovation mergingRenovation in MergingRenovationService.MergingRenovations())
             {
                 foreach (Room roomInMerging in mergingRenovation.Rooms)
                 {
@@ -119,14 +124,14 @@ namespace HealthCare_System.Core.Rooms
 
         public void Delete(Room room)
         {
-            equipmentTransferService.MoveEquipmentToStorage(room);
+            EquipmentTransferService.MoveEquipmentToStorage(room);
             roomRepo.Delete(room);
         }
 
         public bool IsRoomAvailableAtAllSimple(Room room)
         {
             bool available = true;
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
+            foreach (SimpleRenovation simpleRenovation in SimpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room)
                 {
@@ -140,7 +145,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailableAtTimeSimple(Room room, DateTime time)
         {
             bool available = true;
-            foreach (SimpleRenovation simpleRenovation in simpleRenovationService.SimpleRenovations())
+            foreach (SimpleRenovation simpleRenovation in SimpleRenovationService.SimpleRenovations())
             {
                 if (room == simpleRenovation.Room && time.AddMinutes(15) >= simpleRenovation.BeginningDate)
                 {
@@ -154,7 +159,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailableAtAllSplitting(Room room)
         {
             bool available = true;
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationService.SplittingRenovations())
+            foreach (SplittingRenovation splittingRenovation in SplittingRenovationService.SplittingRenovations())
             {
                 if (room == splittingRenovation.Room)
                 {
@@ -168,7 +173,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailableAtTimeSplitting(Room room, DateTime time)
         {
             bool available = true;
-            foreach (SplittingRenovation splittingRenovation in splittingRenovationService.SplittingRenovations())
+            foreach (SplittingRenovation splittingRenovation in SplittingRenovationService.SplittingRenovations())
             {
                 if (room == splittingRenovation.Room && time.AddMinutes(15) >= splittingRenovation.BeginningDate)
                 {
@@ -182,7 +187,7 @@ namespace HealthCare_System.Core.Rooms
         public bool IsRoomAvailable(Room room)
         {
             bool available = true;
-            foreach (Transfer transfer in equipmentTransferService.Transfers())
+            foreach (Transfer transfer in EquipmentTransferService.Transfers())
             {
                 if (room == transfer.FromRoom || room == transfer.ToRoom)
                 {
@@ -214,19 +219,19 @@ namespace HealthCare_System.Core.Rooms
 
         public void RemoveRoom(Room room)
         {
-            foreach (Appointment appointment in appointmentService.Appointments())
+            foreach (Appointment appointment in AppointmentService.Appointments())
             {
                 if (appointment.Room == room)
                     appointment.Room = null;
             }
-            appointmentService.Serialize();
+            AppointmentService.Serialize();
             Delete(room);
         }
 
         public bool IsRoomAvailableAppointments(Room room)
         {
             bool available = true;
-            foreach (Appointment appointment in appointmentService.Appointments())
+            foreach (Appointment appointment in AppointmentService.Appointments())
             {
                 if (room == appointment.Room && appointment.Status != AppointmentStatus.FINISHED)
                 {

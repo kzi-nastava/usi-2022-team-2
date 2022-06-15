@@ -14,10 +14,11 @@ namespace HealthCare_System.Core.Users
         public DoctorService(IDoctorRepo doctorRepo, IDoctorSurveyService surveyService)
         {
             this.doctorRepo = doctorRepo;
-            this.surveyService = surveyService;
+            this.SurveyService = surveyService;
         }
 
         public IDoctorRepo DoctorRepo { get => doctorRepo; }
+        public IDoctorSurveyService SurveyService { get => surveyService; set => surveyService = value; }
 
         public List<Doctor> Doctors()
         {
@@ -69,7 +70,7 @@ namespace HealthCare_System.Core.Users
         {
             List<Doctor> sortedDoctors = new();
             if (priority == DoctorSortPriority.RATINGS)
-                sortedDoctors = surveyService.SortDoctorsByRatings(doctors, direction);
+                sortedDoctors = SurveyService.SortDoctorsByRatings(doctors, direction);
             else if (priority == DoctorSortPriority.FIRST_NAME)
                 sortedDoctors = SortDoctorsByFirstName(doctors, direction);
             else if (priority == DoctorSortPriority.LAST_NAME)
