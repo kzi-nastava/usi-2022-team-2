@@ -102,7 +102,8 @@ namespace HealthCare_System.Core.DaysOffRequests
         {
             daysOffRequest.State = DaysOffRequestState.ACCEPTED;
             daysOffRequestRepo.Serialize();
-            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, "Request accepted!");
+            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, 
+                "Request accepted! : Start - " + daysOffRequest.Start + " , End - " + daysOffRequest.End);
         }
 
         public void RejectDaysOffRequest(DaysOffRequest daysOffRequest, string message)
@@ -110,7 +111,8 @@ namespace HealthCare_System.Core.DaysOffRequests
             daysOffRequest.State = DaysOffRequestState.DENIED;
             daysOffRequestRepo.Serialize();
 
-            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, message);
+            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, 
+                message + "  :  Start - " + daysOffRequest.Start + " , End - " + daysOffRequest.End);
         }
     }
 }
