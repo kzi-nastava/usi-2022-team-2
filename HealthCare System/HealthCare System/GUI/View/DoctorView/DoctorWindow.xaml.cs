@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using HealthCare_System.Core.Anamneses;
 using HealthCare_System.Core.Appointments;
 using HealthCare_System.Core.Appointments.Model;
+using HealthCare_System.Core.DaysOffRequests.Model;
 using HealthCare_System.Core.Drugs;
 using HealthCare_System.Core.Drugs.Model;
 using HealthCare_System.Core.Ingredients.Model;
@@ -19,6 +20,7 @@ using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
 using HealthCare_System.GUI.Controller.Anamneses;
 using HealthCare_System.GUI.Controller.Appointments;
+using HealthCare_System.GUI.Controller.DaysOffRequests;
 using HealthCare_System.GUI.Controller.Drugs;
 using HealthCare_System.GUI.Controller.Ingredients;
 using HealthCare_System.GUI.Controller.MedicalRecords;
@@ -45,6 +47,7 @@ namespace HealthCare_System.GUI.DoctorView
         DrugController drugController;
         PatientController patientController;
         IngredientController ingredientController;
+        DaysOffRequestController daysOffRequestController;
 
         public DoctorWindow(Doctor doctor, ServiceBuilder serviceBuilder)
         {
@@ -59,7 +62,12 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeDrugs();
 
+            InitializeDaysOff();
+
+            InitializeDaysOffRequests();
+
             appointmentDate.DisplayDateStart = DateTime.Now;
+            startDayOffDate.DisplayDateStart = DateTime.Now.AddDays(2);
 
             DisableComponents();
 
@@ -149,7 +157,26 @@ namespace HealthCare_System.GUI.DoctorView
             drugController = new(serviceBuilder.DrugService);
             patientController = new(serviceBuilder.PatientService);
             ingredientController = new(serviceBuilder.IngredientService);
+            daysOffRequestController = new(serviceBuilder.DaysOffRequestService);
         }
+
+        void InitializeDaysOff()
+        {
+            daysOffView.Items.Clear();
+            doctor.FreeDates.Sort((x, y) => x.Date.CompareTo(y.Date));
+            foreach (DateTime date in doctor.FreeDates)
+                daysOffView.Items.Add(date.ToString("dd/MM/yyyy"));
+        }
+
+        void InitializeDaysOffRequests()
+        {
+            daysOffRequestsView.Items.Clear();
+            List<DaysOffRequest> daysOffRequests = daysOffRequestController.FillterByDoctor(doctor);
+            List<DaysOffRequest> sortedDaysOffRequest = daysOffRequests.OrderBy(x => x.Start).ToList();
+            foreach (DaysOffRequest daysOffRequest in sortedDaysOffRequest)
+                daysOffRequestsView.Items.Add(daysOffRequest.Start.ToString("dd/MM/yyyy") + " - " +
+                    daysOffRequest.End.ToString("dd/MM/yyyy") + ": " + daysOffRequest.State.ToString());
+    }
 
         void DisableComponents()
         {
@@ -554,6 +581,84 @@ namespace HealthCare_System.GUI.DoctorView
 
                 AcceptBtn.IsEnabled = true;
                 RejectBtn.IsEnabled = true;
+            }
+        }
+
+        private DaysOffRequestDto ValidateDaysOffRequest()
+        {
+            int id = daysOffRequestController.GenerateId();
+
+            DateTime start = PrescriptionWindow.ValidateDate(startDayOffDate, "start");
+            if (start == default(DateTime))
+                return null;
+
+            DateTime end = PrescriptionWindow.ValidateDate(endDayOffDate, "end");
+            if (end == default(DateTime))
+                return null;
+
+            string description = reasoningTb.Text;
+            if (description == "")
+            {
+                MessageBox.Show("You have to give reasoning!");
+                return null;
+            }
+
+            DaysOffRequestState state = DaysOffRequestState.WAITING;
+            bool urgent = false;
+            if ((bool)urgentChb.IsChecked)
+            {
+                state = DaysOffRequestState.ACCEPTED;
+                urgent = true;
+            }
+
+            return new(id, start, end, description, state, urgent, doctor);
+            
+        }
+
+        private void RequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DaysOffRequestDto daysOffRequestDto = ValidateDaysOffRequest();
+                if (daysOffRequestDto == null) return;
+
+                if ((bool)urgentChb.IsChecked)
+                    daysOffRequestController.UrgentRequest(daysOffRequestDto);
+                else
+                    daysOffRequestController.Request(daysOffRequestDto);
+
+                MessageBox.Show("Request added!");
+                InitializeDaysOffRequests();
+                InitializeDaysOff();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void StartDayOffDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            endDayOffDate.DisplayDateStart = startDayOffDate.SelectedDate.Value.AddDays(1);
+            endDayOffDate.SelectedDate = startDayOffDate.SelectedDate.Value.AddDays(1);
+
+            if ((bool)urgentChb.IsChecked)
+                endDayOffDate.DisplayDateEnd = startDayOffDate.SelectedDate.Value.AddDays(4);
+        }
+
+        private void UrgentChb_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if ((bool)urgentChb.IsChecked)
+                    endDayOffDate.DisplayDateEnd = startDayOffDate.SelectedDate.Value.AddDays(4);
+                else
+                    endDayOffDate.DisplayDateEnd = startDayOffDate.SelectedDate.Value.AddDays(1000);
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

@@ -51,6 +51,17 @@ namespace HealthCare_System.Core.DaysOffRequests.Model
             doctor = request.doctor;
         }
 
+        public DaysOffRequest(DaysOffRequestDto requestDto)
+        {
+            id = requestDto.Id;
+            start = requestDto.Start;
+            end = requestDto.End;
+            description = requestDto.Description;
+            state = requestDto.State;
+            urgent = requestDto.Urgent;
+            doctor = requestDto.Doctor;
+        }
+
         [JsonPropertyName("id")]
         public int Id { get => id; set => id = value; }
 

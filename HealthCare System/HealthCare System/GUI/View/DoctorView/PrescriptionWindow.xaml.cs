@@ -55,7 +55,7 @@ namespace HealthCare_System.GUI.DoctorView
             drugCb.SelectedIndex = 0;
         }
 
-        private DateTime ValidateDate(DatePicker date, string message)
+        public static DateTime ValidateDate(DatePicker date, string message)
         {
             try
             {

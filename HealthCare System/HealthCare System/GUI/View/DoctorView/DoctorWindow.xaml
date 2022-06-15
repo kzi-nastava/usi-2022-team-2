@@ -90,7 +90,20 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Absence" Margin="124,-2,-165,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="daysOffView" Margin="19,93,0,0" HorizontalAlignment="Left" Width="183" FontWeight="Bold" FontSize="15" Height="308" VerticalAlignment="Top" VerticalContentAlignment="Top" SelectionChanged="AppointmentView_SelectionChanged"/>
+                    <Label x:Name="daysOffLbl" Content="Days off" HorizontalAlignment="Left" Margin="19,58,0,0" VerticalAlignment="Top" Width="256" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <ListBox x:Name="daysOffRequestsView" Margin="220,93,0,0" HorizontalAlignment="Left" Width="331" FontWeight="Bold" FontSize="15" Height="308" VerticalAlignment="Top" VerticalContentAlignment="Top" SelectionChanged="AppointmentView_SelectionChanged"/>
+                    <Label x:Name="daysOffRequestsLbl" Content="Days off requests" HorizontalAlignment="Left" Margin="220,58,0,0" VerticalAlignment="Top" Width="331" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                    <Label x:Name="startDayOffLbl" Content="Start" HorizontalAlignment="Left" Margin="575,93,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                    <DatePicker x:Name="startDayOffDate" HorizontalAlignment="Left" Margin="709,93,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" FirstDayOfWeek="Monday" SelectedDateChanged="StartDayOffDate_SelectedDateChanged"/>
+                    <Label x:Name="endDayOffLbl" Content="End" HorizontalAlignment="Left" Margin="575,135,0,0" VerticalAlignment="Top" Width="62" Height="30" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                    <DatePicker x:Name="endDayOffDate" HorizontalAlignment="Left" Margin="709,135,0,0" VerticalAlignment="Top" Width="181" Height="26" FontWeight="Normal" FontSize="15" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" FirstDayOfWeek="Monday"/>
+                    <CheckBox x:Name="urgentChb"  Content="Urgent" HorizontalAlignment="Left" Margin="709,186,0,0" VerticalAlignment="Top" Width="181" FontSize="15" Click="UrgentChb_Click"/>
+                    <Button x:Name="RequestBtn" Content="Request" HorizontalAlignment="Left" Margin="575,376,0,0" VerticalAlignment="Top" Width="96" FontSize="15" Height="25" Click="RequestBtn_Click"/>
+                    <TextBox x:Name="reasoningTb" HorizontalAlignment="Left" Margin="575,215,0,0" Text="" TextWrapping="Wrap" Width="315" FontSize="15" FontWeight="Normal" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="146" VerticalAlignment="Top"/>
+                    <Label x:Name="reasoningLbl" Content="Reasoning" HorizontalAlignment="Left" Margin="575,180,0,0" VerticalAlignment="Top" Width="121" Height="30" FontSize="15" VerticalContentAlignment="Center"/>
+                </Grid>
             </TabItem>
         </TabControl>
 

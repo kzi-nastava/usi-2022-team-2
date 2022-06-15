@@ -75,6 +75,30 @@ namespace HealthCare_System.Core.Users.Model
             return true;
         }
 
+        public bool HasAppointments(DateTime start, DateTime end)
+        {
+            foreach (Appointment appointment in appointments)
+            {
+                if (appointment.Start.Date >= start.Date && appointment.Start.Date <= end.Date)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsFree(DateTime start, DateTime end)
+        {
+            foreach (DateTime date in freeDates)
+            {
+                if (date.Date >= start.Date && date.Date <= end.Date)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public DateTime getNextFreeAppointment(DateTime start, DateTime end)
         {
             foreach (DateTime date in freeDates)
@@ -118,7 +142,6 @@ namespace HealthCare_System.Core.Users.Model
 
         }
     
-
         public DateTime getClosestFreeAppointment(int duration, Patient patient)
         {
             DateTime currentClosest = DateTime.Now;
