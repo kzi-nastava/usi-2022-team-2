@@ -1,0 +1,23 @@
+﻿<Window x:Class="HealthCare_System.GUI.View.SecretaryView.DaysOffRejectionMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare_System.GUI.View.SecretaryView"
+        mc:Ignorable="d"
+        Title="DaysOffRejectionMessage" Height="300" Width="460">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="252*" />
+            <!--   <RowDefinition Height="12*" />-->
+        </Grid.RowDefinitions>
+        <TextBox x:Name="textBoxMessage" Margin="0,25,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" Height="179" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
+            
+        </TextBox>
+
+        <Button Content="Cancle" Height="35" HorizontalAlignment="Left" Margin="324,218,0,0" Name="cancleBtn" VerticalAlignment="Top" Width="100" Click="cancleBtn_Click" />
+        <Button Content="Confirm" Height="35" HorizontalAlignment="Left" Margin="200,218,0,0" Name="confirmBtn" VerticalAlignment="Top" Width="100" Click="confirmBtn_Click" />
+
+
+    </Grid>
+</Window>

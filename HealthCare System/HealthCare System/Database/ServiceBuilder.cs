@@ -51,6 +51,7 @@ namespace HealthCare_System.Database
         ISplittingRenovationService splittingRenovationService;
 
         IRoomService roomService;
+        IDaysOffNotificationService daysOffNotificationService;
         ISupplyRequestService supplyRequestService;
         IDoctorService doctorService;
         IManagerService managerService;
@@ -64,6 +65,7 @@ namespace HealthCare_System.Database
         {
             HealthCareDatabase database = new();
             anamnesisService = new AnamnesisService(database.AnamnesisRepo);
+            DaysOffNotificationService = new DaysOffNotificationService(database.DaysOffNotificationRepo);
             hospitalSurveyService = new HospitalSurveyService(database.HospitalSurveyRepo);
             referralService = new ReferralService(database.ReferralRepo);
             doctorSurveyService = new DoctorSurveyService(database.DoctorSurveyRepo);
@@ -98,7 +100,7 @@ namespace HealthCare_System.Database
             roomService.EquipmentTransferService = equipmentTransferService;
             appointmentService.SchedulingService = schedulingService;
 
-            daysOffRequestService = new DaysOffRequestService(database.DaysOffRequestRepo, doctorService);
+            daysOffRequestService = new DaysOffRequestService(database.DaysOffRequestRepo, doctorService, DaysOffNotificationService);
         }
 
         public IAnamnesisService AnamnesisService { get => anamnesisService;}
@@ -128,6 +130,7 @@ namespace HealthCare_System.Database
         public IPatientService PatientService { get => patientService;}
         public ISecretaryService SecretaryService { get => secretaryService;}
         public IUserService UserService { get => userService;}
+        public IDaysOffNotificationService DaysOffNotificationService { get => daysOffNotificationService; set => daysOffNotificationService = value; }
         internal IDaysOffRequestService DaysOffRequestService { get => daysOffRequestService; set => daysOffRequestService = value; }
     }
 }

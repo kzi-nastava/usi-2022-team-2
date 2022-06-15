@@ -85,7 +85,7 @@ namespace HealthCare_System.GUI.PatientView
             reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
             minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
-            notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService),
+            notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService), serviceBuilder.DaysOffNotificationService,
                 person);
             
             

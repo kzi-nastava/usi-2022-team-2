@@ -71,7 +71,7 @@ namespace HealthCare_System.GUI.DoctorView
 
             DisableComponents();
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService), 
+            DelayedAppointmentNotificationWindow notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService), serviceBuilder.DaysOffNotificationService,
                 doctor);
         }
 
