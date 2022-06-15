@@ -12,6 +12,9 @@ namespace HealthCare_System.Core.Appointments
         IAppointmentService appointmentService;
         ISchedulingService schedulingService;
 
+        public IAppointmentService AppointmentService { get => appointmentService; set => appointmentService = value; }
+        public ISchedulingService SchedulingService { get => schedulingService; set => schedulingService = value; }
+
         public UrgentSchedulingService(IAppointmentService appointmentService, ISchedulingService schedulingService)
         {
             this.appointmentService = appointmentService;

@@ -14,6 +14,10 @@ namespace HealthCare_System.Core.Appointments
         ISchedulingService schedulingService;
         IDoctorService doctorService;
 
+        public IAppointmentService AppointmentService { get => appointmentService; set => appointmentService = value; }
+        public ISchedulingService SchedulingService { get => schedulingService; set => schedulingService = value; }
+        public IDoctorService DoctorService { get => doctorService; set => doctorService = value; }
+
         public AppointmentRecomendationService(IAppointmentService appointmentService, ISchedulingService schedulingService,
             IDoctorService doctorService)
         {
