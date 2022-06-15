@@ -31,16 +31,17 @@ namespace HealthCare_System.GUI.SecretaryView
         private void FillListBoxNotifications()
         {
             int counter = 0;
-            AddDelayedAppointmentNotifications(counter);
-            AddDaysOffNotifications(counter);
+            counter += AddDelayedAppointmentNotifications();
+            counter += AddDaysOffNotifications();
             if (counter == 0)
             {
                 Close();
             }
         }
 
-        private void AddDelayedAppointmentNotifications(int counter)
+        private int AddDelayedAppointmentNotifications()
         {
+            int counter = 0;
             foreach (DelayedAppointmentNotification notification in delayedAppointmentNotificationController.DelayedAppointmentNotifications())
             {
                 if ((notification.Appointment is not null) && (notification.Appointment.Doctor == user || notification.Appointment.Patient == user) &&
@@ -50,10 +51,12 @@ namespace HealthCare_System.GUI.SecretaryView
                     counter += 1;
                 }
             }
+            return counter;
         }
 
-        private void AddDaysOffNotifications(int counter)
+        private int AddDaysOffNotifications()
         {
+            int counter = 0;
             foreach (DaysOffNotification daysOffNotification in daysOffNotificationService.DaysOffNotifications())
             {
                 if (user == daysOffNotification.Doctor && daysOffNotification.SeenByDoctor == false)
@@ -62,6 +65,7 @@ namespace HealthCare_System.GUI.SecretaryView
                     counter += 1;
                 }
             }
+            return counter;
         }
 
         private void closeBtn_Click(object sender, RoutedEventArgs e)
