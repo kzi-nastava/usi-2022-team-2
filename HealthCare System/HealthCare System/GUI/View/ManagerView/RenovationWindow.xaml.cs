@@ -2,63 +2,56 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using HealthCare_System.Core.Appointments;
-using HealthCare_System.Core.EquipmentTransfers;
 using HealthCare_System.Core.Renovations;
 using HealthCare_System.Core.Renovations.Model;
 using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Renovations;
+using HealthCare_System.GUI.Controller.Rooms;
 
 namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class RenovationWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         Dictionary<int, Room> listedRoomsSimple = new Dictionary<int, Room>();
         Dictionary<int, Room> listedRoomsSplitting = new Dictionary<int, Room>();
         Dictionary<int, Room> listedFirstRoomsMerging = new Dictionary<int, Room>();
         Dictionary<int, Room> listedSecondRoomsMerging= new Dictionary<int, Room>();
 
-        RoomService roomService;
-        SimpleRenovationService simpleRenovationService;
-        MergingRenovationService mergingRenovationService;
-        SplittingRenovationService splittingRenovationService;
-        AppointmentService appointmentService;
-        EquipmentTransferService equipmentTransferService;
+        RoomController roomController;
+        SimpleRenovationController simpleRenovationController;
+        MergingRenovationController mergingRenovationController;
+        SplittingRenovationController splittingRenovationController;
 
-        public RenovationWindow(HealthCareDatabase database)
+        public RenovationWindow(ServiceBuilder serviceBuilder)
         {
-            this.database  =  database;
+            this.serviceBuilder = serviceBuilder;
 
-            InitializeServices();
+            InitializeControllers();
             InitializeComponent();
-            InitializeComboBoxes(database.RoomRepo.Rooms);
+            InitializeComboBoxes(roomController.Rooms());
+            InitializeDatePickers();
+        }
+
+        void InitializeControllers()
+        {
+            roomController = new(serviceBuilder.RoomService);
+            simpleRenovationController = new(serviceBuilder.SimpleRenovationService);
+            mergingRenovationController = new(serviceBuilder.MergingRenovationService);
+            splittingRenovationController = new(serviceBuilder.SplittingRenovationService);
+        }
+
+        void InitializeDatePickers()
+        {
             simpleStartDp.SelectedDate = DateTime.Today;
             simpleEndDp.SelectedDate = DateTime.Today;
             mergingStartDp.SelectedDate = DateTime.Today;
             mergingEndDp.SelectedDate = DateTime.Today;
             splittingStartDp.SelectedDate = DateTime.Today;
             splittingEndDp.SelectedDate = DateTime.Today;
-        }
-
-        void InitializeServices()
-        {
-            roomService = new RoomService(null, null, null, null, null, database.RoomRepo);
-            mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService,
-                null, null);
-            simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService,
-                null, null);
-            splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService,
-                null, null);
-            appointmentService = new AppointmentService(database.AppointmentRepo, null);
-            equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
-            roomService.MergingRenovationService = mergingRenovationService;
-            roomService.SplittingRenovationService = splittingRenovationService;
-            roomService.SimpleRenovationService = simpleRenovationService;
-            roomService.AppointmentService = appointmentService;
-            roomService.EquipmentTransferService = equipmentTransferService;
         }
 
         public void InitializeComboBoxes(List<Room> rooms)
@@ -112,8 +105,8 @@ namespace HealthCare_System.GUI.ManagerView
             int index = 0;
             foreach (Room room in rooms)
             {
-                if (roomService.IsRoomAvailableForChange(room) &&
-                    roomService.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
+                if (roomController.IsRoomAvailableForChange(room) &&
+                    roomController.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
                 {
                     roomsForSimpleCb.Items.Add(room.Id);
                     listedRoomsSimple[index] = room;
@@ -152,13 +145,13 @@ namespace HealthCare_System.GUI.ManagerView
                 MessageBox.Show(exeption.Message);
                 return;
             }
-            SimpleRenovationDto simpleRenovationDto = new SimpleRenovationDto(database.SimpleRenovationRepo.GenerateId(),
+            SimpleRenovationDto simpleRenovationDto = new SimpleRenovationDto(simpleRenovationController.GenerateId(),
                 beginningDate, endingDate, RenovationStatus.BOOKED,
                 listedRoomsSimple[roomsForSimpleCb.SelectedIndex], newRoomName,
                 (TypeOfRoom)newRoomTypeSimpleCb.SelectedItem);
-            simpleRenovationService.BookRenovation(simpleRenovationDto);
+            simpleRenovationController.BookRenovation(simpleRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
-            InitializeComboBoxes(database.RoomRepo.Rooms);
+            InitializeComboBoxes(roomController.Rooms());
         }
         #endregion
 
@@ -169,8 +162,8 @@ namespace HealthCare_System.GUI.ManagerView
             int index = 0;
             foreach (Room room in rooms)
             {
-                if (roomService.IsRoomAvailableForChange(room) &&
-                    roomService.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
+                if (roomController.IsRoomAvailableForChange(room) &&
+                    roomController.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
                 {
                     firstRoomsForMergingCb.Items.Add(room.Id);
                     listedFirstRoomsMerging[index] = room;
@@ -242,12 +235,12 @@ namespace HealthCare_System.GUI.ManagerView
             }
             List<Room> rooms = new List<Room> { listedFirstRoomsMerging[firstRoomsForMergingCb.SelectedIndex],
                 listedSecondRoomsMerging[secondRoomsForMergingCb.SelectedIndex] };
-            MergingRenovationDto mergingRenovationDto = new MergingRenovationDto(database.MergingRenovationRepo.GenerateId(),
+            MergingRenovationDto mergingRenovationDto = new MergingRenovationDto(mergingRenovationController.GenerateId(),
                 beginningDate, endingDate, rooms, RenovationStatus.BOOKED, newRoomName,
                 (TypeOfRoom)newRoomTypeMergingCb.SelectedItem);
-            mergingRenovationService.BookRenovation(mergingRenovationDto);
+            mergingRenovationController.BookRenovation(mergingRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
-            InitializeComboBoxes(database.RoomRepo.Rooms);
+            InitializeComboBoxes(roomController.Rooms());
         }
         #endregion
 
@@ -258,8 +251,8 @@ namespace HealthCare_System.GUI.ManagerView
             int index = 0;
             foreach (Room room in rooms)
             {
-                if (roomService.IsRoomAvailableForChange(room) &&
-                    roomService.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
+                if (roomController.IsRoomAvailableForChange(room) &&
+                    roomController.IsRoomAvailableRenovationsAtAll(room) && room.Type != TypeOfRoom.STORAGE)
                 {
                     roomsForSplittingCb.Items.Add(room.Id);
                     listedRoomsSplitting[index] = room;
@@ -300,14 +293,14 @@ namespace HealthCare_System.GUI.ManagerView
                 MessageBox.Show(exeption.Message);
                 return;
             }
-            SplittingRenovationDto splittingRenovationDto = new SplittingRenovationDto(database.SplittingRenovationRepo.GenerateId(),
+            SplittingRenovationDto splittingRenovationDto = new SplittingRenovationDto(splittingRenovationController.GenerateId(),
                 beginningDate, endingDate, RenovationStatus.BOOKED,
                 listedRoomsSplitting[roomsForSplittingCb.SelectedIndex], firstNewRoomName,
                 (TypeOfRoom)firstNewRoomTypeSplittingCb.SelectedItem, secondNewRoomName,
                 (TypeOfRoom)secondNewRoomTypeSplittingCb.SelectedItem);
-            splittingRenovationService.BookRenovation(splittingRenovationDto);
+            splittingRenovationController.BookRenovation(splittingRenovationDto);
             MessageBox.Show("Renovation booked sucessfully!");
-            InitializeComboBoxes(database.RoomRepo.Rooms);
+            InitializeComboBoxes(roomController.Rooms());
         }
 
         #endregion

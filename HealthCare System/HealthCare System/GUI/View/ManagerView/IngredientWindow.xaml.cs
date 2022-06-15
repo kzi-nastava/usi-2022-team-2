@@ -2,33 +2,34 @@
 using HealthCare_System.Core.Ingredients;
 using HealthCare_System.Core.Ingredients.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Ingredients;
 
 namespace HealthCare_System.GUI.ManagerView
 {
     
     public partial class IngredientWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         bool create;
         Ingredient ingredient;
 
-        IngredientService ingredientService;
+        IngredientController ingredientController;
 
-        public IngredientWindow(bool create, HealthCareDatabase database, Ingredient ingredient = null)
+        public IngredientWindow(bool create, ServiceBuilder serviceBuilder, Ingredient ingredient = null)
         {
             InitializeComponent();
             this.create = create;
-            this.database = database;
+            this.serviceBuilder = serviceBuilder;
             this.ingredient = ingredient;
 
-            InitializeServices();
+            InitializeControllers();
             InitializeTitle();
             InitializeFields();
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            ingredientService = new IngredientService(database.IngredientRepo, null);
+            ingredientController = new(serviceBuilder.IngredientService);
         }
 
         void InitializeTitle()
@@ -51,8 +52,8 @@ namespace HealthCare_System.GUI.ManagerView
         {
             try
             {
-                IngredientDto ingredientDto = new IngredientDto(database.IngredientRepo.GenerateId(), nameTb.Text);
-                ingredientService.Create(ingredientDto);
+                IngredientDto ingredientDto = new IngredientDto(ingredientController.GenerateId(), nameTb.Text);
+                ingredientController.Create(ingredientDto);
                 MessageBox.Show("Ingredient created sucessfully!");
                 Close();
             }
@@ -67,7 +68,7 @@ namespace HealthCare_System.GUI.ManagerView
             try
             {
                 IngredientDto ingredientDto = new IngredientDto(-1, nameTb.Text);
-                ingredientService.Update(ingredientDto, ingredient);
+                ingredientController.Update(ingredientDto, ingredient);
                 MessageBox.Show("Ingredient updated sucessfully!");
                 Close();
             }
