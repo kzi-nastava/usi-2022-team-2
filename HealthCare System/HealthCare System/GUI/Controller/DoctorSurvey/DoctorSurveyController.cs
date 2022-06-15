@@ -11,9 +11,9 @@ namespace HealthCare_System.GUI.Controller.DoctorSurveys
 {
     class DoctorSurveyController
     {
-        private readonly DoctorSurveyService doctorSurveyService;
+        private readonly IDoctorSurveyService doctorSurveyService;
 
-        public DoctorSurveyController(DoctorSurveyService doctorSurveyService)
+        public DoctorSurveyController(IDoctorSurveyService doctorSurveyService)
         {
             this.doctorSurveyService = doctorSurveyService;
         }
