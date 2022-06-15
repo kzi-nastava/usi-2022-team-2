@@ -17,5 +17,17 @@ namespace HealthCare_System.Core.HospitalSurveys
         HospitalSurvey FindById(int id);
 
         void Serialize();
+
+        public Dictionary<string, decimal> FindAverageRatingByCategory();
+
+        public Dictionary<int, int> FindRatingAppearancesForServiceQuality();
+
+        public Dictionary<int, int> FindRatingAppearancesForHygiene();
+
+        public Dictionary<int, int> FindRatingAppearancesForSatisfaction();
+
+        public Dictionary<int, int> FindRatingAppearancesForRecommendation();
+
+        public List<string> GetAllComments();
     }
 }

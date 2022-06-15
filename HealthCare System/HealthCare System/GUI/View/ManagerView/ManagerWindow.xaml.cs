@@ -21,6 +21,10 @@ using HealthCare_System.GUI.Controller.Ingredients;
 using HealthCare_System.GUI.Controller.Drugs;
 using HealthCare_System.GUI.Controller.Rooms;
 using HealthCare_System.GUI.Controller.Equipments;
+using HealthCare_System.GUI.Controller.Users;
+using HealthCare_System.GUI.Controller.DoctorSurveys;
+using HealthCare_System.Core.Users.Model;
+using HealthCare_System.GUI.Controller.HospitalServices;
 
 namespace HealthCare_System.GUI.ManagerView
 {
@@ -31,11 +35,15 @@ namespace HealthCare_System.GUI.ManagerView
         Dictionary<int, Room> listedRooms = new Dictionary<int, Room>();
         Dictionary<int, Drug> listedDrugs = new Dictionary<int, Drug>();
         Dictionary<int, Ingredient> listedIngredients = new Dictionary<int, Ingredient>();
+        Dictionary<int, Doctor> listedDoctors = new Dictionary<int, Doctor>();
 
         EquipmentController equipmentController;
         RoomController roomController;
         IngredientController ingredientController;
         DrugController drugController;
+        DoctorController doctorController;
+        DoctorSurveyController doctorSurveyController;
+        HospitalSurveyController hospitalSurveyController;
 
         public ManagerWindow(ServiceBuilder serviceBuilder)
         {
@@ -48,6 +56,8 @@ namespace HealthCare_System.GUI.ManagerView
             DisplayDrugs(drugController.Drugs());
             DisplayIngredients(ingredientController.Ingredients());
             DisplayEquipment(equipmentController.GetEquipmentFromAllRooms());
+            InitializeDoctors();
+            DisplayHospitalRatings();
 
             
         }
@@ -58,6 +68,9 @@ namespace HealthCare_System.GUI.ManagerView
             roomController = new(serviceBuilder.RoomService);
             ingredientController = new(serviceBuilder.IngredientService);
             drugController = new(serviceBuilder.DrugService);
+            doctorController = new(serviceBuilder.DoctorService);
+            doctorSurveyController = new(serviceBuilder.DoctorSurveyService);
+            hospitalSurveyController = new(serviceBuilder.HospitalSurveyService);
         }
 
         #region EquipmentFiltering
@@ -426,6 +439,167 @@ namespace HealthCare_System.GUI.ManagerView
         {
             DisplayIngredients(ingredientController.Ingredients());
         }
+        #endregion
+
+
+        #region DoctorSurveys
+
+        void InitializeDoctors()
+        {
+            int index = 0;
+            foreach (Doctor doctor in doctorController.Doctors())
+            {
+                doctorIdCb.Items.Add(doctor.Jmbg);
+                listedDoctors[index] = doctor;
+                index++;
+            }
+            doctorIdCb.SelectedIndex = 0;
+            DisplayBestDoctors(1);
+            DisplayWorstDoctors(1);
+        }
+
+        private void doctorIdCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (doctorIdCb.SelectedIndex != -1)
+            {
+                doctorNameLbl.Content = listedDoctors[doctorIdCb.SelectedIndex].FirstName;
+                doctorLastNameLbl.Content = listedDoctors[doctorIdCb.SelectedIndex].LastName;
+                DisplayDoctorRatings();
+                DisplayDoctorComments();
+            }
+            
+        }
+
+        void DisplayDoctorRatings()
+        {
+            Dictionary<string, decimal> averageRatings = doctorSurveyController.FindAverageRatingForDoctorByCategory(
+                listedDoctors[doctorIdCb.SelectedIndex]);
+            Dictionary<int, int> serviceQualityRatings = doctorSurveyController.FindRatingAppearancesForServiceQuality(
+                listedDoctors[doctorIdCb.SelectedIndex]);
+            Dictionary<int, int> recommendationRatings = doctorSurveyController.FindRatingAppearancesForRecommendation(
+                listedDoctors[doctorIdCb.SelectedIndex]);
+            DisplayDoctorServiceQuality(serviceQualityRatings, averageRatings["Service Quality"]);
+            DisplayDoctorRecommendation(recommendationRatings, averageRatings["Recommendation"]);
+        }
+
+        void DisplayDoctorServiceQuality(Dictionary<int, int> serviceQualityRatings, decimal averageRating)
+        {
+            doctorServiceQualityLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in serviceQualityRatings)
+            {
+                doctorServiceQualityLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            doctorServiceQualityLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayDoctorRecommendation(Dictionary<int, int> recommendationRatings, decimal averageRating)
+        {
+            doctorRecommendationLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in recommendationRatings)
+            {
+                doctorRecommendationLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            doctorRecommendationLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayDoctorComments()
+        {
+            commentsLb.Items.Clear();
+            List<string> comments = doctorSurveyController.GetAllComments(listedDoctors[doctorIdCb.SelectedIndex]);
+            foreach (string comment in comments)
+            {
+                commentsLb.Items.Add(comment);
+            }
+        }
+
+        void DisplayBestDoctors(int numberOfDoctors)
+        {
+            List<Doctor> sortedDoctors = doctorSurveyController.SortDoctorsByRatings(doctorController.Doctors(), SortDirection.DESCENDING);
+            for (int i = 0; i < numberOfDoctors; i++)
+            {
+                bestDoctorsLb.Items.Add(sortedDoctors[i].Jmbg + " - " + sortedDoctors[i].FirstName + " " + sortedDoctors[i].LastName);
+            }
+        }
+
+        void DisplayWorstDoctors(int numberOfDoctors)
+        {
+            List<Doctor> sortedDoctors = doctorSurveyController.SortDoctorsByRatings(doctorController.Doctors(), SortDirection.ASCENDING);
+            for (int i = 0; i < numberOfDoctors; i++)
+            {
+                worstDoctorsLb.Items.Add(sortedDoctors[i].Jmbg + " - " + sortedDoctors[i].FirstName + " " + sortedDoctors[i].LastName);
+            }
+        }
+
+        #endregion
+
+
+        #region HospitalSurveys
+
+        void DisplayHospitalRatings()
+        {
+            Dictionary<string, decimal> averageRatings = hospitalSurveyController.FindAverageRatingByCategory();
+            Dictionary<int, int> serviceQualityRatings = hospitalSurveyController.FindRatingAppearancesForServiceQuality();
+            Dictionary<int, int> hygieneRatings = hospitalSurveyController.FindRatingAppearancesForHygiene();
+            Dictionary<int, int> satisfactionRatings = hospitalSurveyController.FindRatingAppearancesForSatisfaction();
+            Dictionary<int, int> recommendationRatings = hospitalSurveyController.FindRatingAppearancesForRecommendation();
+
+            DisplayHospitalServiceQuality(serviceQualityRatings, averageRatings["serviceQuality"]);
+            DisplayHospitalHygiene(hygieneRatings, averageRatings["hygiene"]);
+            DisplayHospitalSatisfaction(satisfactionRatings, averageRatings["satisfaction"]);
+            DisplayHospitalRecommendation(recommendationRatings, averageRatings["recommendation"]);
+
+            DisplayHospitalComments();
+        }
+
+        void DisplayHospitalServiceQuality(Dictionary<int, int> serviceQualityRatings, decimal averageRating)
+        {
+            hospitalServiceQualityLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in serviceQualityRatings)
+            {
+                hospitalServiceQualityLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            hospitalServiceQualityLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayHospitalHygiene(Dictionary<int, int> hygieneRatings, decimal averageRating)
+        {
+            hospitalHyigieneLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in hygieneRatings)
+            {
+                hospitalHyigieneLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            hospitalHyigieneLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayHospitalSatisfaction(Dictionary<int, int> satisfactionRatings, decimal averageRating)
+        {
+            hospitalSatisfactionLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in satisfactionRatings)
+            {
+                hospitalSatisfactionLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            hospitalSatisfactionLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayHospitalRecommendation(Dictionary<int, int> recommendationRatings, decimal averageRating)
+        {
+            hospitalRecommendationLb.Items.Clear();
+            foreach (KeyValuePair<int, int> rating in recommendationRatings)
+            {
+                hospitalRecommendationLb.Items.Add(rating.Key.ToString() + "'s : " + rating.Value.ToString());
+            }
+            hospitalRecommendationLb.Items.Add("Average : " + averageRating.ToString());
+        }
+
+        void DisplayHospitalComments()
+        {
+            List<string> comments = hospitalSurveyController.GetAllComments();
+            foreach (string comment in comments)
+            {
+                hospitalCommentsLb.Items.Add(comment);
+            }
+        }
+
         #endregion
 
         private void Window_Closing(object sender, CancelEventArgs e)

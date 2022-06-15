@@ -35,6 +35,86 @@ namespace HealthCare_System.Core.DoctorSurveys
             return 0;
         }
 
+        public Dictionary<string, decimal> FindAverageRatingForDoctorByCategory(Doctor doctor)
+        {
+            Dictionary<string, decimal> averageRatings = new();
+            averageRatings["Service Quality"] = 0;
+            averageRatings["Recommendation"] = 0;
+            int sumOfRatingsServiceQuality = 0;
+            int sumOfRatingsRecommendation = 0;
+            int numberOfRatings = 0;
+            foreach (DoctorSurvey doctorSurvey in DoctorSurveys())
+            {
+                if (doctor == doctorSurvey.Doctor)
+                {
+                    sumOfRatingsServiceQuality += doctorSurvey.ServiceQuality;
+                    sumOfRatingsRecommendation += doctorSurvey.Recommendation;
+                    numberOfRatings += 1;
+                }
+            }
+
+            if (numberOfRatings != 0)
+            {
+                averageRatings["Service Quality"] = Math.Round((decimal)((float)sumOfRatingsServiceQuality / numberOfRatings), 0);
+                averageRatings["Recommendation"] = Math.Round((decimal)((float)sumOfRatingsRecommendation / numberOfRatings), 0);
+            }
+
+            return averageRatings;
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForServiceQuality(Doctor doctor)
+        {
+            Dictionary<int, int> serviceQualityRatings = new();
+            serviceQualityRatings[5] = 0;
+            serviceQualityRatings[4] = 0;
+            serviceQualityRatings[3] = 0;
+            serviceQualityRatings[2] = 0;
+            serviceQualityRatings[1] = 0;
+            serviceQualityRatings[0] = 0;
+            foreach (DoctorSurvey doctorSurvey in DoctorSurveys())
+            {
+                if (doctor == doctorSurvey.Doctor)
+                {
+                    serviceQualityRatings[doctorSurvey.ServiceQuality] += 1;
+                }
+            }
+            return serviceQualityRatings;
+
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForRecommendation(Doctor doctor)
+        {
+            Dictionary<int, int> recommendationRatings = new();
+            recommendationRatings[5] = 0;
+            recommendationRatings[4] = 0;
+            recommendationRatings[3] = 0;
+            recommendationRatings[2] = 0;
+            recommendationRatings[1] = 0;
+            recommendationRatings[0] = 0;
+            foreach (DoctorSurvey doctorSurvey in DoctorSurveys())
+            {
+                if (doctor == doctorSurvey.Doctor)
+                {
+                    recommendationRatings[doctorSurvey.Recommendation] += 1;
+                }
+            }
+            return recommendationRatings;
+
+        }
+
+        public List<string> GetAllComments(Doctor doctor)
+        {
+            List<string> comments = new();
+            foreach (DoctorSurvey doctorSurvey in DoctorSurveys())
+            {
+                if (doctor == doctorSurvey.Doctor)
+                {
+                    comments.Add(doctorSurvey.Comment);
+                }
+            }
+            return comments;
+        }
+
         public List<Doctor> SortDoctorsByRatings(List<Doctor> doctors, SortDirection direction)
         {
             List<Tuple<Doctor, double>> ratings = new();

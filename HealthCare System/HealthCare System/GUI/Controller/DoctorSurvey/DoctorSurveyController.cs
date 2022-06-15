@@ -50,5 +50,25 @@ namespace HealthCare_System.GUI.Controller.DoctorSurveys
         {
             doctorSurveyService.Serialize(linkPath);
         }
+
+        public Dictionary<string, decimal> FindAverageRatingForDoctorByCategory(Doctor doctor)
+        {
+            return doctorSurveyService.FindAverageRatingForDoctorByCategory(doctor);
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForServiceQuality(Doctor doctor)
+        {
+            return doctorSurveyService.FindRatingAppearancesForServiceQuality(doctor);
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForRecommendation(Doctor doctor)
+        {
+            return doctorSurveyService.FindRatingAppearancesForRecommendation(doctor);
+        }
+
+        public List<string> GetAllComments(Doctor doctor)
+        {
+            return doctorSurveyService.GetAllComments(doctor);
+        }
     }
 }

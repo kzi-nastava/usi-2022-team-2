@@ -38,5 +38,35 @@ namespace HealthCare_System.GUI.Controller.HospitalServices
             hospitalSurveyService.Serialize();
         }
 
+        public Dictionary<string, decimal> FindAverageRatingByCategory()
+        {
+            return hospitalSurveyService.FindAverageRatingByCategory();
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForServiceQuality()
+        {
+            return hospitalSurveyService.FindRatingAppearancesForServiceQuality();
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForHygiene()
+        {
+            return hospitalSurveyService.FindRatingAppearancesForHygiene();
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForSatisfaction()
+        {
+            return hospitalSurveyService.FindRatingAppearancesForSatisfaction();
+        }
+
+        public Dictionary<int, int> FindRatingAppearancesForRecommendation()
+        {
+            return hospitalSurveyService.FindRatingAppearancesForRecommendation();
+        }
+
+        public List<string> GetAllComments()
+        {
+            return hospitalSurveyService.GetAllComments();
+        }
+
     }
 }

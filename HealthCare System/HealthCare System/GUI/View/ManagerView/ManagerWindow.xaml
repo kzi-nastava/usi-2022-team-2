@@ -68,6 +68,41 @@
                     <Button x:Name="refreshIngredientsBtn" Content="Refresh" HorizontalAlignment="Left" Margin="61,294,0,0" VerticalAlignment="Top" Height="45" Width="160" Click="refreshIngredientsBtn_Click"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Doctor Surveys" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="175" FontSize="20" FontWeight="Bold" Margin="0,-1,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="doctorIdCb" HorizontalAlignment="Left" Margin="26,40,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="doctorIdCb_SelectionChanged"/>
+                    <Label x:Name="doctorNameLbl" Content="Label" HorizontalAlignment="Left" Margin="62,87,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="1.106,0.668"/>
+                    <Label x:Name="doctorLastNameLbl" Content="Label" HorizontalAlignment="Left" Margin="62,122,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"/>
+                    <Label Content="Service Quality" HorizontalAlignment="Left" Margin="257,21,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Recommendation" HorizontalAlignment="Left" Margin="423,21,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="bestDoctorsLb" Margin="646,69,10,253" FontSize="14" FontWeight="Normal"/>
+                    <ListBox x:Name="worstDoctorsLb" Margin="646,261,10,61" FontSize="14" FontWeight="Normal"/>
+                    <Label Content="Best Doctors" HorizontalAlignment="Left" Margin="693,21,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Worst Doctors" HorizontalAlignment="Left" Margin="685,210,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="doctorServiceQualityLb" Margin="269,69,483,66" FontSize="14" FontWeight="Normal"/>
+                    <ListBox x:Name="doctorRecommendationLb" Margin="447,68,305,67" FontSize="14" FontWeight="Normal"/>
+                    <ListBox x:Name="commentsLb" Margin="10,261,646,9" FontSize="14" FontWeight="Normal"/>
+                    <Label Content="Comments" HorizontalAlignment="Left" Margin="67,215,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Hospital Surveys" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="183" FontSize="20" FontWeight="Bold" Margin="0,-1,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="617*"/>
+                        <ColumnDefinition Width="263*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Service Quality" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.123,-0.335"/>
+                    <Label Content="Hygiene" HorizontalAlignment="Left" Margin="184,26,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Satisfaction" HorizontalAlignment="Left" Margin="312,26,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Recommendation" HorizontalAlignment="Left" Margin="441,26,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="hospitalCommentsLb" Grid.Column="1" Margin="17,44,10,10" FontSize="15" FontWeight="Normal"/>
+                    <Label Content="Comments" HorizontalAlignment="Left" Margin="80,2,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <ListBox x:Name="hospitalServiceQualityLb" Margin="24,68,469,10" FontSize="15" FontWeight="Normal"/>
+                    <ListBox x:Name="hospitalHyigieneLb" Margin="166,68,327,10" FontSize="15" FontWeight="Normal"/>
+                    <ListBox x:Name="hospitalSatisfactionLb" Margin="308,68,185,10" FontSize="15" FontWeight="Normal"/>
+                    <ListBox x:Name="hospitalRecommendationLb" Margin="467,68,26,10" FontSize="15" FontWeight="Normal"/>
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>
