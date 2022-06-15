@@ -51,6 +51,7 @@ namespace HealthCare_System.GUI.Controller.Appointments
         {
             appointmentService.DeleteAppointmens(patient);
         }
+
         public Appointment FindById(int id)
         {
             return appointmentService.FindById(id);

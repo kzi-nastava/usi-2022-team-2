@@ -40,7 +40,7 @@ namespace HealthCare_System.GUI.ManagerView
         public ManagerWindow(ServiceBuilder serviceBuilder)
         {
             InitializeComponent();
-            this.serviceBuilder  =  serviceBuilder;
+            this.serviceBuilder = serviceBuilder;
 
             InitializeControllers();
             InitializeComboBoxes();

@@ -85,7 +85,8 @@ namespace HealthCare_System.Database
             patientService = new PatientService(database.PatientRepo, schedulingService, prescriptionService, medicalRecordService, ingredientService);
             secretaryService = new SecretaryService(database.SecretaryRepo);
             userService = new UserService(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
-
+            supplyRequestService = new SupplyRequestService(database.SupplyRequestRepo, roomService, equipmentTransferService);
+            drugNotificationService = new DrugNotificationService(database.DrugNotificationRepo);
         }
 
         public IAnamnesisService AnamnesisService { get => anamnesisService;}

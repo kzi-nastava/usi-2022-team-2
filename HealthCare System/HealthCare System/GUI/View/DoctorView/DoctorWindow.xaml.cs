@@ -53,17 +53,18 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeComponent();
 
+            InitializeControllers();
+
             InitializeAppointmentType();
 
             InitializeDrugs();
-
-            InitializeControllers();
 
             appointmentDate.DisplayDateStart = DateTime.Now;
 
             DisableComponents();
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(new(), doctor);
+            DelayedAppointmentNotificationWindow notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService), 
+                doctor);
         }
 
         void InitializeAppointments()
