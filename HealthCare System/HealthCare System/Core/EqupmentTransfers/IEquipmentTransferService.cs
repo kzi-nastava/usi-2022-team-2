@@ -1,6 +1,7 @@
 ﻿using HealthCare_System.Core.Equipments.Model;
 using HealthCare_System.Core.EquipmentTransfers.Model;
 using HealthCare_System.Core.EquipmentTransfers.Repository;
+using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Rooms.Model;
 using System.Collections.Generic;
 
@@ -9,6 +10,8 @@ namespace HealthCare_System.Core.EquipmentTransfers
     public interface IEquipmentTransferService
     {
         IEquipmentTransferRepo EquipmentTransferRepo { get; }
+
+        public IRoomService RoomService { get; set; }
 
         void Add(TransferDto transferDTO);
 

@@ -63,29 +63,33 @@ namespace HealthCare_System.Database
             anamnesisService = new AnamnesisService(database.AnamnesisRepo);
             hospitalSurveyService = new HospitalSurveyService(database.HospitalSurveyRepo);
             referralService = new ReferralService(database.ReferralRepo);
-            prescriptionService = new PrescriptionService(database.PrescriptionRepo, medicalRecordService);
             doctorSurveyService = new DoctorSurveyService(database.DoctorSurveyRepo);
+            managerService = new ManagerService(database.ManagerRepo);
+            secretaryService = new SecretaryService(database.SecretaryRepo);
+            delayedAppointmentNotificationService = new DelayedAppointmentNotificationService(database.DelayedAppointmentNotificationRepo);
+            drugNotificationService = new DrugNotificationService(database.DrugNotificationRepo);
+            medicalRecordService = new MedicalRecordService(database.MedicalRecordRepo);
+            prescriptionService = new PrescriptionService(database.PrescriptionRepo, medicalRecordService);
             drugService = new DrugService(database.DrugRepo, prescriptionService);
             ingredientService = new IngredientService(database.IngredientRepo, drugService);
-            appointmentService = new AppointmentService(database.AppointmentRepo, schedulingService);
+            doctorService = new DoctorService(database.DoctorRepo, doctorSurveyService);
+            appointmentService = new AppointmentService(database.AppointmentRepo, schedulingService);//sch
             appointmentRequestService = new AppointmentRequestService(database.AppointmentRequestRepo, appointmentService);
+
             appointmentRecomendationService = new AppointmentRecomendationService(appointmentService, schedulingService, doctorService);
             schedulingService = new SchedulingService(roomService, appointmentService, anamnesisService, doctorService, referralService);
             urgentSchedulingService = new UrgentSchedulingService(appointmentService, schedulingService);
             equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
             equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
-            medicalRecordService = new MedicalRecordService(database.MedicalRecordRepo);
-            delayedAppointmentNotificationService = new DelayedAppointmentNotificationService(database.DelayedAppointmentNotificationRepo);
             mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService, equipmentTransferService, equipmentService);
             simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService, equipmentTransferService, equipmentService);
             splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService, equipmentTransferService, equipmentService);
             roomService = new RoomService(mergingRenovationService, simpleRenovationService, equipmentTransferService, splittingRenovationService, appointmentService, database.RoomRepo);
-            doctorService = new DoctorService(database.DoctorRepo, doctorSurveyService);
-            managerService = new ManagerService(database.ManagerRepo);
             patientService = new PatientService(database.PatientRepo, schedulingService, prescriptionService, medicalRecordService, ingredientService);
-            secretaryService = new SecretaryService(database.SecretaryRepo);
             userService = new UserService(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
+            supplyRequestService = new SupplyRequestService(database.SupplyRequestRepo, roomService, equipmentTransferService);
 
+            appointmentService.
         }
 
         public IAnamnesisService AnamnesisService { get => anamnesisService;}

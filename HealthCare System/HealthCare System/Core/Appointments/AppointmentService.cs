@@ -20,6 +20,7 @@ namespace HealthCare_System.Core.Appointments
         }
 
         public IAppointmentRepo AppointmentRepo { get => appointmentRepo; }
+        public ISchedulingService SchedulingService { get => schedulingService; set => schedulingService = value; }
 
         public List<Appointment> Appointments()
         {
