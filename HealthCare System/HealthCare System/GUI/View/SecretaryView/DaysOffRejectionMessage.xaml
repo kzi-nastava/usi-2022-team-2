@@ -12,14 +12,7 @@
             <!--   <RowDefinition Height="12*" />-->
         </Grid.RowDefinitions>
         <TextBox x:Name="textBoxMessage" Margin="0,25,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="306" Height="179" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
-            <TextBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBox.RenderTransform>
+            
         </TextBox>
 
         <Button Content="Cancle" Height="35" HorizontalAlignment="Left" Margin="324,218,0,0" Name="cancleBtn" VerticalAlignment="Top" Width="100" Click="cancleBtn_Click" />

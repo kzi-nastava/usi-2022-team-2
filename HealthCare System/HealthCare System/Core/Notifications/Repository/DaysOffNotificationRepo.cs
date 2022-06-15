@@ -56,6 +56,10 @@ namespace HealthCare_System.Core.Notifications.Repository
 
         public int GenerateId()
         {
+            if (daysOffNotifications.Count == 0)
+            {
+                return 1001;
+            }
             return daysOffNotifications[^1].Id + 1;
         }
     }

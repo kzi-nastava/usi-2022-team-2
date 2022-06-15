@@ -102,6 +102,7 @@ namespace HealthCare_System.Core.DaysOffRequests
         {
             daysOffRequest.State = DaysOffRequestState.ACCEPTED;
             daysOffRequestRepo.Serialize();
+            daysOffNotificationService.AddDaysOffNotification(daysOffRequest.Doctor, "Request accepted!");
         }
 
         public void RejectDaysOffRequest(DaysOffRequest daysOffRequest, string message)
