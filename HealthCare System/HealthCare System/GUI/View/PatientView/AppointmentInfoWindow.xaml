@@ -1,0 +1,24 @@
+﻿<Window x:Class="HealthCare_System.GUI.PatientView.AppointmentInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="AppointmentInfo" Height="350" Width="450
+        " FontWeight="Bold" FontSize="20">
+    <Grid>
+        <Label Content="Start:" HorizontalAlignment="Left" Margin="63,23,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="End:" HorizontalAlignment="Left" Margin="72,60,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Doctor:" HorizontalAlignment="Left" Margin="44,102,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Room:" HorizontalAlignment="Left" Margin="52,139,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.481,0.55"/>
+        <Label Content="Type:" HorizontalAlignment="Left" Margin="63,180,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Anamnesis:" HorizontalAlignment="Left" Margin="8,223,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Button x:Name="closeBtn" Content="Close" HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" Width="118" Click="closeBtn_Click"/>
+        <Label x:Name="startL" Content="Start:" HorizontalAlignment="Left" Margin="123,23,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="endL" Content="Start:" HorizontalAlignment="Left" Margin="123,59,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="doctorL" Content="Start:" HorizontalAlignment="Left" Margin="126,102,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="roomL" Content="Start:" HorizontalAlignment="Left" Margin="126,138,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="typeL" Content="Start:" HorizontalAlignment="Left" Margin="126,181,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="anamnesisL" Content="Start:" HorizontalAlignment="Left" Margin="126,222,0,0" VerticalAlignment="Top" FontSize="20"/>
+    </Grid>
+</Window>

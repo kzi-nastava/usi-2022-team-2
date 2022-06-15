@@ -10,6 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="data_restore_point\factory\**" />
+    <Compile Remove="Repository\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="data_restore_point\factory\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="data_restore_point\factory\**" />
+    <None Remove="Repository\**" />
+    <None Remove="Services\**" />
+    <Page Remove="data_restore_point\factory\**" />
+    <Page Remove="Repository\**" />
+    <Page Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="controllers\DaysOffNotificationController.cs~RF4e8a1d0.TMP" />
   </ItemGroup>
 

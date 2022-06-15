@@ -1,0 +1,20 @@
+﻿<Window x:Class="HealthCare_System.GUI.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Login" Height="180" Width="380" FontWeight="Bold" FontSize="15">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="111*"/>
+            <ColumnDefinition Width="79*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Left" Margin="132,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.518,0.204" Height="32" Width="116" Click="LoginBtn_Click" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="mailTb"  HorizontalAlignment="Left" Margin="95,22,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" Height="24" Grid.ColumnSpan="2" FontWeight="Normal"/>
+        <PasswordBox Name="passwordTb" HorizontalAlignment="Left" Margin="95,58,0,0" VerticalAlignment="Top" Width="266" Height="24" Grid.ColumnSpan="2" FontWeight="Normal"/>
+        <Label Content="Mail:" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

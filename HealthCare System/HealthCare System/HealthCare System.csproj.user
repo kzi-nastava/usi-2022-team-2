@@ -2,75 +2,75 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="gui\AppointmentInfo.xaml.cs">
+    <Compile Update="GUI\View\PatientView\AppointmentInfoWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\DelayedAppointmentNotificationWindow.xaml.cs">
+    <Compile Update="GUI\View\SecretaryView\DelayedAppointmentNotificationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\DrugWindow.xaml.cs">
+    <Compile Update="GUI\View\ManagerView\DrugWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\EquipmentMoveWindow.xaml.cs">
+    <Compile Update="GUI\View\ManagerView\EquipmentMoveWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\IngredientWindow.xaml.cs">
+    <Compile Update="GUI\View\ManagerView\IngredientWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\ManagerWindow.xaml.cs">
+    <Compile Update="GUI\View\ManagerView\ManagerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\PatientWindow.xaml.cs">
+    <Compile Update="GUI\View\PatientView\PatientWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\PrescriptionWindow.xaml.cs">
+    <Compile Update="GUI\View\DoctorView\PrescriptionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\ReferralWindow.xaml.cs">
+    <Compile Update="GUI\View\DoctorView\ReferralWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\RequestDetailsWindow.xaml.cs">
+    <Compile Update="GUI\View\SecretaryView\RequestDetailsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="gui\RoomWindow.xaml.cs">
+    <Compile Update="GUI\View\ManagerView\RoomWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="gui\AppointmentInfo.xaml">
+    <Page Update="GUI\View\PatientView\AppointmentInfoWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\DelayedAppointmentNotificationWindow.xaml">
+    <Page Update="GUI\View\SecretaryView\DelayedAppointmentNotificationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\DrugWindow.xaml">
+    <Page Update="GUI\View\ManagerView\DrugWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\EquipmentMoveWindow.xaml">
+    <Page Update="GUI\View\ManagerView\EquipmentMoveWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\IngredientWindow.xaml">
+    <Page Update="GUI\View\ManagerView\IngredientWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\ManagerWindow.xaml">
+    <Page Update="GUI\View\ManagerView\ManagerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\PatientWindow.xaml">
+    <Page Update="GUI\View\PatientView\PatientWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\PrescriptionWindow.xaml">
+    <Page Update="GUI\View\DoctorView\PrescriptionWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\ReferralWindow.xaml">
+    <Page Update="GUI\View\DoctorView\ReferralWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\RequestDetailsWindow.xaml">
+    <Page Update="GUI\View\SecretaryView\RequestDetailsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="gui\RoomWindow.xaml">
+    <Page Update="GUI\View\ManagerView\RoomWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="main\MainWindow.xaml">
+    <Page Update="GUI\View\Main\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
