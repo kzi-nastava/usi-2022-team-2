@@ -9,27 +9,29 @@ using HealthCare_System.Core.MedicalRecords.Model;
 using HealthCare_System.Core.Users;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Ingredients;
+using HealthCare_System.GUI.Controller.MedicalRecords;
+using HealthCare_System.GUI.Controller.Users;
 
 namespace HealthCare_System.GUI.SecretaryView
 {
     public partial class AddPatientWindow : Window
     {
         bool isUpdate;
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         Patient patient;
-        PatientService patientService;
-        IngredientService ingredientService;
-        MedicalRecordService medicalRecordService;
+        PatientController patientController;
+        IngredientController ingredientController;
+        MedicalRecordController medicalRecordController;
 
-        public AddPatientWindow(PatientService patientService, MedicalRecordService medicalRecordService,  bool isUpdate, Patient patient, HealthCareDatabase database)
+        public AddPatientWindow(PatientController patientController, MedicalRecordController medicalRecordController, IIngredientService ingredientService, bool isUpdate, Patient patient)
         {
             InitializeComponent();
-            this.patientService = patientService;
-            this.medicalRecordService = medicalRecordService;
+            this.patientController = patientController;
+            this.medicalRecordController = medicalRecordController;
             this.isUpdate = isUpdate;
-            this.database = database;
 
-            this.ingredientService = new(database.IngredientRepo, null);
+            this.ingredientController = new(ingredientService);
 
             if(isUpdate)
             {
@@ -92,7 +94,7 @@ namespace HealthCare_System.GUI.SecretaryView
             List<Ingredient> ingredients = new List<Ingredient>();
             foreach (string name in ingredientNames)
             {
-                foreach (Ingredient ingredient in ingredientService.Ingredients())
+                foreach (Ingredient ingredient in ingredientController.Ingredients())
                 {
                     if (ingredient.Name.ToLower() == name.ToLower())
                     {
@@ -153,7 +155,7 @@ namespace HealthCare_System.GUI.SecretaryView
             patient.MedicalRecord.Weight = Convert.ToDouble(textBoxWeight.Text);
             patient.MedicalRecord.DiseaseHistory = textBoxHistory.Text;
 
-            patientService.UpdatePatient();
+            patientController.UpdatePatient();
 
             MessageBox.Show("You succesefully updated patient.");
         }
@@ -163,9 +165,9 @@ namespace HealthCare_System.GUI.SecretaryView
             PersonDto personDto = new(textBoxJmbg.Text, textBoxFirstName.Text, textBoxLastName.Text, textBoxEmail.Text, birthDatePicker.SelectedDate.Value, passwordBox.Password);
 
             List<Ingredient> ingredients = GetIngredients();
-            MedicalRecord medRecord = medicalRecordService.Add(Convert.ToDouble(textBoxHeight.Text), Convert.ToDouble(textBoxWeight.Text), textBoxHistory.Text, ingredients);
+            MedicalRecord medRecord = medicalRecordController.Add(Convert.ToDouble(textBoxHeight.Text), Convert.ToDouble(textBoxWeight.Text), textBoxHistory.Text, ingredients);
 
-            patientService.AddPatient(personDto, medRecord);
+            patientController.AddPatient(personDto, medRecord);
 
             MessageBox.Show("You succesefully registred new patient.");
         }

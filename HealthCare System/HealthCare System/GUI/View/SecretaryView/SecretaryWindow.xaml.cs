@@ -25,6 +25,15 @@ using HealthCare_System.Core.SupplyRequests;
 using HealthCare_System.Core.Users;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.AppointmentRequests;
+using HealthCare_System.GUI.Controller.Appointments;
+using HealthCare_System.GUI.Controller.Equipments;
+using HealthCare_System.GUI.Controller.EquipmentTransfers;
+using HealthCare_System.GUI.Controller.MedicalRecords;
+using HealthCare_System.GUI.Controller.Notifications;
+using HealthCare_System.GUI.Controller.Rooms;
+using HealthCare_System.GUI.Controller.SupplyRequests;
+using HealthCare_System.GUI.Controller.Users;
 using HealthCare_System.GUI.Main;
 using HealthCare_System.Model.Core.Appointments.Model;
 
@@ -35,34 +44,33 @@ namespace HealthCare_System.GUI.SecretaryView
     /// </summary>
     public partial class SecretaryWindow : Window
     {
-
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         List<Patient> blockedPatients = new List<Patient>();
         Dictionary<Appointment, DateTime> replaceableAppointments;
         AddPatientWindow addPatientWin;
         bool showingBlocked;
         bool isOperation;
 
-        PatientService patientService; 
-        EquipmentService equipmentService;
-        EquipmentTransferService equipmentTransferService;
-        RoomService roomService; 
-        AppointmentRequestService appointmentRequestService;
-        UrgentSchedulingService urgentSchedulingService;
-        MedicalRecordService medicalRecordService;
-        SchedulingService schedulingService;
-        SupplyRequestService supplyRequestService;
-        DoctorService doctorService;
-        DelayedAppointmentNotificationService delayedAppointmentNotification;
+        PatientController patientController;
+        EquipmentController equipmentController;
+        EquipmentTransferController equipmentTransferController;
+        RoomController roomController;
+        AppointmentRequestController appointmentRequestController;
+        UrgentSchedulingController urgentSchedulingController;
+        MedicalRecordController medicalRecordController;
+        SchedulingController schedulingController;
+        SupplyRequestController supplyRequestController;
+        DoctorController doctorController;
+        DelayedAppointmentNotificationController delayedAppointmentNotificationController;
 
 
-        public SecretaryWindow(HealthCareDatabase database)
+        public SecretaryWindow(ServiceBuilder serviceBuilder)
         {
-            this.database = database;
+            this.serviceBuilder = serviceBuilder;
             this.showingBlocked = false;
 
             InitializeComponent();
-            InitializeServices();
+            InitializeControllers();
 
             SetEmergencyAppTab();
             SetReferralsTab();
@@ -70,28 +78,20 @@ namespace HealthCare_System.GUI.SecretaryView
             SetRoomsTab();
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            patientService = new(database.PatientRepo, null, null, null, null);
+            patientController = new(serviceBuilder.PatientService);
+            equipmentController = new(serviceBuilder.EquipmentService);
+            equipmentTransferController = new(serviceBuilder.EquipmentTransferService);
+            roomController = new(serviceBuilder.RoomService);
+            appointmentRequestController = new(serviceBuilder.AppointmentRequestService);
+            urgentSchedulingController = new(serviceBuilder.UrgentSchedulingService);
+            medicalRecordController = new(serviceBuilder.MedicalRecordService);
+            schedulingController = new(serviceBuilder.SchedulingService);
+            supplyRequestController = new(serviceBuilder.SupplyRequestService);
+            doctorController = new(serviceBuilder.DoctorService);
+            delayedAppointmentNotificationController = new(serviceBuilder.DelayedAppointmentNotificationService);
 
-            roomService = new(null, null, null, null, null, database.RoomRepo);
-
-            equipmentService = new(database.EquipmentRepo, roomService);
-            equipmentTransferService = new(database.EquipmentTransferRepo, roomService);
-            supplyRequestService = new(database.SupplyRequestRepo, roomService, equipmentTransferService);
-
-            AppointmentService appointmentService = new(database.AppointmentRepo, null);
-            appointmentRequestService = new(database.AppointmentRequestRepo, appointmentService);
-
-            AnamnesisService anamnesisService = new AnamnesisService(database.AnamnesisRepo);
-            doctorService = new(database.DoctorRepo, null);
-            ReferralService referralService = new(database.ReferralRepo);
-
-            schedulingService = new(roomService, appointmentService, anamnesisService, doctorService, referralService);
-            appointmentService.SchedulingService = schedulingService;
-            urgentSchedulingService = new(appointmentService, schedulingService);
-            medicalRecordService = new(database.MedicalRecordRepo);
-            delayedAppointmentNotification = new(database.DelayedAppointmentNotificationRepo);
         }
 
         #region TabSetUp
@@ -100,7 +100,7 @@ namespace HealthCare_System.GUI.SecretaryView
             this.isOperation = false;
             this.textBoxDuration.IsEnabled = false;
 
-            foreach (Patient patient in patientService.Patients())
+            foreach (Patient patient in patientController.Patients())
             {
                 cmbPatient.Items.Add(patient);
             }
@@ -116,7 +116,7 @@ namespace HealthCare_System.GUI.SecretaryView
 
         private void SetReferralsTab()
         {
-            foreach (Patient patient in patientService.Patients())
+            foreach (Patient patient in patientController.Patients())
             {
                 cmbPatientInReferrals.Items.Add(patient);
             }
@@ -127,7 +127,7 @@ namespace HealthCare_System.GUI.SecretaryView
 
         private void SetEquipmentTab()
         {
-            foreach (Equipment equipment in equipmentService.Equipment())
+            foreach (Equipment equipment in equipmentController.Equipment())
             {
                 if (equipment.Dynamic) cmbEquipment.Items.Add(equipment);
             }
@@ -142,14 +142,14 @@ namespace HealthCare_System.GUI.SecretaryView
 
         private void SetRoomsTab()
         {
-            foreach (Room room in roomService.Rooms())
+            foreach (Room room in roomController.Rooms())
             {
                 cmbRoom.Items.Add(room);
                 cmbRoomFrom.Items.Add(room);
                 cmbRoomTo.Items.Add(room);
             }
 
-            foreach (Equipment equipment in equipmentService.Equipment())
+            foreach (Equipment equipment in equipmentController.Equipment())
             {
                 if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
             }
@@ -162,7 +162,7 @@ namespace HealthCare_System.GUI.SecretaryView
             listBoxEquipment.Items.Clear();
             Dictionary<Equipment, int> dynamicEquipment = new Dictionary<Equipment, int>();
 
-            foreach (Room room in roomService.Rooms())
+            foreach (Room room in roomController.Rooms())
             {
                 foreach(Equipment currentEquipment in room.EquipmentAmount.Keys)
                 {
@@ -191,7 +191,7 @@ namespace HealthCare_System.GUI.SecretaryView
         private void FillListBoxRequests()
         {
             listBoxRequests.Items.Clear();
-            foreach (AppointmentRequest appRequest in appointmentRequestService.AppointmentRequests())
+            foreach (AppointmentRequest appRequest in appointmentRequestController.AppointmentRequests())
             {
                 if (appRequest.State == AppointmentState.WAITING)
                 {
@@ -203,7 +203,7 @@ namespace HealthCare_System.GUI.SecretaryView
         private void FillListBoxPatients()
         {
             listBoxPatients.Items.Clear();
-            foreach (Patient patient in patientService.Patients())
+            foreach (Patient patient in patientController.Patients())
             {
                 if (patient.Blocked == showingBlocked)
                 {
@@ -216,7 +216,7 @@ namespace HealthCare_System.GUI.SecretaryView
         private void FillListBoxAppointments(List<Doctor> doctors, int duration)
         {
             listBoxAppointments.Items.Clear();
-            replaceableAppointments = urgentSchedulingService.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
+            replaceableAppointments = urgentSchedulingController.GetReplaceableAppointments(doctors, duration, (Patient)cmbPatient.SelectedItem);
             foreach (KeyValuePair<Appointment, DateTime> item in replaceableAppointments.OrderBy(key => key.Value))
             {
                 listBoxAppointments.Items.Add(item.Key);
@@ -233,7 +233,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                foreach (MedicalRecord medicalRecord in medicalRecordService.MedicalRecords())
+                foreach (MedicalRecord medicalRecord in medicalRecordController.MedicalRecords())
                 {
                     if (medicalRecord.Patient == patient)
                     {
@@ -303,13 +303,13 @@ namespace HealthCare_System.GUI.SecretaryView
                 MessageBox.Show("Select patient You want to update!");
                 return;
             }
-            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, true, patient, database);
+            addPatientWin = new AddPatientWindow(patientController, medicalRecordController, serviceBuilder.IngredientService, true, patient);
             addPatientWin.Show();
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            addPatientWin = new AddPatientWindow(patientService, medicalRecordService, false, null, database);
+            addPatientWin = new AddPatientWindow(patientController, medicalRecordController, serviceBuilder.IngredientService, false, null);
             addPatientWin.Show();
         }
 
@@ -340,7 +340,7 @@ namespace HealthCare_System.GUI.SecretaryView
             {
                 try
                 {
-                    patientService.DeletePatient(patient);
+                    patientController.DeletePatient(patient);
                 }
                 catch (Exception ex)
                 {
@@ -360,7 +360,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                patientService.BlockPatient(patient);
+                patientController.BlockPatient(patient);
                 showBlockedBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
@@ -387,7 +387,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                appointmentRequestService.AcceptRequest(request);
+                appointmentRequestController.AcceptRequest(request);
                 FillListBoxRequests();
                 MessageBox.Show("You succesefully accepted selected request.");
             }
@@ -402,7 +402,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                appointmentRequestService.RejectRequest(request);
+                appointmentRequestController.RejectRequest(request);
                 FillListBoxRequests();
                 MessageBox.Show("You succesefully rejected selected request.");
             }
@@ -464,7 +464,7 @@ namespace HealthCare_System.GUI.SecretaryView
         {
 
             TransferDto transferDto = ValidateTransfer();
-            equipmentTransferService.ExecuteTransfer(transferDto);
+            equipmentTransferController.ExecuteTransfer(transferDto);
 
             MessageBox.Show("You have successfully transfered equipment.");
         }
@@ -493,7 +493,7 @@ namespace HealthCare_System.GUI.SecretaryView
         {
             int duration = getDuration();
             Specialization specialization = (Specialization)cmbSpecialization.SelectedItem;
-            List<Doctor> doctors = doctorService.DoctorRepo.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
+            List<Doctor> doctors = doctorController.FindBySpecialization((Specialization)cmbSpecialization.SelectedItem);
             Patient patient = (Patient)cmbPatient.SelectedItem;
 
             return new UrgentAppointmentDto(doctors, patient, duration);
@@ -506,7 +506,7 @@ namespace HealthCare_System.GUI.SecretaryView
 
             try
             {
-                urgentSchedulingService.BookClosestEmergancyAppointment(urgentAppointmentDto);
+                urgentSchedulingController.BookClosestEmergancyAppointment(urgentAppointmentDto);
                 MessageBox.Show("You succesefully booked emergency appointment.");
             }
             catch(Exception ex)
@@ -542,8 +542,8 @@ namespace HealthCare_System.GUI.SecretaryView
                 urgentAppointmentDto.DelayedStart = replaceableAppointments[toReplaceAppointment];
                 urgentAppointmentDto.DelayedEnd = replaceableAppointments[toReplaceAppointment].AddMinutes(getDuration());
 
-                Appointment newAppointment = urgentSchedulingService.ReplaceAppointment(toReplaceAppointment, urgentAppointmentDto);
-                delayedAppointmentNotification.AddNotification(toReplaceAppointment, newAppointment.Start);
+                Appointment newAppointment = urgentSchedulingController.ReplaceAppointment(toReplaceAppointment, urgentAppointmentDto);
+                delayedAppointmentNotificationController.AddNotification(toReplaceAppointment, newAppointment.Start);
 
                 MessageBox.Show("Doctor and patient are informed about appointment delay.");
             }
@@ -561,7 +561,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                Appointment appointment = schedulingService.BookAppointmentByReferral(referral);
+                Appointment appointment = schedulingController.BookAppointmentByReferral(referral);
                 MessageBox.Show("You successfully booked new appointment using selected referral.\nAppointment start: " + appointment.Start);
             }
         }
@@ -588,7 +588,7 @@ namespace HealthCare_System.GUI.SecretaryView
                     quantity = Convert.ToInt32(textBoxEquipmentQuantity.Text);
                 }
 
-                supplyRequestService.AddSupplyRequest(equipment, quantity);
+                supplyRequestController.AddSupplyRequest(equipment, quantity);
 
                 MessageBox.Show("You have succesefully orderd new equipment.");
             }
@@ -606,7 +606,7 @@ namespace HealthCare_System.GUI.SecretaryView
         {
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(database);
+                MainWindow main = new MainWindow(serviceBuilder);
                 main.Show();
             }
             else e.Cancel = true;
