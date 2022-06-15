@@ -73,23 +73,28 @@ namespace HealthCare_System.Database
             drugService = new DrugService(database.DrugRepo, prescriptionService);
             ingredientService = new IngredientService(database.IngredientRepo, drugService);
             doctorService = new DoctorService(database.DoctorRepo, doctorSurveyService);
-            appointmentService = new AppointmentService(database.AppointmentRepo, schedulingService);//sch
+            appointmentService = new AppointmentService(database.AppointmentRepo, schedulingService);
             appointmentRequestService = new AppointmentRequestService(database.AppointmentRequestRepo, appointmentService);
-
-            appointmentRecomendationService = new AppointmentRecomendationService(appointmentService, schedulingService, doctorService);
-            schedulingService = new SchedulingService(roomService, appointmentService, anamnesisService, doctorService, referralService);
-            urgentSchedulingService = new UrgentSchedulingService(appointmentService, schedulingService);
+            roomService = new RoomService(mergingRenovationService, simpleRenovationService, equipmentTransferService, splittingRenovationService, appointmentService, database.RoomRepo);
             equipmentService = new EquipmentService(database.EquipmentRepo, roomService);
             equipmentTransferService = new EquipmentTransferService(database.EquipmentTransferRepo, roomService);
             mergingRenovationService = new MergingRenovationService(database.MergingRenovationRepo, roomService, equipmentTransferService, equipmentService);
             simpleRenovationService = new SimpleRenovationService(database.SimpleRenovationRepo, roomService, equipmentTransferService, equipmentService);
             splittingRenovationService = new SplittingRenovationService(database.SplittingRenovationRepo, roomService, equipmentTransferService, equipmentService);
-            roomService = new RoomService(mergingRenovationService, simpleRenovationService, equipmentTransferService, splittingRenovationService, appointmentService, database.RoomRepo);
+            schedulingService = new SchedulingService(roomService, appointmentService, anamnesisService, doctorService, referralService);
+            appointmentRecomendationService = new AppointmentRecomendationService(appointmentService, schedulingService, doctorService);
+            urgentSchedulingService = new UrgentSchedulingService(appointmentService, schedulingService);
             patientService = new PatientService(database.PatientRepo, schedulingService, prescriptionService, medicalRecordService, ingredientService);
             userService = new UserService(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
             supplyRequestService = new SupplyRequestService(database.SupplyRequestRepo, roomService, equipmentTransferService);
 
-            appointmentService.
+            roomService.MergingRenovationService = mergingRenovationService;
+            roomService.SimpleRenovationService = simpleRenovationService;
+            roomService.SplittingRenovationService = splittingRenovationService;
+            roomService.EquipmentTransferService = equipmentTransferService;
+            appointmentService.SchedulingService = schedulingService;
+
+            
         }
 
         public IAnamnesisService AnamnesisService { get => anamnesisService;}

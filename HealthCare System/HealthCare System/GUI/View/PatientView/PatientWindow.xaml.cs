@@ -53,6 +53,7 @@ namespace HealthCare_System.GUI.PatientView
         AppointmentRecommendationController appointmentRecomendationController;
         DoctorSurveyController doctorSurveyController;
         HospitalSurveyController hospitalSurveyController;
+        DelayedAppointmentNotificationWindow notificationWindow;
 
         public PatientWindow(Person person, ServiceBuilder serviceBuilder)
         {
@@ -84,7 +85,7 @@ namespace HealthCare_System.GUI.PatientView
             reccomendedEndDateDp.DisplayDateStart = DateTime.Now;
             minutesBeforeDrugSl.Value = user.MinutesBeforeDrug;
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService), 
+            notificationWindow = new(new(serviceBuilder.DelayedAppointmentNotificationService),
                 person);
             
             
@@ -466,10 +467,15 @@ namespace HealthCare_System.GUI.PatientView
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
+            
             if (!user.Blocked)
             {
                 if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
+                    if (notificationWindow != null)
+                    {
+                        notificationWindow.Close();
+                    }
                     MainWindow main = new MainWindow(serviceBuilder);
                     main.Show();
                 }
@@ -477,6 +483,10 @@ namespace HealthCare_System.GUI.PatientView
             }
             else
             {
+                if (notificationWindow != null)
+                {
+                    notificationWindow.Close();
+                }
                 MessageBox.Show("Account blocked. Contact secretary for more informations!");
                 MainWindow main = new MainWindow(serviceBuilder);
                 main.Show();
