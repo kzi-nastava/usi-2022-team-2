@@ -18,6 +18,7 @@ namespace HealthCare_System.Core.AppotinmentRequests
         }
 
         public IAppointmentRequestRepo AppointmentRequestRepo { get => appointmentRequestRepo; }
+        public IAppointmentService AppointmentService { get => appointmentService; set => appointmentService = value; }
 
         public List<AppointmentRequest> AppointmentRequests()
         {

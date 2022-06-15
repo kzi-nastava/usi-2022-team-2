@@ -21,6 +21,12 @@ namespace HealthCare_System.Core.Appointments
         IDoctorService doctorService;
         IReferralService referralService;
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+        public IAppointmentService AppointmentService { get => appointmentService; set => appointmentService = value; }
+        public IAnamnesisService AnamnesisService { get => anamnesisService; set => anamnesisService = value; }
+        public IDoctorService DoctorService { get => doctorService; set => doctorService = value; }
+        public IReferralService ReferralService { get => referralService; set => referralService = value; }
+
         public SchedulingService(IRoomService roomService, IAppointmentService appointmentService,
             IAnamnesisService anamnesisService, IDoctorService doctorService, IReferralService referralService)
         {

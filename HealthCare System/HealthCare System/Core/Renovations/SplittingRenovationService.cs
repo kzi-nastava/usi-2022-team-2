@@ -27,6 +27,12 @@ namespace HealthCare_System.Core.Renovations
 
         public ISplittingRenovationRepo SplittingRenovationRepo { get => splittingRenovationRepo; }
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+
+        public IEquipmentTransferService EquipmentTransferService { get => equipmentTransferService; set => equipmentTransferService = value; }
+
+        public IEquipmentService EquipmentService { get => equipmentService; set => equipmentService = value; }
+
         public List<SplittingRenovation> SplittingRenovations()
         {
             return splittingRenovationRepo.SplittingRenovations;

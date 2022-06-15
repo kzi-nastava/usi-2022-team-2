@@ -28,6 +28,12 @@ namespace HealthCare_System.Core.Renovations
 
         public IMergingRenovationRepo MergingRenovationRepo { get => mergingRenovationRepo; }
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+
+        public IEquipmentTransferService EquipmentTransferService { get => equipmentTransferService; set => equipmentTransferService = value; }
+
+        public IEquipmentService EquipmentService { get => equipmentService; set => equipmentService = value; }
+
         public List<MergingRenovation> MergingRenovations()
         {
             return mergingRenovationRepo.MergingRenovations;
