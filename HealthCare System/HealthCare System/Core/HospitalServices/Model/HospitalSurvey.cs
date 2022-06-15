@@ -5,7 +5,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
     public class HospitalSurvey
     {
         int id;
-        int seviceQuality;
+        int serviceQuality;
         int hygiene;
         int satisfaction;
         int recommendation;
@@ -17,7 +17,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
             int recommendation, string comment)
         {
             this.id = id;
-            this.seviceQuality = seviceQuality;
+            this.serviceQuality = seviceQuality;
             this.hygiene = hygiene;
             this.satisfaction = satisfaction;
             this.recommendation = recommendation;
@@ -27,7 +27,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
         public HospitalSurvey(HospitalSurvey hospitalSurvey)
         {
             id = hospitalSurvey.id;
-            seviceQuality = hospitalSurvey.seviceQuality;
+            serviceQuality = hospitalSurvey.serviceQuality;
             hygiene = hospitalSurvey.hygiene;
             satisfaction = hospitalSurvey.satisfaction;
             recommendation = hospitalSurvey.recommendation;
@@ -36,7 +36,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
         public HospitalSurvey(HospitalSurveyDto hospitalSurvey)
         {
             id = hospitalSurvey.Id;
-            seviceQuality = hospitalSurvey.SeviceQuality;
+            serviceQuality = hospitalSurvey.SeviceQuality;
             hygiene = hospitalSurvey.Hygiene;
             satisfaction = hospitalSurvey.Satisfaction;
             recommendation = hospitalSurvey.Recommendation;
@@ -47,7 +47,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
         public int Id { get => id; set => id = value; }
 
         [JsonPropertyName("serviceQuality")]
-        public int SeviceQuality { get => seviceQuality; set => seviceQuality = value; }
+        public int ServiceQuality { get => serviceQuality; set => serviceQuality = value; }
 
         [JsonPropertyName("hygiene")]
         public int Hygiene { get => hygiene; set => hygiene = value; }
@@ -63,7 +63,7 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
 
         public override string ToString()
         {
-            return "HospitalSurvey[" + "id: " + id + ", serviceQuality: " + seviceQuality 
+            return "HospitalSurvey[" + "id: " + id + ", serviceQuality: " + serviceQuality 
                 + ", hygiene: " + hygiene + ", satisfaction: " + satisfaction + ", recommendation: "
                 + recommendation + ", comment: " + comment + "]";
         }

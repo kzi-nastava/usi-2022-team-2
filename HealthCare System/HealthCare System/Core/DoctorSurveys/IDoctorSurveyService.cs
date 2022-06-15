@@ -15,6 +15,14 @@ namespace HealthCare_System.Core.DoctorSurveys
 
         List<Doctor> SortDoctorsByRatings(List<Doctor> doctors, SortDirection direction);
 
+        Dictionary<string, decimal> FindAverageRatingForDoctorByCategory(Doctor doctor);
+
+        Dictionary<int, int> FindRatingAppearancesForServiceQuality(Doctor doctor);
+
+        Dictionary<int, int> FindRatingAppearancesForRecommendation(Doctor doctor);
+
+        List<string> GetAllComments(Doctor doctor);
+
         public List<DoctorSurvey> DoctorSurveys();
 
         public DoctorSurvey FindById(int id);
