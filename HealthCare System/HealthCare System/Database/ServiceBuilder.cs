@@ -1,6 +1,7 @@
 ﻿using HealthCare_System.Core.Anamneses;
 using HealthCare_System.Core.Appointments;
 using HealthCare_System.Core.AppotinmentRequests;
+using HealthCare_System.Core.DaysOffRequests;
 using HealthCare_System.Core.DoctorSurveys;
 using HealthCare_System.Core.Drugs;
 using HealthCare_System.Core.Equipments;
@@ -57,6 +58,8 @@ namespace HealthCare_System.Database
         ISecretaryService secretaryService;
         IUserService userService;
 
+        IDaysOffRequestService daysOffRequestService;
+
         public ServiceBuilder()
         {
             HealthCareDatabase database = new();
@@ -87,6 +90,7 @@ namespace HealthCare_System.Database
             patientService = new PatientService(database.PatientRepo, schedulingService, prescriptionService, medicalRecordService, ingredientService);
             userService = new UserService(patientService, doctorService, managerService, secretaryService, appointmentRequestService);
             supplyRequestService = new SupplyRequestService(database.SupplyRequestRepo, roomService, equipmentTransferService);
+            
 
             roomService.MergingRenovationService = mergingRenovationService;
             roomService.SimpleRenovationService = simpleRenovationService;
@@ -94,7 +98,7 @@ namespace HealthCare_System.Database
             roomService.EquipmentTransferService = equipmentTransferService;
             appointmentService.SchedulingService = schedulingService;
 
-            
+            daysOffRequestService = new DaysOffRequestService(database.DaysOffRequestRepo, doctorService);
         }
 
         public IAnamnesisService AnamnesisService { get => anamnesisService;}
@@ -124,5 +128,6 @@ namespace HealthCare_System.Database
         public IPatientService PatientService { get => patientService;}
         public ISecretaryService SecretaryService { get => secretaryService;}
         public IUserService UserService { get => userService;}
+        internal IDaysOffRequestService DaysOffRequestService { get => daysOffRequestService; set => daysOffRequestService = value; }
     }
 }
