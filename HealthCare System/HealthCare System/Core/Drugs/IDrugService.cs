@@ -1,5 +1,6 @@
 ﻿using HealthCare_System.Core.Drugs.Model;
 using HealthCare_System.Core.Drugs.Repository;
+using HealthCare_System.Core.Prescriptions;
 using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Drugs
@@ -7,6 +8,8 @@ namespace HealthCare_System.Core.Drugs
     public interface IDrugService
     {
         IDrugRepo DrugRepo { get; }
+
+        public IPrescriptionService PrescriptionService { get; set; }
 
         void AcceptDrug(Drug drug);
 

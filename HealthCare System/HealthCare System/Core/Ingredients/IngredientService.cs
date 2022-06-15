@@ -20,6 +20,8 @@ namespace HealthCare_System.Core.Ingredients
 
         public IIngredientRepo IngredientRepo { get => ingredientRepo; }
 
+        public IDrugService DrugService { get => drugService; set => drugService = value; }
+
         public List<Ingredient> Ingredients()
         {
             return ingredientRepo.Ingredients;

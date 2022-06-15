@@ -25,6 +25,8 @@ namespace HealthCare_System.Core.Equipments
 
         public IEquipmentRepo EquipmentRepo { get => equipmentRepo; }
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+
         public void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount)
         {
             if (amount == "0-10")

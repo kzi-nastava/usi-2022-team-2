@@ -1,5 +1,6 @@
 ﻿using HealthCare_System.Core.Equipments.Model;
 using HealthCare_System.Core.Equipments.Repository;
+using HealthCare_System.Core.Rooms;
 using System.Collections.Generic;
 
 namespace HealthCare_System.Core.Equipments
@@ -7,6 +8,8 @@ namespace HealthCare_System.Core.Equipments
     public interface IEquipmentService
     {
         IEquipmentRepo EquipmentRepo { get; }
+
+        public IRoomService RoomService { get; set; }
 
         void AmountFilter(string amount, Dictionary<Equipment, int> equipmentAmount);
 

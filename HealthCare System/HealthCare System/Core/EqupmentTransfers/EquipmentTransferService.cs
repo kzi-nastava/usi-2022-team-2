@@ -21,6 +21,8 @@ namespace HealthCare_System.Core.EquipmentTransfers
 
         public IEquipmentTransferRepo EquipmentTransferRepo { get => equipmentTransferRepo; }
 
+        public IRoomService RoomService { get => roomService; set => roomService = value; }
+
         public List<Transfer> Transfers()
         {
             return equipmentTransferRepo.Transfers;

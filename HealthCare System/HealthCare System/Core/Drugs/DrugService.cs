@@ -20,6 +20,8 @@ namespace HealthCare_System.Core.Drugs
 
         public IDrugRepo DrugRepo { get => drugRepo; }
 
+        public IPrescriptionService PrescriptionService { get => prescriptionService; set => prescriptionService = value; }
+
         public List<Drug> Drugs()
         {
             return drugRepo.Drugs;
