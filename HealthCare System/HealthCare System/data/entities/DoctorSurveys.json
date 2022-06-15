@@ -1,9 +1,9 @@
-﻿[
+[
   {
     "id": 1001,
     "serviceQuality": 5,
     "recommendation": 3,
-    "comment": "He's to arrogant!"
+    "comment": "He\u0027s to arrogant!"
   },
   {
     "id": 1002,
@@ -28,5 +28,11 @@
     "serviceQuality": 4,
     "recommendation": 2,
     "comment": "Nice!"
+  },
+  {
+    "id": 1006,
+    "serviceQuality": 3,
+    "recommendation": 2,
+    "comment": "No Com"
   }
 ]
