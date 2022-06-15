@@ -35,7 +35,7 @@ namespace HealthCare_System.Core.Notifications.Repository
 
         public void Add(Doctor doctor, string message)
         {
-            DaysOffNotification daysOffNotification = new(GenerateId(), message, doctor);
+            daysOffNotifications.Add(new DaysOffNotification(GenerateId(), message, doctor));
             Serialize();
         }
 
