@@ -8,8 +8,8 @@ namespace HealthCare_System.Core.Appointments
     public interface IAppointmentService
     {
         List<Appointment> Appointments();
-
         IAppointmentRepo AppointmentRepo { get; }
+        ISchedulingService SchedulingService { get; set; }
         List<Appointment> SortAnamneses(Patient patient, string word, AnamnesesSortCriterium criterium, SortDirection direction);
         List<Appointment> SortByDate(List<Appointment> unsortedAppointments, SortDirection direction);
         List<Appointment> SortByDoctor(List<Appointment> unsortedAppointments, SortDirection direction);
