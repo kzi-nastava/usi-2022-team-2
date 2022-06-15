@@ -307,7 +307,7 @@ namespace HealthCare_System.GUI.SecretaryView
         {
             foreach (DaysOffRequest request in daysOffRequestController.DaysOffRequests())
             {
-                if (request.State == DaysOffRequestState.WAITING)
+                if (request.State == DaysOffRequestState.WAITING && request.Urgent == false)
                 {
                     listBoxDaysOffRequests.Items.Add(request);
                 }

@@ -32,7 +32,7 @@ namespace HealthCare_System.GUI.SecretaryView
         {
             int counter = 0;
             AddDelayedAppointmentNotifications(counter);
-
+            AddDaysOffNotifications(counter);
             if (counter == 0)
             {
                 Close();

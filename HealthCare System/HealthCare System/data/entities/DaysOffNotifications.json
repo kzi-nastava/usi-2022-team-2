@@ -2,26 +2,26 @@
   {
     "id":1001,
     "message":"Days off accepted!",
-    "seenByDoctor":false,
+    "seenByDoctor":false
   },
   {
     "id":1002,
     "message":"Days off accepted!",
-    "seenByDoctor":false,
+    "seenByDoctor":false
   },
   {
     "id":1003,
     "message":"Days off rejected!",
-    "seenByDoctor":false,
+    "seenByDoctor":false
   },
   {
     "id":1004,
     "message":"Days off accepted!",
-    "seenByDoctor":false,
+    "seenByDoctor":false
   },
   {
     "id":1005,
     "message":"Days off rejected!",
-    "seenByDoctor":false,
+    "seenByDoctor":false
   }
 ]
