@@ -11,9 +11,9 @@ namespace HealthCare_System.GUI.Controller.Appointments
 {
     class AppointmentController
     {
-        private readonly AppointmentService appointmentService;
+        private readonly IAppointmentService appointmentService;
 
-        public AppointmentController(AppointmentService appointmentService)
+        public AppointmentController(IAppointmentService appointmentService)
         {
             this.appointmentService = appointmentService;
         }

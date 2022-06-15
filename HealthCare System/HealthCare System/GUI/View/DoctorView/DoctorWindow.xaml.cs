@@ -17,6 +17,12 @@ using HealthCare_System.Core.Rooms;
 using HealthCare_System.Core.Rooms.Model;
 using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
+using HealthCare_System.GUI.Controller.Anamneses;
+using HealthCare_System.GUI.Controller.Appointments;
+using HealthCare_System.GUI.Controller.Drugs;
+using HealthCare_System.GUI.Controller.Ingredients;
+using HealthCare_System.GUI.Controller.MedicalRecords;
+using HealthCare_System.GUI.Controller.Users;
 using HealthCare_System.GUI.Main;
 using HealthCare_System.GUI.SecretaryView;
 
@@ -24,7 +30,7 @@ namespace HealthCare_System.GUI.DoctorView
 {
     public partial class DoctorWindow : Window
     {
-        HealthCareDatabase database;
+        ServiceBuilder serviceBuilder;
         Doctor doctor;
         DateTime startPoint;
 
@@ -32,15 +38,17 @@ namespace HealthCare_System.GUI.DoctorView
         Dictionary<string, Ingredient> ingrediantsDisplay;
         Dictionary<string, Drug> drugsDisplay;
 
-        SchedulingService schedulingService;
-        AppointmentService appointmentService;
-        AnamnesisService anamnesisService;
-        MedicalRecordService medicalRecordService;
-        DrugService drugService;
+        SchedulingController schedulingController;
+        AppointmentController appointmentController;
+        AnamnesisController anamnesisController;
+        MedicalRecordController medicalRecordController;
+        DrugController drugController;
+        PatientController patientController;
+        IngredientController ingredientController;
 
-        public DoctorWindow(Doctor doctor, HealthCareDatabase database)
+        public DoctorWindow(Doctor doctor, ServiceBuilder serviceBuilder)
         {
-            this.database = database;
+            this.serviceBuilder = serviceBuilder;
             this.doctor = doctor;
 
             InitializeComponent();
@@ -49,13 +57,13 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeDrugs();
 
-            InitializeServices();
+            InitializeControllers();
 
             appointmentDate.DisplayDateStart = DateTime.Now;
 
             DisableComponents();
 
-            DelayedAppointmentNotificationWindow notificationWindow = new(database, doctor);
+            DelayedAppointmentNotificationWindow notificationWindow = new(new(), doctor);
         }
 
         void InitializeAppointments()
@@ -105,7 +113,7 @@ namespace HealthCare_System.GUI.DoctorView
         {
             ingrediantCb.Items.Clear();
             ingrediantsDisplay = new Dictionary<string, Ingredient>();
-            List<Ingredient> ingredients = database.IngredientRepo.Ingredients;
+            List<Ingredient> ingredients = ingredientController.Ingredients();
             List<Ingredient> sortedIngrediants = ingredients.OrderBy(x => x.Id).ToList();
 
             foreach (Ingredient ingredient in sortedIngrediants)
@@ -120,7 +128,7 @@ namespace HealthCare_System.GUI.DoctorView
         {
             drugView.Items.Clear();
             drugsDisplay = new Dictionary<string, Drug>();
-            List<Drug> drugs = database.DrugRepo.FillterOnHold();
+            List<Drug> drugs = drugController.FillterOnHold();
             List<Drug> sortedDrugs = drugs.OrderBy(x => x.Name).ToList();
 
             foreach (Drug drug in sortedDrugs)
@@ -131,22 +139,15 @@ namespace HealthCare_System.GUI.DoctorView
             }
         }
 
-        void InitializeServices()
+        void InitializeControllers()
         {
-            appointmentService = new(database.AppointmentRepo, null);
-            anamnesisService = new(database.AnamnesisRepo);
-
-            MergingRenovationService mergingRenovationService = new(database.MergingRenovationRepo, null, null, null);
-            SimpleRenovationService simpleRenovationService = new(database.SimpleRenovationRepo, null, null, null);
-            SplittingRenovationService splittingRenovationService = new(database.SplittingRenovationRepo, null, null, null);
-
-            RoomService roomService = new(mergingRenovationService, simpleRenovationService, null, splittingRenovationService,
-                appointmentService, database.RoomRepo);
-
-            schedulingService = new(roomService, appointmentService, anamnesisService, null, null);
-
-            medicalRecordService = new(database.MedicalRecordRepo);
-            drugService = new(database.DrugRepo, null);
+            schedulingController = new(serviceBuilder.SchedulingService);
+            appointmentController = new(serviceBuilder.AppointmentService);
+            anamnesisController = new(serviceBuilder.AnamnesisService);
+            medicalRecordController = new(serviceBuilder.MedicalRecordService);
+            drugController = new(serviceBuilder.DrugService);
+            patientController = new(serviceBuilder.PatientService);
+            ingredientController = new(serviceBuilder.IngredientService);
         }
 
         void DisableComponents()
@@ -314,8 +315,8 @@ namespace HealthCare_System.GUI.DoctorView
 
         private AppointmentDto ValidateAppointment()
         {
-            int id = database.AppointmentRepo.GenerateId();
-            Patient patient = database.PatientRepo.FindByJmbg(patientJmbgTb.Text);
+            int id = appointmentController.GenerateId(); 
+            Patient patient = patientController.FindByJmbg(patientJmbgTb.Text);
 
             DateTime start = ValidateDate(appointmentDate, timeTb);
             if (start == default(DateTime))
@@ -338,7 +339,7 @@ namespace HealthCare_System.GUI.DoctorView
                 AppointmentDto appointmentDto = ValidateAppointment();
                 if (appointmentDto is null) return;
 
-                schedulingService.AddAppointment(appointmentDto);
+                schedulingController.AddAppointment(appointmentDto);
                 MessageBox.Show("Appointment booked.");
                 InitializeAppointments();
             }
@@ -354,7 +355,7 @@ namespace HealthCare_System.GUI.DoctorView
                 "Confirm", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
-                schedulingService.DeleteAppointment(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Id);
+                schedulingController.DeleteAppointment(appontmentsDisplay[appointmentView.SelectedItem.ToString()].Id);
                 InitializeAppointments();
             }
         }
@@ -362,7 +363,7 @@ namespace HealthCare_System.GUI.DoctorView
         private void ChangeBtn_Click(object sender, RoutedEventArgs e)
         {
             Appointment appointment = appontmentsDisplay[appointmentView.SelectedItem.ToString()];
-            Window window = new ChangeAppointmentWindow(appointment, database);
+            Window window = new ChangeAppointmentWindow(appointment, serviceBuilder.SchedulingService, serviceBuilder.PatientService);
             window.Show();
         }
 
@@ -389,17 +390,17 @@ namespace HealthCare_System.GUI.DoctorView
                 if (result == MessageBoxResult.No) return;
             }
 
-            medicalRecordService.Update(appointment.Patient.MedicalRecord.Id,
+            medicalRecordController.Update(appointment.Patient.MedicalRecord.Id,
                 height, weight, diseaseHisory);
 
-            AnamnesisService anamnesisService = new(database.AnamnesisRepo);
-            anamnesisService.Update(appointment.Anamnesis.Id, anamnesis);
+            anamnesisController.Update(appointment.Anamnesis.Id, anamnesis);
             MessageBox.Show("Appointment finished!");
 
             appointment.Status = AppointmentStatus.FINISHED;
-            database.AppointmentRepo.Serialize();
+            appointmentController.Serialize();
 
-            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, database);
+            Window dynamicEquipmentWindow = new DynamicEquipmentWindow(appointment.Room, serviceBuilder.EquipmentTransferService, 
+                serviceBuilder.RoomService);
             dynamicEquipmentWindow.Show();
 
             InitializeAppointments();
@@ -471,14 +472,14 @@ namespace HealthCare_System.GUI.DoctorView
                 return;
             }
             Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
-            Window window = new PrescriptionWindow(patient, database);
+            Window window = new PrescriptionWindow(patient, serviceBuilder.PrescriptionService, serviceBuilder.DrugService);
             window.Show();
         }
 
         private void ReferralBtn_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = appontmentsDisplay[appointmentView.SelectedItem.ToString()].Patient;
-            Window window = new ReferralWindow(patient, database);
+            Window window = new ReferralWindow(patient, serviceBuilder.ReferralService, serviceBuilder.DoctorService);
             window.Show();
         }
 
@@ -486,7 +487,7 @@ namespace HealthCare_System.GUI.DoctorView
         {
             if (MessageBox.Show("Log out?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow main = new MainWindow(database);
+                MainWindow main = new MainWindow(serviceBuilder);
                 main.Show();
             }
             else e.Cancel = true;
@@ -510,7 +511,7 @@ namespace HealthCare_System.GUI.DoctorView
         private void AcceptBtn_Click(object sender, RoutedEventArgs e)
         {
             Drug drug = drugsDisplay[drugView.SelectedItem.ToString()];
-            drugService.AcceptDrug(drug);
+            drugController.AcceptDrug(drug);
             MessageBox.Show("Drug accepted!");
 
             AcceptBtn.IsEnabled = false;
@@ -531,7 +532,7 @@ namespace HealthCare_System.GUI.DoctorView
                 if (result == MessageBoxResult.No) return;
             }
 
-            drugService.RejectDrug(drug, message);
+            drugController.RejectDrug(drug, message);
             MessageBox.Show("Drug rejected!");
 
             AcceptBtn.IsEnabled = false;
