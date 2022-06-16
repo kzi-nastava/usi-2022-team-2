@@ -25,10 +25,15 @@ namespace HealthCare_System.GUI.ManagerView
             this.room = room;
             this.serviceBuilder = serviceBuilder;
 
+            InitializeControllers();
             InitializeTitle();
             InitializeFields();
         }
-
+        void InitializeControllers()
+        {
+            roomController = new(serviceBuilder.RoomService);
+            equipmentController = new(serviceBuilder.EquipmentService);
+        }
         void InitializeTitle()
         {
             if (createNewRoom)
