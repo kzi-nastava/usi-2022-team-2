@@ -30,10 +30,10 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeComponent();
 
-            InitializeDrugs();
-
             prescriptionController = new(prescriptionService);
             drugController = new(drugService);
+
+            InitializeDrugs();
 
             startDate.DisplayDateStart = DateTime.Now;
             endDate.DisplayDateStart = DateTime.Now;

@@ -26,10 +26,10 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeComponent();
 
-            InitializeEquipment();
-
             equpmentTransferController = new(equipmentTransferService);
             roomController = new(roomService);
+
+            InitializeEquipment();
 
             roomNameLbl.Content = room.Name;
             nameTb.IsReadOnly = true;
