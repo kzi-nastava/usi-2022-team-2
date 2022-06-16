@@ -23,11 +23,12 @@ namespace HealthCare_System.GUI.DoctorView
 
             InitializeComponent();
 
+            referralController = new(referralService);
+            doctorController = new(doctorService);
+
             InitializeSpecialization();
             InitializeDoctors();
 
-            referralController = new(referralService);
-            doctorController = new(doctorService);
         }
 
         private void InitializeSpecialization()
