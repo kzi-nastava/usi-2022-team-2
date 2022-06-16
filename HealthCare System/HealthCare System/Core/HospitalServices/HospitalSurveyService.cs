@@ -140,6 +140,7 @@ namespace HealthCare_System.Core.HospitalSurveys
             recommendationRatings[4] = 0;
             recommendationRatings[3] = 0;
             recommendationRatings[2] = 0;
+            recommendationRatings[1] = 0;
             recommendationRatings[0] = 0;
 
             foreach (HospitalSurvey hospitalSurvey in HospitalSurveys())
