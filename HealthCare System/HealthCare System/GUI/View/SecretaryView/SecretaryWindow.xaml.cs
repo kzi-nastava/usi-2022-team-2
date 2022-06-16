@@ -644,8 +644,7 @@ namespace HealthCare_System.GUI.SecretaryView
             }
             else
             {
-                string message = "";
-                DaysOffRejectionMessage daysOffRejectionMessage = new DaysOffRejectionMessage(daysOffRequestController, daysOffRequest, message);
+                DaysOffRejectionMessage daysOffRejectionMessage = new DaysOffRejectionMessage(daysOffRequestController, daysOffRequest);
                 daysOffRejectionMessage.Show();
             }
         }

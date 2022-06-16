@@ -21,12 +21,10 @@ namespace HealthCare_System.GUI.View.SecretaryView
     /// </summary>
     public partial class DaysOffRejectionMessage : Window
     {
-        string message;
         DaysOffRequest daysOffRequest;
         DaysOffRequestController daysOffRequestController;
-        public DaysOffRejectionMessage(DaysOffRequestController daysOffRequestController, DaysOffRequest daysOffRequest, string message)
+        public DaysOffRejectionMessage(DaysOffRequestController daysOffRequestController, DaysOffRequest daysOffRequest)
         {
-            this.message = message;
             this.daysOffRequest = daysOffRequest;
             this.daysOffRequestController = daysOffRequestController;
             InitializeComponent();
@@ -37,12 +35,29 @@ namespace HealthCare_System.GUI.View.SecretaryView
             this.Close();
         }
 
+        private string GetMessage()
+        {
+            string message = textBoxMessage.Text;
+            if (message == "")
+            {
+                throw new Exception("Input rejection reason.");
+            }
+            return message;
+        }
+
         private void confirmBtn_Click(object sender, RoutedEventArgs e)
         {
-            message = textBoxMessage.Text;
-            daysOffRequestController.RejectDaysOffRequest(daysOffRequest, message);
-            MessageBox.Show("Doctor is informed about request rejection!");
-            this.Close();
+            try
+            {
+                string message = textBoxMessage.Text;
+                daysOffRequestController.RejectDaysOffRequest(daysOffRequest, message);
+                MessageBox.Show("Doctor is informed about request rejection!");
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
