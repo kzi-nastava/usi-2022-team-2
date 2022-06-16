@@ -649,6 +649,12 @@ namespace HealthCare_System.GUI.SecretaryView
                 daysOffRejectionMessage.Show();
             }
         }
+
+        private void refreshDaysOffRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            listBoxDaysOffRequests.Items.Clear();
+            FillListBoxDaysOffRequests();
+        }
         #endregion
 
 
