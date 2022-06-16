@@ -13,11 +13,11 @@ namespace HealthCare_System.Core.HospitalSurveys.Model
 
         public HospitalSurvey() { }
 
-        public HospitalSurvey(int id, int seviceQuality, int hygiene, int satisfaction, 
+        public HospitalSurvey(int id, int serviceQuality, int hygiene, int satisfaction, 
             int recommendation, string comment)
         {
             this.id = id;
-            this.serviceQuality = seviceQuality;
+            this.serviceQuality = serviceQuality;
             this.hygiene = hygiene;
             this.satisfaction = satisfaction;
             this.recommendation = recommendation;
