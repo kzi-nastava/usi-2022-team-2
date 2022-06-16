@@ -57,7 +57,7 @@
     "id": 1007,
     "start": "2022-04-24T13:45:00",
     "end": "2022-04-24T14:00:00",
-    "graded": false,
+    "graded": true,
     "emergent": false,
     "type": 0,
     "status": 0

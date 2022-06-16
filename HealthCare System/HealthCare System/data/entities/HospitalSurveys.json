@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "id": 1001,
     "serviceQuality": 4,
@@ -38,5 +38,13 @@
     "satisfaction": 3,
     "recommendation": 4,
     "comment": "Nice!"
+  },
+  {
+    "id": 1006,
+    "serviceQuality": 2,
+    "hygiene": 4,
+    "satisfaction": 1,
+    "recommendation": 5,
+    "comment": "No com"
   }
 ]
