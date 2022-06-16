@@ -49,7 +49,7 @@ namespace HealthCare_System.GUI.View.SecretaryView
         {
             try
             {
-                string message = textBoxMessage.Text;
+                string message = GetMessage();
                 daysOffRequestController.RejectDaysOffRequest(daysOffRequest, message);
                 MessageBox.Show("Doctor is informed about request rejection!");
                 this.Close();
