@@ -15,11 +15,13 @@ namespace HealthCare_System.GUI.SecretaryView
         Person user;
         HealthCareDatabase database;
         DelayedAppointmentNotificationController delayedAppointmentNotificationController;
-        public DelayedAppointmentNotificationWindow(DelayedAppointmentNotificationController delayedAppointmentNotificationController, Person user)
+        IDaysOffNotificationService daysOffNotificationService;
+        public DelayedAppointmentNotificationWindow(DelayedAppointmentNotificationController delayedAppointmentNotificationController, IDaysOffNotificationService daysOffNotificationService,
+            Person user)
         {
             InitializeComponent();
             this.user = user;
-            this.database   =   database;
+            this.daysOffNotificationService = daysOffNotificationService;
             this.delayedAppointmentNotificationController = delayedAppointmentNotificationController;
             Show();
             FillListBoxNotifications();
@@ -27,6 +29,17 @@ namespace HealthCare_System.GUI.SecretaryView
         }
         
         private void FillListBoxNotifications()
+        {
+            int counter = 0;
+            counter += AddDelayedAppointmentNotifications();
+            counter += AddDaysOffNotifications();
+            if (counter == 0)
+            {
+                Close();
+            }
+        }
+
+        private int AddDelayedAppointmentNotifications()
         {
             int counter = 0;
             foreach (DelayedAppointmentNotification notification in delayedAppointmentNotificationController.DelayedAppointmentNotifications())
@@ -38,11 +51,21 @@ namespace HealthCare_System.GUI.SecretaryView
                     counter += 1;
                 }
             }
+            return counter;
+        }
 
-            if (counter == 0)
+        private int AddDaysOffNotifications()
+        {
+            int counter = 0;
+            foreach (DaysOffNotification daysOffNotification in daysOffNotificationService.DaysOffNotifications())
             {
-                Close();
+                if (user == daysOffNotification.Doctor && daysOffNotification.SeenByDoctor == false)
+                {
+                    listBoxNotifications.Items.Add(daysOffNotification);
+                    counter += 1;
+                }
             }
+            return counter;
         }
 
         private void closeBtn_Click(object sender, RoutedEventArgs e)
@@ -53,14 +76,24 @@ namespace HealthCare_System.GUI.SecretaryView
 
         private void CloseWin()
         {
-            foreach(DelayedAppointmentNotification notification in listBoxNotifications.Items)
+            foreach (Notification notification in listBoxNotifications.Items)
             {
-                if (user.GetType() == typeof(Doctor))
+                if (notification.GetType() == typeof(DelayedAppointmentNotification))
                 {
-                    notification.SeenByDoctor = true;
-                }else
+                    DelayedAppointmentNotification delayedAppointmentnotification = (DelayedAppointmentNotification)notification;
+                    if (user.GetType() == typeof(Doctor))
+                    {
+                        delayedAppointmentnotification.SeenByDoctor = true;
+                    }
+                    else
+                    {
+                        delayedAppointmentnotification.SeenByPatient = true;
+                    }
+                }
+                else
                 {
-                    notification.SeenByPatient = true;
+                    DaysOffNotification daysOffNotification = (DaysOffNotification)notification;
+                    daysOffNotification.SeenByDoctor = true;
                 }
             }
             delayedAppointmentNotificationController.Serialize();

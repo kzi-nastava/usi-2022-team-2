@@ -10,6 +10,7 @@ using HealthCare_System.Core.AppointmentRequests.Model;
 using HealthCare_System.Core.Appointments;
 using HealthCare_System.Core.Appointments.Model;
 using HealthCare_System.Core.AppotinmentRequests;
+using HealthCare_System.Core.DaysOffRequests.Model;
 using HealthCare_System.Core.Equipments;
 using HealthCare_System.Core.Equipments.Model;
 using HealthCare_System.Core.EquipmentTransfers;
@@ -27,6 +28,7 @@ using HealthCare_System.Core.Users.Model;
 using HealthCare_System.Database;
 using HealthCare_System.GUI.Controller.AppointmentRequests;
 using HealthCare_System.GUI.Controller.Appointments;
+using HealthCare_System.GUI.Controller.DaysOffRequests;
 using HealthCare_System.GUI.Controller.Equipments;
 using HealthCare_System.GUI.Controller.EquipmentTransfers;
 using HealthCare_System.GUI.Controller.MedicalRecords;
@@ -35,6 +37,7 @@ using HealthCare_System.GUI.Controller.Rooms;
 using HealthCare_System.GUI.Controller.SupplyRequests;
 using HealthCare_System.GUI.Controller.Users;
 using HealthCare_System.GUI.Main;
+using HealthCare_System.GUI.View.SecretaryView;
 using HealthCare_System.Model.Core.Appointments.Model;
 
 namespace HealthCare_System.GUI.SecretaryView
@@ -62,6 +65,7 @@ namespace HealthCare_System.GUI.SecretaryView
         SupplyRequestController supplyRequestController;
         DoctorController doctorController;
         DelayedAppointmentNotificationController delayedAppointmentNotificationController;
+        DaysOffRequestController daysOffRequestController;
 
 
         public SecretaryWindow(ServiceBuilder serviceBuilder)
@@ -76,6 +80,7 @@ namespace HealthCare_System.GUI.SecretaryView
             SetReferralsTab();
             SetEquipmentTab();
             SetRoomsTab();
+            SetDaysOffRequestsTab();
         }
 
         void InitializeControllers()
@@ -91,6 +96,7 @@ namespace HealthCare_System.GUI.SecretaryView
             supplyRequestController = new(serviceBuilder.SupplyRequestService);
             doctorController = new(serviceBuilder.DoctorService);
             delayedAppointmentNotificationController = new(serviceBuilder.DelayedAppointmentNotificationService);
+            daysOffRequestController = new(serviceBuilder.DaysOffRequestService);
 
         }
 
@@ -154,9 +160,15 @@ namespace HealthCare_System.GUI.SecretaryView
                 if (equipment.Dynamic) cmbEquipmentType.Items.Add(equipment);
             }
         }
+
+        private void SetDaysOffRequestsTab()
+        {
+            FillListBoxDaysOffRequests(); 
+        }
         #endregion
 
-        #region ListBocFiller
+
+        #region ListBoxFiller
         private void FillListBoxEquipment()
         {
             listBoxEquipment.Items.Clear();
@@ -288,6 +300,17 @@ namespace HealthCare_System.GUI.SecretaryView
             if (listBoxEquipmentNearEnd.Items.Count == 0)
             {
                 listBoxEquipmentNearEnd.Items.Add("There are enough amount of every equipment in this room.");
+            }
+        }
+
+        private void FillListBoxDaysOffRequests()
+        {
+            foreach (DaysOffRequest request in daysOffRequestController.DaysOffRequests())
+            {
+                if (request.State == DaysOffRequestState.WAITING && request.Urgent == false)
+                {
+                    listBoxDaysOffRequests.Items.Add(request);
+                }
             }
         }
         #endregion
@@ -591,6 +614,39 @@ namespace HealthCare_System.GUI.SecretaryView
                 supplyRequestController.AddSupplyRequest(equipment, quantity);
 
                 MessageBox.Show("You have succesefully orderd new equipment.");
+            }
+        }
+        #endregion
+
+
+        #region daysOffRequests
+
+        private void acceptDaysOffRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DaysOffRequest daysOffRequest = (DaysOffRequest)listBoxDaysOffRequests.SelectedItem;
+            if (daysOffRequest is null)
+            {
+                MessageBox.Show("Select request!");
+            }
+            else
+            {
+                daysOffRequestController.AcceptDaysOffRequest(daysOffRequest);
+                MessageBox.Show("Doctor is informed about request acceptance!");
+            }
+        }
+
+        private void rejectDaysOffRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DaysOffRequest daysOffRequest = (DaysOffRequest)listBoxDaysOffRequests.SelectedItem;
+            if (daysOffRequest is null)
+            {
+                MessageBox.Show("Select request!");
+            }
+            else
+            {
+                string message = "";
+                DaysOffRejectionMessage daysOffRejectionMessage = new DaysOffRejectionMessage(daysOffRequestController, daysOffRequest, message);
+                daysOffRejectionMessage.Show();
             }
         }
         #endregion
